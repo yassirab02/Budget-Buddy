@@ -1,14 +1,21 @@
-package com.yassir.expensestracker.user;
+package com.yassir.budgetbuddy.user;
 
+import com.yassir.budgetbuddy.budget.Budget;
+import com.yassir.budgetbuddy.expenses.Expenses;
+import com.yassir.budgetbuddy.income.Income;
+import com.yassir.budgetbuddy.role.Role;
 import jakarta.persistence.*;
 import lombok.*;
-import lombok.experimental.SuperBuilder;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.security.Principal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 
@@ -34,6 +41,25 @@ public class User implements UserDetails , Principal {
     private String password;
     private boolean accountLocked;
     private boolean enabled;
+    @CreatedDate
+    @Column(nullable = false,updatable = false)
+    private LocalDateTime createdAt;
+    @LastModifiedDate
+    @Column(insertable = false)
+    private LocalDateTime lastModifiedDate;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    private List<Role> roles;
+
+    @OneToMany(mappedBy = "owner")
+    private List<Budget> budgets;
+
+    @OneToMany(mappedBy = "user")
+    private List<Expenses> expenses;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Income> incomes;
+
 
     @Override
     public String getName() {
@@ -42,7 +68,10 @@ public class User implements UserDetails , Principal {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of();
+        return this.roles
+                    .stream()
+                    .map(role -> new SimpleGrantedAuthority(role.getName()))
+                    .toList();
     }
 
     @Override

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Budget Buddy - Account Activation</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f4f8;
+            color: #333;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 40px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .logo h1 {
+            font-family: 'Poppins', sans-serif;
+            color: #2c3e50;
+            font-size: 36px;
+            margin: 0;
+            letter-spacing: -1px;
+        }
+        .logo span {
+            color: #27ae60;
+        }
+        h2 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 24px;
+        }
+        .greeting {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+        .activation-code {
+            font-size: 36px;
+            text-align: center;
+            margin: 30px 0;
+            padding: 15px;
+            background-color: #e8f6ef;
+            border-radius: 8px;
+            color: #27ae60;
+            font-weight: bold;
+            letter-spacing: 5px;
+        }
+        .activation-link {
+            text-align: center;
+            margin-top: 30px;
+        }
+        .activation-link a {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: #27ae60;
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+            cursor: pointer;
+        }
+        .activation-link a:hover {
+            background-color: #219a52;
+        }
+        .footer {
+            margin-top: 40px;
+            text-align: center;
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="logo">
+        <h1>Budget <span>Buddy</span></h1>
+    </div>
+    <h2>Welcome to Your Financial Journey!</h2>
+    <p class="greeting" th:text="'Hello ' + ${username} + ','"></p>
+    <p>Thank you for choosing Budget Buddy to help manage your finances. To get started, please activate your account using the code below:</p>
+    <div class="activation-code"><span th:text="${activation_code}"></span></div>
+    <p>Alternatively, you can click the button below to activate your account instantly:</p>
+    <div class="activation-link">
+        <a th:href="${confirmationUrl}" target="_blank">Activate Your Budget Buddy Account</a>
+    </div>
+    <div class="footer">
+        <p>If you didn't create a Budget Buddy account, please ignore this email.</p>
+        <p>For any questions, contact our support team at support@budgetbuddy.com</p>
+        <p>&copy; 2023 Budget Buddy. All rights reserved.</p>
+    </div>
+</div>
+</body>
+</html>
+

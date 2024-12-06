@@ -1,4 +1,4 @@
-package com.yassir.expensestracker.user;
+package com.yassir.budgetbuddy.user;
 
 
 import jakarta.persistence.*;
