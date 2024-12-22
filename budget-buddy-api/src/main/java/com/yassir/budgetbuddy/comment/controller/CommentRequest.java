@@ -12,6 +12,7 @@ public record CommentRequest(
 
     Long numberOfLikes, // Optional, defaults to 0 when creating a new comment
     Long numberOfDislikes, // Optional, defaults to 0 when creating a new comment
+    Long numberOfReplies, // Optional, defaults to 0 when creating a new comment
 
     Boolean isActive,
     Boolean isFlagged,

@@ -10,25 +10,17 @@ public class CommentMapper {
 
     public Comment toComment(CommentRequest request) {
         return Comment.builder()
-                .id(request.id())
                 .comment(request.comment())
-                .numberOfLikes(request.numberOfLikes())
-                .numberOfDislikes(request.numberOfDislikes())
+                .numberOfLikes(0L)
+                .numberOfDislikes(0L)
                 .isActive(request.isActive())
                 .isFlagged(request.isFlagged())
                 .flaggedReason(request.flaggedReason())
                 .isEdited(request.isEdited())
-                .story(Story.builder()
-                        .id(request.storyId())
-                        .build())
-                .user(User.builder()
-                        .id(request.userId())
-                        .build())
-                .parentComment(request.parentCommentId() != null ? Comment.builder()
-                        .id(request.parentCommentId())
-                        .build() : null)
+                .numberOfReplies(0L)  // This will be calculated later
                 .build();
     }
+
 
     public CommentResponse toCommentResponse(Comment comment, long numberOfLikes, long numberOfDislikes) {
         return CommentResponse.builder()

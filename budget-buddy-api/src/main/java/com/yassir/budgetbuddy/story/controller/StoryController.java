@@ -1,5 +1,6 @@
 package com.yassir.budgetbuddy.story.controller;
 
+import com.yassir.budgetbuddy.budget.controller.BudgetResponse;
 import com.yassir.budgetbuddy.common.PageResponse;
 import com.yassir.budgetbuddy.story.service.StoryService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -18,26 +19,28 @@ public class StoryController {
     private final StoryService service;
 
     @PostMapping("/add-story")
-    public ResponseEntity<Integer> addOrUpdateStory(
+    public ResponseEntity<StoryResponse> addOrUpdateStory(
             @RequestBody @Valid StoryRequest request,
             Authentication connectedUser
     ) {
-        return ResponseEntity.ok(service.addOrUpdateStory(request));
+        return ResponseEntity.ok(service.addOrUpdateStory(request,connectedUser));
     }
 
-    @DeleteMapping("delete/{story-id}")
-    public ResponseEntity<?> deleteStory(
-            @PathVariable("story-id") Integer storyId
+
+    @GetMapping("/{story-id}")
+    public ResponseEntity<StoryResponse> findStoryById(
+            @PathVariable("story-id") Integer storyId,
+            Authentication connectedUser
     ) {
-        service.deleteStory(storyId);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(service.findStoryById(storyId,connectedUser));
     }
 
     @PostMapping("hide/{story-id}")
     public ResponseEntity<?> hideStory(
-            @PathVariable("story-id") Integer storyId
+            @PathVariable("story-id") Integer storyId,
+            Authentication connectedUser
     ) {
-        service.hideStory(storyId);
+        service.hideStory(storyId,connectedUser);
         return ResponseEntity.noContent().build();
     }
 
@@ -58,5 +61,14 @@ public class StoryController {
     ) {
         return ResponseEntity.ok(service.findAllStoriesByOwner(page, size,connectedUser));
     }
+
+    @DeleteMapping("delete/{story-id}")
+    public ResponseEntity<?> deleteStory(
+            @PathVariable("story-id") Integer storyId
+    ) {
+        service.deleteStory(storyId);
+        return ResponseEntity.noContent().build();
+    }
+
 
 }

@@ -28,7 +28,7 @@ public class BudgetController {
     }
 
     @PostMapping(value = "/cover/{budget-id}", consumes = "multipart/form-data")
-    public ResponseEntity<?> uploadBookCoverPicture(
+    public ResponseEntity<?> uploadBudgetCoverPicture(
             @PathVariable("budget-id") Integer budgetId,
             @Parameter()
             @RequestPart("file") MultipartFile file,

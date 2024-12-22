@@ -1,7 +1,6 @@
     package com.yassir.budgetbuddy.comment;
 
     import com.yassir.budgetbuddy.common.BaseEntity;
-    import com.yassir.budgetbuddy.quotes.Quotes;
     import com.yassir.budgetbuddy.story.Story;
     import com.yassir.budgetbuddy.user.User;
     import jakarta.persistence.*;
@@ -32,6 +31,7 @@
         private Boolean isFlagged; // This can track whether the comment is flagged or not.
         private String flaggedReason; // stores the reason for flagging the comment.
         private Boolean isEdited;
+
 
         @ManyToOne
         @JoinColumn(name = "story_id")

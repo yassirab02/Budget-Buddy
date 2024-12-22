@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -33,6 +34,7 @@ public class Story extends BaseEntity {
     private boolean archived;
     private Long numberOfLikes;
     private Long numberOfDislikes;
+    private Long numberOfComments;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -42,7 +44,7 @@ public class Story extends BaseEntity {
     @JoinColumn(name = "owner_id", nullable = false)
     private User owner;
 
-    @OneToMany(mappedBy = "story")
-    private List<Comment> comments;
+    @OneToMany(mappedBy = "story", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Comment> comments = new ArrayList<>();
 
 }

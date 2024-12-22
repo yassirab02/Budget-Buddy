@@ -8,9 +8,11 @@ import org.springframework.security.core.Authentication;
 
 public interface StoryService {
 
-    Integer addOrUpdateStory(@Valid StoryRequest request);
+    StoryResponse addOrUpdateStory(@Valid StoryRequest request,Authentication connectedUser);
 
     void deleteStory(Integer storyId);
+
+    StoryResponse findStoryById(Integer storyId, Authentication connectedUser);
 
     PageResponse<StoryResponse> findAllStoriesByOwner(int page, int size, Authentication connectedUser);
 
@@ -18,5 +20,5 @@ public interface StoryService {
 
     PageResponse<StoryResponse> findAllStories(int page, int size, Authentication connectedUser);
 
-    void hideStory(Integer storyId);
+    void hideStory(Integer storyId, Authentication connectedUser);
 }

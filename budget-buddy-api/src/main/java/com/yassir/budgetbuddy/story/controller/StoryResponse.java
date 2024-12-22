@@ -18,6 +18,7 @@ public class StoryResponse {
     private boolean archived;
     private Long numberOfLikes;
     private Long numberOfDislikes;
+    private Long numberOfComments;
     private String status;
     private String owner;
     private List<String> comments; // Can store comment details or IDs
