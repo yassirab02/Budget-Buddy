@@ -2,6 +2,7 @@ package com.yassir.budgetbuddy.admin;
 
 import com.yassir.budgetbuddy.common.PageResponse;
 import com.yassir.budgetbuddy.income.controller.IncomeRequest;
+import com.yassir.budgetbuddy.quotes.Quotes;
 import com.yassir.budgetbuddy.quotes.controller.QuotesRequest;
 import com.yassir.budgetbuddy.quotes.service.QuotesService;
 import com.yassir.budgetbuddy.story.controller.StoryResponse;
@@ -36,13 +37,13 @@ public class AdminController {
     }
 
     @PostMapping("/add-quote")
-    public ResponseEntity<Integer> addOrUpdateIncome(
+    public ResponseEntity<Integer> addOrUpdateQuote(
             @RequestBody @Valid QuotesRequest request, Authentication connectedUser
     ) {
         return ResponseEntity.ok(quotesService.addOrUpdateQuote(request,connectedUser));
     }
 
-    @PostMapping(value = "/cover/{quote-id}", consumes = "multipart/form-data")
+    @PostMapping(value = "/photo/{quote-id}", consumes = "multipart/form-data")
     public ResponseEntity<?> uploadQuotePhoto(
             @PathVariable("quote-id") Integer quoteId,
             @Parameter()
@@ -51,6 +52,21 @@ public class AdminController {
     ) {
         quotesService.uploadQuotePicture(file, connectedUser, quoteId);
         return ResponseEntity.accepted().build();
+    }
+
+
+    @GetMapping("/today")
+    public Quotes getTodayQuote() {
+        return quotesService.getQuoteForToday();
+    }
+
+    @DeleteMapping("/{quote-id}")
+    public ResponseEntity<?> deleteBudget(
+            @PathVariable("quote-id") Integer quoteId,
+            Authentication connectedUser
+    ) {
+        quotesService.deleteQuote(quoteId, connectedUser);
+        return ResponseEntity.noContent().build();
     }
 
 

@@ -1,6 +1,9 @@
 package com.yassir.budgetbuddy.report.service;
 
 import com.yassir.budgetbuddy.common.PageResponse;
+import com.yassir.budgetbuddy.debt.Debt;
+import com.yassir.budgetbuddy.debt.controller.DebtResponse;
+import com.yassir.budgetbuddy.debt.repository.DebtRepository;
 import com.yassir.budgetbuddy.expenses.Expenses;
 import com.yassir.budgetbuddy.expenses.repository.ExpensesRepository;
 import com.yassir.budgetbuddy.goal.repository.GoalRepository;
@@ -45,6 +48,7 @@ public class ReportServiceImpl implements ReportService {
     private final ExpensesRepository expenseRepository;
     private final GoalRepository goalRepository;
     private final ReportMapper reportMapper;
+    private final DebtRepository debtRepository;
 
 
     @Override
@@ -66,28 +70,12 @@ public class ReportServiceImpl implements ReportService {
         );
     }
 
-    @Override
-    public ReportResponse getMonthlyReport(Authentication connectedUser) {
-        User user = ((User) connectedUser.getPrincipal());
-        Integer userId = user.getId();
-        Report report = repository.findByUserIdAndTypeAndCurrentMonth(userId, ReportType.MONTHLY);
-        return reportMapper.toReportResponse(report);
-    }
 
-
-    @Override
-    public ReportResponse getYearlyReports(Authentication connectedUser) {
-        User user = ((User) connectedUser.getPrincipal());
-        Integer userId = user.getId();
-        Report report = repository.findByUserIdAndTypeAndCurrentYear(userId, ReportType.YEARLY);
-        return reportMapper.toReportResponse(report);
-    }
 
     // Scheduled method to generate monthly reports (runs on the 1st day of each month at midnight)
     @Scheduled(cron = "0 0 0 1 * ?")
     @Override
     public void generateMonthlyReport() {
-
         LocalDate now = LocalDate.now();
         List<User> users = userRepository.findAll(); // Get all users
 
@@ -95,8 +83,7 @@ public class ReportServiceImpl implements ReportService {
 
             Optional<Report> existingReport = repository.findByUserAndYearAndMonth(user, now.getYear(), now.getMonthValue());
             if (existingReport.isPresent()) {
-                // Handle report update or skip, if needed
-                System.out.println("Monthly report already generated! for the user " + user.fullName());
+                System.out.println("Monthly report already generated for user: " + user.fullName());
                 continue;
             }
 
@@ -108,23 +95,49 @@ public class ReportServiceImpl implements ReportService {
             monthlyReport.setStartDate(now.withDayOfMonth(1));
             monthlyReport.setEndDate(now.withDayOfMonth(now.lengthOfMonth()));
             monthlyReport.setUser(user);
-            monthlyReport.setTotalIncome(calculateTotalIncome(user, now)); // Custom method to calculate income
-            monthlyReport.setTotalExpenses(calculateTotalExpenses(user, now)); // Custom method to calculate expenses
-            monthlyReport.setTotalGoalsReached(calculateTotalGoals(user, now)); // Custom method to calculate goals reached
+
+            // Custom methods for calculations
+            monthlyReport.setTotalIncome(calculateTotalIncome(user, now)); // Calculate total income
+            monthlyReport.setTotalExpenses(calculateTotalExpenses(user, now)); // Calculate total expenses
+            monthlyReport.setTotalGoalsReached(calculateTotalGoals(user, now)); // Calculate goals reached
+
+            // Calculate debts
+            BigDecimal totalDebt = calculateTotalDebt(user, now); // Custom method to calculate total debt
+            BigDecimal totalPaidDebt = calculateTotalPaidDebt(user, now); // Custom method to calculate paid debt
+            BigDecimal totalUnpaidDebt = totalDebt.subtract(totalPaidDebt); // Unpaid debt
+
+            monthlyReport.setTotalDebt(totalDebt); // Add total debt
+            monthlyReport.setTotalPaidDebt(totalPaidDebt); // Add paid debt
+            monthlyReport.setTotalUnpaidDebt(totalUnpaidDebt); // Add unpaid debt
+
             monthlyReport.setBalance(monthlyReport.getTotalIncome().subtract(monthlyReport.getTotalExpenses()));
-            monthlyReport.setDetails(generateReportDetails(user, now)); // Custom method to generate report details
-            monthlyReport.setCreatedBy(user.getId()); // Assuming the User entity h
+            monthlyReport.setDetails(generateReportDetails(user, now)); // Generate report details
+            monthlyReport.setCreatedBy(user.getId());
 
             try {
                 repository.save(monthlyReport);
             } catch (DataIntegrityViolationException e) {
-                // Log the error or handle it (e.g., skip user or update existing report)
                 System.err.println("Error saving report for user " + user.getId() + ": " + e.getMessage());
             }
         }
 
         System.out.println("Monthly reports generated successfully!");
     }
+
+    private BigDecimal calculateTotalDebt(User user, LocalDate now) {
+        return debtRepository.findByOwnerAndIssueDateBefore(user, now.plusDays(1))
+                .stream()
+                .map(Debt::getAmount)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
+
+    private BigDecimal calculateTotalPaidDebt(User user, LocalDate now) {
+        return debtRepository.findByOwnerAndIsPaidTrueAndIssueDateBefore(user, now.plusDays(1))
+                .stream()
+                .map(Debt::getAmount)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
+
 
     private BigDecimal calculateTotalIncome(User user, LocalDate now) {
         LocalDate startOfMonth = now.withDayOfMonth(1);
@@ -156,29 +169,62 @@ public class ReportServiceImpl implements ReportService {
                 .size(); // Count the number of goals reached
     }
 
+    @Override
+    public ReportResponse getMonthlyReport(Authentication connectedUser) {
+        User user = ((User) connectedUser.getPrincipal());
+        Integer userId = user.getId();
+        Report report = repository.findByUserIdAndTypeAndCurrentMonth(userId, ReportType.MONTHLY);
+        return reportMapper.toReportResponse(report);
+    }
 
     private String generateReportDetails(User user, LocalDate now) {
         BigDecimal totalIncome = calculateTotalIncome(user, now);
         BigDecimal totalExpenses = calculateTotalExpenses(user, now);
+        BigDecimal totalDebt = calculateTotalDebt(user, now); // New method for total debt
+        BigDecimal totalPaidDebt = calculateTotalPaidDebt(user, now); // New method for paid debt
+        BigDecimal totalUnpaidDebt = totalDebt.subtract(totalPaidDebt); // Calculate remaining unpaid debt
         int totalGoals = calculateTotalGoals(user, now);
         BigDecimal balance = totalIncome.subtract(totalExpenses);
 
+        // No income case
         if (totalIncome.compareTo(BigDecimal.ZERO) == 0) {
             return ReportMessage.NO_INCOME_MESSAGE.getMessage();
-        } else if (totalExpenses.compareTo(BigDecimal.ZERO) == 0) {
+        }
+
+        // No expenses case
+        else if (totalExpenses.compareTo(BigDecimal.ZERO) == 0) {
             return ReportMessage.NO_EXPENSES_MESSAGE.getMessage();
-        } else if (balance.compareTo(BigDecimal.ZERO) < 0) {
-            return ReportMessage.DEBT_ALERT_MESSAGE.getMessage();
-        } else if (totalGoals == 0) {
-            return ReportMessage.SAVINGS_GOAL_MESSAGE.getMessage();
-        } else if (balance.compareTo(BigDecimal.ZERO) > 0) {
+        }
+
+        // Negative balance case
+        else if (balance.compareTo(BigDecimal.ZERO) < 0) {
             return String.format(
-                    "%s%s\n%s%s\n%s%s",
+                    "%s\n%s%s",
+                    ReportMessage.DEBT_ALERT_MESSAGE.getMessage(),
+                    ReportMessage.MONTHLY_TOTAL_UNPAID_DEBT_MESSAGE.getMessage(), totalUnpaidDebt
+            );
+        }
+
+        // No goals case
+        else if (totalGoals == 0) {
+            return ReportMessage.SAVINGS_GOAL_MESSAGE.getMessage();
+        }
+
+        // Positive balance with additional debt details
+        else if (balance.compareTo(BigDecimal.ZERO) > 0) {
+            return String.format(
+                    "%s%s\n%s%s\n%s%s\n%s%s\n%s%s\n%s%s",
                     ReportMessage.MONTHLY_INCOME_MESSAGE.getMessage(), totalIncome,
                     ReportMessage.MONTHLY_EXPENSES_MESSAGE.getMessage(), totalExpenses,
-                    ReportMessage.MONTHLY_BALANCE_MESSAGE.getMessage(), balance
+                    ReportMessage.MONTHLY_BALANCE_MESSAGE.getMessage(), balance,
+                    ReportMessage.MONTHLY_TOTAL_DEBT_MESSAGE.getMessage(), totalDebt,
+                    ReportMessage.MONTHLY_TOTAL_PAID_DEBT_MESSAGE.getMessage(), totalPaidDebt,
+                    ReportMessage.MONTHLY_TOTAL_UNPAID_DEBT_MESSAGE.getMessage(), totalUnpaidDebt
             );
-        } else {
+        }
+
+        // Default case (report generated)
+        else {
             return ReportMessage.REPORT_GENERATED_MESSAGE.getMessage();
         }
     }
@@ -201,6 +247,9 @@ public class ReportServiceImpl implements ReportService {
             // Create a new report for each user
             BigDecimal totalIncome = calculateYearlyTotalIncome(user, now); // Custom method to calculate income
             BigDecimal totalExpenses = calculateYearlyTotalExpenses(user, now); // Custom method to calculate expenses
+            BigDecimal totalDebt = calculateYearlyTotalDebt(user, now); // Custom method to calculate total debt
+            BigDecimal totalPaidDebt = calculateYearlyTotalPaidDebt(user, now); // Custom method to calculate paid debt
+            BigDecimal totalUnpaidDebt = totalDebt.subtract(totalPaidDebt); // Calculate unpaid debt
 
             Report yearlyReport = new Report();
             yearlyReport.setType(ReportType.YEARLY);
@@ -211,9 +260,12 @@ public class ReportServiceImpl implements ReportService {
             yearlyReport.setUser(user);
             yearlyReport.setTotalIncome(totalIncome);
             yearlyReport.setTotalExpenses(totalExpenses);
+            yearlyReport.setTotalDebt(totalDebt);
+            yearlyReport.setTotalPaidDebt(totalPaidDebt);
+            yearlyReport.setTotalUnpaidDebt(totalUnpaidDebt);
             yearlyReport.setTotalGoalsReached(calculateYearlyTotalGoals(user, now)); // Custom method to calculate goals reached
             yearlyReport.setBalance(totalIncome.subtract(totalExpenses));
-            yearlyReport.setDetails(generateYearlyReportDetails(user, now)); // Custom method to generate report details
+            yearlyReport.setDetails(generateYearlyReportDetails(user, now)); // Updated yearly details
 
             // Calculate most spending month and saving rate
             yearlyReport.setMostSpendingMonth(calculateMostSpendingMonth(user, now)); // Most spending month
@@ -265,25 +317,51 @@ public class ReportServiceImpl implements ReportService {
     private String generateYearlyReportDetails(User user, LocalDate now) {
         BigDecimal totalIncome = calculateYearlyTotalIncome(user, now);
         BigDecimal totalExpenses = calculateYearlyTotalExpenses(user, now);
+        BigDecimal totalDebt = calculateYearlyTotalDebt(user, now); // New method for total debt
+        BigDecimal totalPaidDebt = calculateYearlyTotalPaidDebt(user, now); // New method for paid debt
+        BigDecimal totalUnpaidDebt = totalDebt.subtract(totalPaidDebt); // Calculate remaining unpaid debt
         int totalGoals = calculateYearlyTotalGoals(user, now);
         BigDecimal balance = totalIncome.subtract(totalExpenses);
 
+        // No income case
         if (totalIncome.compareTo(BigDecimal.ZERO) == 0) {
             return ReportMessage.NO_INCOME_MESSAGE.getMessage();
-        } else if (totalExpenses.compareTo(BigDecimal.ZERO) == 0) {
+        }
+
+        // No expenses case
+        else if (totalExpenses.compareTo(BigDecimal.ZERO) == 0) {
             return ReportMessage.NO_EXPENSES_MESSAGE.getMessage();
-        } else if (balance.compareTo(BigDecimal.ZERO) < 0) {
-            return ReportMessage.DEBT_ALERT_MESSAGE.getMessage();
-        } else if (totalGoals == 0) {
-            return ReportMessage.SAVINGS_GOAL_MESSAGE.getMessage();
-        } else if (balance.compareTo(BigDecimal.ZERO) > 0) {
+        }
+
+        // Negative balance case
+        else if (balance.compareTo(BigDecimal.ZERO) < 0) {
             return String.format(
-                    "%s%s\n%s%s\n%s%s",
+                    "%s\n%s%s",
+                    ReportMessage.DEBT_ALERT_MESSAGE.getMessage(),
+                    ReportMessage.YEARLY_TOTAL_UNPAID_DEBT_MESSAGE.getMessage(), totalUnpaidDebt
+            );
+        }
+
+        // No goals case
+        else if (totalGoals == 0) {
+            return ReportMessage.SAVINGS_GOAL_MESSAGE.getMessage();
+        }
+
+        // Positive balance with additional debt details
+        else if (balance.compareTo(BigDecimal.ZERO) > 0) {
+            return String.format(
+                    "%s%s\n%s%s\n%s%s\n%s%s\n%s%s\n%s%s",
                     ReportMessage.YEARLY_INCOME_MESSAGE.getMessage(), totalIncome,
                     ReportMessage.YEARLY_EXPENSES_MESSAGE.getMessage(), totalExpenses,
-                    ReportMessage.YEARLY_BALANCE_MESSAGE.getMessage(), balance
+                    ReportMessage.YEARLY_BALANCE_MESSAGE.getMessage(), balance,
+                    ReportMessage.YEARLY_TOTAL_DEBT_MESSAGE.getMessage(), totalDebt,
+                    ReportMessage.YEARLY_TOTAL_PAID_DEBT_MESSAGE.getMessage(), totalPaidDebt,
+                    ReportMessage.YEARLY_TOTAL_UNPAID_DEBT_MESSAGE.getMessage(), totalUnpaidDebt
             );
-        } else {
+        }
+
+        // Default case (report generated)
+        else {
             return ReportMessage.REPORT_GENERATED_MESSAGE.getMessage();
         }
     }
@@ -318,5 +396,26 @@ public class ReportServiceImpl implements ReportService {
                 .divide(totalIncome, 2, RoundingMode.HALF_UP); // Round to 2 decimal places
     }
 
+    private BigDecimal calculateYearlyTotalDebt(User user, LocalDate now) {
+        List<Debt> yearlyDebts = debtRepository.findByOwnerAndYear(user, now.getYear());
+        return yearlyDebts.stream()
+                .map(Debt::getAmount) // Get the amount of each debt
+                .reduce(BigDecimal.ZERO, BigDecimal::add); // Sum up all debts
+    }
 
+    private BigDecimal calculateYearlyTotalPaidDebt(User user, LocalDate now) {
+        List<Debt> paidDebts = debtRepository.findByOwnerAndYearAndIsPaid(user, now.getYear(), true);
+        return paidDebts.stream()
+                .map(Debt::getAmount) // Get the amount of each paid debt
+                .reduce(BigDecimal.ZERO, BigDecimal::add); // Sum up all paid debts
+    }
+
+
+    @Override
+    public ReportResponse getYearlyReports(Authentication connectedUser) {
+        User user = ((User) connectedUser.getPrincipal());
+        Integer userId = user.getId();
+        Report report = repository.findByUserIdAndTypeAndCurrentYear(userId, ReportType.YEARLY);
+        return reportMapper.toReportResponse(report);
+    }
 }

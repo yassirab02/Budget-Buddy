@@ -12,6 +12,7 @@ public class QuotesMapper {
                 .id(request.id())
                 .quote(request.quote())
                 .author(request.author())
+                .dateOfDisplay(request.dateOfDisplay())
                 .build();
     }
 }

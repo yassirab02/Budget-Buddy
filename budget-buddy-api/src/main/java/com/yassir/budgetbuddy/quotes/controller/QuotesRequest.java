@@ -3,6 +3,8 @@ package com.yassir.budgetbuddy.quotes.controller;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
+import java.time.LocalDate;
+
 public record QuotesRequest(
 
         Integer id, // Optional, null when creating a new budget
@@ -12,7 +14,9 @@ public record QuotesRequest(
         @NotNull(message = "Quote cannot be null")
         @NotEmpty(message = "Quote cannot be empty")
         String quote,
-
+        @NotNull(message = "Date of display cannot be null")
+        @NotEmpty(message = "Date of display cannot be empty")
+        LocalDate dateOfDisplay,
         String budgetCover // Optional field for budget cover image
 
 ) {

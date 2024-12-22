@@ -46,15 +46,21 @@ public class StoryServiceImpl implements StoryService {
     }
 
     @Override
-    public void deleteStory(Integer storyId) {
-        boolean condition = (storyId != null);
-        if (condition) {
-            Story story = repository.findById(storyId)
-                    .orElseThrow(() -> new EntityNotFoundException("Story not found with id: " + storyId));
-
-            repository.delete(story);
+    public void deleteStory(Integer storyId, Authentication connectedUser) {
+        if (storyId == null) {
+            throw new IllegalArgumentException("Story ID cannot be null");
         }
+        User user = (User) connectedUser.getPrincipal();
+        Story story = repository.findById(storyId)
+                .orElseThrow(() -> new EntityNotFoundException("Story not found with id: " + storyId));
+
+        if (!Objects.equals(user.getId(), story.getOwner().getId()) && user.getAuthorities().stream().noneMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))) {
+            throw new IllegalArgumentException("You are not allowed to delete this story");
+        }
+
+        repository.delete(story);
     }
+
 
 
     @Override

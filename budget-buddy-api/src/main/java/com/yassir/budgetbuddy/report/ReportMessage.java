@@ -36,7 +36,19 @@ public enum ReportMessage {
     NO_EXPENSES_MESSAGE("No expenses were recorded in this period."),
     NO_BUDGET_MESSAGE("No budgets were set up for the selected period."),
     REPORT_GENERATION_FAILED("Failed to generate the report. Please try again later."),
-    INVALID_DATE_RANGE_MESSAGE("The date range you selected is invalid. Please choose a valid start and end date.");
+    INVALID_DATE_RANGE_MESSAGE("The date range you selected is invalid. Please choose a valid start and end date."),
+
+    // Debt-related feedback messages
+    MONTHLY_TOTAL_DEBT_MESSAGE("Your total debt this month is: "),
+    MONTHLY_TOTAL_PAID_DEBT_MESSAGE("You successfully paid %s of your debts this month. Well done!"),
+    MONTHLY_TOTAL_UNPAID_DEBT_MESSAGE("Your remaining unpaid debts total %s. Consider planning your payments to avoid overdue penalties."),
+    MONTHLY_DEBT_ALERT_MESSAGE("Your unpaid debts are high compared to your income. Adjust your budget to prioritize debt repayment."),
+    YEARLY_TOTAL_DEBT_MESSAGE("Your total debt this year was: "),
+    YEARLY_DEBT_REDUCTION_MESSAGE("You reduced your debts by %s this year. Keep working towards financial freedom!"),
+    YEARLY_TOTAL_PAID_DEBT_MESSAGE("Your total paid debt for this year is: "),
+    YEARLY_TOTAL_UNPAID_DEBT_MESSAGE("Your total unpaid debt for this year is: "),
+
+    ;
 
     private final String message;
 

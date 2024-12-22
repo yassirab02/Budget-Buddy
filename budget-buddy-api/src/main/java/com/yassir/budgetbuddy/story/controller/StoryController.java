@@ -62,11 +62,12 @@ public class StoryController {
         return ResponseEntity.ok(service.findAllStoriesByOwner(page, size,connectedUser));
     }
 
-    @DeleteMapping("delete/{story-id}")
+    @DeleteMapping("/{story-id}")
     public ResponseEntity<?> deleteStory(
-            @PathVariable("story-id") Integer storyId
+            @PathVariable("story-id") Integer storyId,
+            Authentication connectedUser
     ) {
-        service.deleteStory(storyId);
+        service.deleteStory(storyId,connectedUser);
         return ResponseEntity.noContent().build();
     }
 

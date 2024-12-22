@@ -26,7 +26,11 @@ public class BudgetBuddyApiApplication {
             if (roleRepository.findByName("USER").isEmpty()) {
                 roleRepository.save(Role.builder().name("USER").build());
             }
+            if (roleRepository.findByName("ADMIN").isEmpty()) {
+                roleRepository.save(Role.builder().name("ADMIN").build());
+            }
         };
     }
+
 
 }

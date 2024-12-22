@@ -10,7 +10,7 @@ public interface StoryService {
 
     StoryResponse addOrUpdateStory(@Valid StoryRequest request,Authentication connectedUser);
 
-    void deleteStory(Integer storyId);
+    void deleteStory(Integer storyId,Authentication connectedUser);
 
     StoryResponse findStoryById(Integer storyId, Authentication connectedUser);
 

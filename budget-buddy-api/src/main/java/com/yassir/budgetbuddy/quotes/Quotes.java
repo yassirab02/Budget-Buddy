@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
+import java.time.LocalDate;
+
 @Entity
 @Getter
 @Setter
@@ -21,6 +23,8 @@ public class Quotes extends BaseEntity {
     private String author;
 
     private String quotePhoto;
+
+    private LocalDate dateOfDisplay;
 
 
 }
