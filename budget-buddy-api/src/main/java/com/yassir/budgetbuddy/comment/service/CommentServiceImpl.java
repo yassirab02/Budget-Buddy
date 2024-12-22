@@ -36,7 +36,6 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public CommentResponse addOrUpdateComment(CommentRequest request, Authentication connectedUser) {
         User user = (User) connectedUser.getPrincipal();
-        // Validate User existence
         userRepository.findById(request.userId())
                 .orElseThrow(() -> new IllegalArgumentException("User not found with id: " + request.userId()));
 
@@ -54,6 +53,7 @@ public class CommentServiceImpl implements CommentService {
 
         // Check if the comment already exists (by id)
         Comment comment;
+        boolean isNewComment = false;
         if (request.id() != null) {
             // Update existing comment
             comment = repository.findById(request.id())
@@ -67,6 +67,7 @@ public class CommentServiceImpl implements CommentService {
             comment.setIsEdited(true);  // Mark the comment as edited
         } else {
             // Create new comment
+            isNewComment = true;
             comment = commentMapper.toComment(request);
         }
 
@@ -75,7 +76,6 @@ public class CommentServiceImpl implements CommentService {
         comment.setStory(story);
         comment.setParentComment(parentComment);
 
-
         // Save Comment to repository
         Comment savedComment = repository.save(comment);
 
@@ -83,8 +83,11 @@ public class CommentServiceImpl implements CommentService {
         long likes = commentReactionRepository.countReactionsByType(savedComment.getId(), ReactionType.LIKE);
         long dislikes = commentReactionRepository.countReactionsByType(savedComment.getId(), ReactionType.DISLIKE);
 
-        story.setNumberOfComments(story.getNumberOfComments() + 1);
-        storyRepository.save(story);  // Save the story after modifying the comment count
+        // Only increment the number of comments if it's a new comment
+        if (isNewComment) {
+            story.setNumberOfComments(story.getNumberOfComments() + 1);
+            storyRepository.save(story);
+        }
 
         // Map saved Comment to Response
         return commentMapper.toCommentResponse(savedComment, likes, dislikes);
