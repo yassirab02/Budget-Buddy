@@ -1,38 +1,42 @@
 package com.yassir.budgetbuddy.expenses;
 
 import com.yassir.budgetbuddy.budget.Budget;
-import com.yassir.budgetbuddy.category.Category;
+import com.yassir.budgetbuddy.category.bean.ExpensesCategory;
 import com.yassir.budgetbuddy.common.BaseEntity;
+import com.yassir.budgetbuddy.wallet.Wallet;
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.data.annotation.CreatedBy;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedBy;
-import org.springframework.data.annotation.LastModifiedDate;
+import lombok.experimental.SuperBuilder;
 
-import java.time.LocalDateTime;
+import java.math.BigDecimal;
+import java.time.LocalDate;
 
 @Entity
 @Getter
 @Setter
-@Builder
+@SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
 public class Expenses extends BaseEntity {
 
 
     private String name;
-    private Double amount;
+    private BigDecimal amount;
     private String description;
-    private String type;
+    private LocalDate date;
+
+
+    @ManyToOne
+    @JoinColumn(name = "category_id", nullable = false)
+    private ExpensesCategory category;
 
     @ManyToOne
     @JoinColumn(name = "budget_id", nullable = false)
     private Budget budget;
 
     @ManyToOne
-    @JoinColumn(name = "category_id", nullable = false)
-    private Category category;
+    @JoinColumn(name = "wallet_id", nullable = false)
+    private Wallet wallet;
 
 
 }

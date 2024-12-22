@@ -1,32 +1,34 @@
 package com.yassir.budgetbuddy.income;
 
+import com.yassir.budgetbuddy.category.bean.IncomeSource;
 import com.yassir.budgetbuddy.common.BaseEntity;
-import com.yassir.budgetbuddy.user.User;
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import com.yassir.budgetbuddy.wallet.Wallet;
+import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
 @Getter
 @Setter
-@Builder
+@SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
 public class Income extends BaseEntity {
 
     private String name;
-    private Double amount;
+    private BigDecimal amount;
     private String description;
-    private String type; // salary, bonus, etc
-    private String source; // employer, freelance, etc
     private LocalDate date;
 
+    @ManyToOne
+    @JoinColumn(name = "source_type_id", nullable = false)
+    private IncomeSource incomeSource; // Link to the source type (e.g., Employer, Freelance)
 
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    @JoinColumn(name = "wallet_id", nullable = false)
+    private Wallet wallet;
 
 }

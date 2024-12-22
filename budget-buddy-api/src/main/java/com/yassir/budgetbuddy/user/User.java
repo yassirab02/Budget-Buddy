@@ -3,7 +3,10 @@ package com.yassir.budgetbuddy.user;
 import com.yassir.budgetbuddy.budget.Budget;
 import com.yassir.budgetbuddy.expenses.Expenses;
 import com.yassir.budgetbuddy.income.Income;
+import com.yassir.budgetbuddy.report.Report;
 import com.yassir.budgetbuddy.role.Role;
+import com.yassir.budgetbuddy.transaction.Transaction;
+import com.yassir.budgetbuddy.wallet.Wallet;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -51,14 +54,17 @@ public class User implements UserDetails , Principal {
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Role> roles;
 
-    @OneToMany(mappedBy = "owner")
-    private List<Budget> budgets;
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Wallet> wallets;
 
-    @OneToMany(mappedBy = "user")
-    private List<Expenses> expenses;
+    @OneToMany(mappedBy = "sender", cascade = CascadeType.ALL)
+    private List<Transaction> sentTransfers;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Income> incomes;
+    @OneToMany(mappedBy = "receiver", cascade = CascadeType.ALL)
+    private List<Transaction> receivedTransfers;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private Report report;
 
 
     @Override
