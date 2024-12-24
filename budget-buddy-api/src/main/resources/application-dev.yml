@@ -41,6 +41,7 @@ application:
     mailing:
       frontend:
         activation-url: http://localhost:4200/activate-account
+        redirect-url: http://localhost:4200/login
     file:
       upload:
         photos-output-path: ./uploads

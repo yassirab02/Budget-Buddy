@@ -1,5 +1,6 @@
 package com.yassir.budgetbuddy.quotes.controller;
 
+import com.yassir.budgetbuddy.file.FileUtils;
 import com.yassir.budgetbuddy.quotes.Quotes;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +14,16 @@ public class QuotesMapper {
                 .quote(request.quote())
                 .author(request.author())
                 .dateOfDisplay(request.dateOfDisplay())
+                .build();
+    }
+
+    public QuotesResponse toQuoteResponse(Quotes quote) {
+        return QuotesResponse.builder()
+                .id(quote.getId())
+                .quote(quote.getQuote())
+                .author(quote.getQuotePhoto())
+                .quotePhoto(FileUtils.readFileFromLocation(quote.getQuotePhoto()))
+                .dateOfDisplay(quote.getDateOfDisplay())
                 .build();
     }
 }

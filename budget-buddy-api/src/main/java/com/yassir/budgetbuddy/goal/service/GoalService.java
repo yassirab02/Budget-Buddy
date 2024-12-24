@@ -17,10 +17,9 @@ public interface GoalService {
 
     PageResponse<GoalResponse> findAllGoalsByUser(int page, int size, Authentication connectedUser);
 
-    PageResponse<GoalResponse>  findReachedGoalsByUser(int page, int size, Authentication connectedUser);
-
-    // find non-reached goals by user
-    PageResponse<GoalResponse> findNonReachedGoalsByUser(int page, int size, Authentication connectedUser);
+    PageResponse<GoalResponse> findGoalsByUserAndReachedStatus(int page, int size, Authentication connectedUser, boolean reached);
 
     void deleteGoal(Integer goalId, Authentication connectedUser);
+
+    GoalResponse findGoalById(Integer goalId);
 }

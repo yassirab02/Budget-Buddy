@@ -5,6 +5,7 @@ import com.yassir.budgetbuddy.quotes.QuotesRepository;
 import com.yassir.budgetbuddy.quotes.controller.QuotesMapper;
 import com.yassir.budgetbuddy.quotes.controller.QuotesRequest;
 import com.yassir.budgetbuddy.file.FileStorageService;
+import com.yassir.budgetbuddy.quotes.controller.QuotesResponse;
 import com.yassir.budgetbuddy.user.User;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -51,11 +52,11 @@ public class QuotesServiceImpl implements QuotesService {
 
     @Transactional
     @Override
-    public Quotes getQuoteForToday() {
+    public QuotesResponse getQuoteForToday() {
         LocalDate today = LocalDate.now();
         Quotes todayQuote = quotesRepository.findByDateOfDisplay(today)
                 .orElseGet(() -> getRandomQuote());
-        return todayQuote;
+        return quotesMapper.toQuoteResponse(todayQuote);
     }
 
     // Method to get a random quote if no quote for today

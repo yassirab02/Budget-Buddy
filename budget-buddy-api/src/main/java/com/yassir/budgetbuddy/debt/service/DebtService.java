@@ -1,6 +1,5 @@
 package com.yassir.budgetbuddy.debt.service;
 
-import com.yassir.budgetbuddy.budget.controller.BudgetResponse;
 import com.yassir.budgetbuddy.common.PageResponse;
 import com.yassir.budgetbuddy.debt.controller.DebtRequest;
 import com.yassir.budgetbuddy.debt.controller.DebtResponse;
@@ -16,4 +15,7 @@ public interface DebtService {
     DebtResponse findDebtById(Integer debtId);
 
     PageResponse<DebtResponse> findAllDebtsByOwner(int page, int size, Authentication connectedUser);
+
+    PageResponse<DebtResponse> findDebtsByOwnerAndPaidStatus(int page, int size, Authentication connectedUser, boolean paidStatus);
+
 }

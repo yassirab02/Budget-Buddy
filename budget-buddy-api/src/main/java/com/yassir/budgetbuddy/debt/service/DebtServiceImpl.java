@@ -54,6 +54,24 @@ public class DebtServiceImpl implements DebtService{
         );
     }
 
+    @Override
+    public PageResponse<DebtResponse> findDebtsByOwnerAndPaidStatus(int page, int size, Authentication connectedUser, boolean paidStatus) {
+        User user = ((User) connectedUser.getPrincipal());
+        Pageable pageable = PageRequest.of(page, size, Sort.by("createdDate").descending());
+        Page<Debt> debts = repository.findDebtsByOwnerAndPaidStatus(user.getId(),paidStatus,pageable );
+        List<DebtResponse> debtResponse = debts.stream()
+                .map(debtMapper::toDebtResponse)
+                .toList();
+        return new PageResponse<>(
+                debtResponse,
+                debts.getNumber(),
+                debts.getSize(),
+                debts.getTotalElements(),
+                debts.getTotalPages(),
+                debts.isFirst(),
+                debts.isLast()
+        );
+    }
 
     @Override
     public void deleteDebt(Integer debtId, Authentication connectedUser) {
@@ -69,7 +87,7 @@ public class DebtServiceImpl implements DebtService{
     @Override
     public DebtResponse findDebtById(Integer debtId) {
         Debt debt = repository.findById(debtId)
-                .orElseThrow(() -> new EntityNotFoundException("No Budget found with the Id : " + debtId));
+                .orElseThrow(() -> new EntityNotFoundException("No Debt found with the Id : " + debtId));
         return debtMapper.toDebtResponse(debt);
     }
 

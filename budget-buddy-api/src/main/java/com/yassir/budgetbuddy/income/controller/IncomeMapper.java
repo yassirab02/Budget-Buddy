@@ -31,7 +31,7 @@ public class IncomeMapper {
                 .amount(income.getAmount())
                 .description(income.getDescription())
                 .date(String.valueOf(income.getDate()))
-                .source(income.getIncomeSource().getName())
+                .incomeSource(income.getIncomeSource().getName())
                 .wallet(income.getWallet().getName())
                 .build();
     }

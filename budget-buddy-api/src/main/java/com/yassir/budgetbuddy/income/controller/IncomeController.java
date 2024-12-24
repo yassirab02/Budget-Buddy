@@ -1,7 +1,6 @@
 package com.yassir.budgetbuddy.income.controller;
 
 import com.yassir.budgetbuddy.common.PageResponse;
-import com.yassir.budgetbuddy.expenses.controller.ExpensesResponse;
 import com.yassir.budgetbuddy.income.service.IncomeService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -20,17 +19,9 @@ public class IncomeController {
 
     @PostMapping("/add-income")
     public ResponseEntity<Integer> addOrUpdateIncome(
-            @RequestBody @Valid IncomeRequest request, Authentication connectedUser
+            @RequestBody @Valid IncomeRequest request
     ) {
         return ResponseEntity.ok(service.addOrUpdateIncome(request));
-    }
-
-    @DeleteMapping("/{income-id}")
-    public ResponseEntity<?> deleteIncome(
-            @PathVariable("income-id") Integer incomeId
-    ) {
-        service.deleteIncome(incomeId);
-        return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/all-incomes")
@@ -42,4 +33,19 @@ public class IncomeController {
         return ResponseEntity.ok(service.findAllIncomes(page, size,connectedUser));
     }
 
+    @GetMapping("/{income-id}")
+    public ResponseEntity<IncomeResponse> findIncomeById(
+            @PathVariable("income-id") Integer incomeId
+    ) {
+        return ResponseEntity.ok(service.findIncomeById(incomeId));
+    }
+
+
+    @DeleteMapping("/{income-id}")
+    public ResponseEntity<?> deleteIncome(
+            @PathVariable("income-id") Integer incomeId
+    ) {
+        service.deleteIncome(incomeId);
+        return ResponseEntity.noContent().build();
+    }
 }

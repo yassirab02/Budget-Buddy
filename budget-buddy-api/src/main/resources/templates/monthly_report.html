@@ -93,11 +93,11 @@
     <p>Great news! Your monthly financial report for <span th:text="${month}"></span> <span th:text="${year}"></span> has been generated and is now available for review.</p>
     <div class="report-highlight">
         <p>Total Expenses: <span th:text="${totalExpenses}"></span></p>
-        <p>Top Spending Category: <span th:text="${topCategory}"></span></p>
+        <p>Total Income: <span th:text="${totalIncome}"></span></p>
     </div>
     <p>Get valuable insights into your spending habits and track your financial progress. View your full report now to see detailed breakdowns and personalized tips for better budgeting.</p>
     <div class="view-report-link">
-        <a th:href="${reportUrl}" target="_blank">View Your Monthly Report</a>
+        <a th:href="${url}" target="_blank">View Your Monthly Report</a>
     </div>
     <div class="footer">
         <p>Keep up the great work on your financial journey!</p>

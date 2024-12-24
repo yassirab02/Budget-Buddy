@@ -4,6 +4,7 @@ import lombok.*;
 
 import java.math.BigDecimal;
 
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -16,7 +17,7 @@ public class IncomeResponse {
     private BigDecimal amount;
     private String date;
     private String description;
-    private String source;
+    private String incomeSource;
     private String wallet;
 
 }

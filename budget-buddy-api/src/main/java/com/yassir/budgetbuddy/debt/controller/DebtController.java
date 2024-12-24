@@ -34,6 +34,16 @@ public class DebtController {
         return ResponseEntity.ok(service.findAllDebtsByOwner(page, size, connectedUser));
     }
 
+    @GetMapping("/debts-status")
+    public ResponseEntity<PageResponse<DebtResponse>> findAllNonPaidDebtsByOwner(
+            @RequestParam(name = "page", defaultValue = "0", required = false) int page,
+            @RequestParam(name = "size", defaultValue = "10", required = false) int size,
+            @RequestParam(name = "paidStatus") boolean paidStatus,
+            Authentication connectedUser
+    ) {
+        return ResponseEntity.ok(service.findDebtsByOwnerAndPaidStatus(page, size, connectedUser, paidStatus));
+    }
+
     @GetMapping("/{debt-id}")
     public ResponseEntity<DebtResponse> findDebtById(
             @PathVariable("debt-id") Integer debtId

@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 public class ReportController {
 
     private final ReportService service;
-    private final ReportMapper reportMapper;
 
 
     // Fetch monthly reports for a user

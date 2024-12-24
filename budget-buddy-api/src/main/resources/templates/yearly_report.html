@@ -93,11 +93,12 @@
     <p>Great news! Your yearly financial report for <span th:text="${year}"></span> has been generated and is now available for review.</p>
     <div class="report-highlight">
         <p>Total Yearly Expenses: <span th:text="${totalYearlyExpenses}"></span></p>
-        <p>Top Spending Category: <span th:text="${topYearlyCategory}"></span></p>
+        <p>Total Yearly Income: <span th:text="${totalYearlyIncome}"></span></p>
+        <p>Your saving rate: <span th:text="${savingRate}"></span> %</p>
     </div>
     <p>Get valuable insights into your spending habits and track your financial progress over the past year. View your full report now to see detailed breakdowns and personalized tips for better budgeting in the coming year.</p>
     <div class="view-report-link">
-        <a th:href="${yearlyReportUrl}" target="_blank">View Your Yearly Report</a>
+        <a th:href="${url}" target="_blank">View Your Yearly Report</a>
     </div>
     <div class="footer">
         <p>Congratulations on your financial journey this year!</p>

@@ -34,23 +34,24 @@ public class GoalController {
         return ResponseEntity.ok(service.findAllGoalsByUser(page, size, connectedUser));
     }
 
-    @GetMapping(("/reached"))
-    public ResponseEntity<PageResponse<GoalResponse>> findReachedByUser(
+    @GetMapping("/goals/reached")
+    public ResponseEntity<PageResponse<GoalResponse>> findGoalsByUserAndReachedStatus(
             @RequestParam(name = "page", defaultValue = "0", required = false) int page,
             @RequestParam(name = "size", defaultValue = "10", required = false) int size,
+            @RequestParam(name = "reached") boolean reached,
             Authentication connectedUser
     ) {
-        return ResponseEntity.ok(service.findReachedGoalsByUser(page, size, connectedUser));
+        return ResponseEntity.ok(service.findGoalsByUserAndReachedStatus(page, size, connectedUser, reached));
     }
 
-    @GetMapping(("/non-reached"))
-    public ResponseEntity<PageResponse<GoalResponse>> findNonReachedByUser(
-            @RequestParam(name = "page", defaultValue = "0", required = false) int page,
-            @RequestParam(name = "size", defaultValue = "10", required = false) int size,
-            Authentication connectedUser
+
+    @GetMapping("/{goal-id}")
+    public ResponseEntity<GoalResponse> findGoalById(
+            @PathVariable("goal-id") Integer goalId
     ) {
-        return ResponseEntity.ok(service.findNonReachedGoalsByUser(page, size, connectedUser));
+        return ResponseEntity.ok(service.findGoalById(goalId));
     }
+
 
     @DeleteMapping("/{goal-id}")
     public ResponseEntity<?> deleteBudget(

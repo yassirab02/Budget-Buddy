@@ -37,6 +37,9 @@ public class AuthenticationService {
     @Value("${application.security.mailing.frontend.activation-url}")
     private String activationUrl;
 
+    @Value("${application.security.mailing.frontend.redirect-url}")
+    private String url;
+
     public void register(RegistrationRequest request) throws MessagingException {
         var userRole = roleRepository.findByName("USER")
                 // todo  better exception handling
@@ -128,5 +131,12 @@ public class AuthenticationService {
         userRepository.save(user);
         savedToken.setValidatedAt(LocalDateTime.now());
         tokenRepository.save(savedToken);
+        emailService.sendOtherEmail(
+                user.getEmail(),
+                user.fullName(),
+                EmailTemplateName.WELCOME_EMAIL,
+                url,
+                "Welcome to Budget Buddy"
+        );
     }
 }

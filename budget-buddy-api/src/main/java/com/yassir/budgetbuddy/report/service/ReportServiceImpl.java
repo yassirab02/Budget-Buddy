@@ -4,6 +4,8 @@ import com.yassir.budgetbuddy.common.PageResponse;
 import com.yassir.budgetbuddy.debt.Debt;
 import com.yassir.budgetbuddy.debt.controller.DebtResponse;
 import com.yassir.budgetbuddy.debt.repository.DebtRepository;
+import com.yassir.budgetbuddy.email.EmailService;
+import com.yassir.budgetbuddy.email.EmailTemplateName;
 import com.yassir.budgetbuddy.expenses.Expenses;
 import com.yassir.budgetbuddy.expenses.repository.ExpensesRepository;
 import com.yassir.budgetbuddy.goal.repository.GoalRepository;
@@ -18,7 +20,9 @@ import com.yassir.budgetbuddy.report.controller.ReportResponse;
 import com.yassir.budgetbuddy.report.repository.ReportSpecification;
 import com.yassir.budgetbuddy.user.User;
 import com.yassir.budgetbuddy.user.UserRepository;
+import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -49,6 +53,11 @@ public class ReportServiceImpl implements ReportService {
     private final GoalRepository goalRepository;
     private final ReportMapper reportMapper;
     private final DebtRepository debtRepository;
+    private final EmailService emailService;
+
+
+    @Value("${application.security.mailing.frontend.redirect-url}")
+    private String url;
 
 
     @Override
@@ -77,10 +86,9 @@ public class ReportServiceImpl implements ReportService {
     @Override
     public void generateMonthlyReport() {
         LocalDate now = LocalDate.now();
-        List<User> users = userRepository.findAll(); // Get all users
+        List<User> users = userRepository.findAllUsers(); // Get all users
 
         for (User user : users) {
-
             Optional<Report> existingReport = repository.findByUserAndYearAndMonth(user, now.getYear(), now.getMonthValue());
             if (existingReport.isPresent()) {
                 System.out.println("Monthly report already generated for user: " + user.fullName());
@@ -119,11 +127,26 @@ public class ReportServiceImpl implements ReportService {
             } catch (DataIntegrityViolationException e) {
                 System.err.println("Error saving report for user " + user.getId() + ": " + e.getMessage());
             }
-        }
 
+            // Send email with the generated report
+            try {
+                emailService.sendEmailWithMonthlyReport(
+                        List.of(user.getEmail()),
+                        List.of(user.fullName()),
+                        EmailTemplateName.MONTHLY_REPORT,
+                        url,
+                        "Monthly Report",
+                        monthlyReport.getTotalExpenses(),
+                        monthlyReport.getTotalIncome(),
+                        now.getMonth().name(),
+                        now.getYear()
+                );
+            } catch (MessagingException e) {
+                System.err.println("Error sending email to user " + user.getId() + ": " + e.getMessage());
+            }
+        }
         System.out.println("Monthly reports generated successfully!");
     }
-
     private BigDecimal calculateTotalDebt(User user, LocalDate now) {
         return debtRepository.findByOwnerAndIssueDateBefore(user, now.plusDays(1))
                 .stream()
@@ -222,11 +245,11 @@ public class ReportServiceImpl implements ReportService {
                     ReportMessage.MONTHLY_TOTAL_UNPAID_DEBT_MESSAGE.getMessage(), totalUnpaidDebt
             );
         }
-
         // Default case (report generated)
         else {
             return ReportMessage.REPORT_GENERATED_MESSAGE.getMessage();
         }
+
     }
 
 
@@ -235,7 +258,7 @@ public class ReportServiceImpl implements ReportService {
     @Override
     public void generateYearlyReports() {
         LocalDate now = LocalDate.now();
-        List<User> users = userRepository.findAll(); // Get all users
+        List<User> users = userRepository.findAllUsers(); // Get all users
 
         for (User user : users) {
             Optional<Report> existingReport = repository.findByUserAndYearAndMonth(user, now.getYear(), 0);
@@ -265,7 +288,8 @@ public class ReportServiceImpl implements ReportService {
             yearlyReport.setTotalUnpaidDebt(totalUnpaidDebt);
             yearlyReport.setTotalGoalsReached(calculateYearlyTotalGoals(user, now)); // Custom method to calculate goals reached
             yearlyReport.setBalance(totalIncome.subtract(totalExpenses));
-            yearlyReport.setDetails(generateYearlyReportDetails(user, now)); // Updated yearly details
+            yearlyReport.setDetails(generateYearlyReportDetails(user, now));
+            yearlyReport.setCreatedBy(user.getId());
 
             // Calculate most spending month and saving rate
             yearlyReport.setMostSpendingMonth(calculateMostSpendingMonth(user, now)); // Most spending month
@@ -275,6 +299,23 @@ public class ReportServiceImpl implements ReportService {
                 repository.save(yearlyReport);
             } catch (DataIntegrityViolationException e) {
                 System.err.println("Error saving report for user " + user.getId() + ": " + e.getMessage());
+            }
+
+            // Send email with the generated report
+            try {
+                emailService.sendEmailWithYearlyReport(
+                        List.of(user.getEmail()),
+                        List.of(user.fullName()),
+                        EmailTemplateName.YEARLY_REPORT,
+                        url,
+                        "Yearly Report",
+                        yearlyReport.getTotalExpenses(),
+                        yearlyReport.getTotalIncome(),
+                        yearlyReport.getSavingRate(),
+                        now.getYear()
+                );
+            } catch (MessagingException e) {
+                System.err.println("Error sending email to user " + user.getId() + ": " + e.getMessage());
             }
         }
 

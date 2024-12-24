@@ -55,36 +55,16 @@ public class GoalServiceImpl implements GoalService{
         );
     }
 
-    // find reached goals by user
+
     @Override
-    public PageResponse<GoalResponse> findReachedGoalsByUser(int page, int size, Authentication connectedUser) {
+    public PageResponse<GoalResponse> findGoalsByUserAndReachedStatus(int page, int size, Authentication connectedUser, boolean reached) {
         User user = ((User) connectedUser.getPrincipal());
-        Pageable pageable = PageRequest.of(page, size, Sort.by("createdDate").descending());
-        Page<Goal> goals = repository.findByUserAndReachedTrue(user, pageable);  // Added pagination
+        Pageable pageable = PageRequest.of(page, size, Sort.by("createdDate").descending());  // Create pageable for pagination
+        Page<Goal> goals = repository.findGoalsByUserAndReachedStatus(user.getId(), reached, pageable);  // Fetch goals based on reached status
         List<GoalResponse> goalResponse = goals.stream()
                 .map(goalMapper::toGoalResponse)
                 .toList();
-        return new PageResponse<>(
-                goalResponse,
-                goals.getNumber(),
-                goals.getSize(),
-                goals.getTotalElements(),
-                goals.getTotalPages(),
-                goals.isFirst(),
-                goals.isLast()
-        );
-    }
 
-
-    // find non-reached goals by user
-    @Override
-    public PageResponse<GoalResponse> findNonReachedGoalsByUser(int page, int size, Authentication connectedUser) {
-        User user = ((User) connectedUser.getPrincipal());
-        Pageable pageable = PageRequest.of(page, size, Sort.by("createdDate").descending());
-        Page<Goal> goals = repository.findByUserAndReachedFalse(user, pageable);  // Added pagination
-        List<GoalResponse> goalResponse = goals.stream()
-                .map(goalMapper::toGoalResponse)
-                .toList();
         return new PageResponse<>(
                 goalResponse,
                 goals.getNumber(),
@@ -110,5 +90,11 @@ public class GoalServiceImpl implements GoalService{
         repository.delete(goal);
     }
 
+    @Override
+    public GoalResponse findGoalById(Integer goalId) {
+        Goal goal = repository.findById(goalId)
+                .orElseThrow(() -> new EntityNotFoundException("No Goal found with the Id : " + goalId));
+        return goalMapper.toGoalResponse(goal);
+    }
 
 }

@@ -1,6 +1,8 @@
 package com.yassir.budgetbuddy.income.service;
 
 import com.yassir.budgetbuddy.common.PageResponse;
+import com.yassir.budgetbuddy.expenses.Expenses;
+import com.yassir.budgetbuddy.expenses.controller.ExpensesResponse;
 import com.yassir.budgetbuddy.income.Income;
 import com.yassir.budgetbuddy.income.repository.IncomeRepository;
 import com.yassir.budgetbuddy.income.controller.IncomeMapper;
@@ -8,6 +10,7 @@ import com.yassir.budgetbuddy.income.controller.IncomeRequest;
 import com.yassir.budgetbuddy.income.controller.IncomeResponse;
 import com.yassir.budgetbuddy.income.repository.IncomeSpecification;
 import com.yassir.budgetbuddy.user.User;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -58,5 +61,13 @@ public class IncomeServiceImpl implements IncomeService {
                 incomes.isLast()
         );
     }
+
+    @Override
+    public IncomeResponse findIncomeById(Integer incomeId) {
+        Income income = repository.findById(incomeId)
+                .orElseThrow(() -> new EntityNotFoundException("No Income found with the Id : " +incomeId));
+        return incomeMapper.toIncomeResponse(income);
+    }
+
 
 }

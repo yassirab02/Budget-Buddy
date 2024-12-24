@@ -1,6 +1,9 @@
 package com.yassir.budgetbuddy.wallet.controller;
 
 
+import com.yassir.budgetbuddy.budget.controller.BudgetResponse;
+import com.yassir.budgetbuddy.common.PageResponse;
+import com.yassir.budgetbuddy.income.controller.IncomeResponse;
 import com.yassir.budgetbuddy.wallet.WalletResponse;
 import com.yassir.budgetbuddy.wallet.service.WalletService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -25,6 +28,23 @@ public class WalletController {
     ) {
 
         return ResponseEntity.ok(service.addOrUpdateWallet(request,connectedUser));
+    }
+
+    @GetMapping(("/all-wallets"))
+    public ResponseEntity<PageResponse<WalletResponse>> findAllWalletsByOwner(
+            @RequestParam(name = "page", defaultValue = "0", required = false) int page,
+            @RequestParam(name = "size", defaultValue = "10", required = false) int size,
+            Authentication connectedUser
+    ) {
+        return ResponseEntity.ok(service.findAllWalletsByOwner(page, size, connectedUser));
+    }
+
+
+    @GetMapping("/{wallet-id}")
+    public ResponseEntity<WalletResponse> findWalletById(
+            @PathVariable("wallet-id") Integer walletId
+    ) {
+        return ResponseEntity.ok(service.findWalletById(walletId));
     }
 
 
