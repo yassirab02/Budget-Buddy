@@ -24,6 +24,6 @@ public class ReportResponse {
     private int month;              // Month of the report
     private int mostSpendingMonth;              // Month of the report
     private BigDecimal savingRate; // Percentage of income saved (e.g., 0.20 for 20%)
-
+    private String type;            // Type of the report (e.g., monthly, yearly)
     private String owner;           // Full name of the user who owns the report
 }

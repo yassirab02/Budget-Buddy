@@ -20,6 +20,6 @@ public class DebtResponse {
     private LocalDate dueDate;
     private LocalDate issueDate;
     private boolean isPaid;
-    private DebtType type;
+    private String type;
     private String owner; // Full name of the user who owns the debt
 }

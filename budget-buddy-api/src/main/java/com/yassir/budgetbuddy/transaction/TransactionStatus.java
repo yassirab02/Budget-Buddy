@@ -1,7 +1,18 @@
 package com.yassir.budgetbuddy.transaction;
 
+import lombok.Getter;
+
+@Getter
 public enum TransactionStatus {
-    PENDING,
-    SUCCESS,
-    FAILED
+    PENDING("PENDING"),
+    SUCCESS("SUCCESS"),
+    FAILED("FAILED"),
+
+    ;
+
+    private final String status;
+
+    TransactionStatus(String status) {
+        this.status = status;
+    }
 }

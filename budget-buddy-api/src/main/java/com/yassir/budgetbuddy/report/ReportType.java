@@ -4,6 +4,13 @@ import lombok.Getter;
 
 @Getter
 public enum ReportType {
-    MONTHLY,
-    YEARLY
+    MONTHLY("Monthly"),
+    YEARLY("Yearly"),
+    ;
+
+    private final String name;
+
+    ReportType(String name) {
+        this.name = this.name();
+    }
 }

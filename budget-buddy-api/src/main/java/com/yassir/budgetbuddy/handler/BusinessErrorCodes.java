@@ -7,6 +7,7 @@ import static org.springframework.http.HttpStatus.*;
 import static org.springframework.http.HttpStatus.FORBIDDEN;
 
 
+@Getter
 public enum BusinessErrorCodes {
 
     NO_CODE(0, NOT_IMPLEMENTED,"No code"),
@@ -17,11 +18,8 @@ public enum BusinessErrorCodes {
     BAD_CREDENTIALS(304,FORBIDDEN,"login and / or password is incorrect "),
     ;
 
-    @Getter
     private final int code;
-    @Getter
     private final String description;
-    @Getter
     private final HttpStatus httpStatusCode;
 
     BusinessErrorCodes(int code, HttpStatus httpStatusCode, String description) {

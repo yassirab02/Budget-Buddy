@@ -1,9 +1,7 @@
 package com.yassir.budgetbuddy.wallet.controller;
 
 
-import com.yassir.budgetbuddy.budget.controller.BudgetResponse;
 import com.yassir.budgetbuddy.common.PageResponse;
-import com.yassir.budgetbuddy.income.controller.IncomeResponse;
 import com.yassir.budgetbuddy.wallet.WalletResponse;
 import com.yassir.budgetbuddy.wallet.service.WalletService;
 import io.swagger.v3.oas.annotations.tags.Tag;

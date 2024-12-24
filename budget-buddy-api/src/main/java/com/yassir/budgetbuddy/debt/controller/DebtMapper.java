@@ -27,7 +27,7 @@ public class DebtMapper {
                 .description(debt.getDescription())
                 .amount(debt.getAmount())
                 .dueDate(debt.getDueDate())
-                .type(debt.getType())
+                .type(debt.getType().getType())
                 .owner(debt.getOwner().fullName())
                 .build();
     }

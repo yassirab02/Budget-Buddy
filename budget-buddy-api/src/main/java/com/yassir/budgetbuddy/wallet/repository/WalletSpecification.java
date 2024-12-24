@@ -1,6 +1,6 @@
-package com.yassir.budgetbuddy.wallet;
+package com.yassir.budgetbuddy.wallet.repository;
 
-import com.yassir.budgetbuddy.budget.Budget;
+import com.yassir.budgetbuddy.wallet.Wallet;
 import org.springframework.data.jpa.domain.Specification;
 
 public class WalletSpecification {

@@ -20,6 +20,7 @@ public class ReportMapper {
                 .month(report.getMonth())
                 .mostSpendingMonth(report.getMostSpendingMonth())
                 .savingRate(report.getSavingRate())
+                .type(report.getType().getName())
                 .owner(report.getUser().fullName())
                 .build();
     }

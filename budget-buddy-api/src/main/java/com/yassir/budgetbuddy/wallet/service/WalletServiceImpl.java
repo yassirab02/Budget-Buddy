@@ -1,17 +1,14 @@
 package com.yassir.budgetbuddy.wallet.service;
 
-import com.yassir.budgetbuddy.budget.Budget;
-import com.yassir.budgetbuddy.budget.controller.BudgetResponse;
-import com.yassir.budgetbuddy.budget.repository.BudgetSpecification;
 import com.yassir.budgetbuddy.common.PageResponse;
 import com.yassir.budgetbuddy.user.User;
 import com.yassir.budgetbuddy.user.UserRepository;
 import com.yassir.budgetbuddy.wallet.WalletResponse;
-import com.yassir.budgetbuddy.wallet.WalletSpecification;
+import com.yassir.budgetbuddy.wallet.repository.WalletSpecification;
 import com.yassir.budgetbuddy.wallet.controller.WalletRequest;
 import com.yassir.budgetbuddy.wallet.Wallet;
 import com.yassir.budgetbuddy.wallet.controller.WalletMapper;
-import com.yassir.budgetbuddy.wallet.WalletRepository;
+import com.yassir.budgetbuddy.wallet.repository.WalletRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
