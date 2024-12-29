@@ -16,6 +16,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.math.BigDecimal;
 import java.security.Principal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -50,6 +51,8 @@ public class User implements UserDetails , Principal {
     @LastModifiedDate
     @Column(insertable = false)
     private LocalDateTime lastModifiedDate;
+
+    private BigDecimal totalBalance = BigDecimal.ZERO;
 
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Role> roles;

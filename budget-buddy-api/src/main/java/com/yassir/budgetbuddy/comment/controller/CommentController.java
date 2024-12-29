@@ -1,8 +1,8 @@
 package com.yassir.budgetbuddy.comment.controller;
 
-import com.yassir.budgetbuddy.budget.controller.BudgetRequest;
-import com.yassir.budgetbuddy.comment.Comment;
 import com.yassir.budgetbuddy.comment.service.CommentService;
+import com.yassir.budgetbuddy.common.PageResponse;
+import com.yassir.budgetbuddy.reaction.ReactionType;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +24,26 @@ public class CommentController {
             Authentication connectedUser) {
 
         return ResponseEntity.ok(service.addOrUpdateComment(request, connectedUser));
+    }
+
+    @PostMapping("/toggle/{comment-id}/reaction/{reactionType}")
+    public ResponseEntity<CommentResponse> toggle(
+            @PathVariable("comment-id") Integer commentId,
+            Authentication connectedUser,
+            @PathVariable ReactionType reactionType
+
+    ) {
+        return ResponseEntity.ok(service.toggleCommentReaction(commentId,reactionType,connectedUser));
+    }
+
+    @GetMapping("/story/{story-id}")
+    public ResponseEntity<PageResponse<CommentResponse>> findAllCommentsByStory(
+            @PathVariable("story-id") Integer storyId,
+            @RequestParam(name = "page", defaultValue = "0", required = false) int page,
+            @RequestParam(name = "size", defaultValue = "10", required = false) int size,
+            Authentication connectedUser
+    ){
+        return ResponseEntity.ok(service.findAllCommentsByStory(storyId,page,size,connectedUser));
     }
 
     @DeleteMapping("/{comment-id}")

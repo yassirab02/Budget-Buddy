@@ -1,6 +1,7 @@
 package com.yassir.budgetbuddy.comment.service;
 
 import com.yassir.budgetbuddy.comment.Comment;
+import com.yassir.budgetbuddy.common.PageResponse;
 import com.yassir.budgetbuddy.reaction.CommentReaction;
 import com.yassir.budgetbuddy.comment.CommentRepository;
 import com.yassir.budgetbuddy.comment.controller.CommentMapper;
@@ -15,6 +16,9 @@ import com.yassir.budgetbuddy.user.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
@@ -96,7 +100,7 @@ public class CommentServiceImpl implements CommentService {
 
     @Transactional
     @Override
-    public CommentResponse toggleReaction(Integer commentId, ReactionType reactionType, Authentication connectedUser) {
+    public CommentResponse toggleCommentReaction(Integer commentId, ReactionType reactionType, Authentication connectedUser) {
         User user = (User) connectedUser.getPrincipal();
 
         // Validate comment existence
@@ -129,7 +133,9 @@ public class CommentServiceImpl implements CommentService {
         // Fetch updated counts dynamically for likes and dislikes
         long likes = commentReactionRepository.countReactionsByType(comment.getId(), ReactionType.LIKE);
         long dislikes = commentReactionRepository.countReactionsByType(comment.getId(), ReactionType.DISLIKE);
-
+        comment.setNumberOfLikes(likes);
+        comment.setNumberOfDislikes(dislikes);
+        repository.save(comment);  // Save the comment after updating the like count
         return commentMapper.toCommentResponse(comment, likes, dislikes);
     }
 
@@ -167,5 +173,24 @@ public class CommentServiceImpl implements CommentService {
             deleteReplies(reply); // Recursively delete nested replies
             repository.delete(reply); // Delete the reply
         }
+    }
+
+
+    public PageResponse<CommentResponse> findAllCommentsByStory(Integer storyId, int page, int size, Authentication connectedUser) {
+        Pageable pageable = PageRequest.of(page,size);
+        User user = ((User) connectedUser.getPrincipal());
+        Page<Comment> comments = repository.findAllByStoryId(storyId,pageable);
+        List<CommentResponse> commentResponses = comments.stream()
+                .map(c -> commentMapper.toAllCommentResponse(c,user.getId()))
+                .toList();
+        return new PageResponse<>(
+                commentResponses,
+                comments.getNumber(),
+                comments.getSize(),
+                comments.getTotalElements(),
+                comments.getTotalPages(),
+                comments.isFirst(),
+                comments.isLast()
+        );
     }
 }

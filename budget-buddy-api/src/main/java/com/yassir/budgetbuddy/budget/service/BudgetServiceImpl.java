@@ -7,8 +7,10 @@ import com.yassir.budgetbuddy.budget.controller.BudgetMapper;
 import com.yassir.budgetbuddy.budget.controller.BudgetRequest;
 import com.yassir.budgetbuddy.budget.controller.BudgetResponse;
 import com.yassir.budgetbuddy.common.PageResponse;
+import com.yassir.budgetbuddy.expenses.Expenses;
 import com.yassir.budgetbuddy.file.FileStorageService;
 import com.yassir.budgetbuddy.user.User;
+import com.yassir.budgetbuddy.wallet.Wallet;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -20,6 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -33,6 +36,10 @@ public class BudgetServiceImpl implements BudgetService {
     @Override
     public Integer addOrUpdateBudget(BudgetRequest request, Authentication connectedUser) {
         User user = ((User) connectedUser.getPrincipal());
+        Optional<Budget> existingBudget = repository.findByNameAndOwnerId(request.name(),user.getId());
+        if (existingBudget.isPresent()) {
+            throw new EntityNotFoundException("Budget with the name already exists");
+        }
         Budget budget = budgetMapper.toBudget(request);
         budget.setOwner(user);
         return repository.save(budget).getId();

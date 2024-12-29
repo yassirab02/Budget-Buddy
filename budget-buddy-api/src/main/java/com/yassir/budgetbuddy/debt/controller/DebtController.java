@@ -9,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
+
 @RestController
 @RequestMapping("debt")
 @RequiredArgsConstructor
@@ -60,6 +62,10 @@ public class DebtController {
         return ResponseEntity.noContent().build();
     }
 
+    @GetMapping("/total-amount")
+    public BigDecimal getTotalAmountDebtByUser(Authentication connectedUser) {
+        return service.getTotalAmountDebtByUser(connectedUser);
+    }
 
 }
 

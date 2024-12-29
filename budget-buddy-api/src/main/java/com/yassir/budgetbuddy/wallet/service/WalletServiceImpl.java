@@ -20,33 +20,43 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class WalletServiceImpl implements WalletService {
 
     private final WalletRepository repository;
-    private final UserRepository userRepository;
     private final WalletMapper walletMapper;
+    private final UserRepository userRepository;
 
 
     @Override
     @Transactional
     public Integer addOrUpdateWallet(WalletRequest request, Authentication connectedUser) {
-        User user = ((User) connectedUser.getPrincipal());
+        User user = (User) connectedUser.getPrincipal();
+
+        // Find if a wallet with the same name already exists for the user
+        Optional<Wallet> existingWallet = repository.findByNameAndOwner(request.name(), user);
+        if (existingWallet.isPresent()) {
+            throw new EntityNotFoundException("Wallet with the name already exists");
+        }
         Wallet wallet = walletMapper.toWallet(request);
         wallet.setOwner(user);
-
+        user.setTotalBalance(user.getTotalBalance().add(wallet.getBalance()));
         return repository.save(wallet).getId();
     }
 
+
     @Override
     public void deleteWallet(Integer walletId, Authentication connectedUser) {
-        boolean condition = (walletId != null);
-        if (condition) {
-            User user = ((User) connectedUser.getPrincipal());
-            Wallet wallet = repository.findById(walletId).orElseThrow();
+        User user = ((User) connectedUser.getPrincipal());
+        if (walletId != null) {
+            Wallet wallet = repository.findById(walletId)
+                    .orElseThrow(() -> new EntityNotFoundException("No Wallet found with the Id : " + walletId));
             if (wallet.getOwner().getId().equals(user.getId())) {
+                user.setTotalBalance(user.getTotalBalance().subtract(wallet.getBalance()));
                 repository.deleteById(walletId);
             }
         }
@@ -55,7 +65,7 @@ public class WalletServiceImpl implements WalletService {
     @Override
     public PageResponse<WalletResponse> findAllWalletsByOwner(int page, int size, Authentication connectedUser) {
         User user = ((User) connectedUser.getPrincipal());
-        Pageable pageable = PageRequest.of(page,size, Sort.by("createdDate").descending());
+        Pageable pageable = PageRequest.of(page, size, Sort.by("createdDate").descending());
         Page<Wallet> wallets = repository.findAll(WalletSpecification.withOwnerId(user.getId()), pageable);
         List<WalletResponse> walletResponse = wallets.stream()
                 .map(walletMapper::toWalletResponse)

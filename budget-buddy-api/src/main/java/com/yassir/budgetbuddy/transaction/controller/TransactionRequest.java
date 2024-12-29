@@ -5,7 +5,6 @@ import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotNull;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 
 public record TransactionRequest(
         Integer id, // Optional if updating, should be null for new transactions
@@ -21,9 +20,6 @@ public record TransactionRequest(
 
         @NotNull(message = "Transaction Type is required")
         TransactionType transactionType, // E.g., TRANSFER, DEPOSIT, WITHDRAWAL
-
-        @NotNull(message = "Transaction Status is required")
-        String status, // E.g., PENDING, COMPLETED
 
         @NotNull(message = "Source Wallet ID is required")
         Integer sourceWalletId,

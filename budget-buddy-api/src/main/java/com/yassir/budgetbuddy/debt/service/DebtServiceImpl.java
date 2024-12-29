@@ -17,6 +17,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -33,7 +34,6 @@ public class DebtServiceImpl implements DebtService{
         debt.setOwner(user);
         return repository.save(debt).getId();
     }
-
 
     @Override
     public PageResponse<DebtResponse> findAllDebtsByOwner(int page, int size, Authentication connectedUser) {
@@ -89,6 +89,15 @@ public class DebtServiceImpl implements DebtService{
         Debt debt = repository.findById(debtId)
                 .orElseThrow(() -> new EntityNotFoundException("No Debt found with the Id : " + debtId));
         return debtMapper.toDebtResponse(debt);
+    }
+
+    @Override
+    public BigDecimal getTotalAmountDebtByUser(Authentication connectedUser) {
+        User user = ((User) connectedUser.getPrincipal());
+        List<Debt> debts =  repository.findDebtsByOwnerId(user.getId());
+        return debts.stream()
+                .map(Debt::getAmount)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
 }

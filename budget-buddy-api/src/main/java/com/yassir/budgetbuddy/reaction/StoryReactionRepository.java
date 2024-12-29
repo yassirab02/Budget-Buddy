@@ -12,4 +12,5 @@ public interface StoryReactionRepository extends JpaRepository<StoryReaction, In
 
     @Query("SELECT COUNT(sr) FROM StoryReaction sr WHERE sr.story.id = :storyId AND sr.reaction = :reactionType")
     long countReactionsByType(@Param("storyId") Integer storyId, @Param("reactionType") ReactionType reactionType);
+
 }

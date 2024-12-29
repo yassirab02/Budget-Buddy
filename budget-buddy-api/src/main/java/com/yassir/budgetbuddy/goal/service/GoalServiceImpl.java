@@ -1,6 +1,7 @@
 package com.yassir.budgetbuddy.goal.service;
 
 import com.yassir.budgetbuddy.common.PageResponse;
+import com.yassir.budgetbuddy.expenses.Expenses;
 import com.yassir.budgetbuddy.goal.Goal;
 import com.yassir.budgetbuddy.goal.repository.GoalRepository;
 import com.yassir.budgetbuddy.goal.controller.GoalMapper;
@@ -8,6 +9,7 @@ import com.yassir.budgetbuddy.goal.controller.GoalRequest;
 import com.yassir.budgetbuddy.goal.controller.GoalResponse;
 import com.yassir.budgetbuddy.goal.repository.GoalSpecification;
 import com.yassir.budgetbuddy.user.User;
+import com.yassir.budgetbuddy.wallet.Wallet;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -18,10 +20,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class GoalServiceImpl implements GoalService{
+public class GoalServiceImpl implements GoalService {
 
     private final GoalRepository repository;
     private final GoalMapper goalMapper;
@@ -29,17 +32,22 @@ public class GoalServiceImpl implements GoalService{
     @Override
     public Integer addOrUpdateBudget(GoalRequest request, Authentication connectedUser) {
         User user = ((User) connectedUser.getPrincipal());
+        if (request.id() == null) {
+            Optional<Goal> existingGoal = repository.findByNameAndUserId(request.name(), user.getId());
+            if (existingGoal.isPresent()) {
+                throw new EntityNotFoundException("Goal with the name already exists");
+            }
+        }
         Goal goal = goalMapper.toGoal(request);
         goal.setUser(user);
         return repository.save(goal).getId();
     }
 
-
     // find all goals by user
     @Override
     public PageResponse<GoalResponse> findAllGoalsByUser(int page, int size, Authentication connectedUser) {
         User user = ((User) connectedUser.getPrincipal());
-        Pageable pageable = PageRequest.of(page,size, Sort.by("createdDate").descending());
+        Pageable pageable = PageRequest.of(page, size, Sort.by("createdDate").descending());
         Page<Goal> goals = repository.findAll(GoalSpecification.withUserId(user.getId()), pageable);
         List<GoalResponse> goalResponse = goals.stream()
                 .map(goalMapper::toGoalResponse)

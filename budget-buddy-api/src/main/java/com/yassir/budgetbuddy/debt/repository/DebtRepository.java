@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -50,5 +51,10 @@ public interface DebtRepository extends JpaRepository<Debt, Integer>, JpaSpecifi
             """)
     Page<Debt> findDebtsByOwnerAndPaidStatus(Integer ownerId, boolean paid, Pageable pageable);
 
-
+    @Query("""
+                SELECT debt
+                FROM Debt debt
+                WHERE debt.owner.id = :ownerId
+            """)
+    List<Debt> findDebtsByOwnerId(Integer id);
 }

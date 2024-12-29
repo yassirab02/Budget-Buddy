@@ -40,7 +40,7 @@ public class TransactionMapper {
                 .description(transaction.getDescription())
                 .amount(transaction.getAmount())
                 .date(transaction.getDate())
-                .transactionType(transaction.getTransactionType().getName())
+                .transactionType(transaction.getTransactionType().getTypeName())
                 .status(transaction.getStatus().getStatus())
                 .sourceWalletId(transaction.getSourceWallet().getId())
                 .destinationWalletId(transaction.getDestinationWallet() != null ? transaction.getDestinationWallet().getId() : null)

@@ -23,9 +23,6 @@ public class ExpensesMapper {
                 .budget(Budget.builder()
                         .id(request.budgetId())
                         .build())
-                .wallet(Wallet.builder()
-                        .id(request.walletId())
-                        .build())
                 .build();
     }
 

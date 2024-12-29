@@ -2,6 +2,10 @@ package com.yassir.budgetbuddy.story.controller;
 
 import com.yassir.budgetbuddy.budget.controller.BudgetResponse;
 import com.yassir.budgetbuddy.common.PageResponse;
+import com.yassir.budgetbuddy.reaction.CommentReaction;
+import com.yassir.budgetbuddy.reaction.CommentReactionRepository;
+import com.yassir.budgetbuddy.reaction.ReactionType;
+import com.yassir.budgetbuddy.reaction.StoryReactionRepository;
 import com.yassir.budgetbuddy.story.service.StoryService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -33,6 +37,16 @@ public class StoryController {
             Authentication connectedUser
     ) {
         return ResponseEntity.ok(service.findStoryById(storyId,connectedUser));
+    }
+
+    @PostMapping("/toggle/{story-id}/reaction/{reactionType}")
+    public ResponseEntity<StoryResponse> toggle(
+            @PathVariable("story-id") Integer storyId,
+            Authentication connectedUser,
+            @PathVariable ReactionType reactionType
+
+    ) {
+        return ResponseEntity.ok(service.toggleStoryReaction(storyId,reactionType,connectedUser));
     }
 
     @PostMapping("hide/{story-id}")
@@ -70,6 +84,5 @@ public class StoryController {
         service.deleteStory(storyId,connectedUser);
         return ResponseEntity.noContent().build();
     }
-
 
 }

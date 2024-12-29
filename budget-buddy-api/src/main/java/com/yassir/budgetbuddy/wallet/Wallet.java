@@ -26,7 +26,8 @@ public class Wallet extends BaseEntity {
 
     private String name;
     private BigDecimal balance;
-
+    private BigDecimal totalIncome = BigDecimal.ZERO;
+    private BigDecimal totalExpenses = BigDecimal.ZERO;
 
     @ManyToOne
     @JoinColumn(name = "currency_type_id", nullable = false)

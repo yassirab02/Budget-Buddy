@@ -41,23 +41,6 @@
         @JoinColumn(name = "user_id")
         private User user;
 
-        @ManyToMany
-        @JoinTable(
-                name = "comment_likes",
-                joinColumns = @JoinColumn(name = "comment_id"),
-                inverseJoinColumns = @JoinColumn(name = "user_id")
-        )
-        private Set<User> usersLiked;
-
-        @ManyToMany
-        @JoinTable(
-                name = "comment_dislikes",
-                joinColumns = @JoinColumn(name = "comment_id"),
-                inverseJoinColumns = @JoinColumn(name = "user_id")
-        )
-        private Set<User> usersDisliked;
-
-
         @ManyToOne
         @JoinColumn(name = "parent_comment_id")
         private Comment parentComment;  // If this is a reply, this field tracks the parent comment.

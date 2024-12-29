@@ -6,6 +6,8 @@ import com.yassir.budgetbuddy.debt.controller.DebtResponse;
 import jakarta.validation.Valid;
 import org.springframework.security.core.Authentication;
 
+import java.math.BigDecimal;
+
 public interface DebtService {
 
     Integer addOrUpdateDebt(@Valid DebtRequest request, Authentication connectedUser);
@@ -18,4 +20,5 @@ public interface DebtService {
 
     PageResponse<DebtResponse> findDebtsByOwnerAndPaidStatus(int page, int size, Authentication connectedUser, boolean paidStatus);
 
+    BigDecimal getTotalAmountDebtByUser(Authentication connectedUser);
 }

@@ -19,6 +19,8 @@ public class WalletMapper {
                 .id(request.id()) // If `id` is null, it's a new wallet
                 .name(request.name())
                 .balance(request.balance())
+                .totalIncome(request.totalIncome())
+                .totalExpenses(request.totalExpenses())
                 .currencyType(CurrencyType.builder()
                         .id(request.currencyTypeId())
                         .build())
@@ -55,6 +57,8 @@ public class WalletMapper {
                 .id(wallet.getId())
                 .name(wallet.getName())
                 .balance(wallet.getBalance())
+                .totalIncome(wallet.getTotalIncome())
+                .totalExpenses(wallet.getTotalExpenses())
                 .currencyType(wallet.getCurrencyType().getName())
                 .owner(wallet.getOwner().fullName())
                 .incomes(incomeResponses)

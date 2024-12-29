@@ -2,6 +2,8 @@ package com.yassir.budgetbuddy.wallet.controller;
 
 
 import com.yassir.budgetbuddy.common.PageResponse;
+import com.yassir.budgetbuddy.user.User;
+import com.yassir.budgetbuddy.user.service.UserService;
 import com.yassir.budgetbuddy.wallet.WalletResponse;
 import com.yassir.budgetbuddy.wallet.service.WalletService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -11,6 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
+
 @RestController
 @RequestMapping("wallet")
 @RequiredArgsConstructor
@@ -18,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 public class WalletController {
 
     private final WalletService service;
+    private final UserService userService;
 
     @PostMapping("/add-wallet")
     public ResponseEntity<Integer> addOrUpdateWallet(
@@ -53,5 +58,14 @@ public class WalletController {
     ) {
         service.deleteWallet(walletId, connectedUser);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/total-balance")
+    public BigDecimal getTotalBalance(
+            Authentication connectedUser
+    ) {
+        User user = (User) connectedUser.getPrincipal();
+        return userService.getTotalBalance(user);
+
     }
 }

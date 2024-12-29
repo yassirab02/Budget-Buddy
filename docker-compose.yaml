@@ -1,7 +1,7 @@
 services:
   mysql:
-    container_name: mysql-exptracker
+    container_name: mysql-budgetbuddy
     image: mysql:5.7
     environment:
         MYSQL_ROOT_PASSWORD: root
-        MYSQL_DATABASE: exptracker
+        MYSQL_DATABASE: budget-buddy-db

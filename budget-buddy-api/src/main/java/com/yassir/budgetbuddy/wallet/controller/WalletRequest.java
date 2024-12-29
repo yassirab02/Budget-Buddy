@@ -15,7 +15,10 @@ public record WalletRequest(
         @DecimalMin(value = "0.0", inclusive = false, message = "Balance must be greater than 0")
         BigDecimal balance,
 
-        @NotNull(message = "Currency Type ID is required")
+        BigDecimal totalIncome,
+
+        BigDecimal totalExpenses,
+
         Integer currencyTypeId // ID of the currency type (e.g., USD, EUR)
 ) {
 }

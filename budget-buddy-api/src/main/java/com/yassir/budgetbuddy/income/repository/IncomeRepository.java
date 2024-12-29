@@ -2,6 +2,8 @@ package com.yassir.budgetbuddy.income.repository;
 
 import com.yassir.budgetbuddy.income.Income;
 import com.yassir.budgetbuddy.user.User;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
@@ -17,4 +19,11 @@ public interface IncomeRepository extends JpaRepository<Income,Integer> , JpaSpe
 
     @Query("SELECT i FROM Income i WHERE i.wallet.owner = :user AND i.date BETWEEN :startDate AND :endDate")
     List<Income> findByUserAndDateBetween(@Param("user") User user, @Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
+
+    @Query("""
+            SELECT i FROM Income i
+            WHERE i.name = :name
+            AND i.wallet.id = :integer
+            """)
+    Optional<Income> findByNameAndWalletId(@NotNull(message = "Income name cannot be null") @NotEmpty(message = "Income name cannot be empty") String name, @NotNull(message = "Wallet ID is required") Integer integer);
 }

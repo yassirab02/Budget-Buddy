@@ -3,12 +3,17 @@ package com.yassir.budgetbuddy.user.service;
 import com.yassir.budgetbuddy.user.User;
 import com.yassir.budgetbuddy.user.UserRepository;
 import com.yassir.budgetbuddy.user.controller.ChangePasswordRequest;
+import com.yassir.budgetbuddy.wallet.Wallet;
+import com.yassir.budgetbuddy.wallet.repository.WalletRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.security.Principal;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -16,6 +21,7 @@ public class UserServiceImpl implements UserService {
 
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
+    private final WalletRepository walletRepository;
 
     @Override
     public void changePassword(ChangePasswordRequest request, Principal connectedUser) {
@@ -38,4 +44,11 @@ public class UserServiceImpl implements UserService {
         // saving the user
         userRepository.save(user);
     }
+
+    @Override
+    public BigDecimal getTotalBalance(User connectedUser) {
+        return connectedUser.getTotalBalance();
+    }
+
+
 }

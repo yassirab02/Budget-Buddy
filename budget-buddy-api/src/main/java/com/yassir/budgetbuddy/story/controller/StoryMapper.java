@@ -51,9 +51,6 @@ public class StoryMapper {
                 .numberOfComments(story.getNumberOfComments())
                 .status(story.getStatus().name())
                 .owner(story.getOwner().fullName()) // Assuming User has a getUsername() method
-                .comments(story.getComments().stream()
-                        .map(Comment::getComment) // Assuming Comment has a getContent() method Or .map(comment -> comment.getComment())
-                        .toList())
                 .build();
     }
 

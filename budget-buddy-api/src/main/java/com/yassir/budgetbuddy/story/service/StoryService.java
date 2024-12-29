@@ -1,6 +1,7 @@
 package com.yassir.budgetbuddy.story.service;
 
 import com.yassir.budgetbuddy.common.PageResponse;
+import com.yassir.budgetbuddy.reaction.ReactionType;
 import com.yassir.budgetbuddy.story.controller.StoryRequest;
 import com.yassir.budgetbuddy.story.controller.StoryResponse;
 import jakarta.validation.Valid;
@@ -21,4 +22,6 @@ public interface StoryService {
     PageResponse<StoryResponse> findAllStories(int page, int size, Authentication connectedUser);
 
     void hideStory(Integer storyId, Authentication connectedUser);
+
+    StoryResponse toggleStoryReaction(Integer storyId, ReactionType reactionType, Authentication connectedUser);
 }

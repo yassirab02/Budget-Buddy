@@ -18,6 +18,8 @@ public class WalletResponse {
         private Integer id;
         private String name;
         private BigDecimal balance;
+        private BigDecimal totalIncome;
+        private BigDecimal totalExpenses;
         private String currencyType; // Name or code of the currency type
         private String owner; // Full name of the user who owns the wallet
         private List<IncomeResponse> incomes; // A list of income responses

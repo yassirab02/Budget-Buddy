@@ -18,9 +18,6 @@ public class IncomeMapper {
                 .incomeSource(IncomeSource.builder()
                         .id(request.incomeSourceId())
                         .build())
-                .wallet(Wallet.builder()
-                        .id(request.walletId())
-                        .build())
                 .build();
     }
 
@@ -34,5 +31,26 @@ public class IncomeMapper {
                 .incomeSource(income.getIncomeSource().getName())
                 .wallet(income.getWallet().getName())
                 .build();
+    }
+
+
+    public void updateIncomeFromRequest(IncomeRequest request, Income income) {
+        if (request.name() != null) {
+            income.setName(request.name());
+        }
+        if (request.amount() != null) {
+            income.setAmount(request.amount());
+        }
+        if (request.description() != null) {
+            income.setDescription(request.description());
+        }
+        if (request.date() != null) {
+            income.setDate(request.date());
+        }
+        if (request.incomeSourceId() != null) {
+            income.setIncomeSource(IncomeSource.builder()
+                    .id(request.incomeSourceId())
+                    .build());
+        }
     }
 }

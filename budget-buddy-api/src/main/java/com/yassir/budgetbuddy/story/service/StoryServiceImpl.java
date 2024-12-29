@@ -31,18 +31,21 @@ public class StoryServiceImpl implements StoryService {
 
     private final StoryMapper storyMapper;
     private final StoryRepository repository;
-    private StoryReactionRepository storyReactionRepository;
+    private final StoryReactionRepository storyReactionRepository;
 
     @Override
-    public StoryResponse addOrUpdateStory(StoryRequest request,Authentication connectedUser) {
+    public StoryResponse addOrUpdateStory(StoryRequest request, Authentication connectedUser) {
         User user = ((User) connectedUser.getPrincipal());
         Story story = storyMapper.toStory(request);
         story.setOwner(user);
         repository.save(story);
         // Calculate the number of likes and dislikes dynamically
-        long likes = storyReactionRepository.countReactionsByType(story.getId(), ReactionType.LIKE);
-        long dislikes = storyReactionRepository.countReactionsByType(story.getId(), ReactionType.DISLIKE);
-        return storyMapper.toStoryResponse(story, likes, dislikes);
+        if (request.id() != null) {
+            long likes = storyReactionRepository.countReactionsByType(story.getId(), ReactionType.LIKE);
+            long dislikes = storyReactionRepository.countReactionsByType(story.getId(), ReactionType.DISLIKE);
+            return storyMapper.toStoryResponse(story, likes, dislikes);
+        }
+        return storyMapper.toStoryResponse(story);
     }
 
     @Override
@@ -62,12 +65,10 @@ public class StoryServiceImpl implements StoryService {
     }
 
 
-
     @Override
     public void hideStory(Integer storyId, Authentication connectedUser) {
         User user = ((User) connectedUser.getPrincipal());
-        boolean condition = (storyId != null);
-        if (condition) {
+        if (storyId != null) {
             Story story = repository.findById(storyId)
                     .orElseThrow(() -> new IllegalArgumentException("Story not found"));
             if (!Objects.equals(user.getId(), story.getOwner().getId())) {
@@ -85,7 +86,7 @@ public class StoryServiceImpl implements StoryService {
         Story story = repository.findById(storyId)
                 .orElseThrow(() -> new EntityNotFoundException("Story not found with id: " + storyId));
 
-        if (!Objects.equals(user.getId(), story.getOwner().getId())){
+        if (!Objects.equals(user.getId(), story.getOwner().getId())) {
             throw new IllegalArgumentException("You are not allowed to see this story");
         }
         // Calculate the number of likes and dislikes dynamically
@@ -158,7 +159,8 @@ public class StoryServiceImpl implements StoryService {
     }
 
 
-    public StoryResponse toggleReaction(Integer storyId, ReactionType reactionType, Authentication connectedUser) {
+    @Override
+    public StoryResponse toggleStoryReaction(Integer storyId, ReactionType reactionType, Authentication connectedUser) {
         User user = (User) connectedUser.getPrincipal();
 
         // Validate story existence
@@ -192,8 +194,12 @@ public class StoryServiceImpl implements StoryService {
         long likes = storyReactionRepository.countReactionsByType(story.getId(), ReactionType.LIKE);
         long dislikes = storyReactionRepository.countReactionsByType(story.getId(), ReactionType.DISLIKE);
 
+        story.setNumberOfLikes(likes);
+        story.setNumberOfDislikes(dislikes);
+        repository.save(story); // Update the story with the new counts of likes and dislikes
         return storyMapper.toStoryResponse(story, likes, dislikes);
     }
+
 
 
 }
