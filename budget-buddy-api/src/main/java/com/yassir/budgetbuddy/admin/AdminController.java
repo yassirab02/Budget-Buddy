@@ -1,7 +1,6 @@
 package com.yassir.budgetbuddy.admin;
 
 import com.yassir.budgetbuddy.common.PageResponse;
-import com.yassir.budgetbuddy.quotes.Quotes;
 import com.yassir.budgetbuddy.quotes.controller.QuotesRequest;
 import com.yassir.budgetbuddy.quotes.service.QuotesService;
 import com.yassir.budgetbuddy.story.controller.StoryResponse;

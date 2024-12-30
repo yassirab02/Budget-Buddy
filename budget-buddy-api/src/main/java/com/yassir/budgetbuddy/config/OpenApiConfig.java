@@ -16,7 +16,7 @@ import io.swagger.v3.oas.annotations.servers.Server;
                 contact = @Contact(
                         name = "Yassir",
                         email = "yassirabourial86@gmail.com",
-                        url = "https://budgetBuddy.com/contact"
+                        url = "https://budgetBuddy.onrender.com/contact"
                 ),
                 description = "OpenApi documentation for spring security",
                 title = "OpenApi specification -Yassir ",
@@ -30,11 +30,11 @@ import io.swagger.v3.oas.annotations.servers.Server;
         ),
         servers = {
                 @Server(
-                        description = "Local environment",
+                        description = "Local ENV",
                         url = "http://localhost:8088/api/v1"
                 ),
                 @Server(
-                        description = "Prod environment",
+                        description = "Prod ENV",
                         url = "http://prod-url/api/v1"
                 )
 

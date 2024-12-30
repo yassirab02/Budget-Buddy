@@ -3,10 +3,14 @@ spring:
     active: dev
   servlet:
     multipart:
-      max-file-size: 20MB
+      max-file-size: 50MB
+  main:
+    allow-bean-definition-overriding: true
+
 springdoc:
   default-produces-media-type: application/json
 
 server:
   servlet:
     context-path: /api/v1/  # This will be the base path for all the endpoints
+
