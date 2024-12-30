@@ -11,6 +11,8 @@ import { ActivateAccountComponent } from './pages/activate-account/activate-acco
 import {CodeInputModule} from 'angular-code-input';
 import { HomeComponent } from './pages/home/home.component';
 import { DashboardComponent } from './modules/dashboard/pages/dashboard/dashboard.component';
+import { FooterComponent } from './pages/footer/footer.component';
+import {NgOptimizedImage} from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -19,7 +21,8 @@ import { DashboardComponent } from './modules/dashboard/pages/dashboard/dashboar
     SignUpComponent,
     ActivateAccountComponent,
     HomeComponent,
-    DashboardComponent
+    DashboardComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
@@ -27,6 +30,7 @@ import { DashboardComponent } from './modules/dashboard/pages/dashboard/dashboar
     FormsModule,
     HttpClientModule,
     CodeInputModule,
+    NgOptimizedImage,
   ],
   providers: [
     provideHttpClient(withFetch()),

@@ -51,14 +51,11 @@
             class="w-full border border-gray-200 bg-white text-gray-900 placeholder:text-gray-400 rounded px-3 py-2"
             [(ngModel)]="authRequest.email"
           />
-
-          <input
-            type="password"
-            placeholder="Password"
+          <div
             class="w-full border border-gray-200 bg-white text-gray-900 placeholder:text-gray-400 rounded px-3 py-2"
-            [(ngModel)]="authRequest.password"
-          />
-
+          >
+            <p-password [(ngModel)]="authRequest.password" [toggleMask]="true"/>
+          </div>
           <div class="flex items-center justify-between">
             <a href="/forgot-password" class="text-sm text-green-500 hover:underline">Forgot password?</a>
           </div>
