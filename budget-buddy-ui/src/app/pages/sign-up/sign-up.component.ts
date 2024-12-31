@@ -13,6 +13,12 @@ export class SignUpComponent {
   registerRequest: RegistrationRequest = {email: '', firstname: '', lastname: '', password: ''};
   errorMsg: Array<string> = [];
 
+  passwordVisible = false;
+
+  togglePasswordVisibility() {
+    this.passwordVisible = !this.passwordVisible;
+  }
+
   constructor(
     private router: Router,
     private authService: AuthenticationService,

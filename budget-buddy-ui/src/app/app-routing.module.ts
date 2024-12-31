@@ -8,6 +8,10 @@ import {DashboardComponent} from './modules/dashboard/pages/dashboard/dashboard.
 
 const routes: Routes = [
   {
+    path: '',
+    component: HomeComponent
+  },
+  {
     path: 'home',
     component: HomeComponent
   },

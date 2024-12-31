@@ -37,7 +37,8 @@
             Create new account<span class="text-green-500">.</span>
           </h1>
           <p class="text-sm text-gray-600">
-            Already A Member? <button (click)="login()" class="text-green-500 hover:underline">Log In</button>
+            Already A Member?
+            <button (click)="login()" class="text-green-500 hover:underline">Log In</button>
           </p>
         </div>
 
@@ -47,15 +48,16 @@
               <input
                 type="text"
                 placeholder="First name"
-                class="w-full border border-gray-200 bg-white text-gray-900 placeholder:text-gray-400 rounded px-3 py-2"
+                class="w-full border border-gray-300 bg-white text-gray-900 placeholder:text-gray-400 rounded px-3 py-2"
                 [(ngModel)]="registerRequest.firstname"
+                autofocus
               />
             </div>
             <div class="flex-1">
               <input
                 type="text"
                 placeholder="Last name"
-                class="w-full border border-gray-200 bg-white text-gray-900 placeholder:text-gray-400 rounded px-3 py-2"
+                class="w-full border border-gray-300 bg-white text-gray-900 placeholder:text-gray-400 rounded px-3 py-2"
                 [(ngModel)]="registerRequest.lastname"
               />
             </div>
@@ -64,16 +66,26 @@
           <input
             type="email"
             placeholder="Email"
-            class="w-full border border-gray-200 bg-white text-gray-900 placeholder:text-gray-400 rounded px-3 py-2"
+            class="w-full border border-gray-300 bg-white text-gray-900 placeholder:text-gray-400 rounded px-3 py-2"
             [(ngModel)]="registerRequest.email"
           />
 
-          <input
-            type="password"
-            placeholder="••••••••"
-            class="w-full border border-gray-200 bg-white text-gray-900 placeholder:text-gray-400 rounded px-3 py-2"
-            [(ngModel)]="registerRequest.password"
-          />
+          <div class="relative">
+            <input
+              [type]="passwordVisible ? 'text' : 'password'"
+              placeholder="Password"
+              class="w-full border border-gray-300 bg-white text-gray-900 placeholder:text-gray-400 rounded px-3 py-2"
+              [(ngModel)]="registerRequest.password"
+            />
+            <button
+              type="button"
+              class="absolute right-2 top-2"
+              (click)="togglePasswordVisibility()"
+            >
+              <i [class]="passwordVisible ? 'fa fa-eye-slash' : 'fa fa-eye'" class="text-green-600"></i>
+            </button>
+          </div>
+
 
           <div class="flex gap-4 pt-4">
             <button

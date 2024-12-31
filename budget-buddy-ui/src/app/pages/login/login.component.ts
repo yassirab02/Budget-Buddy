@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {AuthenticationRequest} from '../../services/models/authentication-request';
 import {AuthenticationService} from '../../services/services/authentication.service';
 import {Router} from '@angular/router';
@@ -11,15 +11,20 @@ import {TokenService} from '../../services/token/token.service';
 })
 export class LoginComponent {
 
-    authRequest : AuthenticationRequest = {email: '', password: ''};
-    errorMsg: Array<string> = [];
+  authRequest: AuthenticationRequest = {email: '', password: ''};
+  errorMsg: Array<string> = [];
+  passwordVisible = false;
 
-    constructor(
-        private router: Router,
-        private authService: AuthenticationService,
-        private tokenService: TokenService,
-    ) {
-    }
+  togglePasswordVisibility() {
+    this.passwordVisible = !this.passwordVisible;
+  }
+
+  constructor(
+    private router: Router,
+    private authService: AuthenticationService,
+    private tokenService: TokenService,
+  ) {
+  }
 
   login() {
     this.errorMsg = []; // to always clear the error that displays in the first time
@@ -31,11 +36,11 @@ export class LoginComponent {
         this.tokenService.token = res.token as string;
         this.router.navigate(['dashboard']);
       },
-      error:(err) =>{
+      error: (err) => {
         console.log(err);
         if (err.error.validationErrors) {
           this.errorMsg = err.error.validationErrors;
-        }else {
+        } else {
           this.errorMsg.push(err.error.error);
         }
       }

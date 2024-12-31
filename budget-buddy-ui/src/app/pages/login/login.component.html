@@ -48,13 +48,24 @@
           <input
             type="email"
             placeholder="Email address"
-            class="w-full border border-gray-200 bg-white text-gray-900 placeholder:text-gray-400 rounded px-3 py-2"
+            class="w-full border border-gray-300 bg-white text-gray-900 placeholder:text-gray-400 rounded px-3 py-2"
             [(ngModel)]="authRequest.email"
+            autofocus
           />
-          <div
-            class="w-full border border-gray-200 bg-white text-gray-900 placeholder:text-gray-400 rounded px-3 py-2"
-          >
-            <p-password [(ngModel)]="authRequest.password" [toggleMask]="true"/>
+          <div class="relative">
+            <input
+              [type]="passwordVisible ? 'text' : 'password'"
+              placeholder="Password"
+              class="w-full border border-gray-300 bg-white text-gray-900 placeholder:text-gray-400 rounded px-3 py-2"
+              [(ngModel)]="authRequest.password"
+            />
+            <button
+              type="button"
+              class="absolute right-2 top-2"
+              (click)="togglePasswordVisibility()"
+            >
+              <i [class]="passwordVisible ? 'fa fa-eye-slash' : 'fa fa-eye'" class="text-green-600"></i>
+            </button>
           </div>
           <div class="flex items-center justify-between">
             <a href="/forgot-password" class="text-sm text-green-500 hover:underline">Forgot password?</a>

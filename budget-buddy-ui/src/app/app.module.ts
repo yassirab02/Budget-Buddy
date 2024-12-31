@@ -13,6 +13,9 @@ import { HomeComponent } from './pages/home/home.component';
 import { DashboardComponent } from './modules/dashboard/pages/dashboard/dashboard.component';
 import { FooterComponent } from './pages/footer/footer.component';
 import {NgOptimizedImage} from '@angular/common';
+import { NavbarComponent } from './pages/navbar/navbar.component';
+import { ErrorPageComponent } from './pages/error-page/error-page.component';
+import { HeroComponent } from './pages/hero/hero.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +25,10 @@ import {NgOptimizedImage} from '@angular/common';
     ActivateAccountComponent,
     HomeComponent,
     DashboardComponent,
-    FooterComponent
+    FooterComponent,
+    NavbarComponent,
+    ErrorPageComponent,
+    HeroComponent
   ],
   imports: [
     BrowserModule,

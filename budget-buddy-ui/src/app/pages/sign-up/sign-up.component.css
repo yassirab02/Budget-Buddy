@@ -1,0 +1,5 @@
+/* For inputs with focus, make the border light green */
+input:focus {
+  border-color: #16A34A; /* Green-600 color */
+  outline: none; /* Remove default focus outline */
+}
