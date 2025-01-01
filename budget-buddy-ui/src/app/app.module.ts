@@ -16,6 +16,8 @@ import {NgOptimizedImage} from '@angular/common';
 import { NavbarComponent } from './pages/navbar/navbar.component';
 import { ErrorPageComponent } from './pages/error-page/error-page.component';
 import { HeroComponent } from './pages/hero/hero.component';
+import { AboutComponent } from './pages/about/about.component';
+import { FeaturesComponent } from './pages/features/features.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +30,9 @@ import { HeroComponent } from './pages/hero/hero.component';
     FooterComponent,
     NavbarComponent,
     ErrorPageComponent,
-    HeroComponent
+    HeroComponent,
+    AboutComponent,
+    FeaturesComponent
   ],
   imports: [
     BrowserModule,

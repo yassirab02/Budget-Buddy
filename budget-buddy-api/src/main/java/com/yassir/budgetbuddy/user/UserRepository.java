@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User, Integer> {
 
-    Optional<User> findByEmail(String email);
+    User findByEmail(String email);
 
     @Query("SELECT u FROM User u JOIN u.roles r WHERE r.name <> 'ADMIN'")
     List<User> findAllUsers();

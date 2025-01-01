@@ -3,25 +3,24 @@ package com.yassir.budgetbuddy.user.service;
 import com.yassir.budgetbuddy.user.User;
 import com.yassir.budgetbuddy.user.UserRepository;
 import com.yassir.budgetbuddy.user.controller.ChangePasswordRequest;
-import com.yassir.budgetbuddy.wallet.Wallet;
-import com.yassir.budgetbuddy.wallet.repository.WalletRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.security.Principal;
-import java.util.List;
+import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
+    private static final int MAX_ATTEMPTS = 3;
+    private static final long LOCKOUT_DURATION = 120;
+
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
-    private final WalletRepository walletRepository;
 
     @Override
     public void changePassword(ChangePasswordRequest request, Principal connectedUser) {
@@ -48,6 +47,50 @@ public class UserServiceImpl implements UserService {
     @Override
     public BigDecimal getTotalBalance(User connectedUser) {
         return connectedUser.getTotalBalance();
+    }
+
+    @Override
+    public void loginFailed(String email) {
+        User user = userRepository.findByEmail(email);
+        if (user != null) {
+            int attempts = user.getLoginAttempts() + 1;
+            user.setLoginAttempts(attempts);
+            if (attempts >= MAX_ATTEMPTS) {
+                user.setLockoutTime(LocalDateTime.now());
+            }
+            userRepository.save(user);
+        }
+    }
+
+    @Override
+    public void loginSucceeded(String email) {
+        User user = userRepository.findByEmail(email);
+        if (user != null) {
+            user.setLoginAttempts(0);
+            user.setLockoutTime(null);
+            userRepository.save(user);
+        }
+    }
+
+    @Override
+    public boolean isLocked(String email) {
+        User user = userRepository.findByEmail(email);
+        return user != null && user.getLockoutTime() != null &&
+                user.getLockoutTime().plusSeconds(LOCKOUT_DURATION).isAfter(LocalDateTime.now());
+    }
+
+
+    @Override
+    public Long getRemainingLockoutTime(String email) {
+        User user = userRepository.findByEmail(email);
+        if (user != null && user.getLockoutTime() != null) {
+            LocalDateTime lockoutEndTime = user.getLockoutTime().plusSeconds(LOCKOUT_DURATION);
+            LocalDateTime now = LocalDateTime.now();
+            if (lockoutEndTime.isAfter(now)) {
+                return java.time.Duration.between(now, lockoutEndTime).getSeconds();
+            }
+        }
+        return 0L;
     }
 
 

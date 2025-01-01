@@ -51,6 +51,10 @@ public class User implements UserDetails , Principal {
     @LastModifiedDate
     @Column(insertable = false)
     private LocalDateTime lastModifiedDate;
+    protected int loginAttempts;
+    private int CountForgetPassword = 0;
+    protected LocalDateTime lockoutTime;
+    protected boolean passwordChanged = false;
 
     private BigDecimal totalBalance = BigDecimal.ZERO;
 
