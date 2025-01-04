@@ -5,6 +5,7 @@ import {SignUpComponent} from './pages/sign-up/sign-up.component';
 import {ActivateAccountComponent} from './pages/activate-account/activate-account.component';
 import {HomeComponent} from './pages/home/home.component';
 import {DashboardComponent} from './modules/dashboard/pages/dashboard/dashboard.component';
+import {ErrorPageComponent} from './pages/error-page/error-page.component';
 
 const routes: Routes = [
   {

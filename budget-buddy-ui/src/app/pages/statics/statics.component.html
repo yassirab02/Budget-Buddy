@@ -1,0 +1,31 @@
+<section class="py-28 bg-white relative min-h-[580px]">
+  <!-- Gradient background -->
+  <div
+    class="absolute inset-0 z-0 blur-xl"
+    style="background: linear-gradient(
+      143.6deg,
+      rgba(0, 255, 0, 0.2) 20.79%,
+      rgba(144, 238, 144, 0.26) 40.92%,
+      rgba(255, 255, 255, 0) 70.35%
+    );"
+  ></div>
+
+  <div class="max-w-screen-xl mx-auto px-4 md:px-8">
+    <div class="max-w-2xl mx-auto text-center">
+      <h3 class="text-gray-900 text-3xl font-semibold sm:text-4xl">
+        Thousands of users trust us with their finances
+      </h3>
+      <p class="mt-3 text-gray-600">
+        BudgetBuddy simplifies budgeting and empowers you to take control of your spending, track your expenses, and save more with ease.
+      </p>
+    </div>
+    <div class="mt-12">
+      <ul class="flex flex-col gap-4 items-center justify-center sm:flex-row">
+        <li *ngFor="let item of stats" class="w-full text-center bg-gray-800 px-12 py-4 rounded-lg sm:w-auto">
+          <h4 class="text-4xl text-white font-semibold">{{ item.data }}</h4>
+          <p class="mt-3 text-gray-400 font-medium">{{ item.title }}</p>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>

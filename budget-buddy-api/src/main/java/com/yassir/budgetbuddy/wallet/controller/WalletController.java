@@ -4,7 +4,6 @@ package com.yassir.budgetbuddy.wallet.controller;
 import com.yassir.budgetbuddy.common.PageResponse;
 import com.yassir.budgetbuddy.user.User;
 import com.yassir.budgetbuddy.user.service.UserService;
-import com.yassir.budgetbuddy.wallet.WalletResponse;
 import com.yassir.budgetbuddy.wallet.service.WalletService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;

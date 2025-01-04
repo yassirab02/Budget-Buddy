@@ -2,7 +2,7 @@ package com.yassir.budgetbuddy.wallet.service;
 
 
 import com.yassir.budgetbuddy.common.PageResponse;
-import com.yassir.budgetbuddy.wallet.WalletResponse;
+import com.yassir.budgetbuddy.wallet.controller.WalletResponse;
 import com.yassir.budgetbuddy.wallet.controller.WalletRequest;
 import jakarta.validation.Valid;
 import org.springframework.security.core.Authentication;

@@ -3,7 +3,7 @@ package com.yassir.budgetbuddy.wallet.service;
 import com.yassir.budgetbuddy.common.PageResponse;
 import com.yassir.budgetbuddy.user.User;
 import com.yassir.budgetbuddy.user.UserRepository;
-import com.yassir.budgetbuddy.wallet.WalletResponse;
+import com.yassir.budgetbuddy.wallet.controller.WalletResponse;
 import com.yassir.budgetbuddy.wallet.repository.WalletSpecification;
 import com.yassir.budgetbuddy.wallet.controller.WalletRequest;
 import com.yassir.budgetbuddy.wallet.Wallet;
@@ -20,7 +20,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 @Service

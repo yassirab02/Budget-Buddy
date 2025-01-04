@@ -1,4 +1,4 @@
-package com.yassir.budgetbuddy.wallet;
+package com.yassir.budgetbuddy.wallet.controller;
 
 import com.yassir.budgetbuddy.expenses.controller.ExpensesResponse;
 import com.yassir.budgetbuddy.income.controller.IncomeResponse;

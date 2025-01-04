@@ -5,12 +5,14 @@ import com.yassir.budgetbuddy.user.UserRepository;
 import com.yassir.budgetbuddy.user.controller.ChangePasswordRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.security.Principal;
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -51,8 +53,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void loginFailed(String email) {
-        User user = userRepository.findByEmail(email);
-        if (user != null) {
+        Optional<User> userOpt = userRepository.findByEmail(email);
+        if (userOpt.isPresent()) {
+            User user = userOpt.get();
             int attempts = user.getLoginAttempts() + 1;
             user.setLoginAttempts(attempts);
             if (attempts >= MAX_ATTEMPTS) {
@@ -64,34 +67,53 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void loginSucceeded(String email) {
-        User user = userRepository.findByEmail(email);
-        if (user != null) {
+        Optional<User> userOpt = userRepository.findByEmail(email); // This returns an Optional<User>
+        if (userOpt.isPresent()) {
+            User user = userOpt.get();  // Get the User object from Optional
             user.setLoginAttempts(0);
             user.setLockoutTime(null);
-            userRepository.save(user);
+            userRepository.save(user);  // Save the User object
         }
     }
 
     @Override
     public boolean isLocked(String email) {
-        User user = userRepository.findByEmail(email);
-        return user != null && user.getLockoutTime() != null &&
-                user.getLockoutTime().plusSeconds(LOCKOUT_DURATION).isAfter(LocalDateTime.now());
+        Optional<User> userOpt = userRepository.findByEmail(email);
+        if (userOpt.isPresent()) {
+            User user = userOpt.get();
+            return user.getLockoutTime() != null &&
+                    user.getLockoutTime().plusSeconds(LOCKOUT_DURATION).isAfter(LocalDateTime.now());
+        }
+        return false;
     }
 
 
     @Override
     public Long getRemainingLockoutTime(String email) {
-        User user = userRepository.findByEmail(email);
-        if (user != null && user.getLockoutTime() != null) {
-            LocalDateTime lockoutEndTime = user.getLockoutTime().plusSeconds(LOCKOUT_DURATION);
-            LocalDateTime now = LocalDateTime.now();
-            if (lockoutEndTime.isAfter(now)) {
-                return java.time.Duration.between(now, lockoutEndTime).getSeconds();
+        Optional<User> userOpt = userRepository.findByEmail(email);
+        if (userOpt.isPresent()) {
+            User user = userOpt.get();
+            if (user.getLockoutTime() != null) {
+                LocalDateTime lockoutEndTime = user.getLockoutTime().plusSeconds(LOCKOUT_DURATION);
+                LocalDateTime now = LocalDateTime.now();
+                if (lockoutEndTime.isAfter(now)) {
+                    return java.time.Duration.between(now, lockoutEndTime).getSeconds();
+                }
             }
         }
-        return 0L;
+        return 0L;  // Return 0 if user is not found or no lockout time
     }
 
+    @Override
+    public Optional<User> getConnectedUser(Principal connectedUser) {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal != null && principal instanceof User) {
+            return (Optional<User>) principal;
+        } else if (principal != null && principal instanceof String) {
+            return userRepository.findByEmail(principal.toString());
+        } else {
+            return Optional.empty();
+        }
+    }
 
 }

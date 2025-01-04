@@ -28,6 +28,7 @@
     "express": "^4.18.2",
     "gsap": "^3.12.5",
     "ng-openapi-gen": "^0.52.0",
+    "ngx-countup": "^13.2.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.10"

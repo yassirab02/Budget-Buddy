@@ -3,14 +3,13 @@ import { BrowserModule, provideClientHydration } from '@angular/platform-browser
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule, provideHttpClient, withFetch} from '@angular/common/http';
+import { HttpClientModule, provideHttpClient, withFetch} from '@angular/common/http';
 import { LoginComponent } from './pages/login/login.component';
 import { SignUpComponent } from './pages/sign-up/sign-up.component';
 import {FormsModule} from '@angular/forms';
 import { ActivateAccountComponent } from './pages/activate-account/activate-account.component';
 import {CodeInputModule} from 'angular-code-input';
 import { HomeComponent } from './pages/home/home.component';
-import { DashboardComponent } from './modules/dashboard/pages/dashboard/dashboard.component';
 import { FooterComponent } from './pages/footer/footer.component';
 import {NgOptimizedImage} from '@angular/common';
 import { NavbarComponent } from './pages/navbar/navbar.component';
@@ -18,6 +17,8 @@ import { ErrorPageComponent } from './pages/error-page/error-page.component';
 import { HeroComponent } from './pages/hero/hero.component';
 import { AboutComponent } from './pages/about/about.component';
 import { FeaturesComponent } from './pages/features/features.component';
+import { StaticsComponent } from './pages/statics/statics.component';
+import {DashboardModule} from './modules/dashboard/dashboard.module';
 
 @NgModule({
   declarations: [
@@ -26,13 +27,13 @@ import { FeaturesComponent } from './pages/features/features.component';
     SignUpComponent,
     ActivateAccountComponent,
     HomeComponent,
-    DashboardComponent,
     FooterComponent,
     NavbarComponent,
     ErrorPageComponent,
     HeroComponent,
     AboutComponent,
-    FeaturesComponent
+    FeaturesComponent,
+    StaticsComponent
   ],
   imports: [
     BrowserModule,
@@ -41,6 +42,7 @@ import { FeaturesComponent } from './pages/features/features.component';
     HttpClientModule,
     CodeInputModule,
     NgOptimizedImage,
+    DashboardModule,
   ],
   providers: [
     provideHttpClient(withFetch()),

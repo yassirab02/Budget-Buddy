@@ -2,10 +2,8 @@ package com.yassir.budgetbuddy.wallet.controller;
 
 import com.yassir.budgetbuddy.category.bean.CurrencyType;
 import com.yassir.budgetbuddy.expenses.controller.ExpensesResponse;
-import com.yassir.budgetbuddy.income.Income;
 import com.yassir.budgetbuddy.income.controller.IncomeResponse;
 import com.yassir.budgetbuddy.wallet.Wallet;
-import com.yassir.budgetbuddy.wallet.WalletResponse;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

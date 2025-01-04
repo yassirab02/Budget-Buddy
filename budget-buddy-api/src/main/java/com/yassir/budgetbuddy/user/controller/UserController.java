@@ -1,11 +1,13 @@
 package com.yassir.budgetbuddy.user.controller;
 
+import com.yassir.budgetbuddy.user.User;
 import com.yassir.budgetbuddy.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/user")

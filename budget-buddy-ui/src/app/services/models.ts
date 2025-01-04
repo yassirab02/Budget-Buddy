@@ -35,5 +35,6 @@ export { StoryRequest } from './models/story-request';
 export { StoryResponse } from './models/story-response';
 export { TransactionRequest } from './models/transaction-request';
 export { TransactionResponse } from './models/transaction-response';
+export { UserResponse } from './models/user-response';
 export { WalletRequest } from './models/wallet-request';
 export { WalletResponse } from './models/wallet-response';

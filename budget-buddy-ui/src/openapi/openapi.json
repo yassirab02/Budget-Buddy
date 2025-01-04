@@ -1839,6 +1839,26 @@
         }
       }
     },
+    "/auth/connected-user": {
+      "get": {
+        "tags": [
+          "Authentication"
+        ],
+        "operationId": "getConnectedUser",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/auth/activate-account": {
       "get": {
         "tags": [
@@ -3248,6 +3268,27 @@
           },
           "last": {
             "type": "boolean"
+          }
+        }
+      },
+      "UserResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "email": {
+            "type": "string"
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string"
           }
         }
       }

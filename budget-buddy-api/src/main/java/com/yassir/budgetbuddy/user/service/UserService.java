@@ -2,8 +2,11 @@ package com.yassir.budgetbuddy.user.service;
 
 import com.yassir.budgetbuddy.user.User;
 import com.yassir.budgetbuddy.user.controller.ChangePasswordRequest;
+import org.springframework.security.core.Authentication;
+
 import java.math.BigDecimal;
 import java.security.Principal;
+import java.util.Optional;
 
 public interface UserService {
 
@@ -18,4 +21,6 @@ public interface UserService {
     boolean isLocked(String email);
 
     Long getRemainingLockoutTime(String email);
+
+    Optional<User> getConnectedUser(Principal connectedUser);
 }
