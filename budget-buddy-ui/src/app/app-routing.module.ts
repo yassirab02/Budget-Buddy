@@ -6,6 +6,7 @@ import {ActivateAccountComponent} from './pages/activate-account/activate-accoun
 import {HomeComponent} from './pages/home/home.component';
 import {DashboardComponent} from './modules/dashboard/pages/dashboard/dashboard.component';
 import {ErrorPageComponent} from './pages/error-page/error-page.component';
+import {authGuard} from './services/guard/auth.guard';
 
 const routes: Routes = [
   {
@@ -30,7 +31,9 @@ const routes: Routes = [
   },
   {
     path: 'dashboard',
-    component: DashboardComponent
+    loadChildren: () => import('./modules/dashboard/dashboard.module').then(m => m.DashboardModule),
+    canActivate: [authGuard]
+
   },
 ];
 

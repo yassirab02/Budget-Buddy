@@ -19,6 +19,9 @@ import { AboutComponent } from './pages/about/about.component';
 import { FeaturesComponent } from './pages/features/features.component';
 import { StaticsComponent } from './pages/statics/statics.component';
 import {DashboardModule} from './modules/dashboard/dashboard.module';
+import {MatButtonModule} from '@angular/material/button';
+import {MatIconModule} from '@angular/material/icon';
+import { NewsLetterComponent } from './pages/news-letter/news-letter.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +36,8 @@ import {DashboardModule} from './modules/dashboard/dashboard.module';
     HeroComponent,
     AboutComponent,
     FeaturesComponent,
-    StaticsComponent
+    StaticsComponent,
+    NewsLetterComponent
   ],
   imports: [
     BrowserModule,

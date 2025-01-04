@@ -33,6 +33,7 @@
             "assets": [
               "src/assets",
               "src/favicon.ico",
+              "src/assets/icons/icons.svg",
               {
                 "glob": "**/*",
                 "input": "public"
