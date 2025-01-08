@@ -26,4 +26,13 @@ public interface IncomeRepository extends JpaRepository<Income,Integer> , JpaSpe
             AND i.wallet.id = :integer
             """)
     Optional<Income> findByNameAndWalletId(@NotNull(message = "Income name cannot be null") @NotEmpty(message = "Income name cannot be empty") String name, @NotNull(message = "Wallet ID is required") Integer integer);
+
+    @Query("""
+        SELECT COALESCE(SUM(i.amount), 0) FROM Income i
+        WHERE i.wallet.owner.id = :id
+        AND FUNCTION('MONTH', i.date) = :month
+        AND FUNCTION('YEAR', i.date) = :year
+        """)
+    Double getTotalIncomeForUserAndMonth(@Param("id") Integer id, @Param("month") Integer month, @Param("year") Integer year);
+
 }

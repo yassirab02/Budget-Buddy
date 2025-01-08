@@ -1,0 +1,15 @@
+.layout {
+  display: flex;
+  height: 100vh; /* Make the layout take up full viewport height */
+}
+
+app-side-bar {
+  flex: 0 0 auto; /* Sidebar takes its natural width */
+  height: 100%; /* Ensure the sidebar height is 100% */
+}
+
+.content {
+  flex: 1; /* Content takes the remaining space */
+  height: 100%; /* Ensure the content height is 100% */
+  overflow: auto; /* If the content overflows, it will be scrollable */
+}

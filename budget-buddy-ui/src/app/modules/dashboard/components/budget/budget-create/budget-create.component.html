@@ -1,0 +1,123 @@
+<!-- budget-form.component.html -->
+<div class="min-h-screen bg-green-50 flex items-center justify-center p-4">
+  <div class="w-full max-w-2xl bg-white rounded-lg shadow-xl p-8">
+    <h2 class="text-3xl font-bold text-green-700 mb-6">Create New Budget</h2>
+    <div class="mt-12 mx-4 px-4 rounded-md border-l-4 border-red-500 bg-red-50 md:max-w-2xl md:mx-auto"
+         *ngIf="errorMsg.length">
+      <div class="flex justify-between py-3">
+        <div class="flex">
+          <div>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-red-500" viewBox="0 0 20 20"
+                 fill="currentColor">
+              <path fill-rule="evenodd"
+                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                    clip-rule="evenodd"/>
+            </svg>
+          </div>
+          <div class="self-center ml-3">
+        <span class="text-red-600 font-semibold">
+          Error
+        </span>
+            <p class="text-red-600 mt-1" *ngFor="let msg of errorMsg">{{ msg }}</p>
+          </div>
+        </div>
+        <button class="self-start text-red-500" (click)="closeError()">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd"
+                  d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                  clip-rule="evenodd"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="space-y-6">
+      <div class="col-3">
+        <img class="rounded-1" width="100%" height="100%" [src]=" selectedPicture || 'https://source.unsplash.com/user/c_v_r/1900x800'" alt="">
+        <div class="mt-2">
+          <label for="name">Budget Cover </label>
+
+          <input
+            (change)="onFileSelected($event)"
+            class="form-control"
+            type="file"
+            id="formFile"
+            accept="image/*"
+          >
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="name">Budget Name</label>
+        <input type="text" id="name" placeholder="Enter budget name"
+               class="block  mt-2 w-full placeholder-gray-400/70 rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-gray-700 focus:border-green-400 focus:outline-none focus:ring focus:ring-green-300 focus:ring-opacity-40 "
+               [(ngModel)]="budgetRequest.name"
+               />
+
+      </div>
+
+        <div>
+          <label class="text-gray-600">
+            Amount
+          </label>
+          <div class="relative mt-2 w-full text-gray-500">
+        <span class="h-6 text-gray-400 absolute left-3 inset-y-0 my-auto">
+            &#x24;
+        </span>
+            <input type="number" placeholder="0.00"
+                   class="w-full pl-8 pr-16 py-2 appearance-none bg-transparent outline-none border focus:border-green-600 shadow-sm rounded-lg"
+                   [(ngModel)]="budgetRequest.amount"
+
+            />
+          </div>
+        </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="form-group">
+          <label for="limitAmount">Limit Amount</label>
+          <div class="relative mt-2 max-w-xs text-gray-500">
+        <span class="h-6 text-gray-400 absolute left-3 inset-y-0 my-auto">
+            &#x24;
+        </span>
+            <input type="number" placeholder="0.00"
+                   id="limitAmount"
+                   class="w-full pl-8 pr-16 py-2 appearance-none bg-transparent outline-none border focus:border-green-600 shadow-sm rounded-lg"
+                   [(ngModel)]="budgetRequest.limitAmount"
+            />
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="targetAmount">Target Amount</label>
+          <div class="relative mt-2 max-w-xs text-gray-500">
+        <span class="h-6 text-gray-400 absolute left-3 inset-y-0 my-auto">
+            &#x24;
+        </span>
+            <input type="number" placeholder="0.00"
+                   id="targetAmount"
+                   class="w-full pl-8 pr-16 py-2 appearance-none bg-transparent outline-none border focus:border-green-600 shadow-sm rounded-lg"
+                   [(ngModel)]="budgetRequest.targetAmount"
+            />
+          </div>
+        </div>
+
+      </div>
+      <div class="form-group">
+        <label for="description">Description</label>
+        <textarea
+          id="description"
+          name="description"
+          rows="4"
+          class="block w-full p-3 text-sm border border-gray-300 rounded-lg shadow-sm focus:ring-green-500 focus:border-green-500"
+          placeholder="Enter your description here..."
+          [(ngModel)]="budgetRequest.description"
+        ></textarea>
+      </div>
+      <button
+        type="submit"
+        class="w-full bg-green-600 hover:bg-green-700 text-white py-2 rounded-lg"
+        (click)="saveBudget()"
+      >
+        Create Budget
+      </button>
+    </div>
+  </div>
+</div>
+

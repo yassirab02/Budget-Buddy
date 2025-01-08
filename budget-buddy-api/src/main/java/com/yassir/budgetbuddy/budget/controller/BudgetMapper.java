@@ -1,10 +1,11 @@
 package com.yassir.budgetbuddy.budget.controller;
 
 import com.yassir.budgetbuddy.budget.Budget;
-import com.yassir.budgetbuddy.expenses.repository.ExpensesRepository;
 import com.yassir.budgetbuddy.file.FileUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.math.BigDecimal;
 
 
 @Service
@@ -19,12 +20,12 @@ public class BudgetMapper {
                 .amount(request.amount())
                 .targetAmount(request.targetAmount())
                 .limitAmount(request.limitAmount())
-                .startDate(request.startDate())
-                .endDate(request.endDate())
                 .build();
     }
 
     public BudgetResponse toBudgetResponse(Budget budget) {
+        BigDecimal usedAmount = budget.getUsedAmount();
+        BigDecimal remainingAmount = budget.getRemainingAmount();
         return BudgetResponse.builder()
                 .id(budget.getId())
                 .name(budget.getName())
@@ -32,12 +33,11 @@ public class BudgetMapper {
                 .amount(budget.getAmount())
                 .targetAmount(budget.getTargetAmount())
                 .limitAmount(budget.getLimitAmount())
-                .startDate(budget.getStartDate())
-                .endDate(budget.getEndDate())
                 .budgetCover(FileUtils.readFileFromLocation(budget.getBudgetCover()))
+                .usedAmount(usedAmount)  // Added dynamic calculation of usedAmount
+                .remainingAmount(remainingAmount)  // Added dynamic calculation of remainingAmount
                 .owner(budget.getOwner().fullName())
                 .build();
     }
-
 
 }

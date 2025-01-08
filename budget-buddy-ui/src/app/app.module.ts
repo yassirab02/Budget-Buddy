@@ -3,7 +3,7 @@ import { BrowserModule, provideClientHydration } from '@angular/platform-browser
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HttpClientModule, provideHttpClient, withFetch} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from '@angular/common/http';
 import { LoginComponent } from './pages/login/login.component';
 import { SignUpComponent } from './pages/sign-up/sign-up.component';
 import {FormsModule} from '@angular/forms';
@@ -19,9 +19,9 @@ import { AboutComponent } from './pages/about/about.component';
 import { FeaturesComponent } from './pages/features/features.component';
 import { StaticsComponent } from './pages/statics/statics.component';
 import {DashboardModule} from './modules/dashboard/dashboard.module';
-import {MatButtonModule} from '@angular/material/button';
-import {MatIconModule} from '@angular/material/icon';
 import { NewsLetterComponent } from './pages/news-letter/news-letter.component';
+import {HttpTokenInterceptor} from './services/interceptor/http-token.interceptor';
+import { WorkExplainComponent } from './pages/work-explain/work-explain.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +37,8 @@ import { NewsLetterComponent } from './pages/news-letter/news-letter.component';
     AboutComponent,
     FeaturesComponent,
     StaticsComponent,
-    NewsLetterComponent
+    NewsLetterComponent,
+    WorkExplainComponent
   ],
   imports: [
     BrowserModule,
@@ -49,7 +50,10 @@ import { NewsLetterComponent } from './pages/news-letter/news-letter.component';
     DashboardModule,
   ],
   providers: [
-    provideHttpClient(withFetch()),
+    HttpClient,
+    { provide: HTTP_INTERCEPTORS,
+      useClass: HttpTokenInterceptor,
+      multi: true }
   ],
   bootstrap: [AppComponent]
 })

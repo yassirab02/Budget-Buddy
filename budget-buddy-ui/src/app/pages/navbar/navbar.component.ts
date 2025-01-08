@@ -11,7 +11,7 @@ export class NavbarComponent {
   navigation = [
     { title: 'Home', path: '/home' },
     { title: 'Features', path: '/features' },
-    { title: 'Pricing', path: '/pricing' },
+    { title: 'How it works', path: '/works' },
     { title: 'About', path: '/about' },
   ];
 

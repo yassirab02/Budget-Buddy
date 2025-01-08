@@ -2,7 +2,6 @@ package com.yassir.budgetbuddy.report.service;
 
 import com.yassir.budgetbuddy.common.PageResponse;
 import com.yassir.budgetbuddy.debt.Debt;
-import com.yassir.budgetbuddy.debt.controller.DebtResponse;
 import com.yassir.budgetbuddy.debt.repository.DebtRepository;
 import com.yassir.budgetbuddy.email.EmailService;
 import com.yassir.budgetbuddy.email.EmailTemplateName;

@@ -9,6 +9,4 @@ import {AfterViewInit, Component, Inject, PLATFORM_ID} from '@angular/core';
 })
 export class AppComponent {
   title = 'budget-buddy-ui';
-
-
 }

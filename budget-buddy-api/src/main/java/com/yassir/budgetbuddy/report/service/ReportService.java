@@ -2,12 +2,10 @@ package com.yassir.budgetbuddy.report.service;
 
 
 import com.yassir.budgetbuddy.common.PageResponse;
-import com.yassir.budgetbuddy.report.Report;
 import com.yassir.budgetbuddy.report.controller.ReportResponse;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.Authentication;
 
-import java.util.List;
 
 public interface ReportService {
 

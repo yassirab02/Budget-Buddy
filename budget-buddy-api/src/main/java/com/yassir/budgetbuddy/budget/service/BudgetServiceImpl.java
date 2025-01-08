@@ -7,10 +7,8 @@ import com.yassir.budgetbuddy.budget.controller.BudgetMapper;
 import com.yassir.budgetbuddy.budget.controller.BudgetRequest;
 import com.yassir.budgetbuddy.budget.controller.BudgetResponse;
 import com.yassir.budgetbuddy.common.PageResponse;
-import com.yassir.budgetbuddy.expenses.Expenses;
 import com.yassir.budgetbuddy.file.FileStorageService;
 import com.yassir.budgetbuddy.user.User;
-import com.yassir.budgetbuddy.wallet.Wallet;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -91,5 +89,6 @@ public class BudgetServiceImpl implements BudgetService {
                 .orElseThrow(() -> new EntityNotFoundException("No Budget found with the Id : " + budgetId));
         return budgetMapper.toBudgetResponse(budget);
     }
+
 
 }

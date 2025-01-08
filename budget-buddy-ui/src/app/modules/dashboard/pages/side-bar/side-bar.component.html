@@ -1,0 +1,138 @@
+<aside [class.hidden]="!isSidebarVisible"
+       class="flex flex-col md:w-64 w-36 h-screen px-5 py-5 overflow-y-auto bg-green-200 border-r border-green-200 rtl:border-r-0 rtl:border-l relative overflow-y-auto scrollbar-hide md:block">
+
+  <!-- Logo -->
+  <a href="/dashboard">
+    <img class="h-24" src="../../../../../assets/Budget-face%20logo.png" alt="Budget Logo">
+  </a>
+
+  <!-- Dropdown Toggle Button (Placed at the top right corner) -->
+  <button (click)="toggleDropdown()"
+          class="absolute top-5 right-5 z-10 block p-2 text-gray-700 bg-green-200 border border-green-400 rounded-md focus:border-green-500 focus:ring-opacity-40 focus:ring-green-300 focus:ring focus:outline-none">
+    <svg class="w-5 h-5 text-gray-800" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+      <path fill-rule="evenodd"
+            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+            clip-rule="evenodd"/>
+    </svg>
+  </button>
+
+  <!-- Dropdown Menu -->
+  <div *ngIf="isOpen"
+       class="absolute left-5 top-16 z-20 w-48 py-2 bg-green-400 rounded-md shadow-xl">
+    <a href="/profile"
+       class="block px-4 py-3 text-sm text-gray-600 capitalize transition-colors rounded-lg duration-300 transform hover:bg-gray-100">
+      <i class="fa-solid fa-user"></i>
+      Your Profile
+    </a>
+    <a href="/contact"
+       class="block px-4 py-3 text-sm text-gray-600 capitalize transition-colors rounded-lg duration-300 transform hover:bg-gray-100">
+      <i class="fa-solid fa-circle-question"></i>
+      Help
+    </a>
+    <a
+      class="flex items-center px-3 py-2 text-gray-600 transition-colors duration-300 transform rounded-lg hover:bg-gray-100 hover:text-gray-700"
+      href="/setting">
+      <i class="fa-solid fa-sliders"></i>
+      <span class="mx-2 text-sm font-medium">Setting</span>
+    </a>
+    <button (click)="logout()"
+            class="flex items-center px-3 py-2 text-gray-600 transition-colors duration-300 transform rounded-lg hover:bg-gray-100 hover:text-red-700">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+           stroke="currentColor" class="w-5 h-5">
+        <path stroke-linecap="round" stroke-linejoin="round"
+              d="M9 12h12m-12-4l-4 4 4 4M5 4v16a2 2 0 002 2h10a2 2 0 002-2V4a2 2 0 00-2-2H7a2 2 0 00-2 2z"/>
+      </svg>
+      <span class="mx-2 text-sm font-medium">Log out</span>
+    </button>
+  </div>
+
+  <div class="flex flex-col justify-between flex-1 mt-6">
+    <nav class="-mx-0 space-y-3">
+      <div class="space-y-3">
+        <label class="px-3 text-xs text-gray-500 uppercase">analytics</label>
+
+        <a
+          class="flex items-center px-3 py-2 text-gray-600 transition-colors duration-300 transform rounded-lg hover:bg-gray-100 hover:text-gray-700"
+          href="/dashboard">
+          <i class="fa-solid fa-chart-column"></i>
+          <span class="mx-2 text-sm font-medium">Dashboard</span>
+        </a>
+
+        <a
+          class="flex items-center px-3 py-2 text-gray-600 transition-colors duration-300 transform rounded-lg hover:bg-gray-100 hover:text-gray-700"
+          href="/stories">
+          <i class="fa-solid fa-comments-dollar"></i>
+          <span class="mx-2 text-sm font-medium">Stories</span>
+        </a>
+
+        <a
+          class="flex items-center px-3 py-2 text-gray-600 transition-colors duration-300 transform rounded-lg hover:bg-gray-100 hover:text-gray-700"
+          href="/report">
+          <i class="fa-solid fa-file-contract"></i>
+          <span class="mx-2 text-sm font-medium">Reports</span>
+        </a>
+      </div>
+
+      <div class="space-y-3">
+        <label class="px-3 text-xs text-gray-500 uppercase">content</label>
+
+        <a
+          class="flex items-center px-3 py-2 text-gray-600 transition-colors duration-300 transform rounded-lg hover:bg-gray-100 hover:text-gray-700"
+          href="/wallet">
+          <i class="fa-solid fa-wallet"></i>
+          <span class="mx-2 text-sm font-medium">Wallets</span>
+        </a>
+
+        <a
+          class="flex items-center px-3 py-2 text-gray-600 transition-colors duration-300 transform rounded-lg hover:bg-gray-100 hover:text-gray-700"
+          href="/budget">
+          <i class="fa-solid fa-piggy-bank"></i>
+          <span class="mx-2 text-sm font-medium">Budgets</span>
+        </a>
+
+        <a
+          class="flex items-center px-3 py-2 text-gray-600 transition-colors duration-300 transform rounded-lg hover:bg-gray-100 hover:text-gray-700"
+          href="/expense">
+          <i class="fa-solid fa-coins"></i>
+          <span class="mx-2 text-sm font-medium">Expenses</span>
+        </a>
+
+        <a
+          class="flex items-center px-3 py-2 text-gray-600 transition-colors duration-300 transform rounded-lg hover:bg-gray-100 hover:text-gray-700"
+          href="/income">
+          <i class="fa-solid fa-credit-card"></i>
+          <span class="mx-2 text-sm font-medium">Incomes</span>
+        </a>
+
+        <a
+          class="flex items-center px-3 py-2 text-gray-600 transition-colors duration-300 transform rounded-lg hover:bg-gray-100 hover:text-gray-700"
+          href="/debt">
+          <i class="fa-solid fa-jug-detergent"></i>
+          <span class="mx-2 text-sm font-medium">Debts</span>
+        </a>
+
+        <a
+          class="flex items-center px-3 py-2 text-gray-600 transition-colors duration-300 transform rounded-lg hover:bg-gray-100 hover:text-gray-700"
+          href="/goal">
+          <i class="fa-solid fa-bullseye"></i>
+          <span class="mx-2 text-sm font-medium">Goals</span>
+        </a>
+
+        <a
+          class="flex items-center px-3 py-2 text-gray-600 transition-colors duration-300 transform rounded-lg hover:bg-gray-100 hover:text-gray-700"
+          href="/transactions">
+          <i class="fa-solid fa-arrow-right-arrow-left"></i>
+          <span class="mx-2 text-sm font-medium">Transactions</span>
+        </a>
+      </div>
+    </nav>
+  </div>
+</aside>
+
+<!-- Hamburger Menu (Mobile) -->
+<div class="md:hidden fixed top-0 left-0 z-30">
+  <button (click)="toggleSidebar()"
+          class="text-green-600 p-4">
+      <i class="fa-solid fa-bars w-6 h-6"></i>
+  </button>
+</div>

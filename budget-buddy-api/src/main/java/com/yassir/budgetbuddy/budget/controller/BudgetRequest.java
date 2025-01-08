@@ -4,6 +4,7 @@ import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public record BudgetRequest(
@@ -18,7 +19,7 @@ public record BudgetRequest(
 
         @NotNull(message = "Amount is required")
         @DecimalMin(value = "0.0", inclusive = false, message = "Amount must be greater than 0")
-        Double amount,
+        BigDecimal amount,
 
         @NotNull(message = "Target amount is required")
         @DecimalMin(value = "0.0", inclusive = false, message = "Target amount must be greater than 0")
@@ -26,17 +27,6 @@ public record BudgetRequest(
 
         @NotNull(message = "Limit amount is required")
         @DecimalMin(value = "0.0", inclusive = false, message = "Limit amount must be greater than 0")
-        Double limitAmount,
-
-        @NotNull(message = "Start date is required")
-        LocalDate startDate,
-
-        @NotNull(message = "End date is required")
-        LocalDate endDate,
-
-        String budgetCover, // Optional field for budget cover image
-
-        @NotNull(message = "Owner ID is required")
-        Integer ownerId
+        Double limitAmount
 ) {
 }

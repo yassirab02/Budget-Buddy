@@ -47,13 +47,6 @@ public class BudgetController {
         return ResponseEntity.ok(service.findAllBudgetsByOwner(page, size, connectedUser));
     }
 
-    @GetMapping("/{budget-id}")
-    public ResponseEntity<BudgetResponse> findBudgetById(
-            @PathVariable("budget-id") Integer budgetId
-    ) {
-        return ResponseEntity.ok(service.findBudgetById(budgetId));
-    }
-
     @DeleteMapping("/{budget-id}")
     public ResponseEntity<?> deleteBudget(
             @PathVariable("budget-id") Integer budgetId,
@@ -61,5 +54,12 @@ public class BudgetController {
     ) {
         service.deleteBudget(budgetId, connectedUser);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/{budget-id}")
+    public ResponseEntity<BudgetResponse> findBudgetById(
+            @PathVariable("budget-id") Integer budgetId
+    ) {
+        return ResponseEntity.ok(service.findBudgetById(budgetId));
     }
 }

@@ -1,1 +1,96 @@
-<app-side-bar></app-side-bar>
+<!-- dashboard.component.html -->
+<div class="min-h-screen bg-green-50">
+  <!-- Header -->
+  <header class="bg-green-600 text-white p-4">
+    <div class="container mx-auto flex justify-between items-center">
+      <h1 class="text-2xl font-bold">Welcome, John!</h1>
+      <div class="flex items-center space-x-4">
+        <button class="p-2 hover:bg-green-700 rounded-full">
+        </button>
+        <img
+          src="/placeholder.svg?height=40&width=40"
+          alt="Profile"
+          class="w-10 h-10 rounded-full border-2 border-white"
+        />
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="container mx-auto p-4 space-y-6">
+    <!-- Wallet Balance -->
+    <section class="bg-white rounded-lg shadow p-6">
+      <div class="flex flex-col sm:flex-row justify-between items-center">
+        <h2 class="text-xl font-semibold text-green-800">Current Wallet Balance</h2>
+        <button class="bg-green-500 text-white px-4 py-2 rounded-full flex items-center mt-4 sm:mt-0">
+          Add Money
+        </button>
+      </div>
+      <p class="text-3xl font-bold text-green-600 mt-2">$5,280.00</p>
+    </section>
+
+    <!-- Budgets -->
+    <section class="bg-white rounded-lg shadow p-6">
+      <h2 class="text-xl font-semibold text-green-800 mb-4">Budgets</h2>
+      <div class="flex space-x-4 overflow-x-auto pb-4 sm:flex-wrap sm:space-x-6">
+        <div *ngFor="let category of ['Food', 'Transportation', 'Entertainment', 'Utilities']" class="flex-shrink-0 w-64 bg-green-100 rounded-lg p-4 mb-4 sm:mb-0">
+          <h3 class="font-semibold text-green-700">{{ category }}</h3>
+          <div class="mt-2 h-2 bg-green-200 rounded-full">
+            <div class="h-full bg-green-500 rounded-full" [style.width.%]="75"></div>
+          </div>
+          <p class="mt-2 text-sm text-green-600">75% used</p>
+        </div>
+      </div>
+      <button class="mt-4 text-green-600 font-semibold flex items-center">
+        Create Budget
+      </button>
+    </section>
+
+    <!-- Recent Transactions -->
+    <section class="bg-white rounded-lg shadow p-6">
+      <h2 class="text-xl font-semibold text-green-800 mb-4">Recent Transactions</h2>
+      <ul class="space-y-4">
+        <li *ngFor="let transaction of transactions" class="flex flex-col sm:flex-row justify-between items-center border-b pb-2">
+          <div>
+            <p class="font-semibold">{{ transaction.name }}</p>
+            <p class="text-sm text-gray-500">{{ transaction.date }}</p>
+          </div>
+          <p [ngClass]="{ 'text-green-600': transaction.amount > 0, 'text-red-600': transaction.amount <= 0 }" class="font-semibold mt-2 sm:mt-0">
+            {{ transaction.amount > 0 ? '+' : '-' }}${{ transaction.amount | number }}
+          </p>
+        </li>
+      </ul>
+    </section>
+
+    <!-- Savings and Goals -->
+    <section class="bg-white rounded-lg shadow p-6">
+      <h2 class="text-xl font-semibold text-green-800 mb-4">Savings and Goals</h2>
+      <div class="space-y-4">
+        <div *ngFor="let goal of savingsGoals">
+          <div class="flex flex-col sm:flex-row justify-between items-center">
+            <h3 class="font-semibold">{{ goal.name }}</h3>
+            <p class="text-sm text-green-600">${{ goal.current }} / ${{ goal.target }}</p>
+          </div>
+          <div class="mt-2 h-2 bg-green-200 rounded-full">
+            <div class="h-full bg-green-500 rounded-full" [style.width.%]="(goal.current / goal.target) * 100"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Debts Summary -->
+    <section class="bg-white rounded-lg shadow p-6">
+      <h2 class="text-xl font-semibold text-green-800 mb-4">Debts Summary</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div class="bg-red-100 p-4 rounded-lg">
+          <h3 class="font-semibold text-red-700">Debts Owed</h3>
+          <p class="text-2xl font-bold text-red-600 mt-2">$1,500.00</p>
+        </div>
+        <div class="bg-green-100 p-4 rounded-lg">
+          <h3 class="font-semibold text-green-700">Debts Owed to You</h3>
+          <p class="text-2xl font-bold text-green-600 mt-2">$300.00</p>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>

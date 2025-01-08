@@ -32,4 +32,13 @@ public interface ExpensesRepository extends JpaRepository<Expenses, Integer>, Jp
             AND e.name = :name
             """)
     Optional<Expenses> findByNameAndWalletId(@NotNull(message = "Expense name cannot be null") @NotEmpty(message = "Expense name cannot be empty") String name, @NotNull(message = "Wallet ID is required") Integer integer);
+
+    @Query("""
+        SELECT COALESCE(SUM(e.amount), 0) FROM Expenses e
+        WHERE e.wallet.owner.id = :id
+        AND FUNCTION('MONTH', e.date) = :month
+        AND FUNCTION('YEAR', e.date) = :year
+        """)
+    Double getTotalExpensesForUserAndMonth(@Param("id") Integer id, @Param("month") Integer month, @Param("year") Integer year);
+
 }
