@@ -9,6 +9,7 @@ import { ApiConfiguration, ApiConfigurationParams } from './api-configuration';
 import { WalletService } from './services/wallet.service';
 import { TransactionsService } from './services/transactions.service';
 import { StoryService } from './services/story.service';
+import { SavingService } from './services/saving.service';
 import { IncomeService } from './services/income.service';
 import { GoalService } from './services/goal.service';
 import { ExpensesService } from './services/expenses.service';
@@ -16,8 +17,8 @@ import { DebtService } from './services/debt.service';
 import { CommentService } from './services/comment.service';
 import { BudgetService } from './services/budget.service';
 import { AuthenticationService } from './services/authentication.service';
-import { AdminService } from './services/admin.service';
 import { UserControllerService } from './services/user-controller.service';
+import { AdminService } from './services/admin.service';
 import { ReportService } from './services/report.service';
 import { QuoteService } from './services/quote.service';
 
@@ -32,6 +33,7 @@ import { QuoteService } from './services/quote.service';
     WalletService,
     TransactionsService,
     StoryService,
+    SavingService,
     IncomeService,
     GoalService,
     ExpensesService,
@@ -39,8 +41,8 @@ import { QuoteService } from './services/quote.service';
     CommentService,
     BudgetService,
     AuthenticationService,
-    AdminService,
     UserControllerService,
+    AdminService,
     ReportService,
     QuoteService,
     ApiConfiguration

@@ -19,6 +19,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -85,6 +86,19 @@ public class WalletServiceImpl implements WalletService {
         Wallet wallet = repository.findById(walletId)
                 .orElseThrow(() -> new EntityNotFoundException("No Wallet found with the Id : " + walletId));
         return walletMapper.toWalletResponse(wallet);
+    }
+
+    @Override
+    public void addAmount(Integer walletId, BigDecimal amount, Authentication connectedUser) {
+        User user = ((User) connectedUser.getPrincipal());
+        Wallet wallet = repository.findById(walletId)
+                .orElseThrow(() -> new EntityNotFoundException("No Wallet found with the Id : " + walletId));
+        if (wallet.getOwner().getId().equals(user.getId())) {
+            wallet.setBalance(wallet.getBalance().add(amount));
+            repository.save(wallet);
+            user.setTotalBalance(user.getTotalBalance().add(amount));
+            userRepository.save(user);
+        }
     }
 
 }

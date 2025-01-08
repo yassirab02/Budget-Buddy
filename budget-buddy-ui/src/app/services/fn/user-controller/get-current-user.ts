@@ -8,13 +8,13 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { UserResponse } from '../../models/user-response';
+import { User } from '../../models/user';
 
-export interface GetConnectedUser$Params {
+export interface GetCurrentUser$Params {
 }
 
-export function getConnectedUser(http: HttpClient, rootUrl: string, params?: GetConnectedUser$Params, context?: HttpContext): Observable<StrictHttpResponse<UserResponse>> {
-  const rb = new RequestBuilder(rootUrl, getConnectedUser.PATH, 'get');
+export function getCurrentUser(http: HttpClient, rootUrl: string, params?: GetCurrentUser$Params, context?: HttpContext): Observable<StrictHttpResponse<User>> {
+  const rb = new RequestBuilder(rootUrl, getCurrentUser.PATH, 'get');
   if (params) {
   }
 
@@ -23,9 +23,9 @@ export function getConnectedUser(http: HttpClient, rootUrl: string, params?: Get
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<UserResponse>;
+      return r as StrictHttpResponse<User>;
     })
   );
 }
 
-getConnectedUser.PATH = '/auth/connected-user';
+getCurrentUser.PATH = '/api/v1/user/current-user';

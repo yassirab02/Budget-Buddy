@@ -16,11 +16,8 @@ import { Authenticate$Params } from '../fn/authentication/authenticate';
 import { AuthenticationResponse } from '../models/authentication-response';
 import { confirm } from '../fn/authentication/confirm';
 import { Confirm$Params } from '../fn/authentication/confirm';
-import { getConnectedUser } from '../fn/authentication/get-connected-user';
-import { GetConnectedUser$Params } from '../fn/authentication/get-connected-user';
 import { register } from '../fn/authentication/register';
 import { Register$Params } from '../fn/authentication/register';
-import { UserResponse } from '../models/user-response';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService extends BaseService {
@@ -79,31 +76,6 @@ export class AuthenticationService extends BaseService {
   authenticate(params: Authenticate$Params, context?: HttpContext): Observable<AuthenticationResponse> {
     return this.authenticate$Response(params, context).pipe(
       map((r: StrictHttpResponse<AuthenticationResponse>): AuthenticationResponse => r.body)
-    );
-  }
-
-  /** Path part for operation `getConnectedUser()` */
-  static readonly GetConnectedUserPath = '/auth/connected-user';
-
-  /**
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `getConnectedUser()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  getConnectedUser$Response(params?: GetConnectedUser$Params, context?: HttpContext): Observable<StrictHttpResponse<UserResponse>> {
-    return getConnectedUser(this.http, this.rootUrl, params, context);
-  }
-
-  /**
-   * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `getConnectedUser$Response()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  getConnectedUser(params?: GetConnectedUser$Params, context?: HttpContext): Observable<UserResponse> {
-    return this.getConnectedUser$Response(params, context).pipe(
-      map((r: StrictHttpResponse<UserResponse>): UserResponse => r.body)
     );
   }
 

@@ -67,4 +67,14 @@ public class WalletController {
         return userService.getTotalBalance(user);
 
     }
+
+    @PostMapping("/add-amount/{wallet-id}/{amount}")
+    public ResponseEntity<?> addAmount(
+            @PathVariable("wallet-id") Integer walletId,
+            @PathVariable("amount") BigDecimal amount,
+            Authentication connectedUser
+    ) {
+        service.addAmount(walletId,amount, connectedUser);
+        return ResponseEntity.accepted().build();
+    }
 }

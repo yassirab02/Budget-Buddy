@@ -45,20 +45,5 @@ public class AuthenticationController {
     }
 
 
-    @GetMapping("/connected-user")
-    public ResponseEntity<Optional<UserResponse>> getConnectedUser(Authentication connectedUser) {
-        Optional<User> user = userService.getConnectedUser(connectedUser);
-        if (user.isPresent()){
-            UserResponse userResponse = UserResponse.builder()
-                    .id(user.get().getId())
-                    .email(user.get().getEmail())
-                    .firstName(user.get().getFirstName())
-                    .lastName(user.get().getLastName())
-                    .role(user.get().getRoles().get(0).getName())
-                    .build();
-            return ResponseEntity.ok(Optional.ofNullable(userResponse));
-        }
-        return ResponseEntity.ok(Optional.empty());
-    }
 
 }

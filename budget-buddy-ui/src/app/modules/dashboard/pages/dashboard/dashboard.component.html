@@ -1,32 +1,74 @@
 <!-- dashboard.component.html -->
 <div class="min-h-screen bg-green-50">
   <!-- Header -->
-  <header class="bg-green-600 text-white p-4">
+  <header class="bg-green-600 text-white p-4 relative"> <!-- Added relative positioning here -->
     <div class="container mx-auto flex justify-between items-center">
-      <h1 class="text-2xl font-bold">Welcome, John!</h1>
-      <div class="flex items-center space-x-4">
-        <button class="p-2 hover:bg-green-700 rounded-full">
+      <h1 class="text-2xl font-bold">Welcome, {{ user?.firstName }}!</h1>
+      <div class="flex items-center space-x-4 absolute top-5 right-5 z-10">
+        <button (click)="toggleDropdown()" class="p-2 hover:bg-green-700 rounded-full">
+          > <i class="fa-solid fa-user-tie text-2xl"></i>
         </button>
-        <img
-          src="/placeholder.svg?height=40&width=40"
-          alt="Profile"
-          class="w-10 h-10 rounded-full border-2 border-white"
-        />
       </div>
     </div>
   </header>
 
-  <!-- Main Content -->
+  <div *ngIf="isOpen"
+       class="absolute right-5 top-16 z-20 w-48 py-2 bg-green-400 rounded-md shadow-xl">
+    <a href="/profile"
+       class="block px-4 py-3 text-sm text-gray-600 capitalize transition-colors rounded-lg duration-300 transform hover:bg-gray-100">
+      <i class="fa-solid fa-user"></i>
+      Your Profile
+    </a>
+    <a href="/contact"
+       class="block px-4 py-3 text-sm text-gray-600 capitalize transition-colors rounded-lg duration-300 transform hover:bg-gray-100">
+      <i class="fa-solid fa-circle-question"></i>
+      Help
+    </a>
+    <a
+      class="flex items-center px-3 py-2 text-gray-600 transition-colors duration-300 transform rounded-lg hover:bg-gray-100 hover:text-gray-700"
+      href="/setting">
+      <i class="fa-solid fa-sliders"></i>
+      <span class="mx-2 text-sm font-medium">Setting</span>
+    </a>
+    <button (click)="logout()"
+            class="flex items-center px-3 py-2 text-gray-600 transition-colors duration-300 transform rounded-lg hover:bg-gray-100 hover:text-red-700">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+           stroke="currentColor" class="w-5 h-5">
+        <path stroke-linecap="round" stroke-linejoin="round"
+              d="M9 12h12m-12-4l-4 4 4 4M5 4v16a2 2 0 002 2h10a2 2 0 002-2V4a2 2 0 00-2-2H7a2 2 0 00-2 2z"/>
+      </svg>
+      <span class="mx-2 text-sm font-medium">Log out</span>
+    </button>
+  </div>
+
+
+<!-- Main Content -->
   <main class="container mx-auto p-4 space-y-6">
     <!-- Wallet Balance -->
     <section class="bg-white rounded-lg shadow p-6">
       <div class="flex flex-col sm:flex-row justify-between items-center">
-        <h2 class="text-xl font-semibold text-green-800">Current Wallet Balance</h2>
-        <button class="bg-green-500 text-white px-4 py-2 rounded-full flex items-center mt-4 sm:mt-0">
-          Add Money
-        </button>
+        <h2 class="text-xl font-semibold text-green-800">Total Balance</h2>
+        <div class="flex items-center space-x-2 mt-4 sm:mt-0">
+          <!-- Button to toggle input field visibility or submit the amount -->
+          <button class="bg-green-500 text-white px-4 py-2 rounded-full flex items-center"
+                  (click)="add ? addToBalance(amountToAdd) : toggleAddInput()">
+            {{ add ? 'Submit' : 'Add Money' }}
+          </button>
+
+          <!-- Input field for entering the amount -->
+          <input *ngIf="add" type="number" [(ngModel)]="amountToAdd"
+                 placeholder="Enter amount"
+                 class="border border-gray-300 rounded px-2 py-1 w-32 focus:outline-none focus:ring-2 focus:ring-green-500" />
+
+          <!-- Cancel button to close the input field -->
+          <button *ngIf="add" class="bg-red-500 text-white px-4 py-2 rounded-full flex items-center"
+                  (click)="cancelAdd()">
+            Cancel
+          </button>
+        </div>
+
       </div>
-      <p class="text-3xl font-bold text-green-600 mt-2">$5,280.00</p>
+      <p class="text-3xl font-bold text-green-600 mt-2">$ {{user?.totalBalance}}</p>
     </section>
 
     <!-- Budgets -->

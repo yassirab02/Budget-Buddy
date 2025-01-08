@@ -7,6 +7,8 @@ import com.yassir.budgetbuddy.wallet.controller.WalletRequest;
 import jakarta.validation.Valid;
 import org.springframework.security.core.Authentication;
 
+import java.math.BigDecimal;
+
 public interface WalletService {
 
 
@@ -17,4 +19,6 @@ public interface WalletService {
     PageResponse<WalletResponse> findAllWalletsByOwner(int page, int size, Authentication connectedUser);
 
     WalletResponse findWalletById(Integer walletId);
+
+    void addAmount(Integer walletId, BigDecimal amount, Authentication connectedUser);
 }

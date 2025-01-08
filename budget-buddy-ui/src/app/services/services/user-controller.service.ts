@@ -11,13 +11,47 @@ import { BaseService } from '../base-service';
 import { ApiConfiguration } from '../api-configuration';
 import { StrictHttpResponse } from '../strict-http-response';
 
+import { addBalance } from '../fn/user-controller/add-balance';
+import { AddBalance$Params } from '../fn/user-controller/add-balance';
 import { changePassword } from '../fn/user-controller/change-password';
 import { ChangePassword$Params } from '../fn/user-controller/change-password';
+import { getCurrentUser } from '../fn/user-controller/get-current-user';
+import { GetCurrentUser$Params } from '../fn/user-controller/get-current-user';
+import { User } from '../models/user';
 
 @Injectable({ providedIn: 'root' })
 export class UserControllerService extends BaseService {
   constructor(config: ApiConfiguration, http: HttpClient) {
     super(config, http);
+  }
+
+  /** Path part for operation `addBalance()` */
+  static readonly AddBalancePath = '/api/v1/user/add-balance/{amount}';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `addBalance()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  addBalance$Response(params: AddBalance$Params, context?: HttpContext): Observable<StrictHttpResponse<{
+}>> {
+    return addBalance(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `addBalance$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  addBalance(params: AddBalance$Params, context?: HttpContext): Observable<{
+}> {
+    return this.addBalance$Response(params, context).pipe(
+      map((r: StrictHttpResponse<{
+}>): {
+} => r.body)
+    );
   }
 
   /** Path part for operation `changePassword()` */
@@ -46,6 +80,31 @@ export class UserControllerService extends BaseService {
       map((r: StrictHttpResponse<{
 }>): {
 } => r.body)
+    );
+  }
+
+  /** Path part for operation `getCurrentUser()` */
+  static readonly GetCurrentUserPath = '/api/v1/user/current-user';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `getCurrentUser()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getCurrentUser$Response(params?: GetCurrentUser$Params, context?: HttpContext): Observable<StrictHttpResponse<User>> {
+    return getCurrentUser(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `getCurrentUser$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getCurrentUser(params?: GetCurrentUser$Params, context?: HttpContext): Observable<User> {
+    return this.getCurrentUser$Response(params, context).pipe(
+      map((r: StrictHttpResponse<User>): User => r.body)
     );
   }
 

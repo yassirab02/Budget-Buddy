@@ -7,23 +7,11 @@ import {Router} from '@angular/router';
   styleUrl: './side-bar.component.css'
 })
 export class SideBarComponent implements OnInit{
-  isOpen = false;
   isSidebarVisible: boolean = true;
 
 
   toggleSidebar() {
     this.isSidebarVisible = !this.isSidebarVisible;
-  }
-  toggleDropdown() {
-    this.isOpen = !this.isOpen;
-  }
-
-  @HostListener('document:click', ['$event'])
-  onDocumentClick(event: Event) {
-    const target = event.target as HTMLElement;
-    if (!target.closest('.relative')) {
-      this.isOpen = false;
-    }
   }
 
   constructor(private router: Router) {}
@@ -32,8 +20,4 @@ export class SideBarComponent implements OnInit{
   ngOnInit(): void {
   }
 
-  logout() {
-    localStorage.clear(); // or localStorage.removeItem('token');
-    window.location.reload();
-  }
 }

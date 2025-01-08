@@ -5,6 +5,7 @@
 export { WalletService } from './services/wallet.service';
 export { TransactionsService } from './services/transactions.service';
 export { StoryService } from './services/story.service';
+export { SavingService } from './services/saving.service';
 export { IncomeService } from './services/income.service';
 export { GoalService } from './services/goal.service';
 export { ExpensesService } from './services/expenses.service';
@@ -12,7 +13,7 @@ export { DebtService } from './services/debt.service';
 export { CommentService } from './services/comment.service';
 export { BudgetService } from './services/budget.service';
 export { AuthenticationService } from './services/authentication.service';
-export { AdminService } from './services/admin.service';
 export { UserControllerService } from './services/user-controller.service';
+export { AdminService } from './services/admin.service';
 export { ReportService } from './services/report.service';
 export { QuoteService } from './services/quote.service';

@@ -4,8 +4,11 @@ import com.yassir.budgetbuddy.user.User;
 import com.yassir.budgetbuddy.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.security.Principal;
 
 @RestController
@@ -26,4 +29,19 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
+    @GetMapping("/current-user")
+    public User getCurrentUser() {
+        // Retrieve the current authenticated user from the security context
+        String username = service.getCurrentUsername();
+        return service.findByEmail(username);
+    }
+
+    @PostMapping("/add-balance/{amount}")
+    public ResponseEntity<?> addBalance(
+            @PathVariable("amount") BigDecimal amount,
+            Authentication connectedUser
+    ) {
+        service.addBalance(amount, connectedUser);
+        return ResponseEntity.ok().build();
+    }
 }

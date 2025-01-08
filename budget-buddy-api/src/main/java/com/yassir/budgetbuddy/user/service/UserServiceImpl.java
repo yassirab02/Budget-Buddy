@@ -5,7 +5,9 @@ import com.yassir.budgetbuddy.user.UserRepository;
 import com.yassir.budgetbuddy.user.controller.ChangePasswordRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -104,16 +106,27 @@ public class UserServiceImpl implements UserService {
         return 0L;  // Return 0 if user is not found or no lockout time
     }
 
+
     @Override
-    public Optional<User> getConnectedUser(Principal connectedUser) {
+    public String getCurrentUsername() {
+        // Get the username from the security context
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (principal != null && principal instanceof User) {
-            return (Optional<User>) principal;
-        } else if (principal != null && principal instanceof String) {
-            return userRepository.findByEmail(principal.toString());
-        } else {
-            return Optional.empty();
+        if (principal instanceof UserDetails) {
+            return ((UserDetails) principal).getUsername();
         }
+        return principal.toString();
     }
 
+    @Override
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found with email: " + email));
+    }
+
+    @Override
+    public void addBalance(BigDecimal amount, Authentication connectedUser) {
+        User user = (User) connectedUser.getPrincipal();
+        user.setTotalBalance(user.getTotalBalance().add(amount));
+        userRepository.save(user);
+    }
 }

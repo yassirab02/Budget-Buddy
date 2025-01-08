@@ -11,6 +11,8 @@ import { BaseService } from '../base-service';
 import { ApiConfiguration } from '../api-configuration';
 import { StrictHttpResponse } from '../strict-http-response';
 
+import { addAmount } from '../fn/wallet/add-amount';
+import { AddAmount$Params } from '../fn/wallet/add-amount';
 import { addOrUpdateWallet } from '../fn/wallet/add-or-update-wallet';
 import { AddOrUpdateWallet$Params } from '../fn/wallet/add-or-update-wallet';
 import { deleteWallet } from '../fn/wallet/delete-wallet';
@@ -52,6 +54,35 @@ export class WalletService extends BaseService {
   addOrUpdateWallet(params: AddOrUpdateWallet$Params, context?: HttpContext): Observable<number> {
     return this.addOrUpdateWallet$Response(params, context).pipe(
       map((r: StrictHttpResponse<number>): number => r.body)
+    );
+  }
+
+  /** Path part for operation `addAmount()` */
+  static readonly AddAmountPath = '/wallet/add-amount/{wallet-id}/{amount}';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `addAmount()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  addAmount$Response(params: AddAmount$Params, context?: HttpContext): Observable<StrictHttpResponse<{
+}>> {
+    return addAmount(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `addAmount$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  addAmount(params: AddAmount$Params, context?: HttpContext): Observable<{
+}> {
+    return this.addAmount$Response(params, context).pipe(
+      map((r: StrictHttpResponse<{
+}>): {
+} => r.body)
     );
   }
 

@@ -22,5 +22,10 @@ public interface UserService {
 
     Long getRemainingLockoutTime(String email);
 
-    Optional<User> getConnectedUser(Principal connectedUser);
+
+    String getCurrentUsername();
+
+    User findByEmail(String email);
+
+    void addBalance(BigDecimal amount, Authentication connectedUser);
 }
