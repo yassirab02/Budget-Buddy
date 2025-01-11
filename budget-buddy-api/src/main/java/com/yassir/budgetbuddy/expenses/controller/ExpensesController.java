@@ -49,4 +49,20 @@ public class ExpensesController {
         return ResponseEntity.noContent().build();
     }
 
+    @PostMapping("/reset-expenses")
+    public ResponseEntity<?> resetExpenses(
+            Authentication connectedUser
+    ) {
+        service.resetExpenses(connectedUser);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/reset-monthly-expenses")
+    public ResponseEntity<?> resetMonthlyExpenses(
+            Authentication connectedUser
+    ) {
+        service.resetMonthlyExpense(connectedUser);
+        return ResponseEntity.noContent().build();
+    }
+
 }

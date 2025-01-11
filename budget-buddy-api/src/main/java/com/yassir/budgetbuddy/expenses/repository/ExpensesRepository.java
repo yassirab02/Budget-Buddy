@@ -7,10 +7,13 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.Month;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,5 +43,24 @@ public interface ExpensesRepository extends JpaRepository<Expenses, Integer>, Jp
         AND FUNCTION('YEAR', e.date) = :year
         """)
     Double getTotalExpensesForUserAndMonth(@Param("id") Integer id, @Param("month") Integer month, @Param("year") Integer year);
+
+    @Query("""
+    SELECT COUNT(e) > 0
+    FROM Expenses e
+    WHERE FUNCTION('MONTH', e.date) = :month 
+    AND e.wallet.owner.id = :id
+    """)
+    boolean existsByMonthAndUserId(@Param("month") int month, @Param("id") Integer id);
+
+    @Modifying
+    @Transactional
+    @Query("""
+    UPDATE Expenses e 
+    SET e.archived = true 
+    WHERE FUNCTION('MONTH', e.date) = :month 
+    AND e.wallet.owner.id = :id
+    """)
+    void archiveExpensesByMonthAndUserId(@Param("month") int month, @Param("id") Integer id);
+
 
 }

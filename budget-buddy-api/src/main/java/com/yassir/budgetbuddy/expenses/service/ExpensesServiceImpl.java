@@ -24,6 +24,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -143,4 +144,39 @@ public class ExpensesServiceImpl implements ExpensesService {
             repository.deleteById(expenseId);
         }
     }
+
+
+    @Override
+    public void resetExpenses(Authentication connectedUser) {
+        User user = (User) connectedUser.getPrincipal();
+        List<Expenses> expenses = repository.findAll(ExpensesSpecification.withUserId(user.getId()));
+
+        if (expenses.isEmpty()) {
+            throw new EntityNotFoundException("No expenses found to reset");
+        }
+
+        // Update and save all expenses
+        expenses.forEach(expense -> expense.setArchived(true));
+        repository.saveAll(expenses);
+    }
+
+
+    @Override
+    @Transactional
+    public void resetMonthlyExpense(Authentication connectedUser) {
+        User user = (User) connectedUser.getPrincipal();
+        LocalDate now = LocalDate.now();
+
+        // Check if there are any expenses for the current month
+        boolean hasExpenses = repository.existsByMonthAndUserId(now.getMonthValue(), user.getId());
+        if (!hasExpenses) {
+            throw new EntityNotFoundException("No expenses found for the current month");
+        }
+
+        // Archive the expenses in bulk
+        repository.archiveExpensesByMonthAndUserId(now.getMonthValue(), user.getId());
+    }
+
+
+
 }

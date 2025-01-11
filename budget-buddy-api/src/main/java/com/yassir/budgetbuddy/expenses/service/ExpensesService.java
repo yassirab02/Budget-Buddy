@@ -15,4 +15,8 @@ public interface ExpensesService {
     ExpensesResponse findExpenseById(Integer expenseId);
 
     PageResponse<ExpensesResponse> findAllExpenses(int page, int size, Authentication connectedUser);
+
+    void resetExpenses(Authentication connectedUser);
+
+    void resetMonthlyExpense(Authentication connectedUser);
 }

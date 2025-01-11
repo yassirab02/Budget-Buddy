@@ -24,6 +24,7 @@ public class Expenses extends BaseEntity {
     private BigDecimal amount;
     private String description;
     private LocalDate date;
+    private boolean archived;
 
 
     @ManyToOne
