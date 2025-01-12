@@ -6,7 +6,6 @@
     <img class="h-24" src="../../../../../assets/Budget-face%20logo.png" alt="Budget Logo">
   </a>
 
-
   <div class="flex flex-col justify-between flex-1 mt-6">
     <nav class="-mx-0 space-y-3">
       <div class="space-y-3">
@@ -14,21 +13,27 @@
 
         <a
           class="flex items-center px-3 py-2 text-gray-600 transition-colors duration-300 transform rounded-lg hover:bg-gray-100 hover:text-gray-700"
-          href="/dashboard">
+          routerLink="/dashboard"
+          routerLinkActive="text-gray-700 bg-gray-100 rounded-lg"
+          [routerLinkActiveOptions]="{ exact: true }">
           <i class="fa-solid fa-chart-column"></i>
           <span class="mx-2 text-sm font-medium">Dashboard</span>
         </a>
 
         <a
           class="flex items-center px-3 py-2 text-gray-600 transition-colors duration-300 transform rounded-lg hover:bg-gray-100 hover:text-gray-700"
-          href="/stories">
+          routerLink="/stories"
+          routerLinkActive="text-gray-700 bg-gray-100 rounded-lg"
+          [routerLinkActiveOptions]="{ exact: true }">
           <i class="fa-solid fa-comments-dollar"></i>
           <span class="mx-2 text-sm font-medium">Stories</span>
         </a>
 
         <a
           class="flex items-center px-3 py-2 text-gray-600 transition-colors duration-300 transform rounded-lg hover:bg-gray-100 hover:text-gray-700"
-          href="/report">
+          routerLink="/report"
+          routerLinkActive="text-gray-700 bg-gray-100 rounded-lg "
+          [routerLinkActiveOptions]="{ exact: true }">
           <i class="fa-solid fa-file-contract"></i>
           <span class="mx-2 text-sm font-medium">Reports</span>
         </a>
@@ -39,49 +44,63 @@
 
         <a
           class="flex items-center px-3 py-2 text-gray-600 transition-colors duration-300 transform rounded-lg hover:bg-gray-100 hover:text-gray-700"
-          href="/wallet">
+          routerLink="/wallet"
+          routerLinkActive="text-gray-700 bg-gray-100 rounded-lg"
+          [routerLinkActiveOptions]="{ exact: true }">
           <i class="fa-solid fa-wallet"></i>
           <span class="mx-2 text-sm font-medium">Wallets</span>
         </a>
 
         <a
           class="flex items-center px-3 py-2 text-gray-600 transition-colors duration-300 transform rounded-lg hover:bg-gray-100 hover:text-gray-700"
-          href="/budget">
+          routerLink="/budget"
+          routerLinkActive="text-gray-700 bg-gray-100 rounded-lg"
+          [routerLinkActiveOptions]="{ exact: true }">
           <i class="fa-solid fa-piggy-bank"></i>
           <span class="mx-2 text-sm font-medium">Budgets</span>
         </a>
 
         <a
           class="flex items-center px-3 py-2 text-gray-600 transition-colors duration-300 transform rounded-lg hover:bg-gray-100 hover:text-gray-700"
-          href="/expense">
+          routerLink="/expense"
+          routerLinkActive="text-gray-700 bg-gray-100 rounded-lg"
+          [routerLinkActiveOptions]="{ exact: true }">
           <i class="fa-solid fa-coins"></i>
           <span class="mx-2 text-sm font-medium">Expenses</span>
         </a>
 
         <a
           class="flex items-center px-3 py-2 text-gray-600 transition-colors duration-300 transform rounded-lg hover:bg-gray-100 hover:text-gray-700"
-          href="/income">
+          routerLink="/income"
+          routerLinkActive="text-gray-700 bg-gray-100 rounded-lg"
+          [routerLinkActiveOptions]="{ exact: true }">
           <i class="fa-solid fa-credit-card"></i>
           <span class="mx-2 text-sm font-medium">Incomes</span>
         </a>
 
         <a
           class="flex items-center px-3 py-2 text-gray-600 transition-colors duration-300 transform rounded-lg hover:bg-gray-100 hover:text-gray-700"
-          href="/debt">
+          routerLink="/debt"
+          routerLinkActive="text-gray-700 bg-gray-100 rounded-lg"
+          [routerLinkActiveOptions]="{ exact: true }">
           <i class="fa-solid fa-jug-detergent"></i>
           <span class="mx-2 text-sm font-medium">Debts</span>
         </a>
 
         <a
           class="flex items-center px-3 py-2 text-gray-600 transition-colors duration-300 transform rounded-lg hover:bg-gray-100 hover:text-gray-700"
-          href="/goal">
+          routerLink="/goal"
+          routerLinkActive="text-gray-700 bg-gray-100 rounded-lg"
+          [routerLinkActiveOptions]="{ exact: true }">
           <i class="fa-solid fa-bullseye"></i>
           <span class="mx-2 text-sm font-medium">Goals</span>
         </a>
 
         <a
           class="flex items-center px-3 py-2 text-gray-600 transition-colors duration-300 transform rounded-lg hover:bg-gray-100 hover:text-gray-700"
-          href="/transactions">
+          routerLink="/transactions"
+          routerLinkActive="text-gray-700 bg-gray-100 rounded-lg"
+          [routerLinkActiveOptions]="{ exact: true }">
           <i class="fa-solid fa-arrow-right-arrow-left"></i>
           <span class="mx-2 text-sm font-medium">Transactions</span>
         </a>
@@ -94,6 +113,6 @@
 <div class="md:hidden fixed top-0 left-0 z-30">
   <button (click)="toggleSidebar()"
           class="text-green-600 p-4">
-      <i class="fa-solid fa-bars w-6 h-6"></i>
+    <i class="fa-solid fa-bars w-6 h-6"></i>
   </button>
 </div>
