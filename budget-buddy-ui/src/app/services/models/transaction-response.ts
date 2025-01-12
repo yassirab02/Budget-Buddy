@@ -6,13 +6,13 @@ export interface TransactionResponse {
   amount?: number;
   date?: string;
   description?: string;
-  destinationWalletId?: number;
+  destinationWallet?: string;
   goalId?: number;
   id?: number;
   message?: string;
-  receiverId?: number;
-  senderId?: number;
-  sourceWalletId?: number;
+  receiver?: string;
+  sender?: string;
+  sourceWallet?: string;
   status?: string;
   transactionType?: string;
 }

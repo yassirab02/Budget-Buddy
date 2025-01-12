@@ -380,6 +380,46 @@
         }
       }
     },
+    "/expenses/reset-monthly-expenses": {
+      "post": {
+        "tags": [
+          "Expenses"
+        ],
+        "operationId": "resetMonthlyExpenses",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/expenses/reset-expenses": {
+      "post": {
+        "tags": [
+          "Expenses"
+        ],
+        "operationId": "resetExpenses",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/expenses/add-expense": {
       "post": {
         "tags": [
@@ -508,55 +548,6 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/CommentResponse"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/budget/cover/{budget-id}": {
-      "post": {
-        "tags": [
-          "Budget"
-        ],
-        "operationId": "uploadBudgetCoverPicture",
-        "parameters": [
-          {
-            "name": "budget-id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "multipart/form-data": {
-              "schema": {
-                "required": [
-                  "file"
-                ],
-                "type": "object",
-                "properties": {
-                  "file": {
-                    "type": "string",
-                    "format": "binary"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object"
                 }
               }
             }
@@ -1899,6 +1890,52 @@
         }
       }
     },
+    "/category/income-source": {
+      "get": {
+        "tags": [
+          "Category"
+        ],
+        "operationId": "getIncomeSources",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IncomeSourceResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/category/expenses-category": {
+      "get": {
+        "tags": [
+          "Category"
+        ],
+        "operationId": "getExpensesCategory",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ExpensesCategoryResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/budget/{budget-id}": {
       "get": {
         "tags": [
@@ -2176,9 +2213,13 @@
           "totalExpenses": {
             "type": "number"
           },
-          "currencyTypeId": {
-            "type": "integer",
-            "format": "int32"
+          "walletType": {
+            "type": "string",
+            "enum": [
+              "SPENDING",
+              "SAVINGS",
+              "CASH"
+            ]
           }
         }
       },
@@ -2434,8 +2475,8 @@
           "amount",
           "budgetId",
           "categoryId",
-          "name",
-          "walletId"
+          "expensesType",
+          "name"
         ],
         "type": "object",
         "properties": {
@@ -2457,6 +2498,14 @@
           "date": {
             "type": "string",
             "format": "date"
+          },
+          "expensesType": {
+            "type": "string",
+            "enum": [
+              "FIXED",
+              "VARIABLE",
+              "ONE_TIME"
+            ]
           },
           "categoryId": {
             "type": "integer",
@@ -2785,6 +2834,9 @@
           "category": {
             "type": "string"
           },
+          "expensesType": {
+            "type": "string"
+          },
           "budget": {
             "type": "string"
           },
@@ -2846,21 +2898,17 @@
           "status": {
             "type": "string"
           },
-          "sourceWalletId": {
-            "type": "integer",
-            "format": "int32"
+          "sourceWallet": {
+            "type": "string"
           },
-          "destinationWalletId": {
-            "type": "integer",
-            "format": "int32"
+          "destinationWallet": {
+            "type": "string"
           },
-          "senderId": {
-            "type": "integer",
-            "format": "int32"
+          "sender": {
+            "type": "string"
           },
-          "receiverId": {
-            "type": "integer",
-            "format": "int32"
+          "receiver": {
+            "type": "string"
           },
           "goalId": {
             "type": "integer",
@@ -2887,7 +2935,7 @@
           "totalExpenses": {
             "type": "number"
           },
-          "currencyType": {
+          "walletType": {
             "type": "string"
           },
           "owner": {
@@ -3396,6 +3444,53 @@
           }
         }
       },
+      "IncomeSourceResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "iconUrl": {
+            "type": "string",
+            "format": "byte"
+          }
+        }
+      },
+      "ExpensesCategoryResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "iconUrl": {
+            "type": "string",
+            "format": "byte"
+          },
+          "parentCategoryName": {
+            "type": "string"
+          },
+          "subcategories": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ExpensesCategoryResponse"
+            }
+          }
+        }
+      },
       "BudgetResponse": {
         "type": "object",
         "properties": {
@@ -3433,10 +3528,6 @@
           "endDate": {
             "type": "string",
             "format": "date"
-          },
-          "budgetCover": {
-            "type": "string",
-            "format": "byte"
           },
           "owner": {
             "type": "string"
@@ -3516,9 +3607,6 @@
             "type": "number",
             "format": "double"
           },
-          "budgetCover": {
-            "type": "string"
-          },
           "owner": {
             "$ref": "#/components/schemas/User"
           },
@@ -3528,29 +3616,11 @@
               "$ref": "#/components/schemas/Expenses"
             }
           },
-          "remainingAmount": {
-            "type": "number"
-          },
           "usedAmount": {
             "type": "number"
-          }
-        }
-      },
-      "CurrencyType": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
           },
-          "code": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          },
-          "symbol": {
-            "type": "string"
+          "remainingAmount": {
+            "type": "number"
           }
         }
       },
@@ -3590,14 +3660,22 @@
             "type": "string",
             "format": "date"
           },
+          "archived": {
+            "type": "boolean"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "FIXED",
+              "VARIABLE",
+              "ONE_TIME"
+            ]
+          },
           "category": {
             "$ref": "#/components/schemas/ExpensesCategory"
           },
           "budget": {
             "$ref": "#/components/schemas/Budget"
-          },
-          "wallet": {
-            "$ref": "#/components/schemas/Wallet"
           }
         }
       },
@@ -3907,18 +3985,6 @@
               "FAILED"
             ]
           },
-          "sourceWallet": {
-            "$ref": "#/components/schemas/Wallet"
-          },
-          "destinationWallet": {
-            "$ref": "#/components/schemas/Wallet"
-          },
-          "sender": {
-            "$ref": "#/components/schemas/User"
-          },
-          "receiver": {
-            "$ref": "#/components/schemas/User"
-          },
           "goal": {
             "$ref": "#/components/schemas/Goal"
           }
@@ -4002,7 +4068,20 @@
           "report": {
             "$ref": "#/components/schemas/Report"
           },
+          "countForgetPassword": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "accountNonExpired": {
+            "type": "boolean"
+          },
+          "credentialsNonExpired": {
+            "type": "boolean"
+          },
           "name": {
+            "type": "string"
+          },
+          "username": {
             "type": "string"
           },
           "authorities": {
@@ -4011,21 +4090,8 @@
               "$ref": "#/components/schemas/GrantedAuthority"
             }
           },
-          "username": {
-            "type": "string"
-          },
           "accountNonLocked": {
             "type": "boolean"
-          },
-          "accountNonExpired": {
-            "type": "boolean"
-          },
-          "credentialsNonExpired": {
-            "type": "boolean"
-          },
-          "countForgetPassword": {
-            "type": "integer",
-            "format": "int32"
           }
         }
       },
@@ -4064,8 +4130,13 @@
           "totalExpenses": {
             "type": "number"
           },
-          "currencyType": {
-            "$ref": "#/components/schemas/CurrencyType"
+          "type": {
+            "type": "string",
+            "enum": [
+              "SPENDING",
+              "SAVINGS",
+              "CASH"
+            ]
           },
           "owner": {
             "$ref": "#/components/schemas/User"

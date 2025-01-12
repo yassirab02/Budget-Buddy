@@ -21,42 +21,11 @@ import { FindAllBudgetsByOwner$Params } from '../fn/budget/find-all-budgets-by-o
 import { findBudgetById } from '../fn/budget/find-budget-by-id';
 import { FindBudgetById$Params } from '../fn/budget/find-budget-by-id';
 import { PageResponseBudgetResponse } from '../models/page-response-budget-response';
-import { uploadBudgetCoverPicture } from '../fn/budget/upload-budget-cover-picture';
-import { UploadBudgetCoverPicture$Params } from '../fn/budget/upload-budget-cover-picture';
 
 @Injectable({ providedIn: 'root' })
 export class BudgetService extends BaseService {
   constructor(config: ApiConfiguration, http: HttpClient) {
     super(config, http);
-  }
-
-  /** Path part for operation `uploadBudgetCoverPicture()` */
-  static readonly UploadBudgetCoverPicturePath = '/budget/cover/{budget-id}';
-
-  /**
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `uploadBudgetCoverPicture()` instead.
-   *
-   * This method sends `multipart/form-data` and handles request body of type `multipart/form-data`.
-   */
-  uploadBudgetCoverPicture$Response(params: UploadBudgetCoverPicture$Params, context?: HttpContext): Observable<StrictHttpResponse<{
-}>> {
-    return uploadBudgetCoverPicture(this.http, this.rootUrl, params, context);
-  }
-
-  /**
-   * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `uploadBudgetCoverPicture$Response()` instead.
-   *
-   * This method sends `multipart/form-data` and handles request body of type `multipart/form-data`.
-   */
-  uploadBudgetCoverPicture(params: UploadBudgetCoverPicture$Params, context?: HttpContext): Observable<{
-}> {
-    return this.uploadBudgetCoverPicture$Response(params, context).pipe(
-      map((r: StrictHttpResponse<{
-}>): {
-} => r.body)
-    );
   }
 
   /** Path part for operation `addOrUpdateBudget()` */

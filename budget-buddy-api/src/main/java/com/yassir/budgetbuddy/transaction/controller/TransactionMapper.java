@@ -42,10 +42,10 @@ public class TransactionMapper {
                 .date(transaction.getDate())
                 .transactionType(transaction.getTransactionType().getTypeName())
                 .status(transaction.getStatus().getStatus())
-                .sourceWalletId(transaction.getSourceWallet().getId())
-                .destinationWalletId(transaction.getDestinationWallet() != null ? transaction.getDestinationWallet().getId() : null)
-                .senderId(transaction.getSender().getId())
-                .receiverId(transaction.getReceiver() != null ? transaction.getReceiver().getId() : null)
+                .sourceWallet(transaction.getSourceWallet().getName())
+                .destinationWallet(transaction.getDestinationWallet() != null ? transaction.getDestinationWallet().getName() : null)
+                .sender(transaction.getSender().fullName())
+                .receiver(transaction.getReceiver() != null ? transaction.getReceiver().fullName() : null)
                 .goalId(transaction.getGoal() != null ? transaction.getGoal().getId() : null)
                 .build();
     }

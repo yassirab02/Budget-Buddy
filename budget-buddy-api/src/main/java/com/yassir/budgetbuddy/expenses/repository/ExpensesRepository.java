@@ -31,36 +31,30 @@ public interface ExpensesRepository extends JpaRepository<Expenses, Integer>, Jp
 
     @Query("""
             SELECT e FROM Expenses e
-            WHERE e.wallet.owner = :user
+            WHERE e.wallet.id = :walletId
             AND e.name = :name
             """)
-    Optional<Expenses> findByNameAndWalletId(@NotNull(message = "Expense name cannot be null") @NotEmpty(message = "Expense name cannot be empty") String name, @NotNull(message = "Wallet ID is required") Integer integer);
+    Optional<Expenses> findByNameAndWalletId(@NotNull(message = "Expense name cannot be null") @NotEmpty(message = "Expense name cannot be empty") String name, @NotNull(message = "Wallet ID is required") Integer walletId);
 
     @Query("""
-        SELECT COALESCE(SUM(e.amount), 0) FROM Expenses e
-        WHERE e.wallet.owner.id = :id
-        AND FUNCTION('MONTH', e.date) = :month
-        AND FUNCTION('YEAR', e.date) = :year
-        """)
+            SELECT COALESCE(SUM(e.amount), 0) FROM Expenses e
+            WHERE e.wallet.owner.id = :id
+            AND FUNCTION('MONTH', e.date) = :month
+            AND FUNCTION('YEAR', e.date) = :year
+            """)
     Double getTotalExpensesForUserAndMonth(@Param("id") Integer id, @Param("month") Integer month, @Param("year") Integer year);
-
-    @Query("""
-    SELECT COUNT(e) > 0
-    FROM Expenses e
-    WHERE FUNCTION('MONTH', e.date) = :month 
-    AND e.wallet.owner.id = :id
-    """)
-    boolean existsByMonthAndUserId(@Param("month") int month, @Param("id") Integer id);
 
     @Modifying
     @Transactional
     @Query("""
-    UPDATE Expenses e 
-    SET e.archived = true 
-    WHERE FUNCTION('MONTH', e.date) = :month 
-    AND e.wallet.owner.id = :id
-    """)
-    void archiveExpensesByMonthAndUserId(@Param("month") int month, @Param("id") Integer id);
+                    UPDATE Expenses e 
+                    SET e.archived = true 
+                    WHERE FUNCTION('MONTH', e.date) = :month 
+                    AND e.wallet.owner.id = :id
+            """)
+    void archiveExpensesByMonthAndUserId(Integer month, Integer id);  // month as Integer
 
+    @Query("SELECT COUNT(e) > 0 FROM Expenses e WHERE FUNCTION('MONTH', e.date) = :month AND e.wallet.owner.id = :id")
+    boolean existsByMonthAndUserId(Integer month, Integer id);
 
 }

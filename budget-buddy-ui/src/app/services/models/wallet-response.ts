@@ -7,7 +7,6 @@ import { IncomeResponse } from '../models/income-response';
 import { TransactionResponse } from '../models/transaction-response';
 export interface WalletResponse {
   balance?: number;
-  currencyType?: string;
   expenses?: Array<ExpensesResponse>;
   id?: number;
   incomes?: Array<IncomeResponse>;
@@ -17,4 +16,5 @@ export interface WalletResponse {
   sentTransfers?: Array<TransactionResponse>;
   totalExpenses?: number;
   totalIncome?: number;
+  walletType?: string;
 }

@@ -4,9 +4,9 @@
 
 import { Budget } from '../models/budget';
 import { ExpensesCategory } from '../models/expenses-category';
-import { Wallet } from '../models/wallet';
 export interface Expenses {
   amount?: number;
+  archived?: boolean;
   budget?: Budget;
   category?: ExpensesCategory;
   createdBy?: number;
@@ -17,5 +17,5 @@ export interface Expenses {
   lastModifiedBy?: number;
   lastModifiedDate?: string;
   name?: string;
-  wallet?: Wallet;
+  type?: 'FIXED' | 'VARIABLE' | 'ONE_TIME';
 }

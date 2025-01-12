@@ -9,19 +9,13 @@ import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
 
-export interface UploadBudgetCoverPicture$Params {
-  'budget-id': number;
-      body?: {
-'file': Blob;
-}
+export interface ResetExpenses$Params {
 }
 
-export function uploadBudgetCoverPicture(http: HttpClient, rootUrl: string, params: UploadBudgetCoverPicture$Params, context?: HttpContext): Observable<StrictHttpResponse<{
+export function resetExpenses(http: HttpClient, rootUrl: string, params?: ResetExpenses$Params, context?: HttpContext): Observable<StrictHttpResponse<{
 }>> {
-  const rb = new RequestBuilder(rootUrl, uploadBudgetCoverPicture.PATH, 'post');
+  const rb = new RequestBuilder(rootUrl, resetExpenses.PATH, 'post');
   if (params) {
-    rb.path('budget-id', params['budget-id'], {});
-    rb.body(params.body, 'multipart/form-data');
   }
 
   return http.request(
@@ -35,4 +29,4 @@ export function uploadBudgetCoverPicture(http: HttpClient, rootUrl: string, para
   );
 }
 
-uploadBudgetCoverPicture.PATH = '/budget/cover/{budget-id}';
+resetExpenses.PATH = '/expenses/reset-expenses';

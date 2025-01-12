@@ -1,5 +1,7 @@
 package com.yassir.budgetbuddy.expenses.controller;
 
+import com.yassir.budgetbuddy.expenses.ExpensesType;
+import com.yassir.budgetbuddy.transaction.TransactionType;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -21,14 +23,15 @@ public record ExpensesRequest(
 
         LocalDate date,
 
+        @NotNull(message = "Expenses Type is required")
+        ExpensesType expensesType, // E.g.,Fixed, Variable
 
-        @NotNull(message = "Budget ID is required")
+        @NotNull(message = "Category is required")
         Integer categoryId,
 
         @NotNull(message = "Budget ID is required")
         Integer budgetId,
 
-        @NotNull(message = "Wallet ID is required")
         Integer walletId
 
 ) {

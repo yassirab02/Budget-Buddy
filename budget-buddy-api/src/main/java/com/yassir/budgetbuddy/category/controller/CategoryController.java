@@ -1,7 +1,8 @@
 package com.yassir.budgetbuddy.category.controller;
 
-import com.yassir.budgetbuddy.category.bean.ExpensesCategory;
 import com.yassir.budgetbuddy.category.bean.IncomeSource;
+import com.yassir.budgetbuddy.category.controller.response.ExpensesCategoryResponse;
+import com.yassir.budgetbuddy.category.controller.response.IncomeSourceResponse;
 import com.yassir.budgetbuddy.category.service.facade.ExpensesCategoryService;
 import com.yassir.budgetbuddy.category.service.facade.IncomeSourceService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -19,12 +20,12 @@ import java.util.List;
 public class CategoryController {
 
     @GetMapping("expenses-category")
-    public List<ExpensesCategory> getExpensesCategory() {
+    public List<ExpensesCategoryResponse> getExpensesCategory() {
         return expensesCategoryService.findAll();
     }
 
     @GetMapping("income-source")
-    public List<IncomeSource> getIncomeSources() {
+    public List<IncomeSourceResponse> getIncomeSources() {
         return incomeSourceService.findAll();
     }
 

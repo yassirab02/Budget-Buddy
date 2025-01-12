@@ -21,6 +21,7 @@ import { UserControllerService } from './services/user-controller.service';
 import { AdminService } from './services/admin.service';
 import { ReportService } from './services/report.service';
 import { QuoteService } from './services/quote.service';
+import { CategoryService } from './services/category.service';
 
 /**
  * Module that provides all services and configuration.
@@ -45,6 +46,7 @@ import { QuoteService } from './services/quote.service';
     AdminService,
     ReportService,
     QuoteService,
+    CategoryService,
     ApiConfiguration
   ],
 })

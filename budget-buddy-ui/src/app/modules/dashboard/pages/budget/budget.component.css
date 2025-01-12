@@ -1,64 +1,35 @@
-/* For the modal overlay */
-.fixed {
-  position: fixed;
-}
-
-.inset-0 {
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-}
-
-.z-50 {
-  z-index: 50;
-}
-
-.flex {
-  display: flex;
-}
-
-.items-center {
-  align-items: center;
-}
-
-.justify-center {
-  justify-content: center;
-}
-
-.bg-black {
-  background-color: rgba(0, 0, 0, 0.5);
-}
-
-.bg-opacity-50 {
-  background-opacity: 0.5;
-}
-
-/* For the modal box */
-.bg-white {
+.card {
   background-color: white;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
 }
 
-.rounded-lg {
-  border-radius: 0.5rem;
+.card-header {
+  background: linear-gradient(to right, #38a169, #2f855a);
+  color: white;
 }
 
-.shadow-lg {
-  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1), 0 4px 6px rgba(0, 0, 0, 0.05);
+.form-label {
+  font-weight: 600;
+  color: #2f855a;
 }
 
-.relative {
-  position: relative;
-}
-.fade-in {
-  animation: fadeIn 0.3s ease-in-out;
+.input,
+.textarea {
+  width: 100%;
+  padding-left: 40px; /* Adjust icon spacing */
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+.btn {
+  padding: 12px;
+  font-size: 16px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.btn:hover {
+  background-color: #2f855a;
+  cursor: pointer;
 }

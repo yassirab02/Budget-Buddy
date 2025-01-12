@@ -11,7 +11,7 @@ import {TokenService} from '../../services/token/token.service';
 })
 export class LoginComponent {
 
-  authRequest: AuthenticationRequest = {email: '', password: ''};
+  authRequest : AuthenticationRequest = { email:'',password:''};
   errorMsg: Array<string> = [];
   passwordVisible = false;
 
@@ -38,10 +38,12 @@ export class LoginComponent {
       },
       error: (err) => {
         console.log(err);
-        if (err.error.validationErrors) {
+        if (err.error && err.error.validationErrors) {
           this.errorMsg = err.error.validationErrors;
-        } else {
+        } else if (err.error && err.error.error) {
           this.errorMsg.push(err.error.error);
+        } else {
+          this.errorMsg.push('An unknown error occurred. Please try again later.');
         }
       }
     });

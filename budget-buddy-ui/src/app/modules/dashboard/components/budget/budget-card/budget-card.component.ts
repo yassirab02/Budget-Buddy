@@ -1,51 +1,51 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {BudgetResponse} from '../../../../../services/models/budget-response';
+import {Component, Input} from '@angular/core';
+import {BudgetService} from '../../../../../services/services/budget.service';
+import {DeleteBudget1$Params} from '../../../../../services/fn/budget/delete-budget-1';
 
 @Component({
   selector: 'app-budget-card',
   templateUrl: './budget-card.component.html',
-  styleUrl: './budget-card.component.css'
+  styleUrls: ['./budget-card.component.css'],
 })
 export class BudgetCardComponent {
-  private _budget: BudgetResponse = {};
-  private _manage = false;
-  private _budgetCover: string | undefined;
+  @Input() id!: number | undefined;
+  @Input() name!: string;
+  @Input() description!: string;
+  @Input() amount: number | undefined = 0; // Default to 0 if undefined
+  @Input() targetAmount: number | undefined = 0; // Default to 0 if undefined
+  @Input() limitAmount: number | undefined = 0; // Default to 0 if undefined
+
+  isDelete=false;
 
 
-  get budgetCover(): string | undefined {
-    if (this._budget.budgetCover) {
-      return 'data:image/jpg;base64,' + this._budget.budgetCover
+  get progress(): number {
+    return this.targetAmount ? (this.amount! / this.targetAmount!) * 100 : 0; // Check targetAmount is defined
+  }
+
+  constructor(
+    private budgetService: BudgetService,
+  ) {
+  }
+
+  deleteBudget(id: number | undefined) {
+    if (id === undefined || id === null) {
+      console.error('Invalid ID, cannot delete budget');
+      return;
     }
-    return 'https://source.unsplash.com/user/c_v_r/1900x800';
+
+    // Create the params object with the 'budget-id' property
+    const params: DeleteBudget1$Params = { 'budget-id': id };
+
+    // Call the deleteBudget1 method from the service
+    this.budgetService.deleteBudget1(params).subscribe({
+      next: () => {
+        console.log('Budget deleted successfully');
+        this.isDelete=false;
+      },
+      error: (err) => {
+        console.error('Error deleting budget:', err);
+      }
+    });
   }
 
-  get budget(): BudgetResponse {
-    return this._budget;
-  }
-
-  @Input()
-  set budget(value: BudgetResponse) {
-    this._budget = value;
-  }
-
-
-  get manage(): boolean {
-    return this._manage;
-  }
-
-  @Input()
-  set manage(value: boolean) {
-    this._manage = value;
-  }
-
-  @Output() private edit: EventEmitter<BudgetResponse> = new EventEmitter<BudgetResponse>();
-  @Output() private details: EventEmitter<BudgetResponse> = new EventEmitter<BudgetResponse>();
-
-  onEdit() {
-    this.edit.emit(this._budget);
-  }
-
-  onShowDetails() {
-    this.details.emit(this._budget);
-  }
 }

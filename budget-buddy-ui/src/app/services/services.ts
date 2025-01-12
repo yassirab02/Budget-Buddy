@@ -17,3 +17,4 @@ export { UserControllerService } from './services/user-controller.service';
 export { AdminService } from './services/admin.service';
 export { ReportService } from './services/report.service';
 export { QuoteService } from './services/quote.service';
+export { CategoryService } from './services/category.service';

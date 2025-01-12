@@ -3,7 +3,7 @@ import { BrowserModule, provideClientHydration } from '@angular/platform-browser
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule, provideHttpClient, withFetch} from '@angular/common/http';
 import { LoginComponent } from './pages/login/login.component';
 import { SignUpComponent } from './pages/sign-up/sign-up.component';
 import {FormsModule} from '@angular/forms';
@@ -38,7 +38,7 @@ import { WorkExplainComponent } from './pages/work-explain/work-explain.componen
     FeaturesComponent,
     StaticsComponent,
     NewsLetterComponent,
-    WorkExplainComponent
+    WorkExplainComponent,
   ],
   imports: [
     BrowserModule,
@@ -51,6 +51,7 @@ import { WorkExplainComponent } from './pages/work-explain/work-explain.componen
   ],
   providers: [
     HttpClient,
+    provideHttpClient(withFetch()), // This enables fetch API
     { provide: HTTP_INTERCEPTORS,
       useClass: HttpTokenInterceptor,
       multi: true }

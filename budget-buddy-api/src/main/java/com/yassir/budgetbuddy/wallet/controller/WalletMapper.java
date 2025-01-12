@@ -1,6 +1,5 @@
 package com.yassir.budgetbuddy.wallet.controller;
 
-import com.yassir.budgetbuddy.category.bean.CurrencyType;
 import com.yassir.budgetbuddy.expenses.controller.ExpensesResponse;
 import com.yassir.budgetbuddy.income.controller.IncomeResponse;
 import com.yassir.budgetbuddy.wallet.Wallet;
@@ -19,9 +18,7 @@ public class WalletMapper {
                 .balance(request.balance())
                 .totalIncome(request.totalIncome())
                 .totalExpenses(request.totalExpenses())
-                .currencyType(CurrencyType.builder()
-                        .id(request.currencyTypeId())
-                        .build())
+                .type(request.walletType())
                 .build();
     }
 
@@ -45,6 +42,7 @@ public class WalletMapper {
                         expense.getAmount(),
                         expense.getDescription(),
                         expense.getDate(),  // LocalDate is already correct, so pass it as is
+                        expense.getType().name(), // getType() returns an enum
                         expense.getCategory().getName(),  // Assuming getCategory() returns an object with a getName() method
                         expense.getBudget() != null ? expense.getBudget().getName() : null,  // Handle null values if necessary
                         expense.getWallet().getName()  // Assuming getWallet() returns an object with a getName() method
@@ -57,7 +55,7 @@ public class WalletMapper {
                 .balance(wallet.getBalance())
                 .totalIncome(wallet.getTotalIncome())
                 .totalExpenses(wallet.getTotalExpenses())
-                .currencyType(wallet.getCurrencyType().getName())
+                .walletType(wallet.getType().name())  // getType() returns an enum
                 .owner(wallet.getOwner().fullName())
                 .incomes(incomeResponses)
                 .expenses(expenseResponses)

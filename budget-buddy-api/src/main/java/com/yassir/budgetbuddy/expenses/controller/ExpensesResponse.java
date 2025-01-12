@@ -18,6 +18,7 @@ public class ExpensesResponse {
     private String description;
     private LocalDate date;
     private String category;
+    private String expensesType; // E.g., Fixed, Variable
     private String budget;
     private String wallet;
 }

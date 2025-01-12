@@ -1,0 +1,39 @@
+/* Add your CSS styles */
+.dialog {
+  /* Styling for dialog box */
+}
+
+.dialog-content {
+  /* Styling for dialog content */
+}
+
+.dialog-header h3 {
+  font-size: 1.5rem;
+}
+
+.input {
+  width: 100%;
+  padding: 0.5rem;
+  margin-top: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 0.25rem;
+}
+
+.btn {
+  width: 100%;
+  padding: 1rem;
+  margin-top: 1rem;
+  background-color: #38a169; /* Green color */
+  color: white;
+  border: none;
+  border-radius: 0.25rem;
+}
+
+.btn:hover {
+  background-color: #2f855a;
+}
+
+.close-btn {
+  /* Styling for close button */
+  margin-top: 1rem;
+}

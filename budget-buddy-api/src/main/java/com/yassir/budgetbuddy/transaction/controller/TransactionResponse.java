@@ -19,9 +19,9 @@ public class TransactionResponse {
     private LocalDate date;
     private String transactionType; // E.g., TRANSFER, DEPOSIT, WITHDRAWAL
     private String status; // E.g., PENDING, COMPLETED
-    private Integer sourceWalletId;
-    private Integer destinationWalletId;
-    private Integer senderId;
-    private Integer receiverId;
+    private String sourceWallet;
+    private String destinationWallet;
+    private String sender;
+    private String receiver;
     private Integer goalId;
 }

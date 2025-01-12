@@ -22,7 +22,6 @@ public class BudgetResponse {
     private BigDecimal remainingAmount; // Calculated remaining amount
     private LocalDate startDate;
     private LocalDate endDate;
-    private byte[] budgetCover;
     private String owner; // Full name of the user who owns the budget
 
 }

@@ -1,5 +1,8 @@
 package com.yassir.budgetbuddy.category.bean;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.yassir.budgetbuddy.common.BaseEntity;
 import com.yassir.budgetbuddy.expenses.Expenses;
 import jakarta.persistence.*;
@@ -10,7 +13,6 @@ import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 import java.util.List;
-
 @Entity
 @Getter
 @Setter
@@ -20,7 +22,7 @@ import java.util.List;
 public class ExpensesCategory {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
     @Column(nullable = false, unique = true)
@@ -32,8 +34,9 @@ public class ExpensesCategory {
     @Column(nullable = false)
     private String icon_url; // URL or file path for the category icon
 
-
-    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonBackReference
     private List<Expenses> expenses;
+
 
 }

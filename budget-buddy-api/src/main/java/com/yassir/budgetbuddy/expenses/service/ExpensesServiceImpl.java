@@ -150,16 +150,14 @@ public class ExpensesServiceImpl implements ExpensesService {
     public void resetExpenses(Authentication connectedUser) {
         User user = (User) connectedUser.getPrincipal();
         List<Expenses> expenses = repository.findAll(ExpensesSpecification.withUserId(user.getId()));
-
         if (expenses.isEmpty()) {
             throw new EntityNotFoundException("No expenses found to reset");
         }
-
-        // Update and save all expenses
-        expenses.forEach(expense -> expense.setArchived(true));
+        for (Expenses expense : expenses) {
+            expense.setArchived(true);
+        }
         repository.saveAll(expenses);
     }
-
 
     @Override
     @Transactional

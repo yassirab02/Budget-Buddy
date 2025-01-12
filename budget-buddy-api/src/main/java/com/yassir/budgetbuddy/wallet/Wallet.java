@@ -1,6 +1,7 @@
 package com.yassir.budgetbuddy.wallet;
 
-import com.yassir.budgetbuddy.category.bean.CurrencyType;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.yassir.budgetbuddy.common.BaseEntity;
 import com.yassir.budgetbuddy.expenses.Expenses;
 import com.yassir.budgetbuddy.income.Income;
@@ -29,18 +30,18 @@ public class Wallet extends BaseEntity {
     private BigDecimal totalIncome = BigDecimal.ZERO;
     private BigDecimal totalExpenses = BigDecimal.ZERO;
 
-    @ManyToOne
-    @JoinColumn(name = "currency_type_id", nullable = false)
-    private CurrencyType currencyType;
+    @Enumerated(EnumType.STRING)
+    private WalletType type;
 
     @ManyToOne
     @JoinColumn(name = "owner_id")
+    @JsonBackReference
     private User owner;
 
     @OneToMany(mappedBy = "wallet", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Income> incomes;
 
-    @OneToMany(mappedBy = "wallet", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "wallet", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     private List<Expenses> expenses;
 
     @OneToMany(mappedBy = "sourceWallet", cascade = CascadeType.ALL)

@@ -1,1 +1,108 @@
-<p>wallet works!</p>
+<div class="min-h-screen bg-white">
+  <!-- Main Content -->
+  <div class="p-8">
+    <div class="mb-8 flex items-center justify-between">
+      <h2 class="text-2xl font-bold text-gray-900">My Wallet</h2>
+    </div>
+    <div class="mb-8">
+      <div class="p-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <div class="text-md text-gray-700">Total Income</div>
+            <div class="text-3xl font-bold text-blue-700">$7,610.00</div>
+          </div>
+          <div>
+            <div class="text-md text-gray-700">Total Expense</div>
+            <div class="text-3xl font-bold text-red-700">$7,610.00</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cards Section -->
+    <div class="mb-8 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+      <div class="bg-gradient-to-br from-green-500 to-green-600 text-white p-6">
+        <div class="mb-4 flex justify-between">
+          <div>Main Card</div>
+          <i class="fa-solid fa-credit-card h-6 w-6"></i>
+        </div>
+        <div class="mb-2 text-2xl font-bold">$7,610.00</div>
+        <div class="text-sm opacity-80">**** **** **** ****</div>
+      </div>
+
+      <div class="bg-gradient-to-br from-green-500 to-green-600 text-white p-6">
+        <div class="mb-4 flex justify-between">
+          <div>Savings</div>
+          <i class="fa-solid fa-credit-card h-6 w-6"></i>
+        </div>
+        <div class="mb-2 text-2xl font-bold">$2,253.00</div>
+        <div class="text-sm opacity-80">**** **** **** ****</div>
+      </div>
+
+      <button
+        class="flex h-full items-center justify-center rounded-lg border-2 border-dashed border-gray-200 bg-transparent hover:border-green-500 hover:bg-green-50"
+        (click)="createWallet = true"
+      >
+        <i class="fa-solid fa-circle-plus mr-2 h-5 w-5 text-green-600"></i>
+        <span class="text-green-600">Add New Wallet</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Modal Popup -->
+  <div *ngIf="createWallet" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+    <div class="dialog-content sm:max-w-[425px] bg-white p-6 rounded-lg shadow-lg">
+      <div class="dialog-header flex justify-between items-center mb-4">
+        <h3>Create New Wallet</h3>
+        <button (click)="createWallet = false" class="text-gray-500 hover:text-gray-700">&times;</button>
+      </div>
+
+      <form [formGroup]="walletForm" (ngSubmit)="onSubmit()" class="space-y-4">
+        <div class="space-y-2">
+          <label for="name">Wallet Name</label>
+          <input
+            id="name"
+            formControlName="name"
+            required
+            placeholder="e.g. Savings"
+            class="input"
+          />
+        </div>
+
+        <div class="space-y-2">
+          <label for="balance">Initial Balance</label>
+          <input
+            id="balance"
+            type="number"
+            formControlName="balance"
+            required
+            placeholder="0.00"
+            min="0"
+            step="0.01"
+            class="input"
+          />
+        </div>
+
+        <div class="space-y-2">
+          <label for="cardNumber">Card Number (last 4 digits)</label>
+          <input
+            id="cardNumber"
+            formControlName="Wallet Type"
+            required
+            placeholder="Spending, Cash, etc."
+            maxlength="4"
+            class="input"
+          />
+        </div>
+
+        <button
+          type="submit"
+          class="btn bg-green-500 text-white hover:bg-green-600"
+          [disabled]="walletForm.invalid"
+        >
+          Create Wallet
+        </button>
+      </form>
+    </div>
+  </div>
+</div>

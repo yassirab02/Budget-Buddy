@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, Inject, PLATFORM_ID} from '@angular/core';
+import {AfterViewInit, Component, Inject, OnInit, PLATFORM_ID} from '@angular/core';
 
 
 
@@ -7,6 +7,10 @@ import {AfterViewInit, Component, Inject, PLATFORM_ID} from '@angular/core';
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
-export class AppComponent {
+export class AppComponent implements OnInit{
   title = 'budget-buddy-ui';
+  isLoading: boolean = false;
+
+  ngOnInit() {}
+
 }

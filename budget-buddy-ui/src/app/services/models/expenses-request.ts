@@ -8,7 +8,8 @@ export interface ExpensesRequest {
   categoryId: number;
   date?: string;
   description?: string;
+  expensesType: 'FIXED' | 'VARIABLE' | 'ONE_TIME';
   id?: number;
   name: string;
-  walletId: number;
+  walletId?: number;
 }

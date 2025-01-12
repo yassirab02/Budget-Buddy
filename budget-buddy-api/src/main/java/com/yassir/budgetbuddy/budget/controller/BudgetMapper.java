@@ -33,7 +33,6 @@ public class BudgetMapper {
                 .amount(budget.getAmount())
                 .targetAmount(budget.getTargetAmount())
                 .limitAmount(budget.getLimitAmount())
-                .budgetCover(FileUtils.readFileFromLocation(budget.getBudgetCover()))
                 .usedAmount(usedAmount)  // Added dynamic calculation of usedAmount
                 .remainingAmount(remainingAmount)  // Added dynamic calculation of remainingAmount
                 .owner(budget.getOwner().fullName())

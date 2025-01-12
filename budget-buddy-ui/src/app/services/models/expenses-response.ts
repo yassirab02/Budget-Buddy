@@ -8,6 +8,7 @@ export interface ExpensesResponse {
   category?: string;
   date?: string;
   description?: string;
+  expensesType?: string;
   id?: number;
   name?: string;
   wallet?: string;

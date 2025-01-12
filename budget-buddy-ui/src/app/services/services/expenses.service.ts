@@ -21,11 +21,73 @@ import { FindAllExpenses$Params } from '../fn/expenses/find-all-expenses';
 import { findExpenseById } from '../fn/expenses/find-expense-by-id';
 import { FindExpenseById$Params } from '../fn/expenses/find-expense-by-id';
 import { PageResponseExpensesResponse } from '../models/page-response-expenses-response';
+import { resetExpenses } from '../fn/expenses/reset-expenses';
+import { ResetExpenses$Params } from '../fn/expenses/reset-expenses';
+import { resetMonthlyExpenses } from '../fn/expenses/reset-monthly-expenses';
+import { ResetMonthlyExpenses$Params } from '../fn/expenses/reset-monthly-expenses';
 
 @Injectable({ providedIn: 'root' })
 export class ExpensesService extends BaseService {
   constructor(config: ApiConfiguration, http: HttpClient) {
     super(config, http);
+  }
+
+  /** Path part for operation `resetMonthlyExpenses()` */
+  static readonly ResetMonthlyExpensesPath = '/expenses/reset-monthly-expenses';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `resetMonthlyExpenses()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  resetMonthlyExpenses$Response(params?: ResetMonthlyExpenses$Params, context?: HttpContext): Observable<StrictHttpResponse<{
+}>> {
+    return resetMonthlyExpenses(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `resetMonthlyExpenses$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  resetMonthlyExpenses(params?: ResetMonthlyExpenses$Params, context?: HttpContext): Observable<{
+}> {
+    return this.resetMonthlyExpenses$Response(params, context).pipe(
+      map((r: StrictHttpResponse<{
+}>): {
+} => r.body)
+    );
+  }
+
+  /** Path part for operation `resetExpenses()` */
+  static readonly ResetExpensesPath = '/expenses/reset-expenses';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `resetExpenses()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  resetExpenses$Response(params?: ResetExpenses$Params, context?: HttpContext): Observable<StrictHttpResponse<{
+}>> {
+    return resetExpenses(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `resetExpenses$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  resetExpenses(params?: ResetExpenses$Params, context?: HttpContext): Observable<{
+}> {
+    return this.resetExpenses$Response(params, context).pipe(
+      map((r: StrictHttpResponse<{
+}>): {
+} => r.body)
+    );
   }
 
   /** Path part for operation `addOrUpdateExpense()` */

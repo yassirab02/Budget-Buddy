@@ -6,7 +6,6 @@ import { Expenses } from '../models/expenses';
 import { User } from '../models/user';
 export interface Budget {
   amount?: number;
-  budgetCover?: string;
   createdBy?: number;
   createdDate?: string;
   description?: string;

@@ -44,16 +44,6 @@ public class BudgetServiceImpl implements BudgetService {
     }
 
     @Override
-    public void uploadBudgetCoverPicture(MultipartFile file, Authentication connectedUser, Integer budgetId) {
-        Budget budget = repository.findById(budgetId)
-                .orElseThrow(() -> new EntityNotFoundException("No Budget found with the Id : " + budgetId));
-        User user = ((User) connectedUser.getPrincipal());
-        var budgetCover = fileStorageService.saveFile(file, user.getId());
-        budget.setBudgetCover(budgetCover);
-        repository.save(budget);
-    }
-
-    @Override
     public void deleteBudget(Integer budgetId, Authentication connectedUser) {
         Budget budget = repository.findById(budgetId)
                 .orElseThrow(() -> new EntityNotFoundException("No Budget found with the Id : " + budgetId));

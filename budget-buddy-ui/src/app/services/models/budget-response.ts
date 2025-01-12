@@ -4,7 +4,6 @@
 
 export interface BudgetResponse {
   amount?: number;
-  budgetCover?: string;
   description?: string;
   endDate?: string;
   id?: number;

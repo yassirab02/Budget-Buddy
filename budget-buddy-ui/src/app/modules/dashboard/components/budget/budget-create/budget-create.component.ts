@@ -1,16 +1,21 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {BudgetRequest} from '../../../../../services/models/budget-request';
 import {BudgetService} from '../../../../../services/services/budget.service';
 import {ActivatedRoute, Router} from '@angular/router';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {BudgetResponse} from '../../../../../services/models/budget-response';
 
 @Component({
   selector: 'app-budget-create',
   templateUrl: './budget-create.component.html',
   styleUrl: './budget-create.component.css'
 })
-export class BudgetCreateComponent implements OnInit{
-  errorMsg: Array<string> = [];
+export class BudgetCreateComponent implements OnInit {
+  @Output() closeModal = new EventEmitter<void>();
+  @Output() budgetCreated = new EventEmitter<void>(); // Emits an event when a new budget is created
 
+  showSuccess=false
+  errorMsg: Array<string> = [];
   budgetRequest: BudgetRequest = {
     name: '',
     amount: 0,
@@ -18,14 +23,22 @@ export class BudgetCreateComponent implements OnInit{
     limitAmount: 0,
     targetAmount: 0
   };
-  selectedBudgetCover: any;
-  selectedPicture: string | undefined;
 
-  constructor(
-    private router: Router,
-    private budgetService : BudgetService,
-    private activatedRoute: ActivatedRoute,
-  ) {
+
+  budgetForm: FormGroup;
+  isSubmitting = false;
+
+  constructor(private fb: FormBuilder,
+              private router: Router,
+              private budgetService : BudgetService,
+              private activatedRoute: ActivatedRoute,) {
+    this.budgetForm = this.fb.group({
+      name: ['', [Validators.required]],
+      description: ['', [Validators.required]],
+      amount: [0, [Validators.required]],
+      targetAmount: [0, [Validators.required]],
+      limitAmount: [0, [Validators.required]]
+    });
   }
 
   ngOnInit() {
@@ -43,46 +56,32 @@ export class BudgetCreateComponent implements OnInit{
             targetAmount: budget.targetAmount as number,
             limitAmount: budget.limitAmount as number
           };
-          this.selectedPicture = 'data:image/jpg;base64,' + budget.budgetCover;
         }
       });
     }
   }
 
-    saveBudget() {
-      this.budgetService.addOrUpdateBudget({
-        body: this.budgetRequest
-      }).subscribe({
-        next: (budgetId) => {
-          this.budgetService.uploadBudgetCoverPicture({
-            'budget-id': budgetId,
-            body: {
-              file: this.selectedBudgetCover
-            }
-          }).subscribe({
-            next: () => {
-              this.router.navigate(['/budget']);
-            }
-          });
-        },
-        error: (err) => {
-          console.log(err.error);
-          this.errorMsg = err.error.validationErrors;
-        }
-      });
-    }
-
-  onFileSelected(event: any) {
-    this.selectedBudgetCover = event.target.files[0];
-    console.log(this.selectedBudgetCover);
-    if (this.selectedBudgetCover) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        this.selectedPicture = reader.result as string;
-      };
-      reader.readAsDataURL(this.selectedBudgetCover);
-    }
+  saveBudget() {
+    this.budgetService.addOrUpdateBudget({
+      body: this.budgetRequest
+    }).subscribe({
+      next: (budgetId) => {
+        // Set isAdd to false after successful save
+        this.closeModal.emit();
+        this.budgetForm.reset();
+        this.showSuccess = true;
+        this.budgetCreated.emit(); // Emit the event to notify parent component
+        setTimeout(() => {
+          this.showSuccess = false;
+        }, 5000);
+      },
+      error: (err) => {
+        console.log(err.error);
+        this.errorMsg = err.error.validationErrors;
+      }
+    });
   }
+
 
   closeError(): void {
     this.errorMsg = []; // Clear the error messages

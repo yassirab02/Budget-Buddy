@@ -1,5 +1,6 @@
 package com.yassir.budgetbuddy.wallet.controller;
 
+import com.yassir.budgetbuddy.wallet.WalletType;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotNull;
 
@@ -19,6 +20,7 @@ public record WalletRequest(
 
         BigDecimal totalExpenses,
 
-        Integer currencyTypeId // ID of the currency type (e.g., USD, EUR)
+        WalletType walletType
+
 ) {
 }

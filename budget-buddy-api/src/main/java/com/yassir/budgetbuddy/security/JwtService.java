@@ -28,12 +28,14 @@ public class JwtService {
     }
 
     private <T> T extractClaim(String token, Function<Claims , T> claimResolver) {
-        final Claims claims = extractAllClaims(token);
+        String cleanedToken = token.trim();
+        final Claims claims = extractAllClaims(cleanedToken);
         return claimResolver.apply(claims);
     }
 
     // todo : understand more about this method
     private Claims extractAllClaims(String token) {
+
         return Jwts
                 .parserBuilder()
                 .setSigningKey(getSignInKey())

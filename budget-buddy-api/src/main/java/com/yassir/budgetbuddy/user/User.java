@@ -1,5 +1,6 @@
 package com.yassir.budgetbuddy.user;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.yassir.budgetbuddy.budget.Budget;
 import com.yassir.budgetbuddy.expenses.Expenses;
 import com.yassir.budgetbuddy.income.Income;
@@ -56,12 +57,14 @@ public class User implements UserDetails , Principal {
     protected LocalDateTime lockoutTime;
     protected boolean passwordChanged = false;
 
+    @Builder.Default
     private BigDecimal totalBalance = BigDecimal.ZERO;
 
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Role> roles;
 
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<Wallet> wallets;
 
     @OneToMany(mappedBy = "sender", cascade = CascadeType.ALL)

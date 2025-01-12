@@ -4,9 +4,9 @@
 
 export interface WalletRequest {
   balance: number;
-  currencyTypeId?: number;
   id?: number;
   name: string;
   totalExpenses?: number;
   totalIncome?: number;
+  walletType?: 'SPENDING' | 'SAVINGS' | 'CASH';
 }

@@ -11,7 +11,6 @@ public interface BudgetService {
 
     Integer addOrUpdateBudget(BudgetRequest request, Authentication connectedUser);
 
-    void uploadBudgetCoverPicture(MultipartFile file, Authentication connectedUser, Integer budgetId);
 
     void deleteBudget(Integer budgetId, Authentication connectedUser);
 

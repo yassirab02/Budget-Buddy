@@ -20,7 +20,7 @@ public class WalletResponse {
         private BigDecimal balance;
         private BigDecimal totalIncome;
         private BigDecimal totalExpenses;
-        private String currencyType; // Name or code of the currency type
+        private String walletType; // Name of the wallet type
         private String owner; // Full name of the user who owns the wallet
         private List<IncomeResponse> incomes; // A list of income responses
         private List<ExpensesResponse> expenses; // A list of expense responses

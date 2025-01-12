@@ -27,17 +27,6 @@ public class BudgetController {
         return ResponseEntity.ok(service.addOrUpdateBudget(request, connectedUser));
     }
 
-    @PostMapping(value = "/cover/{budget-id}", consumes = "multipart/form-data")
-    public ResponseEntity<?> uploadBudgetCoverPicture(
-            @PathVariable("budget-id") Integer budgetId,
-            @Parameter()
-            @RequestPart("file") MultipartFile file,
-            Authentication connectedUser
-    ) {
-        service.uploadBudgetCoverPicture(file, connectedUser, budgetId);
-        return ResponseEntity.accepted().build();
-    }
-
     @GetMapping(("/all-budgets"))
     public ResponseEntity<PageResponse<BudgetResponse>> findAllBudgetsByOwner(
             @RequestParam(name = "page", defaultValue = "0", required = false) int page,

@@ -1,94 +1,39 @@
-<div class="max-w-screen-xl mx-auto px-4 md:px-8">
-  <div class="items-start justify-between py-4 border-b md:flex">
-    <div class="max-w-lg">
-      <h3 class="text-gray-800 text-2xl font-bold">
-        Budget
-      </h3>
-      <p class="text-gray-600 mt-2">
-        Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-      </p>
-    </div>
-    <div class="mt-6 md:mt-0">
+<div class="min-h-screen bg-white p-8">
+  <div class="max-w-6xl mx-auto">
+    <div class="flex justify-between items-center mb-8">
+      <h1 class="text-3xl font-bold text-green-800">Your Budgets</h1>
       <button
-        (click)="isAdd=true"
-        class="block px-6 py-4 text-center text-white duration-150 font-medium bg-green-600 rounded-lg hover:bg-green-500 active:bg-green-700 md:text-sm"
-      >
-        New Budget
+        class="btn bg-green-600 hover:bg-green-700 text-white flex items-center"
+        (click)="isAdd = !isAdd"
+        *ngIf="budgetResponse.content?.length != 0">
+        <i class="fa-solid fa-circle-plus h-4 w-4"></i>
+        <span class="hidden md:inline ml-2">New Budget</span>
       </button>
     </div>
+
+    <!-- Enhanced HR -->
+    <hr class="p-4">
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <app-budget-card
+        *ngFor="let budget of budgetResponse.content"
+        [id]="budget.id"
+        [name]="budget.name || 'No name provided.'"
+        [description]="budget.description || 'No description provided.'"
+        [amount]="budget.amount || 0"
+        [targetAmount]="budget.targetAmount || 0"
+        [limitAmount]="budget.limitAmount || 0">
+      </app-budget-card>
+    </div>
+
+    <!-- Add Budget Modal -->
+    <div *ngIf="isAdd" class="fixed inset-0 flex items-center justify-center bg-opacity-75 bg-gray-600 z-50">
+      <div class="rounded-lg md:w-1/2">
+        <app-budget-create
+          (closeModal)="isAdd = false"
+          (budgetCreated)="findAllBudgets(true)">
+        </app-budget-create>
+      </div>
+    </div>
   </div>
-</div>
-
-<div class="flex justify-start min-w-[300px] gap-5 flex-wrap">
-  <app-budget-card
-    *ngFor="let budget of budgetResponse.content"
-    [budget]="budget"
-  ></app-budget-card>
-</div>
-
-<div class="flex justify-center mt-3">
-  <nav aria-label="Page navigation example">
-    <ul class="flex list-none space-x-2">
-      <li class="page-item">
-        <a
-          (click)="goToFirstPage()"
-          class="page-link inline-block px-3 py-1.5 text-sm font-medium leading-tight text-gray-700 bg-white border border-gray-300 rounded-l hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 disabled:opacity-50"
-          href="javascript:void(0)"
-          aria-label="Previous"
-          [class.disabled]="page === 0"
-        >
-          <i class="fa-solid fa-angles-left"></i>
-        </a>
-      </li>
-      <li class="page-item">
-        <a
-          (click)="goToPreviousPage()"
-          class="page-link inline-block px-3 py-1.5 text-sm font-medium leading-tight text-gray-700 bg-white border border-gray-300 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 disabled:opacity-50"
-          href="javascript:void(0)"
-          aria-label="Previous"
-          [class.disabled]="page === 0"
-        >
-          <i class="fa-solid fa-angle-left"></i>
-        </a>
-      </li>
-      <li
-        class="page-item"
-        *ngFor="let pageIndex of pages"
-      >
-        <a
-          (click)="gotToPage(pageIndex)"
-          class="page-link inline-block px-3 py-1.5 text-sm font-medium leading-tight text-gray-700 bg-white border border-gray-300 rounded hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
-          [class.active]="page === pageIndex"
-          href="javascript:void(0)"
-        >{{ pageIndex + 1 }}</a>
-      </li>
-      <li class="page-item">
-        <a
-          (click)="goToNextPage()"
-          class="page-link inline-block px-3 py-1.5 text-sm font-medium leading-tight text-gray-700 bg-white border border-gray-300 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 disabled:opacity-50"
-          href="javascript:void(0)"
-          aria-label="Next"
-          [class.disabled]="isLastPage"
-        >
-          <i class="fa-solid fa-chevron-right"></i>
-        </a>
-      </li>
-      <li class="page-item">
-        <a
-          (click)="goToLastPage()"
-          class="page-link inline-block px-3 py-1.5 text-sm font-medium leading-tight text-gray-700 bg-white border border-gray-300 rounded-r hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 disabled:opacity-50"
-          href="javascript:void(0)"
-          aria-label="Next"
-          [class.disabled]="isLastPage"
-        >
-          <i class="fa-solid fa-angles-right"></i>
-        </a>
-      </li>
-    </ul>
-  </nav>
-</div>
-
-
-<div *ngIf="isAdd">
-  <app-budget-create></app-budget-create>
 </div>

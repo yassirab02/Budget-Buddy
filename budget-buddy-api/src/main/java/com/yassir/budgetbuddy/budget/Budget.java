@@ -1,6 +1,8 @@
 package com.yassir.budgetbuddy.budget;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.yassir.budgetbuddy.common.BaseEntity;
 import com.yassir.budgetbuddy.expenses.Expenses;
 import com.yassir.budgetbuddy.user.User;
@@ -24,14 +26,15 @@ public class Budget extends BaseEntity {
     private BigDecimal amount;
     private Double targetAmount;
     private Double limitAmount;
-    private String budgetCover;
 
     @ManyToOne
     @JoinColumn(name = "owner_id", nullable = false)
+    @JsonBackReference
     private User owner;
 
     // One-to-many relationship with Expenses
     @OneToMany(mappedBy = "budget", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<Expenses> expenses;
 
     // Method to calculate how much of the budget has been used
