@@ -22,7 +22,6 @@ public record IncomeRequest(
 
         LocalDate date,
 
-        @NotNull(message = "Income source ID is required")
         Integer incomeSourceId,
 
         @NotNull(message = "Wallet ID is required")

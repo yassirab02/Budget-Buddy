@@ -11,9 +11,6 @@ export interface WalletResponse {
   id?: number;
   incomes?: Array<IncomeResponse>;
   name?: string;
-  owner?: string;
-  receivedTransfers?: Array<TransactionResponse>;
-  sentTransfers?: Array<TransactionResponse>;
   totalExpenses?: number;
   totalIncome?: number;
   walletType?: string;

@@ -3,7 +3,6 @@ import {BudgetRequest} from '../../../../../services/models/budget-request';
 import {BudgetService} from '../../../../../services/services/budget.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {BudgetResponse} from '../../../../../services/models/budget-response';
 
 @Component({
   selector: 'app-budget-create',
@@ -85,5 +84,9 @@ export class BudgetCreateComponent implements OnInit {
 
   closeError(): void {
     this.errorMsg = []; // Clear the error messages
+  }
+
+  closeCreate() {
+    this.closeModal.emit();
   }
 }

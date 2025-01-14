@@ -25,7 +25,7 @@ public class BaseEntity {
 
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
     @CreatedDate

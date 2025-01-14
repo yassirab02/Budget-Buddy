@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule, provideClientHydration } from '@angular/platform-browser';
+import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -22,6 +22,7 @@ import {DashboardModule} from './modules/dashboard/dashboard.module';
 import { NewsLetterComponent } from './pages/news-letter/news-letter.component';
 import {HttpTokenInterceptor} from './services/interceptor/http-token.interceptor';
 import { WorkExplainComponent } from './pages/work-explain/work-explain.component';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import { WorkExplainComponent } from './pages/work-explain/work-explain.componen
     CodeInputModule,
     NgOptimizedImage,
     DashboardModule,
+    BrowserAnimationsModule,
   ],
   providers: [
     HttpClient,

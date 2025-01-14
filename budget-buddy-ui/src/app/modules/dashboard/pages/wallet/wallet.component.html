@@ -2,62 +2,58 @@
   <!-- Main Content -->
   <div class="p-8">
     <div class="mb-8 flex items-center justify-between">
-      <h2 class="text-2xl font-bold text-gray-900">My Wallet</h2>
+      <h1 class="text-3xl font-bold text-green-800">Your Wallets</h1>
+      <button
+        class="flex h-full items-center justify-center p-3 rounded-lg border-2 border-gray-200 bg-green-600 hover:bg-green-700 shadow-lg"
+        (click)="createWallet = true"
+      >
+        <i class="fa-solid fa-circle-plus mr-2 h-5 w-5 text-white"></i>
+        <span class="text-white">New Wallet</span>
+      </button>
     </div>
-    <div class="mb-8">
-      <div class="p-6">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div>
-            <div class="text-md text-gray-700">Total Income</div>
-            <div class="text-3xl font-bold text-blue-700">$7,610.00</div>
-          </div>
-          <div>
-            <div class="text-md text-gray-700">Total Expense</div>
-            <div class="text-3xl font-bold text-red-700">$7,610.00</div>
-          </div>
-        </div>
-      </div>
-    </div>
+
+    <hr class="p-4">
 
     <!-- Cards Section -->
     <div class="mb-8 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-      <div class="bg-gradient-to-br from-green-500 to-green-600 text-white p-6">
+      <div *ngFor="let wallet of walletResponse.content"
+           class="bg-gradient-to-br from-green-500 to-green-600 text-white p-6 relative">
         <div class="mb-4 flex justify-between">
-          <div>Main Card</div>
+          <div>{{ wallet?.name }}</div>
           <i class="fa-solid fa-credit-card h-6 w-6"></i>
         </div>
-        <div class="mb-2 text-2xl font-bold">$7,610.00</div>
-        <div class="text-sm opacity-80">**** **** **** ****</div>
-      </div>
+        <div class="mb-2 text-2xl font-bold">{{ wallet?.balance | currency }}</div>
+        <div class="text-sm opacity-80">{{ wallet?.walletType }}</div>
 
-      <div class="bg-gradient-to-br from-green-500 to-green-600 text-white p-6">
-        <div class="mb-4 flex justify-between">
-          <div>Savings</div>
-          <i class="fa-solid fa-credit-card h-6 w-6"></i>
+        <!-- Toggle Wallet Details Button in the bottom right -->
+        <button
+          (click)="toggleDetails(wallet.id)"
+          class="absolute bottom-4 right-4 flex items-center text-sm text-white hover:bg-gray-800 p-2 rounded-lg"
+        >
+          <i *ngIf="!isDetailsVisible(wallet.id)" class="fa-solid fa-circle-info mr-2"></i>
+          <i *ngIf="isDetailsVisible(wallet.id)" class="fa-regular fa-circle-xmark mr-2"></i>
+        </button>
+
+        <div *ngIf="isDetailsVisible(wallet.id)">
+          <app-wallet-details
+            [walletId]="wallet.id"
+            (onClose)="wallet.id && toggleDetails(wallet.id)">
+          </app-wallet-details>
         </div>
-        <div class="mb-2 text-2xl font-bold">$2,253.00</div>
-        <div class="text-sm opacity-80">**** **** **** ****</div>
       </div>
-
-      <button
-        class="flex h-full items-center justify-center rounded-lg border-2 border-dashed border-gray-200 bg-transparent hover:border-green-500 hover:bg-green-50"
-        (click)="createWallet = true"
-      >
-        <i class="fa-solid fa-circle-plus mr-2 h-5 w-5 text-green-600"></i>
-        <span class="text-green-600">Add New Wallet</span>
-      </button>
     </div>
   </div>
 
   <!-- Modal Popup -->
   <div *ngIf="createWallet" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-    <div class="dialog-content sm:max-w-[425px] bg-white p-6 rounded-lg shadow-lg">
+    <div class="dialog-content sm:max-w-[425px] bg-white p-6 rounded-lg shadow-lg ">
       <div class="dialog-header flex justify-between items-center mb-4">
-        <h3>Create New Wallet</h3>
-        <button (click)="createWallet = false" class="text-gray-500 hover:text-gray-700">&times;</button>
+        <i class="fa-solid fa-wallet"></i>
+        <h3>New Wallet</h3>
+        <button (click)="createWallet = false" class="text-gray-500 hover:text-gray-700"><i class="fa-regular fa-circle-xmark"></i></button>
       </div>
 
-      <form [formGroup]="walletForm" (ngSubmit)="onSubmit()" class="space-y-4">
+      <div [formGroup]="walletForm" (ngSubmit)="saveWallet()" class="space-y-4">
         <div class="space-y-2">
           <label for="name">Wallet Name</label>
           <input
@@ -66,6 +62,7 @@
             required
             placeholder="e.g. Savings"
             class="input"
+            [(ngModel)]="walletRequest.name"
           />
         </div>
 
@@ -80,29 +77,45 @@
             min="0"
             step="0.01"
             class="input"
+            [(ngModel)]="walletRequest.balance"
           />
         </div>
 
         <div class="space-y-2">
-          <label for="cardNumber">Card Number (last 4 digits)</label>
-          <input
-            id="cardNumber"
-            formControlName="Wallet Type"
+          <label for="walletType">Card Type</label>
+          <select
+            id="walletType"
+            formControlName="walletType"
             required
-            placeholder="Spending, Cash, etc."
-            maxlength="4"
             class="input"
-          />
+          >
+            <option value="SPENDING">Spending</option>
+            <option value="SAVINGS">Savings</option>
+            <option value="CASH">Cash</option>
+          </select>
         </div>
-
         <button
           type="submit"
           class="btn bg-green-500 text-white hover:bg-green-600"
-          [disabled]="walletForm.invalid"
+          (click)="saveWallet()"
         >
           Create Wallet
         </button>
-      </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="absolute top-5 right-5 z-20 w-auto max-w-sm rounded-lg shadow-md flex items-center">
+    <div class="flex w-full max-w-sm overflow-hidden bg-white rounded-lg shadow-md" *ngIf="showSuccess">
+      <div class="flex items-center justify-center w-12 bg-emerald-500">
+        <i class="fa-solid fa-circle-check w-6 h-6 text-white fill-current"></i>
+      </div>
+      <div class="px-4 py-2 -mx-3">
+        <div class="mx-3">
+          <span class="font-semibold text-emerald-500">Success</span>
+          <p class="text-sm text-gray-600">Wallet added successfully!</p>
+        </div>
+      </div>
     </div>
   </div>
 </div>

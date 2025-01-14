@@ -8,10 +8,7 @@ import com.yassir.budgetbuddy.income.Income;
 import com.yassir.budgetbuddy.transaction.Transaction;
 import com.yassir.budgetbuddy.user.User;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import java.math.BigDecimal;
@@ -27,7 +24,10 @@ public class Wallet extends BaseEntity {
 
     private String name;
     private BigDecimal balance;
+
+    @Builder.Default
     private BigDecimal totalIncome = BigDecimal.ZERO;
+    @Builder.Default
     private BigDecimal totalExpenses = BigDecimal.ZERO;
 
     @Enumerated(EnumType.STRING)

@@ -21,7 +21,8 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { BudgetCreateComponent } from './components/budget/budget-create/budget-create.component';
 import {BudgetComponent} from './pages/budget/budget.component';
 import { BudgetCardComponent } from './components/budget/budget-card/budget-card.component';
-import { WalletCreateComponent } from './components/wallet/wallet-create/wallet-create.component';
+import {SpinnerComponent} from './pages/spinner/spinner.component';
+import { WalletDetailsComponent } from './components/wallet/wallet-details/wallet-details.component';
 
 
 @NgModule({
@@ -44,7 +45,8 @@ import { WalletCreateComponent } from './components/wallet/wallet-create/wallet-
     DashboardComponent,
     BudgetCreateComponent,
     BudgetCardComponent,
-    WalletCreateComponent,
+    SpinnerComponent,
+    WalletDetailsComponent,
   ],
   imports: [
     CommonModule,

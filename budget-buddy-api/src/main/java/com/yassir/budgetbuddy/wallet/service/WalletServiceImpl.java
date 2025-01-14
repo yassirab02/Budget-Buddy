@@ -43,6 +43,10 @@ public class WalletServiceImpl implements WalletService {
             throw new EntityNotFoundException("Wallet with the name already exists");
         }
         Wallet wallet = walletMapper.toWallet(request);
+        if (request.totalExpenses() == null || request.totalIncome() == null) {
+            wallet.setTotalExpenses(BigDecimal.ZERO);
+            wallet.setTotalIncome(BigDecimal.ZERO);
+        }
         wallet.setOwner(user);
         user.setTotalBalance(user.getTotalBalance().add(wallet.getBalance()));
         return repository.save(wallet).getId();
@@ -65,7 +69,7 @@ public class WalletServiceImpl implements WalletService {
     @Override
     public PageResponse<WalletResponse> findAllWalletsByOwner(int page, int size, Authentication connectedUser) {
         User user = ((User) connectedUser.getPrincipal());
-        Pageable pageable = PageRequest.of(page, size, Sort.by("createdDate").descending());
+        Pageable pageable = PageRequest.of(page, size, Sort.by("createdDate").ascending());
         Page<Wallet> wallets = repository.findAll(WalletSpecification.withOwnerId(user.getId()), pageable);
         List<WalletResponse> walletResponse = wallets.stream()
                 .map(walletMapper::toWalletResponse)

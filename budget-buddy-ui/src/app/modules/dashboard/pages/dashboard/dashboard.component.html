@@ -1,4 +1,8 @@
-<div class="min-h-screen bg-green-50">
+<div *ngIf="isLoadingUser; else dashboardContent" class="flex justify-center items-center h-screen">
+  <app-spinner class="w-16 h-16"></app-spinner>
+</div>
+
+<ng-template class="min-h-screen bg-green-50" #dashboardContent>
   <!-- Success Message -->
   <div class="absolute top-5 right-5 z-20 w-auto max-w-sm rounded-lg shadow-md flex items-center">
     <div class="flex w-full max-w-sm overflow-hidden bg-white rounded-lg shadow-md" *ngIf="showSuccess">
@@ -73,7 +77,7 @@
           <!-- Input field for entering the amount -->
           <input *ngIf="add" type="number" [(ngModel)]="amountToAdd"
                  placeholder="Enter amount"
-                 class="border border-gray-300 rounded px-2 py-1 w-32 focus:outline-none focus:ring-2 focus:ring-green-500" />
+                 class="border border-gray-300 rounded px-2 py-1 w-32 focus:outline-none focus:ring-2 focus:ring-green-500"/>
 
           <!-- Cancel button to close the input field -->
           <button *ngIf="add" class="bg-red-500 text-white px-4 py-2 rounded-full flex items-center"
@@ -82,7 +86,7 @@
           </button>
         </div>
       </div>
-      <p class="text-3xl font-bold text-green-600 mt-2">$ {{user?.totalBalance}}</p>
+      <p class="text-3xl font-bold text-green-600 mt-2">$ {{ user?.totalBalance }}</p>
     </section>
 
     <!-- Budgets -->
@@ -92,7 +96,8 @@
         <div *ngFor="let budget of budgets" class="flex-shrink-0 w-64 bg-green-100 rounded-lg p-4 mb-4 sm:mb-0">
           <h3 class="font-semibold text-green-700">{{ budget.name }}</h3>
           <div class="mt-2 h-2 bg-green-200 rounded-full">
-            <div class="h-full bg-green-500 rounded-full" [style.width.%]="(budget.targetAmount && budget.usedAmount ? (budget.usedAmount / budget.targetAmount) * 100 : 0)"
+            <div class="h-full bg-green-500 rounded-full"
+                 [style.width.%]="(budget.targetAmount && budget.usedAmount ? (budget.usedAmount / budget.targetAmount) * 100 : 0)"
             ></div>
           </div>
           <p class="mt-2 text-sm text-green-600">
@@ -111,12 +116,14 @@
     <section class="bg-white rounded-lg shadow p-6">
       <h2 class="text-xl font-semibold text-green-800 mb-4">Recent Transactions</h2>
       <ul class="space-y-4">
-        <li *ngFor="let transaction of transactions" class="flex flex-col sm:flex-row justify-between items-center border-b pb-2">
+        <li *ngFor="let transaction of transactions"
+            class="flex flex-col sm:flex-row justify-between items-center border-b pb-2">
           <div>
             <p class="font-semibold">{{ transaction.name }}</p>
             <p class="text-sm text-gray-500">{{ transaction.date }}</p>
           </div>
-          <p [ngClass]="{ 'text-green-600': transaction.amount > 0, 'text-red-600': transaction.amount <= 0 }" class="font-semibold mt-2 sm:mt-0">
+          <p [ngClass]="{ 'text-green-600': transaction.amount > 0, 'text-red-600': transaction.amount <= 0 }"
+             class="font-semibold mt-2 sm:mt-0">
             {{ transaction.amount > 0 ? '+' : '-' }}${{ transaction.amount | number }}
           </p>
         </li>
@@ -154,5 +161,5 @@
       </div>
     </section>
   </main>
-</div>
+</ng-template>
 

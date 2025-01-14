@@ -31,14 +31,19 @@ export class DashboardComponent implements OnInit {
     this.fetchBudgetsByOwner(); // Fetch budgets by owner
   }
 
+  isLoadingUser: boolean = true;
+
+
   initializeDashboard() {
-    // Fetching the current user with type safety
+    this.isLoadingUser = true;  // Set loading to true
     this.userService.getCurrentUser().subscribe(
       (user: User) => {
-        this._user = user;  // Ensure user is set correctly
+        this._user = user;
+        this.isLoadingUser = false; // Hide the spinner once data is loaded
       },
       (error) => {
-        console.error('Error fetching user data', error);  // Handle error gracefully
+        console.error('Error fetching user data', error);
+        this.isLoadingUser = false; // Hide the spinner even if there's an error
       }
     );
   }
