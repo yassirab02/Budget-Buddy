@@ -57,4 +57,8 @@ export class LoginComponent {
   closeError(): void {
     this.errorMsg = []; // Clear the error messages
   }
+
+  returnHome() {
+    this.router.navigate(['home']);
+  }
 }

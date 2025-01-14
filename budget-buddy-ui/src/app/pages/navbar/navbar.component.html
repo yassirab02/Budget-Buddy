@@ -4,6 +4,11 @@
     <div class="flex items-center justify-between py-5 md:block">
       <a href="/home" class="flex items-center text-black font-bold text-2xl font-[Poppins]">
         <span class="text-green-600">Budget</span>
+        <img
+          src="assets\Budget-face logo.png"
+          alt="Budget Buddy Logo"
+          class=" w-12 md:w-8 ml-2"
+        />
         <span class="ml-2">Buddy</span>
       </a>
       <div class="md:hidden">
@@ -59,7 +64,10 @@
         >
           <a
             routerLink="{{ item.path }}"
-            class="block py-2 px-4 transition-all duration-200 ease-in-out hover:text-green-800 hover:scale-105"
+            routerLinkActive="text-green-400 scale-105"
+            [routerLinkActiveOptions]="{ exact: true }"
+            [ngClass]="{ 'hover:text-green-800 hover:scale-105': !isActive(item.path) }"
+            class="block py-2 px-4 transition-all duration-200 ease-in-out"
           >
             {{ item.title }}
           </a>

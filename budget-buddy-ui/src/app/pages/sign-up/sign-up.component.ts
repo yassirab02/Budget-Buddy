@@ -48,4 +48,7 @@ export class SignUpComponent {
     this.errorMsg = []; // Clear the error messages
   }
 
+  returnHome() {
+    this.router.navigate(['home']);
+  }
 }

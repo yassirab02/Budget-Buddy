@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
@@ -8,6 +9,11 @@ import { Component } from '@angular/core';
 export class NavbarComponent {
   isMenuOpen = false;
 
+  constructor(private router: Router) {}
+
+  isActive(path: string): boolean {
+    return this.router.isActive(path, true);
+  }
   navigation = [
     { title: 'Home', path: '/home' },
     { title: 'Features', path: '/features' },

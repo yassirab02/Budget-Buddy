@@ -1,5 +1,16 @@
 <div class="min-h-screen bg-white">
-  <div class="flex min-h-screen">
+  <div class="flex min-h-screen relative">
+    <!-- Return Home Button -->
+    <div class="absolute top-4 left-4">
+      <button
+        type="button"
+        class="flex items-center justify-center gap-2 bg-gradient-to-r from-green-400 to-blue-500 hover:from-green-500 hover:to-blue-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-0.5"
+        (click)="returnHome()"
+      >
+        <i class="fa-solid fa-arrow-left"></i>
+        Back Home
+      </button>
+    </div>
     <!-- Left section -->
     <div class="flex w-full flex-col p-8 lg:w-1/2">
       <div class="mx-auto mt-20 w-full max-w-md space-y-8">
@@ -103,11 +114,12 @@
     </div>
 
     <!-- Right section - Background image -->
-    <div class="hidden lg:block lg:w-1/2">
+    <div class="hidden lg:block lg:w-1/2 relative">
       <div
         class="h-full w-full bg-cover bg-center"
         style="background-image: url('assets/logo.png'); background-size: cover; background-position: center;"
       ></div>
     </div>
+
   </div>
 </div>
