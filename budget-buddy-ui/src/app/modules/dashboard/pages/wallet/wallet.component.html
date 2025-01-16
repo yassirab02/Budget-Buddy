@@ -35,7 +35,7 @@
 
           <div>
             <div
-              class="text-sm bg-transparent px-3 py-1 rounded-full shadow text-white capitalize mt-2 inline-block"
+              class="text-sm bg-transparent px-3 py-1 rounded-full mt-2"
             >
             </div>
           </div>
@@ -46,7 +46,7 @@
 
         <!-- Toggle Wallet Details Button -->
         <button
-          (click)="toggleDetails(wallet.id)"
+          (click)="toggleDetails(wallet?.id)"
           class="absolute bottom-4 right-4 flex items-center bg-green-600 hover:bg-green-700 text-white px-3 sm:px-4 py-2 rounded-full text-xs sm:text-sm shadow-lg"
         >
           <i
@@ -61,17 +61,6 @@
           <span class="hidden sm:inline" *ngIf="isDetailsVisible(wallet.id)">Close</span>
         </button>
 
-        <!-- Wallet Details Component -->
-        <div
-          *ngIf="isDetailsVisible(wallet.id)"
-          class="mt-4 bg-green-600 bg-opacity-80 p-4 rounded-lg shadow-inner"
-        >
-          <app-wallet-details
-            [walletId]="wallet.id"
-            (onClose)="wallet.id && toggleDetails(wallet.id)"
-          ></app-wallet-details>
-        </div>
-
         <!-- Wallet Balance at the Bottom -->
         <div class="mt-16">
           <div class="text-sm text-white opacity-80">Current Balance</div>
@@ -81,66 +70,15 @@
     </div>
   </div>
 
-  <!-- Modal Popup -->
-  <div *ngIf="createWallet" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-    <div class="dialog-content sm:max-w-[425px] bg-white p-6 rounded-lg shadow-lg ">
-      <div class="dialog-header flex justify-between items-center mb-4">
-        <i class="fa-solid fa-wallet"></i>
-        <h3>New Wallet</h3>
-        <button (click)="createWallet = false" class="text-gray-500 hover:text-gray-700"><i class="fa-regular fa-circle-xmark"></i></button>
-      </div>
-
-      <div [formGroup]="walletForm" (ngSubmit)="saveWallet()" class="space-y-4">
-        <div class="space-y-2">
-          <label for="name">Wallet Name</label>
-          <input
-            id="name"
-            formControlName="name"
-            required
-            placeholder="e.g. Savings"
-            class="input"
-            [(ngModel)]="walletRequest.name"
-          />
-        </div>
-
-        <div class="space-y-2">
-          <label for="balance">Initial Balance</label>
-          <input
-            id="balance"
-            type="number"
-            formControlName="balance"
-            required
-            placeholder="0.00"
-            min="0"
-            step="0.01"
-            class="input"
-            [(ngModel)]="walletRequest.balance"
-          />
-        </div>
-
-        <div class="space-y-2">
-          <label for="walletType">Card Type</label>
-          <select
-            id="walletType"
-            formControlName="walletType"
-            required
-            class="input"
-          >
-            <option value="SPENDING">Spending</option>
-            <option value="SAVINGS">Savings</option>
-            <option value="CASH">Cash</option>
-          </select>
-        </div>
-        <button
-          type="submit"
-          class="btn bg-green-500 text-white hover:bg-green-600"
-          (click)="saveWallet()"
-        >
-          Create Wallet
-        </button>
-      </div>
+  <div *ngIf="selectedWalletId" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+    <div class="bg-white p-6 rounded-xl shadow-lg max-w-md w-full">
+      <app-wallet-details
+        [walletId]="selectedWalletId"
+        (onClose)="closeWalletDetails()"
+      ></app-wallet-details>
     </div>
   </div>
+  <!-- Modal Popup -->
 
   <div class="absolute top-5 right-5 z-20 w-auto max-w-sm rounded-lg shadow-md flex items-center">
     <div class="flex w-full max-w-sm overflow-hidden bg-white rounded-lg shadow-md" *ngIf="showSuccess">
@@ -155,4 +93,67 @@
       </div>
     </div>
   </div>
+
+  <!-- New Wallet Modal -->
+
+  <div *ngIf="createWallet" class="dialog-overlay">
+    <div class="dialog">
+      <div class="dialog-left">
+        <h2>New Wallet</h2>
+        <p>Create a new wallet to manage your finances effectively.</p>
+      </div>
+      <div class="dialog-right">
+        <div class="close-button-container">
+          <button class="close-button" (click)="createWallet = false">
+            <i class="fa-regular fa-circle-xmark"></i>
+          </button>
+        </div>
+        <form (ngSubmit)="saveWallet()" class="form">
+          <!-- Wallet Name Section -->
+          <div class="form-section">
+            <label for="name">Wallet Name</label>
+            <input
+              id="name"
+              [(ngModel)]="walletRequest.name"
+              name="name"
+              placeholder="Enter wallet name"
+              class="input"
+              required
+            />
+          </div>
+
+          <!-- Balance Section -->
+          <div class="form-section">
+            <label for="balance">Initial Balance</label>
+            <input
+              id="balance"
+              type="number"
+              step="0.01"
+              [(ngModel)]="walletRequest.balance"
+              name="balance"
+              placeholder="0.00"
+              class="input"
+              required
+            />
+          </div>
+
+          <!-- Wallet Type Section -->
+          <div class="form-section">
+            <label for="walletType">Select Wallet Type</label>
+            <select [(ngModel)]="walletRequest.walletType" name="walletType" class="select" required>
+              <option value="SPENDING">Spending</option>
+              <option value="SAVINGS">Savings</option>
+              <option value="CASH">Cash</option>
+            </select>
+          </div>
+
+          <!-- Submit Section -->
+          <div class="form-section">
+            <button type="submit" class="submit-button">Add Wallet</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
 </ng-template>

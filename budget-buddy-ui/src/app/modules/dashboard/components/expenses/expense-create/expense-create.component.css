@@ -1,0 +1,81 @@
+.dialog-content {
+  display: flex;
+}
+
+.left-panel {
+  width: 33%;
+  background: linear-gradient(to bottom right, #28a745, #007bff);
+  color: white;
+  padding: 20px;
+}
+
+.right-panel {
+  width: 67%;
+  padding: 20px;
+}
+
+.form-row {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.form-group {
+  width: 100%;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select,
+.form-group button {
+  width: 100%;
+  padding: 8px;
+  margin-top: 4px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.form-group input.error,
+.form-group textarea.error,
+.form-group select.error,
+.form-group button.error {
+  border-color: red;
+}
+
+.error-message {
+  color: red;
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 16px;
+}
+
+button {
+  padding: 10px 20px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #218838;
+}
+
+button[type='button'] {
+  background-color: #ccc;
+}
+
+button[type='button']:hover {
+  background-color: #999;
+}

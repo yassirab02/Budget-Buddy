@@ -24,6 +24,11 @@ import { BudgetCardComponent } from './components/budget/budget-card/budget-card
 import {SpinnerComponent} from './pages/spinner/spinner.component';
 import { WalletDetailsComponent } from './components/wallet/wallet-details/wallet-details.component';
 import { ExpenseCreateComponent } from './components/expenses/expense-create/expense-create.component';
+import {MatInputModule} from '@angular/material/input';
+import {MatMenuModule} from '@angular/material/menu';
+import {MatIconModule} from '@angular/material/icon';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatSelectModule} from '@angular/material/select';
 
 
 @NgModule({
@@ -58,6 +63,11 @@ import { ExpenseCreateComponent } from './components/expenses/expense-create/exp
     DashboardRoutingModule,
     FormsModule,
     ReactiveFormsModule,
+    MatInputModule,
+    MatMenuModule,
+    MatIconModule,
+    MatDatepickerModule,
+    MatSelectModule,
 
   ]
 })

@@ -2,6 +2,9 @@ import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {ExpensesResponse} from '../../../../../services/models/expenses-response';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ExpensesRequest} from '../../../../../services/models/expenses-request';
+import {MatDialogRef} from '@angular/material/dialog';
+import {format} from 'node:url';
+import {formatDate} from '@angular/common';
 
 @Component({
   selector: 'app-expense-create',
@@ -9,49 +12,63 @@ import {ExpensesRequest} from '../../../../../services/models/expenses-request';
   styleUrl: './expense-create.component.css'
 })
 export class ExpenseCreateComponent implements OnInit{
-  @Output() onSubmit = new EventEmitter<ExpensesResponse>();
+  expenseForm: FormGroup;
+  expenseTypes = ['Fixed', 'Variable'];
+  date: Date | null = null;
 
-  expensesForm: FormGroup;
-
-  constructor(private fb: FormBuilder) {
-    this.expensesForm = this.fb.group({
-      name: ['', [Validators.required]],
-      amount: [0, [Validators.required, Validators.min(0.01)]],
+  constructor(
+    private fb: FormBuilder,
+    private dialogRef: MatDialogRef<ExpenseCreateComponent>
+  ) {
+    this.expenseForm = this.fb.group({
+      name: ['', Validators.required],
+      amount: ['', [Validators.required, Validators.min(0.01)]],
       description: [''],
-      date: [this.getCurrentDate(), [Validators.required]],
-      expensesType: [, [Validators.required]],
-      categoryId: [0, [Validators.required, Validators.min(1)]],
-      budgetId: [0, [Validators.required, Validators.min(1)]],
-      walletId: [null]
+      date: [''],
+      expenseType: ['Variable'],
+      categoryId: ['', Validators.required],
+      budgetId: ['', Validators.required],
+      walletId: [''],
     });
   }
 
-  ngOnInit(): void {}
-
-  getCurrentDate(): string {
-    return new Date().toISOString().split('T')[0];
+  ngOnInit() {
   }
 
-  handleSubmit(): void {
-    if (this.expensesForm.valid) {
-      const formData: ExpensesRequest = this.expensesForm.value;
-      const simulatedResponse: ExpensesResponse = {
-        id: Math.floor(Math.random() * 1000),
-        ...formData,
-        category: 'Simulated Category',
-        budget: 'Simulated Budget',
-      };
-      this.onSubmit.emit(simulatedResponse);
-      this.expensesForm.reset({
-        name: '',
-        amount: 0,
-        description: '',
-        date: this.getCurrentDate(),
-        expensesType: '',
-        categoryId: 0,
-        budgetId: 0,
-        walletId: null
+  formatDate(date: Date | null): string {
+    return date ? this.formatDate(date) : 'Pick a date';
+  }
+
+  onDateChange(date: Date): void {
+    this.date = date;
+    this.expenseForm.patchValue({ date });
+  }
+
+  onSubmit(): void {
+    if (this.expenseForm.valid) {
+      const formValues = this.expenseForm.value;
+      console.log({
+        ...formValues,
+        amount: parseFloat(formValues.amount),
+        categoryId: parseInt(formValues.categoryId, 10),
+        budgetId: parseInt(formValues.budgetId, 10),
+        walletId: formValues.walletId ? parseInt(formValues.walletId, 10) : undefined,
       });
+      this.dialogRef.close();
+    } else {
+      this.markFormGroupTouched(this.expenseForm);
     }
   }
+
+  markFormGroupTouched(group: FormGroup): void {
+    Object.values(group.controls).forEach((control) => {
+      control.markAsTouched();
+    });
+  }
+
+  closeDialog(): void {
+    this.dialogRef.close();
+  }
+
+  protected readonly Date = Date;
 }

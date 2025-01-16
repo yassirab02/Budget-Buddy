@@ -45,6 +45,126 @@
 .close-btn:hover {
   background-color: #f7fafc;
 }
-.absolute {
-  overflow: hidden;
+
+
+.dialog-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.dialog {
+  display: flex;
+  flex-direction: row; /* Arrange dialog components side-by-side */
+  background-color: white;
+  border-radius: 8px;
+  width: 60%; /* Adjust dialog width */
+  max-width: 700px; /* Max-width for responsiveness */
+  height: auto;
+}
+
+.dialog-left {
+  background: linear-gradient(to bottom right, #4caf50, #2196f3);
+  color: white;
+  padding: 2rem;
+  width: 40%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}
+
+.dialog-right {
+  padding: 2rem;
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.form-section {
+  margin-bottom: 1.5rem;
+}
+
+.form-section label {
+  display: block;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+}
+
+.input, .select {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.submit-button {
+  padding: 1rem;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 100%; /* Full-width button */
+}
+
+.submit-button:hover {
+  background-color: #45a049;
+}
+
+.error-text {
+  color: red;
+  font-size: 0.875rem;
+}
+
+.dialog-left h2 {
+  font-size: 1.75rem;
+}
+
+.dialog-right p {
+  font-size: 1rem;
+  margin-bottom: 2rem;
+}
+
+/* Media Queries for Responsiveness */
+@media screen and (max-width: 768px) {
+  .dialog {
+    flex-direction: column; /* Stack elements vertically on smaller screens */
+    width: 80%; /* Ensure the dialog takes up 80% of the screen width */
+  }
+
+  .dialog-left {
+    width: 100%;
+    padding: 1rem;
+  }
+
+  .dialog-right {
+    width: 100%;
+  }
+}
+
+.dialog-right {
+  position: relative;
+}
+
+.close-button-container {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.close-button {
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: #189346;
+  cursor: pointer;
 }

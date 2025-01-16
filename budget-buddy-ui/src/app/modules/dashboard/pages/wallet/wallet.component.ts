@@ -28,6 +28,8 @@ export class WalletComponent implements OnInit{
     walletType: 'SPENDING'  // Default wallet type
   };
 
+  selectedWalletId: number | null = null;
+
   constructor(private fb: FormBuilder,
               private walletService: WalletService,
   ) {
@@ -42,16 +44,6 @@ export class WalletComponent implements OnInit{
     this.findAllWallets();
   }
 
-  // Toggle the visibility of details for a specific wallet
-  toggleDetails(walletId: number | undefined): void {
-    if (walletId === undefined) {
-      console.error('Wallet ID is undefined');
-      return;
-    }
-    // Proceed with valid walletId
-    this.showDetailsMap[walletId] = !this.showDetailsMap[walletId];
-  }
-
   // Check if details for a specific wallet are visible
   isDetailsVisible(walletId: number | undefined): boolean {
     if (walletId === undefined) {
@@ -59,6 +51,18 @@ export class WalletComponent implements OnInit{
       return false;
     }
     return this.showDetailsMap[walletId] || false;
+  }
+
+  toggleDetails(walletId: number| undefined): void {
+    if (walletId === undefined) {
+      console.error('Wallet ID is undefined');
+      return;
+    }
+    this.selectedWalletId = this.selectedWalletId === walletId ? null : walletId;
+  }
+
+  closeWalletDetails() {
+    this.selectedWalletId = null;
   }
 
   findAllWallets(resetPage:boolean = false) {
@@ -126,5 +130,7 @@ export class WalletComponent implements OnInit{
     }
   }
 
-
+  toggleDialog() {
+    this.createWallet = !this.createWallet;
+  }
 }

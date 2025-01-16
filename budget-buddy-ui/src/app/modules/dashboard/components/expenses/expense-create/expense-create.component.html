@@ -1,97 +1,114 @@
-<!-- expenses-form.component.html -->
-<form [formGroup]="expensesForm" (ngSubmit)="handleSubmit()" class="bg-white p-6 rounded-lg">
-  <h2 class="text-2xl font-bold mb-4 text-green-800">Add New Expense</h2>
-
-  <div class="mb-4">
-    <label for="name" class="block text-sm font-medium text-green-700">Name</label>
-    <input
-      type="text"
-      id="name"
-      formControlName="name"
-      class="mt-1 block w-full rounded-md border-green-300 shadow-sm focus:border-green-500 focus:ring focus:ring-green-200 focus:ring-opacity-50"
-    />
+<div class="dialog-content">
+  <div class="left-panel">
+    <h2>New Expense</h2>
+    <p>Keep track of your spending and stay on top of your budget.</p>
   </div>
+  <div class="right-panel">
+    <h3>Add New Expense</h3>
+    <form [formGroup]="expenseForm" (ngSubmit)="onSubmit()">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input
+            id="name"
+            type="text"
+            formControlName="name"
+            placeholder="Expense name"
+            [class.error]="expenseForm.get('name')?.hasError('required') && expenseForm.get('name')?.touched"
+          />
+          <div *ngIf="expenseForm.get('name')?.hasError('required') && expenseForm.get('name')?.touched" class="error-message">
+            Expense name is required
+          </div>
+        </div>
 
-  <div class="mb-4">
-    <label for="amount" class="block text-sm font-medium text-green-700">Amount</label>
-    <input
-      type="number"
-      id="amount"
-      formControlName="amount"
-      min="0.01"
-      step="0.01"
-      class="mt-1 block w-full rounded-md border-green-300 shadow-sm focus:border-green-500 focus:ring focus:ring-green-200 focus:ring-opacity-50"
-    />
+        <div class="form-group">
+          <label for="amount">Amount</label>
+          <input
+            id="amount"
+            type="number"
+            step="0.01"
+            formControlName="amount"
+            placeholder="0.00"
+            [class.error]="expenseForm.get('amount')?.hasError('required') && expenseForm.get('amount')?.touched"
+          />
+          <div *ngIf="expenseForm.get('amount')?.hasError('required') && expenseForm.get('amount')?.touched" class="error-message">
+            Amount is required
+          </div>
+          <div *ngIf="expenseForm.get('amount')?.hasError('min') && expenseForm.get('amount')?.touched" class="error-message">
+            Amount must be greater than 0
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="description">Description (Optional)</label>
+        <textarea
+          id="description"
+          formControlName="description"
+          placeholder="Add a description"
+        ></textarea>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="date">Date</label>
+          <button type="button">
+            {{ date ? formatDate(date) : 'Pick a date' }}
+          </button>
+        </div>
+
+        <div class="form-group">
+          <label for="expenseType">Expense Type</label>
+          <select formControlName="expenseType">
+            <option *ngFor="let type of expenseTypes" [value]="type">{{ type }}</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="categoryId">Category ID</label>
+          <input
+            id="categoryId"
+            type="number"
+            formControlName="categoryId"
+            placeholder="Category ID"
+            [class.error]="expenseForm.get('categoryId')?.hasError('required') && expenseForm.get('categoryId')?.touched"
+          />
+          <div *ngIf="expenseForm.get('categoryId')?.hasError('required') && expenseForm.get('categoryId')?.touched" class="error-message">
+            Category ID is required
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="budgetId">Budget ID</label>
+          <input
+            id="budgetId"
+            type="number"
+            formControlName="budgetId"
+            placeholder="Budget ID"
+            [class.error]="expenseForm.get('budgetId')?.hasError('required') && expenseForm.get('budgetId')?.touched"
+          />
+          <div *ngIf="expenseForm.get('budgetId')?.hasError('required') && expenseForm.get('budgetId')?.touched" class="error-message">
+            Budget ID is required
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="walletId">Wallet ID (Optional)</label>
+          <input
+            id="walletId"
+            type="number"
+            formControlName="walletId"
+            placeholder="Wallet ID"
+          />
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" (click)="closeDialog()">Cancel</button>
+        <button type="submit">Add Expense</button>
+      </div>
+    </form>
   </div>
-
-  <div class="mb-4">
-    <label for="description" class="block text-sm font-medium text-green-700">Description</label>
-    <textarea
-      id="description"
-      formControlName="description"
-      class="mt-1 block w-full rounded-md border-green-300 shadow-sm focus:border-green-500 focus:ring focus:ring-green-200 focus:ring-opacity-50"
-    ></textarea>
-  </div>
-
-  <div class="mb-4">
-    <label for="date" class="block text-sm font-medium text-green-700">Date</label>
-    <input
-      type="date"
-      id="date"
-      formControlName="date"
-      class="mt-1 block w-full rounded-md border-green-300 shadow-sm focus:border-green-500 focus:ring focus:ring-green-200 focus:ring-opacity-50"
-    />
-  </div>
-
-  <div class="mb-4">
-    <label for="expensesType" class="block text-sm font-medium text-green-700">Expense Type</label>
-    <select
-      id="expensesType"
-      formControlName="expensesType"
-      class="mt-1 block w-full rounded-md border-green-300 shadow-sm focus:border-green-500 focus:ring focus:ring-green-200 focus:ring-opacity-50"
-    >
-      <option>Fixed</option>
-      <option >Variable</option>
-    </select>
-  </div>
-
-  <div class="mb-4">
-    <label for="categoryId" class="block text-sm font-medium text-green-700">Category ID</label>
-    <input
-      type="number"
-      id="categoryId"
-      formControlName="categoryId"
-      min="1"
-      class="mt-1 block w-full rounded-md border-green-300 shadow-sm focus:border-green-500 focus:ring focus:ring-green-200 focus:ring-opacity-50"
-    />
-  </div>
-
-  <div class="mb-4">
-    <label for="budgetId" class="block text-sm font-medium text-green-700">Budget ID</label>
-    <input
-      type="number"
-      id="budgetId"
-      formControlName="budgetId"
-      min="1"
-      class="mt-1 block w-full rounded-md border-green-300 shadow-sm focus:border-green-500 focus:ring focus:ring-green-200 focus:ring-opacity-50"
-    />
-  </div>
-
-  <div class="mb-4">
-    <label for="walletId" class="block text-sm font-medium text-green-700">Wallet ID (Optional)</label>
-    <input
-      type="number"
-      id="walletId"
-      formControlName="walletId"
-      min="1"
-      class="mt-1 block w-full rounded-md border-green-300 shadow-sm focus:border-green-500 focus:ring focus:ring-green-200 focus:ring-opacity-50"
-    />
-  </div>
-
-  <button
-    type="submit"
-    class="w-full bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50 mt-4"
-  >
-    Add Expense
-  </button>
-</form>
+</div>
