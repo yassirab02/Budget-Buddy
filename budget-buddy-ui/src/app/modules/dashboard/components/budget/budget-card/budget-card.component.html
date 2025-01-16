@@ -1,12 +1,12 @@
-<div class="card w-full bg-white shadow-md hover:shadow-xl transition-shadow duration-300">
-  <div class="card-header bg-green-100">
-    <h3 class="text-lg font-semibold text-green-800 flex items-center">
+<div class="card w-full bg-green-100 shadow-md hover:shadow-xl transition-shadow duration-300 rounded-lg shadow-md overflow-hidden transition-transform transform hover:scale-105" >
+  <div class="card-header bg-green-600">
+    <h3 class="text-lg font-semibold text-white flex items-center">
       <i class="fa-solid fa-sack-dollar mr-2"></i>
       {{ name }}
     </h3>
   </div>
   <div class="card-content pt-4 overflow-hidden">
-    <p class="text-sm text-gray-600 mb-4">{{ description }}</p>
+    <p class="text-sm text-gray-700 mb-4 font-[Poppins]">{{ description }}</p>
     <div class="space-y-2">
       <div class="flex justify-between text-sm">
         <span class="text-gray-600">Current Amount:</span>
@@ -22,10 +22,10 @@
       </div>
     </div>
     <div class="mt-4">
-      <div class="progress-bar h-2 bg-gray-200">
+      <div class="progress-bar h-2 bg-white">
         <div class="progress-indicator bg-green-500" [ngStyle]="{'width': progress > 100 ? 100 : progress + '%'}"></div>
       </div>
-      <p class="text-xs text-gray-500 mt-1 text-right">{{ progress.toFixed(1) }}% of target</p>
+      <p class="text-xs text-gray-700 mt-1 text-right">{{ progress.toFixed(1) }}% of target</p>
     </div>
   </div>
   <div class="card-footer flex justify-between space-x-2">
