@@ -1,42 +1,66 @@
-<div class="bg-white p-6 rounded-lg shadow-md w-full">
-  <h2 class="text-2xl font-bold mb-6 text-green-800">Expenses List</h2>
-  <div *ngIf="expenses.length === 0" class="text-gray-600 text-center py-4">
-    No expenses added yet.
-  </div>
-  <div *ngIf="expenses.length > 0" class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-    <div
-      *ngFor="let expense of expenses"
-      class="bg-green-50 rounded-lg shadow-md overflow-hidden"
-    >
-      <div class="bg-green-600 text-white p-4">
-        <h3 class="font-semibold text-lg">{{ expense.name }}</h3>
-        <p class="text-2xl font-bold flex items-center mt-2">
-          <i class="fa-solid fa-dollar-sign mr-2"></i>
-          {{ expense.amount.toFixed(2) }}
-        </p>
+<div *ngIf="isLoading; else expensesContent" class="flex justify-center items-center h-screen">
+  <app-spinner class="w-16 h-16"></app-spinner>
+</div>
+
+<ng-template #expensesContent>
+  <div class="min-h-screen bg-white">
+    <!-- Main Content -->
+    <div class="p-8">
+      <div class="mb-8 flex items-center justify-between">
+        <h1 class="text-3xl font-bold text-green-800">Expenses</h1>
+        <button
+          class="flex h-full items-center justify-center p-3 rounded-lg border-2 border-gray-200 bg-green-600 hover:bg-green-700 shadow-lg"
+          (click)="createExpense = true"
+        >
+          <i class="fa-solid fa-circle-plus mr-2 h-5 w-5 text-white"></i>
+          <span class="text-white">Add Expense</span>
+        </button>
       </div>
-      <div class="p-4 space-y-2">
-        <p class="text-gray-600 flex items-center">
-          <i class="fa-solid fa-calendar-days text-green-600 mr-2"></i>
-          {{ expense.date | date: 'shortDate' }}
-        </p>
-        <p class="text-gray-600 flex items-center">
-          <i class="fa-solid fa-tag text-green-600 mr-2"></i>
-          {{ expense.category }}
-        </p>
-        <p class="text-gray-600 flex items-center">
-          <i class="fa-solid fa-credit-card text-green-600 mr-2"></i>
-          {{ expense.expensesType }}
-        </p>
-        <p class="text-gray-600 flex items-center">
-          <i class="fa-solid fa-wallet text-green-600 mr-2"></i>
-          {{ expense.budget }}
-        </p>
-        <p *ngIf="expense.wallet" class="text-gray-600 flex items-center">
-          <i class="fa-solid fa-wallet text-green-600 mr-2"></i>
-          {{ expense.wallet }}
-        </p>
+
+      <hr class="p-4">
+
+      <div *ngIf="expensesResponse?.content?.length === 0; else showExpenses;" class="text-gray-600 text-center py-4">
+        No expenses added yet.
       </div>
+
+      <ng-template #showExpenses>
+        <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <div
+            *ngFor="let expense of expensesResponse.content"
+            class="bg-green-100 rounded-lg shadow-md overflow-hidden transition-transform transform hover:scale-105"
+          >
+            <div class="bg-green-600 text-white p-4">
+              <h3 class="font-semibold text-lg">{{ expense.name }}</h3>
+              <p class="text-2xl flex items-center mt-2">
+                <i class="fa-solid fa-dollar-sign mr-2"></i>
+                {{ expense.amount }}
+              </p>
+            </div>
+            <div class="p-4 space-y-2">
+              <p class="text-gray-600 flex items-center">
+                <i class="fa-solid fa-calendar-days text-green-600 mr-2"></i>
+                {{ expense.date | date: 'shortDate' }}
+              </p>
+              <p class="text-gray-600 flex items-center">
+                <i class="fa-solid fa-tag text-green-600 mr-2"></i>
+                {{ expense.category }}
+              </p>
+              <p class="text-gray-600 flex items-center">
+                <i class="fa-solid fa-thumbtack text-green-600 mr-2"></i>
+                {{ expense.expensesType }}
+              </p>
+              <p class="text-gray-600 flex items-center">
+                <i class="fa-solid fa-chart-pie text-green-600 mr-2"></i>
+                {{ expense.budget }}
+              </p>
+              <p *ngIf="expense.wallet" class="text-gray-600 flex items-center">
+                <i class="fa-solid fa-wallet text-green-600 mr-2"></i>
+                {{ expense.wallet }}
+              </p>
+            </div>
+          </div>
+        </div>
+      </ng-template>
     </div>
   </div>
-</div>
+</ng-template>

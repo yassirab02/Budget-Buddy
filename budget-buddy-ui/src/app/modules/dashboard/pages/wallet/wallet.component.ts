@@ -20,14 +20,13 @@ export class WalletComponent implements OnInit{
   showSuccess=false
   errorMsg: Array<string> = [];
   walletForm!: FormGroup;
-  walletResponse: PageResponseWalletResponse = {};  // Store the actual wallet
   showDetailsMap: { [key: number]: boolean } = {};
+  walletResponse: PageResponseWalletResponse = {};  // Store the actual wallet
   walletRequest: WalletRequest = {
     name: '',
     balance: 0,
     walletType: 'SPENDING'  // Default wallet type
   };
-
 
   constructor(private fb: FormBuilder,
               private walletService: WalletService,

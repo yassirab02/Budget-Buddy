@@ -1,5 +1,8 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {ExpensesResponse} from '../../../../services/models/expenses-response';
+import {PageResponseWalletResponse} from '../../../../services/models/page-response-wallet-response';
+import {PageResponseExpensesResponse} from '../../../../services/models/page-response-expenses-response';
+import {ExpensesService} from '../../../../services/services/expenses.service';
 
 
 @Component({
@@ -7,47 +10,53 @@ import {ExpensesResponse} from '../../../../services/models/expenses-response';
   templateUrl: './expense.component.html',
   styleUrl: './expense.component.css'
 })
-export class ExpenseComponent {
-  expenses:any = [
-    {
-      id: '1',
-      name: 'Groceries',
-      amount: 120.5,
-      date: '2025-01-12',
-      category: 'Food',
-      expensesType: 'Essential',
-      budget: 'Monthly Essentials',
-      wallet: 'Main Wallet'
-    },
-    {
-      id: '2',
-      name: 'Gym Membership',
-      amount: 45.0,
-      date: '2025-01-10',
-      category: 'Fitness',
-      expensesType: 'Non-Essential',
-      budget: 'Fitness Budget',
-      wallet: 'Credit Card'
-    },
-    {
-      id: '3',
-      name: 'Electricity Bill',
-      amount: 80.75,
-      date: '2025-01-05',
-      category: 'Utilities',
-      expensesType: 'Essential',
-      budget: 'Monthly Bills',
-      wallet: 'Savings Wallet'
-    },
-    {
-      id: '4',
-      name: 'Movie Night',
-      amount: 30.0,
-      date: '2025-01-08',
-      category: 'Entertainment',
-      expensesType: 'Non-Essential',
-      budget: 'Leisure',
-      wallet: 'Main Wallet'
+export class ExpenseComponent implements OnInit {
+  isLoading: boolean = true;
+  page = 0;
+  size = 5;
+  pages: any = [];
+  message = '';
+  level: 'success' | 'error' = 'success';
+  errorMsg: Array<string> = [];
+  expensesResponse: PageResponseExpensesResponse = {};  // Store the actual wallet
+  createExpense=false;
+
+
+  constructor(
+    private expensesService: ExpensesService,
+  ) {
+  }
+
+
+  ngOnInit() {
+    this.findAllExpenses();
+  }
+
+  findAllExpenses(resetPage: boolean = false) {
+    if (resetPage) {
+      this.page = 0; // Reset to the first page
     }
-  ];
+    this.expensesService.findAllExpenses({
+      page: this.page,
+      size: this.size
+    })
+      .subscribe({
+        next: (expenses) => {
+          // Store the backend response in budgetResponse
+          this.expensesResponse = expenses;
+          // Create an array of page numbers for pagination
+          this.pages = Array(this.expensesResponse.totalPages)
+            .fill(0)
+            .map((x, i) => i);
+          this.isLoading = false;
+        },
+        error: (err) => {
+          console.error('Error fetching expenses:', err);
+          this.message = 'An error occurred while fetching the expenses.';
+          this.level = 'error';
+          this.isLoading = false;
+        }
+      });
+  }
+
 }
