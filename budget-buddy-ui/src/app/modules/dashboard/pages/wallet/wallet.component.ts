@@ -10,7 +10,7 @@ import {PageResponseWalletResponse} from '../../../../services/models/page-respo
   styleUrl: './wallet.component.css'
 })
 export class WalletComponent implements OnInit{
-  loading: boolean = false;  // For showing loading spinner when fetching details
+  isLoading: boolean = true;
   page = 0;
   size = 5;
   pages: any = [];
@@ -22,6 +22,26 @@ export class WalletComponent implements OnInit{
   walletForm!: FormGroup;
   walletResponse: PageResponseWalletResponse = {};  // Store the actual wallet
   showDetailsMap: { [key: number]: boolean } = {};
+  walletRequest: WalletRequest = {
+    name: '',
+    balance: 0,
+    walletType: 'SPENDING'  // Default wallet type
+  };
+
+
+  constructor(private fb: FormBuilder,
+              private walletService: WalletService,
+  ) {
+  }
+
+  ngOnInit(): void {
+    this.walletForm = this.fb.group({
+      name: ['', [Validators.required]],
+      balance: ['', [Validators.required, Validators.min(0)]],
+      walletType: ['SPENDING', Validators.required],  // Set default value here
+    });
+    this.findAllWallets();
+  }
 
   // Toggle the visibility of details for a specific wallet
   toggleDetails(walletId: number | undefined): void {
@@ -42,27 +62,6 @@ export class WalletComponent implements OnInit{
     return this.showDetailsMap[walletId] || false;
   }
 
-  walletRequest: WalletRequest = {
-    name: '',
-    balance: 0,
-    walletType: 'SPENDING'  // Default wallet type
-  };
-  showDetails = false;
-
-  constructor(private fb: FormBuilder,
-              private walletService: WalletService,
-  ) {
-  }
-
-  ngOnInit(): void {
-    this.walletForm = this.fb.group({
-      name: ['', [Validators.required]],
-      balance: ['', [Validators.required, Validators.min(0)]],
-      walletType: ['SPENDING', Validators.required],  // Set default value here
-    });
-    this.findAllWallets();
-  }
-
   findAllWallets(resetPage:boolean = false) {
     if (resetPage) {
       this.page = 0; // Reset to the first page
@@ -75,16 +74,17 @@ export class WalletComponent implements OnInit{
         next: (wallets) => {
           // Store the backend response in budgetResponse
           this.walletResponse = wallets;
-
           // Create an array of page numbers for pagination
           this.pages = Array(this.walletResponse.totalPages)
             .fill(0)
             .map((x, i) => i);
+          this.isLoading = false;
         },
         error: (err) => {
           console.error('Error fetching wallets:', err);
           this.message = 'An error occurred while fetching the wallets.';
           this.level = 'error';
+          this.isLoading = false;
         }
       });
   }
@@ -112,5 +112,20 @@ export class WalletComponent implements OnInit{
       }
     });
   }
+
+  editWallet(walletId: number | undefined): void {
+    // Logic for editing a wallet
+    console.log('Edit wallet with ID:', walletId);
+    // Navigate to edit page or open a modal
+  }
+
+  deleteWallet(walletId: number | undefined): void {
+    // Logic for deleting a wallet
+    if (confirm('Are you sure you want to delete this wallet?')) {
+      console.log('Delete wallet with ID:', walletId);
+      // Call your service to delete the wallet
+    }
+  }
+
 
 }

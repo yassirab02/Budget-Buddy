@@ -10,6 +10,7 @@ import {BudgetResponse} from '../../../../services/models/budget-response';
   styleUrls: ['./budget.component.css']
 })
 export class BudgetComponent implements OnInit {
+  isLoading = true;
   isAdd = false;
   budgetResponse: PageResponseBudgetResponse = {};  // Store the actual budgets
   page = 0;
@@ -45,11 +46,13 @@ export class BudgetComponent implements OnInit {
           this.pages = Array(this.budgetResponse.totalPages)
             .fill(0)
             .map((x, i) => i);
+          this.isLoading = false;
         },
         error: (err) => {
           console.error('Error fetching budgets:', err);
           this.message = 'An error occurred while fetching the budgets.';
           this.level = 'error';
+          this.isLoading = false;
         }
       });
   }

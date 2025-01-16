@@ -23,6 +23,7 @@ import {BudgetComponent} from './pages/budget/budget.component';
 import { BudgetCardComponent } from './components/budget/budget-card/budget-card.component';
 import {SpinnerComponent} from './pages/spinner/spinner.component';
 import { WalletDetailsComponent } from './components/wallet/wallet-details/wallet-details.component';
+import { ExpenseCreateComponent } from './components/expenses/expense-create/expense-create.component';
 
 
 @NgModule({
@@ -47,6 +48,10 @@ import { WalletDetailsComponent } from './components/wallet/wallet-details/walle
     BudgetCardComponent,
     SpinnerComponent,
     WalletDetailsComponent,
+    ExpenseCreateComponent,
+  ],
+  exports: [
+    SpinnerComponent
   ],
   imports: [
     CommonModule,

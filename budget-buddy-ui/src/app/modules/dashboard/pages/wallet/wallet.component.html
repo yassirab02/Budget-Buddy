@@ -1,8 +1,12 @@
-<div class="min-h-screen bg-white">
+<div *ngIf="isLoading; else walletContent" class="flex justify-center items-center h-screen">
+  <app-spinner class="w-16 h-16"></app-spinner>
+</div>
+
+<ng-template class="min-h-screen bg-white" #walletContent>
   <!-- Main Content -->
   <div class="p-8">
     <div class="mb-8 flex items-center justify-between">
-      <h1 class="text-3xl font-bold text-green-800">Your Wallets</h1>
+      <h1 class="text-3xl font-bold text-green-800">Wallets</h1>
       <button
         class="flex h-full items-center justify-center p-3 rounded-lg border-2 border-gray-200 bg-green-600 hover:bg-green-700 shadow-lg"
         (click)="createWallet = true"
@@ -16,29 +20,62 @@
 
     <!-- Cards Section -->
     <div class="mb-8 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-      <div *ngFor="let wallet of walletResponse.content"
-           class="bg-gradient-to-br from-green-500 to-green-600 text-white p-6 relative">
-        <div class="mb-4 flex justify-between">
-          <div>{{ wallet?.name }}</div>
-          <i class="fa-solid fa-credit-card h-6 w-6"></i>
-        </div>
-        <div class="mb-2 text-2xl font-bold">{{ wallet?.balance | currency }}</div>
-        <div class="text-sm opacity-80">{{ wallet?.walletType }}</div>
+      <div
+        *ngFor="let wallet of walletResponse.content"
+        class="bg-gradient-to-br from-green-500 to-green-700 text-white p-6 rounded-xl shadow-lg relative flex flex-col justify-between"
+      >
+        <!-- Wallet Header -->
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-2">
+          <!-- Name at the Top Left -->
+          <div class="absolute top-4 left-4">
+            <div class="bg-gradient-to-r from-white to-green-100 text-green-800 px-5 py-2 rounded-full">
+              <span class="font-bold text-lg tracking-wide">{{wallet.name}}</span>
+            </div>
+          </div>
 
-        <!-- Toggle Wallet Details Button in the bottom right -->
+          <div>
+            <div
+              class="text-sm bg-transparent px-3 py-1 rounded-full shadow text-white capitalize mt-2 inline-block"
+            >
+            </div>
+          </div>
+
+          <!-- Icon at the Top Right -->
+          <i class="fa-solid fa-credit-card text-2xl sm:text-3xl absolute top-4 right-4"></i>
+        </div>
+
+        <!-- Toggle Wallet Details Button -->
         <button
           (click)="toggleDetails(wallet.id)"
-          class="absolute bottom-4 right-4 flex items-center text-sm text-white hover:bg-gray-800 p-2 rounded-lg"
+          class="absolute bottom-4 right-4 flex items-center bg-green-600 hover:bg-green-700 text-white px-3 sm:px-4 py-2 rounded-full text-xs sm:text-sm shadow-lg"
         >
-          <i *ngIf="!isDetailsVisible(wallet.id)" class="fa-solid fa-circle-info mr-2"></i>
-          <i *ngIf="isDetailsVisible(wallet.id)" class="fa-regular fa-circle-xmark mr-2"></i>
+          <i
+            *ngIf="!isDetailsVisible(wallet.id)"
+            class="fa-solid fa-circle-info mr-1 sm:mr-2"
+          ></i>
+          <i
+            *ngIf="isDetailsVisible(wallet.id)"
+            class="fa-regular fa-circle-xmark mr-1 sm:mr-2"
+          ></i>
+          <span class="hidden sm:inline" *ngIf="!isDetailsVisible(wallet.id)">Details</span>
+          <span class="hidden sm:inline" *ngIf="isDetailsVisible(wallet.id)">Close</span>
         </button>
 
-        <div *ngIf="isDetailsVisible(wallet.id)">
+        <!-- Wallet Details Component -->
+        <div
+          *ngIf="isDetailsVisible(wallet.id)"
+          class="mt-4 bg-green-600 bg-opacity-80 p-4 rounded-lg shadow-inner"
+        >
           <app-wallet-details
             [walletId]="wallet.id"
-            (onClose)="wallet.id && toggleDetails(wallet.id)">
-          </app-wallet-details>
+            (onClose)="wallet.id && toggleDetails(wallet.id)"
+          ></app-wallet-details>
+        </div>
+
+        <!-- Wallet Balance at the Bottom -->
+        <div class="mt-16">
+          <div class="text-sm text-white opacity-80">Current Balance</div>
+          <div class="text-3xl sm:text-4xl">{{ wallet?.balance | currency }}</div>
         </div>
       </div>
     </div>
@@ -118,4 +155,4 @@
       </div>
     </div>
   </div>
-</div>
+</ng-template>

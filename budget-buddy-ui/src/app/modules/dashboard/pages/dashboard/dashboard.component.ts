@@ -16,6 +16,7 @@ export class DashboardComponent implements OnInit {
   amountToAdd: number = 0; // Variable bound to the input field
   showSuccess: boolean = false; // Controls whether to display the success message
   budgets: BudgetResponse[] = []; // Array to store fetched budgets
+  isLoadingUser: boolean = true;
   isLoadingBudgets = false; // To show a loading indicator while fetching budgets
 
   private _user: User | undefined;  // Defining private variable with undefined initially
@@ -31,7 +32,6 @@ export class DashboardComponent implements OnInit {
     this.fetchBudgetsByOwner(); // Fetch budgets by owner
   }
 
-  isLoadingUser: boolean = true;
 
 
   initializeDashboard() {

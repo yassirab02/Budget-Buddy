@@ -1,7 +1,11 @@
-<div class="min-h-screen bg-white p-8">
+<div *ngIf="isLoading; else budgetContent" class="flex justify-center items-center h-screen">
+  <app-spinner class="w-16 h-16"></app-spinner>
+</div>
+
+<ng-template class="min-h-screen bg-white p-8" #budgetContent>
   <div class="max-w-6xl mx-auto">
-    <div class="flex justify-between items-center mb-8">
-      <h1 class="text-3xl font-bold text-green-800">Your Budgets</h1>
+    <div class="flex justify-between items-center mb-8 mt-8">
+      <h1 class="text-3xl font-bold text-green-800">Budgets</h1>
       <button
         class="btn bg-green-600 hover:bg-green-700 text-white flex items-center"
         (click)="isAdd = !isAdd"
@@ -36,4 +40,4 @@
       </div>
     </div>
   </div>
-</div>
+</ng-template>

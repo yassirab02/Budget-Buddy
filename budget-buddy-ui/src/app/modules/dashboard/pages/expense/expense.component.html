@@ -1,20 +1,42 @@
-<div class="max-w-screen-xl mx-auto px-4 md:px-8">
-  <div class="items-start justify-between py-4 border-b md:flex">
-    <div class="max-w-lg">
-      <h3 class="text-gray-800 text-2xl font-bold">
-        Expense
-      </h3>
-      <p class="text-gray-600 mt-2">
-        Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-      </p>
-    </div>
-    <div class="mt-6 md:mt-0">
-      <button
-        href="javascript:void(0)"
-        class="block px-6 py-4 text-center text-white duration-150 font-medium bg-green-600 rounded-lg hover:bg-green-500 active:bg-green-700 md:text-sm"
-      >
-        Add Expense
-      </button>
+<div class="bg-white p-6 rounded-lg shadow-md w-full">
+  <h2 class="text-2xl font-bold mb-6 text-green-800">Expenses List</h2>
+  <div *ngIf="expenses.length === 0" class="text-gray-600 text-center py-4">
+    No expenses added yet.
+  </div>
+  <div *ngIf="expenses.length > 0" class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+    <div
+      *ngFor="let expense of expenses"
+      class="bg-green-50 rounded-lg shadow-md overflow-hidden"
+    >
+      <div class="bg-green-600 text-white p-4">
+        <h3 class="font-semibold text-lg">{{ expense.name }}</h3>
+        <p class="text-2xl font-bold flex items-center mt-2">
+          <i class="fa-solid fa-dollar-sign mr-2"></i>
+          {{ expense.amount.toFixed(2) }}
+        </p>
+      </div>
+      <div class="p-4 space-y-2">
+        <p class="text-gray-600 flex items-center">
+          <i class="fa-solid fa-calendar-days text-green-600 mr-2"></i>
+          {{ expense.date | date: 'shortDate' }}
+        </p>
+        <p class="text-gray-600 flex items-center">
+          <i class="fa-solid fa-tag text-green-600 mr-2"></i>
+          {{ expense.category }}
+        </p>
+        <p class="text-gray-600 flex items-center">
+          <i class="fa-solid fa-credit-card text-green-600 mr-2"></i>
+          {{ expense.expensesType }}
+        </p>
+        <p class="text-gray-600 flex items-center">
+          <i class="fa-solid fa-wallet text-green-600 mr-2"></i>
+          {{ expense.budget }}
+        </p>
+        <p *ngIf="expense.wallet" class="text-gray-600 flex items-center">
+          <i class="fa-solid fa-wallet text-green-600 mr-2"></i>
+          {{ expense.wallet }}
+        </p>
+      </div>
     </div>
   </div>
 </div>

@@ -1,0 +1,29 @@
+.bg-white {
+  background-color: #fff;
+}
+
+.p-6 {
+  padding: 1.5rem;
+}
+
+.rounded-lg {
+  border-radius: 0.5rem;
+}
+
+.shadow-md {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.text-gray-600 {
+  color: #718096;
+}
+
+.text-green-800 {
+  color: #2f855a;
+}
+
+.text-green-600 {
+  color: #38a169;
+}
+
+/* Add other utility classes as needed */

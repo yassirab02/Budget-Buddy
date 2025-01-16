@@ -14,6 +14,7 @@ export class LoginComponent {
   authRequest : AuthenticationRequest = { email:'',password:''};
   errorMsg: Array<string> = [];
   passwordVisible = false;
+  isLoading=false;
 
   togglePasswordVisibility() {
     this.passwordVisible = !this.passwordVisible;
@@ -34,6 +35,7 @@ export class LoginComponent {
       next: (res) => {
         //save the token
         this.tokenService.token = res.token as string;
+        this.isLoading=true;
         this.router.navigate(['dashboard']);
       },
       error: (err) => {
