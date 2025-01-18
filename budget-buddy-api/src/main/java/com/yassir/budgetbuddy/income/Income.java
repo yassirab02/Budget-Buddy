@@ -1,5 +1,7 @@
 package com.yassir.budgetbuddy.income;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.yassir.budgetbuddy.category.bean.IncomeSource;
 import com.yassir.budgetbuddy.common.BaseEntity;
 import com.yassir.budgetbuddy.wallet.Wallet;
@@ -29,6 +31,7 @@ public class Income extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "wallet_id", nullable = false)
+    @JsonBackReference
     private Wallet wallet;
 
 }

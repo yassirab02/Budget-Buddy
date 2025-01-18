@@ -12,6 +12,9 @@ import {formatDate} from '@angular/common';
   styleUrl: './expense-create.component.css'
 })
 export class ExpenseCreateComponent implements OnInit{
+  @Output() closeModal = new EventEmitter<void>();
+  @Output() expenseCreated = new EventEmitter<void>(); // Emits an event when a new budget is created
+
   expenseForm: FormGroup;
   expenseTypes = ['Fixed', 'Variable'];
   date: Date | null = null;
@@ -68,6 +71,10 @@ export class ExpenseCreateComponent implements OnInit{
 
   closeDialog(): void {
     this.dialogRef.close();
+  }
+
+  close() {
+    this.closeModal.emit();
   }
 
   protected readonly Date = Date;

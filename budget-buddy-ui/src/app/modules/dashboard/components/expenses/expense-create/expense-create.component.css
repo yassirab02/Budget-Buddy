@@ -1,27 +1,33 @@
 .dialog-content {
   display: flex;
+  flex-wrap: wrap;
+  margin: 0 auto;
 }
 
 .left-panel {
-  width: 33%;
+  width: 100%;
   background: linear-gradient(to bottom right, #28a745, #007bff);
   color: white;
   padding: 20px;
+  box-sizing: border-box;
 }
 
 .right-panel {
-  width: 67%;
+  width: 100%;
   padding: 20px;
+  box-sizing: border-box;
 }
 
 .form-row {
   display: flex;
   gap: 16px;
   margin-bottom: 16px;
+  flex-wrap: wrap;
 }
 
 .form-group {
   width: 100%;
+  margin-bottom: 16px;
 }
 
 .form-group label {
@@ -58,6 +64,7 @@
   display: flex;
   justify-content: space-between;
   margin-top: 16px;
+  flex-wrap: wrap;
 }
 
 button {
@@ -66,6 +73,7 @@ button {
   color: white;
   border: none;
   cursor: pointer;
+  margin-top: 8px;
 }
 
 button:hover {
@@ -78,4 +86,59 @@ button[type='button'] {
 
 button[type='button']:hover {
   background-color: #999;
+}
+
+/* Responsive Styles */
+@media (min-width: 768px) {
+  .left-panel {
+    width: 33%;
+  }
+
+  .right-panel {
+    width: 67%;
+  }
+}
+
+@media (max-width: 768px) {
+  .form-row {
+    flex-direction: column;
+  }
+
+  .form-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .form-group {
+    width: 100%;
+  }
+
+  button {
+    width: 100%;
+    margin-top: 8px;
+  }
+
+  button[type='button'] {
+    width: 100%;
+    margin-top: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .dialog-content {
+    flex-direction: column;
+  }
+
+  .left-panel, .right-panel {
+    width: 100%;
+  }
+
+  .form-row {
+    flex-direction: column;
+  }
+
+  .form-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
 }

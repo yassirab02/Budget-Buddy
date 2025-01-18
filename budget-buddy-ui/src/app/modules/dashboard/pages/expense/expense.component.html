@@ -64,3 +64,11 @@
     </div>
   </div>
 </ng-template>
+
+<!-- Add Expense Modal -->
+<div *ngIf="createExpense" class="fixed inset-0 flex items-center justify-center bg-opacity-75 bg-gray-600 z-50">
+  <div class="rounded-lg md:w-1/2 bg-white p-8">
+    <app-expense-create>
+    </app-expense-create>
+  </div>
+</div>

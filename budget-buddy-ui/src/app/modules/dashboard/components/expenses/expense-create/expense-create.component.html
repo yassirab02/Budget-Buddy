@@ -6,6 +6,8 @@
   <div class="right-panel">
     <h3>Add New Expense</h3>
     <form [formGroup]="expenseForm" (ngSubmit)="onSubmit()">
+
+      <!-- Expense Details -->
       <div class="form-row">
         <div class="form-group">
           <label for="name">Name</label>
@@ -49,22 +51,7 @@
         ></textarea>
       </div>
 
-      <div class="form-row">
-        <div class="form-group">
-          <label for="date">Date</label>
-          <button type="button">
-            {{ date ? formatDate(date) : 'Pick a date' }}
-          </button>
-        </div>
-
-        <div class="form-group">
-          <label for="expenseType">Expense Type</label>
-          <select formControlName="expenseType">
-            <option *ngFor="let type of expenseTypes" [value]="type">{{ type }}</option>
-          </select>
-        </div>
-      </div>
-
+      <!-- Category and Budget -->
       <div class="form-row">
         <div class="form-group">
           <label for="categoryId">Category ID</label>

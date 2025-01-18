@@ -2,6 +2,7 @@ package com.yassir.budgetbuddy.wallet;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.yassir.budgetbuddy.common.BaseEntity;
 import com.yassir.budgetbuddy.expenses.Expenses;
 import com.yassir.budgetbuddy.income.Income;
@@ -39,6 +40,7 @@ public class Wallet extends BaseEntity {
     private User owner;
 
     @OneToMany(mappedBy = "wallet", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<Income> incomes;
 
     @OneToMany(mappedBy = "wallet", cascade = CascadeType.ALL,fetch = FetchType.LAZY)

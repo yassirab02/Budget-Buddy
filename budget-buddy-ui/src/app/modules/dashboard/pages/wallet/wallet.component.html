@@ -139,8 +139,13 @@
 
           <!-- Wallet Type Section -->
           <div class="form-section">
-            <label for="walletType">Select Wallet Type</label>
-            <select [(ngModel)]="walletRequest.walletType" name="walletType" class="select" required>
+            <label for="walletType">Card Type</label>
+            <select
+              id="walletType"
+              formControlName="walletType"
+              required
+              class="input"
+            >
               <option value="SPENDING">Spending</option>
               <option value="SAVINGS">Savings</option>
               <option value="CASH">Cash</option>
