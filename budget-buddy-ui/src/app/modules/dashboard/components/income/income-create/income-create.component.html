@@ -1,11 +1,11 @@
 <div class="dialog-overlay">
   <div class="dialog">
     <div class="dialog-left">
-      <h2>New Expense</h2>
+      <h2>New Income</h2>
       <div class="image-container">
-        <img ngSrc="assets/expense.png" class="responsive-img" alt="Expense photo" height="512" width="512">
+        <img ngSrc="assets/income.png" class="responsive-img" alt="Income photo" height="512" width="512">
       </div>
-      <p>Create a new expense entry to manage your finances effectively.</p>
+      <p>Create a new income entry to manage your finances effectively.</p>
     </div>
     <div class="dialog-right">
       <div class="close-button-container">
@@ -13,21 +13,21 @@
           <i class="fa-regular fa-circle-xmark"></i>
         </button>
       </div>
-      <form (ngSubmit)="saveExpense()" class="form">
+      <form (ngSubmit)="saveIncome()" class="form">
         <!-- Wallet Name Section -->
         <div class="form-section">
           <label for="name">Name</label>
           <input
             id="name"
-            [(ngModel)]="expenseRequest.name"
+            [(ngModel)]="incomeRequest.name"
             name="name"
-            placeholder="Enter Expense name"
+            placeholder="Enter income name"
             class="input"
             required
           />
         </div>
 
-        <!-- Balance and Expense Type Section (Grid) -->
+        <!-- Balance and income Type Section (Grid) -->
         <div class="form-inline">
           <div class="inline-field">
             <label for="amount">Amount</label>
@@ -35,39 +35,22 @@
               id="amount"
               type="number"
               step="0.01"
-              [(ngModel)]="expenseRequest.amount"
+              [(ngModel)]="incomeRequest.amount"
               name="balance"
               placeholder="0.00"
               class="input"
               required
             />
           </div>
-          <!-- Expense Type Section -->
-          <div class="form-inline">
-            <div class="inline-field">
-              <label for="expenseType">Expense Type</label>
-              <select
-                id="expenseType"
-                formControlName="expenseType"
-                required
-                class="input"
-              >
-                <option value="FIXED">FIXED</option>
-                <option value="VARIABLE">VARIABLE</option>
-                <option value="ONE TIME">ONE TIME</option>
-              </select>
-            </div>
-          </div>
         </div>
 
         <!-- Date and Description Section (Grid) -->
-        <div class="form-inline">
           <div class="inline-field">
             <label for="date">Date</label>
             <input
               id="date"
               type="date"
-              [(ngModel)]="expenseRequest.date"
+              [(ngModel)]="incomeRequest.date"
               name="date"
               class="input"
             />
@@ -76,42 +59,26 @@
             <label for="description">Description</label>
             <input
               id="description"
-              [(ngModel)]="expenseRequest.description"
+              [(ngModel)]="incomeRequest.description"
               name="description"
-              placeholder="Enter Expense description"
+              placeholder="Enter income description"
               class="input"
             />
           </div>
-        </div>
 
         <!-- Category, Budget, and Wallet Section (Grid) -->
         <div class="form-inline">
           <div class="inline-field">
-            <label for="categoryId">Category</label>
+            <label for="categoryId">Source</label>
             <select
               id="categoryId"
-              [(ngModel)]="expenseRequest.categoryId"
+              [(ngModel)]="incomeRequest.incomeSourceId"
               name="categoryId"
               required
               class="input"
             >
-              <option *ngFor="let category of expensesCategory" [value]="category.id">
-                {{ category.name }}
-              </option>
-            </select>
-          </div>
-
-          <div class="inline-field">
-            <label for="budgetId">Budget</label>
-            <select
-              id="budgetId"
-              [(ngModel)]="expenseRequest.budgetId"
-              name="budgetId"
-              required
-              class="input"
-            >
-              <option *ngFor="let budget of budgets" [value]="budget.id">
-                {{ budget.name }}
+              <option *ngFor="let source of incomeSource" [value]="source.id">
+                {{ source.name }}
               </option>
             </select>
           </div>
@@ -120,7 +87,7 @@
             <label for="walletId">Wallet</label>
             <select
               id="walletId"
-              [(ngModel)]="expenseRequest.walletId"
+              [(ngModel)]="incomeRequest.walletId"
               name="walletId"
               class="input"
             >
@@ -133,7 +100,8 @@
 
         <!-- Submit Section -->
         <div class="form-section">
-          <button type="submit" class="submit-button">Add Expense</button>
+          <button type="submit" class="submit-button">
+            Add Income</button>
         </div>
       </form>
     </div>
@@ -148,7 +116,7 @@
     <div class="px-4 py-2 -mx-3">
       <div class="mx-3">
         <span class="font-semibold text-emerald-500">Success</span>
-        <p class="text-sm text-gray-600">Expense added successfully!</p>
+        <p class="text-sm text-gray-600">Income added successfully!</p>
       </div>
     </div>
   </div>

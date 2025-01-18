@@ -46,9 +46,7 @@ export class ExpenseComponent implements OnInit {
     })
       .subscribe({
         next: (expenses) => {
-          // Store the backend response in budgetResponse
           this.expensesResponse = expenses;
-          // Create an array of page numbers for pagination
           this.pages = Array(this.expensesResponse.totalPages)
             .fill(0)
             .map((x, i) => i);

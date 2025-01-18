@@ -1,38 +1,38 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {Router} from '@angular/router';
+import {ExpensesCategoryResponse} from '../../../../../services/models/expenses-category-response';
+import {WalletResponse} from '../../../../../services/models/wallet-response';
+import {BudgetResponse} from '../../../../../services/models/budget-response';
 import {ExpensesRequest} from '../../../../../services/models/expenses-request';
 import {CategoryService} from '../../../../../services/services/category.service';
 import {ExpensesService} from '../../../../../services/services/expenses.service';
 import {WalletService} from '../../../../../services/services/wallet.service';
 import {BudgetService} from '../../../../../services/services/budget.service';
-import {WalletResponse} from '../../../../../services/models/wallet-response';
-import {BudgetResponse} from '../../../../../services/models/budget-response';
-import {ExpensesCategoryResponse} from '../../../../../services/models/expenses-category-response';
-
+import {IncomeRequest} from '../../../../../services/models/income-request';
+import {IncomeSourceResponse} from '../../../../../services/models/income-source-response';
+import {IncomeService} from '../../../../../services/services/income.service';
 
 @Component({
-  selector: 'app-expense-create',
-  templateUrl: './expense-create.component.html',
-  styleUrl: './expense-create.component.css'
+  selector: 'app-income-create',
+  templateUrl: './income-create.component.html',
+  styleUrl: './income-create.component.css'
 })
-export class ExpenseCreateComponent implements OnInit {
+export class IncomeCreateComponent implements OnInit{
   @Output() closeModal = new EventEmitter<void>();
-  @Output() expenseCreated = new EventEmitter<void>(); // Emits an event when a new budget is created
+  @Output() incomeCreated = new EventEmitter<void>(); // Emits an event when a new budget is created
 
-  expenseForm: FormGroup;
+  incomeForm: FormGroup;
   date: Date | null = null;
   errorMsg: Array<string> = [];
-  expensesCategory: Array<ExpensesCategoryResponse> = [];
+  incomeSource: Array<IncomeSourceResponse> = [];
   wallets: WalletResponse[] = [];
-  budgets: BudgetResponse[] = [];
-  expenseRequest: ExpensesRequest = {
+  incomeRequest: IncomeRequest = {
     name: '',
     amount: 0,
     description: '',
     date: '',
-    expensesType: 'FIXED',
-    categoryId: 0,
-    budgetId: 0,
+    incomeSourceId: 0,
     walletId: 0
   };
   showSuccess = false;
@@ -40,11 +40,10 @@ export class ExpenseCreateComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private categoryService: CategoryService,
-    private expenseService: ExpensesService,
+    private incomeService: IncomeService,
     private walletService: WalletService,
-    private budgetService: BudgetService,
   ) {
-    this.expenseForm = this.fb.group({
+    this.incomeForm = this.fb.group({
       name: ['', Validators.required],
       amount: ['', [Validators.required, Validators.min(0.01)]],
       description: [''],
@@ -61,16 +60,15 @@ export class ExpenseCreateComponent implements OnInit {
   }
 
 
-  saveExpense() {
-    this.expenseService.addOrUpdateExpense({
-      body: this.expenseRequest
+  saveIncome() {
+    this.incomeService.addOrUpdateIncome({
+      body: this.incomeRequest
     }).subscribe({
       next: (expenseId) => {
-        // Set isAdd to false after successful save
         this.closeModal.emit();
-        this.expenseForm.reset();
+        this.incomeForm.reset();
         this.showSuccess = true;
-        this.expenseCreated.emit(); // Emit the event to notify parent component
+        this.incomeCreated.emit(); // Emit the event to notify parent component
         setTimeout(() => {
           this.showSuccess = false;
         }, 5000);
@@ -84,25 +82,12 @@ export class ExpenseCreateComponent implements OnInit {
 
 
   fetchingUserInfo() {
-    this.categoryService.getExpensesCategory().subscribe({
-      next: (categories) => {
-        this.expensesCategory = categories;
+    this.categoryService.getIncomeSources().subscribe({
+      next: (sources) => {
+        this.incomeSource = sources;
       },
       error: (err) => {
-        console.error('Error fetching categories:', err);
-      }
-    });
-
-    this.budgetService.findAllBudgetsByOwner().subscribe({
-      next: (budgets) => {
-        if (budgets.content) {
-          this.budgets = budgets.content;
-        } else {
-          this.budgets = [];
-        }
-      },
-      error: (err) => {
-        console.error('Error fetching budgets:', err);
+        console.error('Error fetching sources:', err);
       }
     });
 
