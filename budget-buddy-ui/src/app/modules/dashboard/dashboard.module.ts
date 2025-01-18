@@ -30,6 +30,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatSelectModule} from '@angular/material/select';
 import { IncomeCreateComponent } from './components/income/income-create/income-create.component';
+import { DebtCreateComponent } from './components/debt/debt-create/debt-create.component';
 
 
 @NgModule({
@@ -56,6 +57,7 @@ import { IncomeCreateComponent } from './components/income/income-create/income-
     WalletDetailsComponent,
     ExpenseCreateComponent,
     IncomeCreateComponent,
+    DebtCreateComponent,
   ],
   exports: [
     SpinnerComponent

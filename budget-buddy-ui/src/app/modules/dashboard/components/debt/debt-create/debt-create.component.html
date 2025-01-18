@@ -1,0 +1,159 @@
+<div class="dialog-overlay">
+  <div class="dialog">
+    <div class="dialog-left">
+      <h2>New debt</h2>
+      <div class="image-container">
+        <img ngSrc="assets/debt.png" class="responsive-img" alt="debt photo" height="512" width="512">
+      </div>
+      <p>Create a new debt entry to manage your finances effectively.</p>
+    </div>
+    <div class="dialog-right">
+      <div class="close-button-container">
+        <button class="close-button" (click)="close()">
+          <i class="fa-regular fa-circle-xmark"></i>
+        </button>
+      </div>
+      <form (ngSubmit)="saveDebt()" class="form">
+        <!-- Debt Name Section -->
+        <div class="form-section">
+          <label for="name">Name</label>
+          <input
+            id="name"
+            [(ngModel)]="debtRequest.name"
+            name="name"
+            placeholder="Enter debt name"
+            class="input"
+            required
+          />
+        </div>
+
+        <!-- Amount Section -->
+        <div class="form-inline">
+          <div class="inline-field">
+            <label for="amount">Amount</label>
+            <input
+              id="amount"
+              type="number"
+              step="0.01"
+              [(ngModel)]="debtRequest.amount"
+              name="amount"
+              placeholder="0.00"
+              class="input"
+              required
+            />
+          </div>
+        </div>
+
+        <!-- Due Date Section -->
+        <div class="inline-field">
+          <label for="dueDate">Due Date</label>
+          <input
+            id="dueDate"
+            type="date"
+            [(ngModel)]="debtRequest.dueDate"
+            name="dueDate"
+            class="input"
+          />
+        </div>
+
+        <!-- issue Date Section -->
+        <div class="inline-field">
+          <label for="dueDate">Issue Date</label>
+          <input
+            id="dueDate"
+            type="date"
+            [(ngModel)]="debtRequest.issueDate"
+            name="dueDate"
+            class="input"
+          />
+        </div>
+
+        <!-- Description Section -->
+        <div class="inline-field">
+          <label for="description">Description</label>
+          <input
+            id="description"
+            [(ngModel)]="debtRequest.description"
+            name="description"
+            placeholder="Enter debt description"
+            class="input"
+          />
+        </div>
+
+        <!-- Debt Type Section -->
+        <div class="form-section">
+          <label for="type">Debt Type</label>
+          <select
+            id="type"
+            [(ngModel)]="debtRequest.type"
+            name="type"
+            class="input"
+            required
+          >
+            <option value="PERSONAL_LOAN">Personal Loan</option>
+            <option value="MORTGAGE">Mortgage</option>
+            <!-- Add more debt types if necessary -->
+          </select>
+        </div>
+
+        <!-- Is Paid Section -->
+        <div class="form-section">
+          <label for="isPaid">Is Paid</label>
+          <input
+            id="isPaid"
+            type="checkbox"
+            [(ngModel)]="debtRequest.isPaid"
+            name="isPaid"
+            class="input"
+          />
+        </div>
+
+        <!-- Submit Section -->
+        <div class="form-section">
+          <button type="submit" class="submit-button">
+            Add debt
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Success Message -->
+<div class="absolute top-5 right-5 z-20 w-auto max-w-sm rounded-lg shadow-md flex items-center" *ngIf="showSuccess">
+  <div class="flex w-full max-w-sm overflow-hidden bg-white rounded-lg shadow-md">
+    <div class="flex items-center justify-center w-12 bg-emerald-500">
+      <i class="fa-solid fa-circle-check w-6 h-6 text-white fill-current"></i>
+    </div>
+    <div class="px-4 py-2 -mx-3">
+      <div class="mx-3">
+        <span class="font-semibold text-emerald-500">Success</span>
+        <p class="text-sm text-gray-600">Debt added successfully!</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Error Message -->
+<div
+  class="absolute top-5 right-5 z-20 w-auto max-w-sm rounded-lg shadow-md flex items-center mt-12 mx-4 px-4 rounded-md border-l-4 border-red-500 bg-red-50 md:max-w-2xl md:mx-auto"
+  *ngIf="errorMsg.length">
+  <div class="flex justify-between py-3">
+    <div class="flex">
+      <div>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-red-500" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+        </svg>
+      </div>
+      <div class="self-center ml-3">
+        <span class="text-red-600 font-semibold">Error</span>
+        <p class="text-red-600 mt-1" *ngFor="let msg of errorMsg">{{ msg }}</p>
+      </div>
+    </div>
+    <button class="self-start text-red-500" (click)="closeError()">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+        <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/>
+      </svg>
+    </button>
+  </div>
+</div>

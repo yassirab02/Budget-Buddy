@@ -26,11 +26,8 @@ public record DebtRequest(
 
         LocalDate dueDate,
 
-        String debtType,
+        LocalDate issueDate,
 
-        boolean isPaid,
-
-        @NotNull(message = "Owner ID is required")
-        Integer ownerId
+        boolean isPaid
 ) {
 }

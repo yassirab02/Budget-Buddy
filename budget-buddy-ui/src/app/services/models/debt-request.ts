@@ -4,12 +4,11 @@
 
 export interface DebtRequest {
   amount: number;
-  debtType?: string;
   description?: string;
   dueDate?: string;
+  issueDate?: string;
   id?: number;
   isPaid?: boolean;
   name: string;
-  ownerId: number;
   type?: 'PERSONAL_LOAN' | 'MORTGAGE' | 'CREDIT_CARD' | 'STUDENT_LOAN' | 'BUSINESS_LOAN' | 'CAR_LOAN' | 'OTHER';
 }

@@ -15,6 +15,7 @@ public class DebtMapper {
                 .description(request.description())
                 .amount(request.amount())
                 .dueDate(request.dueDate())
+                .issueDate(request.issueDate())
                 .type(request.type())
                 .isPaid(request.isPaid())
                 .build();

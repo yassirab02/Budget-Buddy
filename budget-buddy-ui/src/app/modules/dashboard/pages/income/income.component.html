@@ -14,8 +14,6 @@
       </button>
     </div>
 
-    <hr class="p-4">
-
     <div class="bg-gradient-to-r from-green-400 to-green-600 text-white p-4 mb-6 rounded-lg">
       <div class="flex items-center justify-between">
         <div>
@@ -57,11 +55,12 @@
         </div>
       </div>
     </div>
-  </div>
-  <div *ngIf="incomeResponse.content?.length === 0" class="text-center text-gray-500 mt-8 p-8 bg-white rounded-lg shadow">
-    <i class="fa-regular fa-magnifying-glass mx-auto h-12 w-12 text-gray-400 mb-4"></i>
-    <p class="text-xl font-semibold mb-2">No incomes found</p>
-    <p>Try adjusting your search or add a new income.</p>
+    <div *ngIf="incomeResponse.content?.length === 0"
+         class="text-center text-gray-500 mt-8 p-8 bg-white rounded-lg shadow">
+      <span class="icon mx-auto h-12 w-12 text-gray-400 mb-4">🔍</span>
+      <p class="text-xl font-semibold mb-2">No incomes found</p>
+      <p>Try adding a new income.</p>
+    </div>
   </div>
 </ng-template>
 

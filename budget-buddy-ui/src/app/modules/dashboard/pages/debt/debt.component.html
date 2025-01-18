@@ -1,20 +1,77 @@
-<div class="max-w-screen-xl mx-auto px-4 md:px-8">
-  <div class="items-start justify-between py-4 border-b md:flex">
-    <div class="max-w-lg">
-      <h3 class="text-gray-800 text-2xl font-bold">
-        Debt
-      </h3>
-      <p class="text-gray-600 mt-2">
-        Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-      </p>
-    </div>
-    <div class="mt-6 md:mt-0">
-      <button
-        href="javascript:void(0)"
-        class="block px-6 py-4 text-center text-white duration-150 font-medium bg-green-600 rounded-lg hover:bg-green-500 active:bg-green-700 md:text-sm"
+<div class="min-h-screen bg-gradient-to-br from-red-50 via-white to-red-50">
+  <div class="container mx-auto py-12 px-4 sm:px-6 lg:px-8">
+    <div class="flex flex-col sm:flex-row justify-between items-center mb-8 space-y-4 sm:space-y-0">
+      <h1 class="text-4xl font-bold text-red-700">Debt Overview</h1>
+      <button class="bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded flex items-center"
+              (click)="createDebt = true"
       >
-        Add Debt
+        <i class="fa-solid fa-circle-plus mr-2 h-4 w-4"></i>
+        Add New Debt
       </button>
     </div>
+
+    <div class=" bg-gradient-to-r from-red-400 to-red-600 text-white p-4 mb-6 rounded-lg">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-lg font-semibold mb-2">Total Debt</p>
+          <p class="text-4xl font-bold">${{ totalDebt }}</p>
+        </div>
+        <i class="fa-solid fa-arrow-trend-down text-white" style="font-size: 48px;"></i>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div *ngFor="let debt of debtResponse.content" class="motion-div">
+        <div
+          class="card bg-white shadow-lg rounded-xl overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+          <div
+            [ngClass]="{ 'bg-gradient-to-r from-green-400 to-green-600': debt.paid, 'bg-gradient-to-r from-red-400 to-red-600': !debt.paid }"
+            class="card-header py-4">
+            <div class="card-title text-xl font-semibold text-white flex justify-between items-center pl-4">
+              {{ debt.name }}
+            </div>
+          </div>
+          <div class="card-content p-6 space-y-4">
+            <div class="flex justify-between items-center">
+              <div class="flex items-center text-red-600 font-semibold text-2xl">
+                ${{ debt.amount }}
+              </div>
+              <div class="flex items-center text-gray-600 bg-red-100 px-3 py-1 rounded-full">
+                Due: {{ debt.dueDate }}
+              </div>
+            </div>
+            <p class="text-gray-600 italic">&quot;{{ debt.description }}&quot;</p>
+            <div class="flex justify-between items-center text-sm">
+              <div class="flex items-center text-gray-600 bg-gray-100 px-3 py-1 rounded-full">
+                {{ debt.type }}
+              </div>
+              <div class="flex items-center text-gray-600 bg-gray-100 px-3 py-1 rounded-full">
+                {{ debt.owner }}
+              </div>
+            </div>
+            <div [ngClass]="{ 'text-green-600': debt.paid, 'text-red-600': !debt.paid }"
+                 class="text-center font-semibold">
+              {{ debt.paid ? 'Paid' : 'Unpaid' }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="debtResponse?.content?.length === 0"
+         class="text-center text-gray-500 mt-8 p-8 bg-white rounded-lg shadow">
+      <span class="icon mx-auto h-12 w-12 text-gray-400 mb-4">🔍</span>
+      <p class="text-xl font-semibold mb-2">No debts found</p>
+      <p>Try adding a new debt.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Modal outside ng-template -->
+<div *ngIf="createDebt" class="fixed inset-0 flex items-center justify-center bg-opacity-75 bg-gray-600 z-50">
+  <div class="rounded-lg w-full sm:w-1/2 md:w-1/3 bg-white p-8">
+    <app-debt-create (closeModal)="createDebt = false"
+                       (debtCreated)="findAllDebts(true)"
+    ></app-debt-create>
   </div>
 </div>
