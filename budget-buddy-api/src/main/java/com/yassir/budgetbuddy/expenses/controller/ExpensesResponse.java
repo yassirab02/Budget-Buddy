@@ -17,6 +17,7 @@ public class ExpensesResponse {
     private BigDecimal amount;
     private String description;
     private LocalDate date;
+    private boolean archived;
     private String category;
     private String expensesType; // E.g., Fixed, Variable
     private String budget;

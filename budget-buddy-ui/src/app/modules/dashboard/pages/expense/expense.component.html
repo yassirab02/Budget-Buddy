@@ -8,25 +8,54 @@
     <div class="p-8">
       <div class="mb-8 flex items-center justify-between">
         <h1 class="text-3xl font-bold text-green-800">Expenses</h1>
-        <button
-          class="flex h-full items-center justify-center p-3 rounded-lg border-2 border-gray-200 bg-green-600 hover:bg-green-700 shadow-lg"
-          (click)="createExpense = true"
-        >
-          <i class="fa-solid fa-circle-plus mr-2 h-5 w-5 text-white"></i>
-          <span class="text-white">Add Expense</span>
-        </button>
+        <div class="relative">
+          <!-- Dropdown Toggle Button -->
+          <button
+            class="flex items-center justify-center p-3 rounded-lg border-2 border-gray-200 bg-green-600 hover:bg-green-700 shadow-lg"
+            (click)="isSubmenuOpen = !isSubmenuOpen"
+          >
+            <i class="fa-solid fa-plus-minus mr-2 h-5 w-5 text-white"></i>
+          </button>
+
+          <!-- Dropdown Menu (3 buttons) -->
+          <div *ngIf="isSubmenuOpen" class="absolute right-0 mt-2 w-64 bg-green-200 rounded-xl shadow-xl z-10 overflow-hidden">
+            <button
+              class="w-full text-left px-6 py-4 text-gray-700 hover:bg-gradient-to-r hover:from-green-500 hover:to-green-600 hover:text-white flex items-center whitespace-nowrap transition-all duration-200 ease-in-out border-b border-gray-800"
+              (click)="createExpense = true"
+            >
+              <i class="fa-solid fa-circle-plus mr-3 h-5 w-5 text-green-600 group-hover:text-white transition-colors duration-200"></i>
+              <span>Add Expense</span>
+            </button>
+
+            <button
+              class="w-full text-left px-6 py-4 text-gray-700 hover:bg-gradient-to-r hover:from-yellow-500 hover:to-yellow-600 hover:text-white flex items-center whitespace-nowrap transition-all duration-200 ease-in-out border-b border-gray-800"
+              (click)="isMonthlyArchive = true"
+            >
+              <i class="fa-solid fa-calendar-day mr-3 h-5 w-5 text-yellow-600 group-hover:text-white transition-colors duration-200"></i>
+              <span>Reset Monthly Expenses</span>
+            </button>
+
+            <button
+              class="w-full text-left px-6 py-4 text-gray-700 hover:bg-gradient-to-r hover:from-red-500 hover:to-red-600 hover:text-white flex items-center whitespace-nowrap transition-all duration-200 ease-in-out border-b border-gray-800"
+              (click)="isArchive = true"
+            >
+              <i class="fa-solid fa-trash-alt mr-3 h-5 w-5 text-red-600 group-hover:text-white transition-colors duration-200"></i>
+              <span>Reset All Expenses</span>
+            </button>
+          </div>
+        </div>
       </div>
 
       <hr class="p-4">
 
-      <div *ngIf="expensesResponse?.content?.length === 0; else showExpenses;" class="text-gray-600 text-center py-4">
+      <div *ngIf="nonArchivedExpenses.length===0; else showExpenses;" class="text-gray-600 text-center py-4">
         No expenses added yet.
       </div>
 
       <ng-template #showExpenses>
         <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           <div
-            *ngFor="let expense of expensesResponse.content"
+            *ngFor="let expense of nonArchivedExpenses"
             class="bg-green-100 rounded-lg shadow-md overflow-hidden transition-transform transform hover:scale-105"
           >
             <div class="bg-green-600 text-white p-4">
@@ -65,10 +94,99 @@
   </div>
 </ng-template>
 
-<!-- Add Expense Modal -->
+<!-- Modal outside ng-template -->
 <div *ngIf="createExpense" class="fixed inset-0 flex items-center justify-center bg-opacity-75 bg-gray-600 z-50">
   <div class="rounded-lg md:w-1/2 bg-white p-8">
-    <app-expense-create>
-    </app-expense-create>
+    <app-expense-create (closeModal)="createExpense = false"
+                        (expenseCreated)="findAllExpenses(true)"
+    ></app-expense-create>
+  </div>
+</div>
+
+<div class="absolute top-5 right-5 z-20 w-auto max-w-sm rounded-lg shadow-md flex items-center">
+  <div class="flex w-full max-w-sm overflow-hidden bg-white rounded-lg shadow-md" *ngIf="showSuccess">
+    <div class="flex items-center justify-center w-12 bg-emerald-500">
+      <i class="fa-solid fa-circle-check w-6 h-6 text-white fill-current"></i>
+    </div>
+    <div class="px-4 py-2 -mx-3">
+      <div class="mx-3">
+        <span class="font-semibold text-emerald-500">Success</span>
+        <p class="text-sm text-gray-600">Expense added successfully!</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="isMonthlyArchive">
+  <div id="modal" class="fixed inset-0 w-full h-full z-40">
+    <div class="fixed inset-0 w-full h-full bg-black opacity-40" id="overlay"></div>
+
+    <div class="fixed top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] px-4 w-full max-w-lg">
+      <div class="bg-white rounded-md shadow-lg px-4 py-6 sm:flex">
+        <div class="flex items-center justify-center flex-none w-12 h-12 mx-auto bg-red-100 rounded-full">
+          <!-- SVG Icon -->
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-red-600" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd"
+                  d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
+                  clip-rule="evenodd"/>
+          </svg>
+        </div>
+        <div class="mt-2 text-center sm:ml-4 sm:text-left">
+          <h2 class="text-lg font-medium text-gray-800">Are you sure you want to reset this month's expenses?</h2>
+          <p class="mt-2 text-sm leading-relaxed text-gray-500">
+            Resetting the monthly expenses will erase all records for this month. This action cannot be undone. Please confirm your decision.
+          </p>
+          <div class="items-center gap-2 mt-3 text-sm sm:flex">
+            <button id="deleteButton"
+                    class="w-full mt-2 p-2.5 flex-1 text-white bg-red-600 rounded-md ring-offset-2 ring-red-600 focus:ring-2"
+                    (click)="resetMonthlyExpenses()">
+              Reset Expenses
+            </button>
+            <button id="cancelButton"
+                    class="w-full mt-2 p-2.5 flex-1 text-gray-800 rounded-md border ring-offset-2 ring-indigo-600 focus:ring-2"
+                    (click)="isMonthlyArchive=false">
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="isArchive">
+  <div id="modal" class="fixed inset-0 w-full h-full z-40">
+    <div class="fixed inset-0 w-full h-full bg-black opacity-40" id="overlay"></div>
+
+    <div class="fixed top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] px-4 w-full max-w-lg">
+      <div class="bg-white rounded-md shadow-lg px-4 py-6 sm:flex">
+        <div class="flex items-center justify-center flex-none w-12 h-12 mx-auto bg-red-100 rounded-full">
+          <!-- SVG Icon -->
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-red-600" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd"
+                  d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
+                  clip-rule="evenodd"/>
+          </svg>
+        </div>
+        <div class="mt-2 text-center sm:ml-4 sm:text-left">
+          <h2 class="text-lg font-medium text-gray-800">Are you sure you want to reset this month's expenses?</h2>
+          <p class="mt-2 text-sm leading-relaxed text-gray-500">
+            Resetting all expenses will erase all records. This action cannot be undone. Please confirm your decision.
+          </p>
+          <div class="items-center gap-2 mt-3 text-sm sm:flex">
+            <button id="deleteButton"
+                    class="w-full mt-2 p-2.5 flex-1 text-white bg-red-600 rounded-md ring-offset-2 ring-red-600 focus:ring-2"
+                    (click)="resetAllExpenses()">
+              Reset Expenses
+            </button>
+            <button id="cancelButton"
+                    class="w-full mt-2 p-2.5 flex-1 text-gray-800 rounded-md border ring-offset-2 ring-indigo-600 focus:ring-2"
+                    (click)="isArchive=false">
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

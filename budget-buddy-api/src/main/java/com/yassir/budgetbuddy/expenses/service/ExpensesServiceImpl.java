@@ -57,7 +57,7 @@ public class ExpensesServiceImpl implements ExpensesService {
 
         Optional<Wallet> wallet = walletRepository.findById(request.walletId());
         expense = expensesMapper.toExpenses(request);
-
+        expense.setArchived(false);
         wallet.ifPresent(expense::setWallet);
 
         if (expense.getWallet() != null) {
@@ -165,13 +165,13 @@ public class ExpensesServiceImpl implements ExpensesService {
         User user = (User) connectedUser.getPrincipal();
         LocalDate now = LocalDate.now();
 
-        // Check if there are any expenses for the current month
-        boolean hasExpenses = repository.existsByMonthAndUserId(now.getMonthValue(), user.getId());
-        if (!hasExpenses) {
-            throw new EntityNotFoundException("No expenses found for the current month");
+        // Retrieve only non-archived expenses for the current month
+        List<Expenses> nonArchived = repository.findNonArchivedByMonthAndUserId(now.getMonthValue(), user.getId());
+        if (nonArchived.isEmpty()) {
+            throw new EntityNotFoundException("No non-archived expenses found for the current month");
         }
 
-        // Archive the expenses in bulk
+        // Archive the non-archived expenses in bulk for the current month and specific user
         repository.archiveExpensesByMonthAndUserId(now.getMonthValue(), user.getId());
     }
 

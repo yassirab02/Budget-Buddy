@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {CommonModule, NgOptimizedImage} from '@angular/common';
 
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { MainComponent } from './pages/main/main.component';
@@ -68,6 +68,7 @@ import {MatSelectModule} from '@angular/material/select';
     MatIconModule,
     MatDatepickerModule,
     MatSelectModule,
+    NgOptimizedImage,
 
   ]
 })

@@ -87,11 +87,6 @@ export class DashboardComponent implements OnInit {
     this.isOpen = !this.isOpen;
   }
 
-  logout() {
-    localStorage.clear(); // or localStorage.removeItem('token');
-    window.location.reload();
-  }
-
   toggleAddInput() {
     this.add = !this.add;
   }
@@ -121,5 +116,11 @@ export class DashboardComponent implements OnInit {
   redirectToBudget() {
     this.router.navigate(['/budget']);
   }
+
+  logout() {
+    localStorage.clear(); // or localStorage.removeItem('token');
+    window.location.reload();
+  }
+
 
 }

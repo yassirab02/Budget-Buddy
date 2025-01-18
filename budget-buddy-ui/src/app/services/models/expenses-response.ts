@@ -4,6 +4,7 @@
 
 export interface ExpensesResponse {
   amount?: number;
+  archived?: boolean;
   budget?: string;
   category?: string;
   date?: string;

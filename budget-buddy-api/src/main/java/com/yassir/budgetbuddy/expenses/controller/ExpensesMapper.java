@@ -38,6 +38,7 @@ public class ExpensesMapper {
                 .amount(expenses.getAmount())
                 .description(expenses.getDescription())
                 .date(expenses.getDate())
+                .archived(expenses.isArchived())
                 .expensesType(expenses.getType() != null ? expenses.getType().name() : "Unknown")
                 .category(expenses.getCategory() != null ? expenses.getCategory().getName() : "Unknown")
                 .budget(expenses.getBudget() != null ? expenses.getBudget().getName() : "Unknown")

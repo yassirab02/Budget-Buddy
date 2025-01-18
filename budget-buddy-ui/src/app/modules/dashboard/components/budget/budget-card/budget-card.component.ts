@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {BudgetService} from '../../../../../services/services/budget.service';
 import {DeleteBudget1$Params} from '../../../../../services/fn/budget/delete-budget-1';
 
@@ -14,6 +14,7 @@ export class BudgetCardComponent {
   @Input() amount: number | undefined = 0; // Default to 0 if undefined
   @Input() targetAmount: number | undefined = 0; // Default to 0 if undefined
   @Input() limitAmount: number | undefined = 0; // Default to 0 if undefined
+  @Output() refreshBudget = new EventEmitter<number>();
 
   isDelete=false;
 
@@ -41,6 +42,7 @@ export class BudgetCardComponent {
       next: () => {
         console.log('Budget deleted successfully');
         this.isDelete=false;
+        this.refreshBudget.emit(this.id);
       },
       error: (err) => {
         console.error('Error deleting budget:', err);

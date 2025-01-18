@@ -45,16 +45,11 @@ public interface ExpensesRepository extends JpaRepository<Expenses, Integer>, Jp
     Double getTotalExpensesForUserAndMonth(@Param("id") Integer id, @Param("month") Integer month, @Param("year") Integer year);
 
     @Modifying
-    @Transactional
-    @Query("""
-                    UPDATE Expenses e 
-                    SET e.archived = true 
-                    WHERE FUNCTION('MONTH', e.date) = :month 
-                    AND e.wallet.owner.id = :id
-            """)
-    void archiveExpensesByMonthAndUserId(Integer month, Integer id);  // month as Integer
+    @Query("UPDATE Expenses e SET e.archived = true WHERE FUNCTION('MONTH', e.date) = :month AND e.wallet.owner.id = :userId AND e.archived = false")
+    void archiveExpensesByMonthAndUserId(Integer month, Integer userId);
 
-    @Query("SELECT COUNT(e) > 0 FROM Expenses e WHERE FUNCTION('MONTH', e.date) = :month AND e.wallet.owner.id = :id")
-    boolean existsByMonthAndUserId(Integer month, Integer id);
+
+    @Query("SELECT e FROM Expenses e WHERE FUNCTION('MONTH', e.date) = :month AND e.wallet.owner.id = :id AND e.archived = false")
+    List<Expenses> findNonArchivedByMonthAndUserId(Integer month, Integer id);
 
 }

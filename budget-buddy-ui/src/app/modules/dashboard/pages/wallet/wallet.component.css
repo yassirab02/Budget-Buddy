@@ -78,6 +78,7 @@
   flex-direction: column;
   justify-content: center;
   text-align: center;
+  font-family: Poppins, serif;
 }
 
 .dialog-right {
@@ -168,3 +169,33 @@
   color: #189346;
   cursor: pointer;
 }
+
+.responsive-img {
+  width: 100%;
+  max-width: 400px; /* Default size */
+}
+.image-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%; /* Ensure the container takes full width */
+  margin: 0 auto; /* Center the container horizontally if needed */
+}
+
+.responsive-img {
+  width: 100%;
+  max-width: 400px; /* Default size */
+}
+
+@media (max-width: 768px) {
+  .responsive-img {
+    max-width: 200px; /* Smaller size for phones and tablets */
+  }
+}
+
+@media (max-width: 480px) {
+  .responsive-img {
+    max-width: 150px; /* Even smaller size for very small devices */
+  }
+}
+

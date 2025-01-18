@@ -2390,7 +2390,6 @@
       "IncomeRequest": {
         "required": [
           "amount",
-          "incomeSourceId",
           "name",
           "walletId"
         ],
@@ -2830,6 +2829,9 @@
           "date": {
             "type": "string",
             "format": "date"
+          },
+          "archived": {
+            "type": "boolean"
           },
           "category": {
             "type": "string"
@@ -3616,10 +3618,10 @@
               "$ref": "#/components/schemas/Expenses"
             }
           },
-          "usedAmount": {
+          "remainingAmount": {
             "type": "number"
           },
-          "remainingAmount": {
+          "usedAmount": {
             "type": "number"
           }
         }
@@ -4068,20 +4070,7 @@
           "report": {
             "$ref": "#/components/schemas/Report"
           },
-          "countForgetPassword": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "accountNonExpired": {
-            "type": "boolean"
-          },
-          "credentialsNonExpired": {
-            "type": "boolean"
-          },
           "name": {
-            "type": "string"
-          },
-          "username": {
             "type": "string"
           },
           "authorities": {
@@ -4090,7 +4079,20 @@
               "$ref": "#/components/schemas/GrantedAuthority"
             }
           },
+          "username": {
+            "type": "string"
+          },
           "accountNonLocked": {
+            "type": "boolean"
+          },
+          "credentialsNonExpired": {
+            "type": "boolean"
+          },
+          "countForgetPassword": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "accountNonExpired": {
             "type": "boolean"
           }
         }

@@ -42,6 +42,7 @@ public class WalletMapper {
                         expense.getAmount(),
                         expense.getDescription(),
                         expense.getDate(),  // LocalDate is already correct, so pass it as is
+                        expense.isArchived(),
                         expense.getType().name(), // getType() returns an enum
                         expense.getCategory().getName(),  // Assuming getCategory() returns an object with a getName() method
                         expense.getBudget() != null ? expense.getBudget().getName() : null,  // Handle null values if necessary

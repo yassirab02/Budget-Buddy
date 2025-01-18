@@ -7,7 +7,7 @@ export interface IncomeRequest {
   date?: string;
   description?: string;
   id?: number;
-  incomeSourceId: number;
+  incomeSourceId?: number;
   name: string;
   walletId: number;
 }

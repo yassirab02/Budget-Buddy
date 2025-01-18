@@ -11,10 +11,10 @@ import {TokenService} from '../../services/token/token.service';
 })
 export class LoginComponent {
 
-  authRequest : AuthenticationRequest = { email:'',password:''};
+  authRequest: AuthenticationRequest = {email: '', password: ''};
   errorMsg: Array<string> = [];
   passwordVisible = false;
-  isLoading=false;
+  isLoading = false;
 
   togglePasswordVisibility() {
     this.passwordVisible = !this.passwordVisible;
@@ -29,13 +29,14 @@ export class LoginComponent {
 
   login() {
     this.errorMsg = []; // to always clear the error that displays in the first time
+    this.isLoading = true;
     this.authService.authenticate({
       body: this.authRequest
     }).subscribe({
       next: (res) => {
         //save the token
         this.tokenService.token = res.token as string;
-        this.isLoading=true;
+        this.isLoading = false;
         this.router.navigate(['dashboard']);
       },
       error: (err) => {
@@ -47,9 +48,9 @@ export class LoginComponent {
         } else {
           this.errorMsg.push('An unknown error occurred. Please try again later.');
         }
+        this.isLoading=false;
       }
     });
-
   }
 
   register() {

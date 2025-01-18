@@ -1,144 +1,376 @@
-.dialog-content {
-  display: flex;
-  flex-wrap: wrap;
-  margin: 0 auto;
+.dialog-left, .dialog-right {
+  padding: 1rem;
 }
 
-.left-panel {
-  width: 100%;
-  background: linear-gradient(to bottom right, #28a745, #007bff);
+.dialog {
+  display: flex;
+  flex-direction: row;
+  background-color: white;
+  border-radius: 8px;
+  width: 80%;
+  max-width: 800px;
+  height: auto;
+}
+
+.dialog-left {
+  background: linear-gradient(to bottom right, #4caf50, #2196f3);
   color: white;
-  padding: 20px;
-  box-sizing: border-box;
+  text-align: center;
+  font-family: Poppins, serif;
+  flex: 1;
 }
 
-.right-panel {
-  width: 100%;
-  padding: 20px;
-  box-sizing: border-box;
+.dialog-right {
+  flex: 2;
 }
 
-.form-row {
+.form-inline {
   display: flex;
-  gap: 16px;
-  margin-bottom: 16px;
-  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.8rem; /* Slightly smaller gap between fields */
+  flex-wrap: wrap; /* Ensures the fields stack on smaller screens */
 }
 
-.form-group {
+.inline-field {
+  flex: 1;
+  margin-bottom: 0.75rem; /* Reduced bottom margin */
+}
+
+.input {
   width: 100%;
-  margin-bottom: 16px;
+  padding: 0.5rem; /* Reduced padding for smaller input height */
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-bottom: 0.75rem; /* Reduced margin between inputs */
 }
 
-.form-group label {
+.submit-button {
+  padding: 0.75rem; /* Reduced padding for a more compact button */
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 100%;
+}
+
+.submit-button:hover {
+  background-color: #45a049;
+}
+
+.form-section {
+  margin-bottom: 1rem; /* Reduced section margin */
+}
+
+.form-section label {
   display: block;
-  margin-bottom: 8px;
+  font-size: 0.9rem; /* Reduced label font size */
+  margin-bottom: 0.5rem;
   font-weight: bold;
 }
 
-.form-group input,
-.form-group textarea,
-.form-group select,
-.form-group button {
+/* Media Query for Phones and Small Devices */
+@media screen and (max-width: 768px) {
+  .dialog {
+    flex-direction: column; /* Stack the dialog vertically on smaller screens */
+    width: 90%; /* Ensure the dialog takes up 90% of the screen width */
+  }
+
+  .dialog-left, .dialog-right {
+    padding: 1rem; /* Reduce padding for a more compact layout */
+  }
+
+  /* Hide the image container on phones */
+  .dialog-left .image-container {
+    display: none;
+  }
+
+  /* Form container adjustments */
+  .form-section {
+    margin-bottom: 0.75rem; /* Reduced section margin */
+  }
+
+  .form-inline {
+    flex-direction: column; /* Stack the fields vertically */
+    gap: 0.5rem; /* Reduced gap between fields */
+  }
+
+  .inline-field {
+    width: 100%; /* Ensure fields take full width on mobile */
+    margin-bottom: 0.5rem; /* Reduced margin for compactness */
+  }
+
+  .input {
+    padding: 0.5rem; /* Reduce padding for smaller inputs */
+    margin-bottom: 0.5rem; /* Reduced margin between inputs */
+  }
+
+  .submit-button {
+    padding: 0.75rem; /* Reduced button padding for a more compact button */
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+  }
+
+  .submit-button:hover {
+    background-color: #45a049;
+  }
+}
+.dialog-header h3 {
+  font-size: 1.5rem;
+}
+
+.input {
   width: 100%;
   padding: 8px;
-  margin-top: 4px;
+  margin-top: 8px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+.btn {
+  width: 100%;
+  padding: 12px;
+  background-color: #38a169; /* Green color */
+  color: white;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background-color: #2f855a;
+}
+
+.close-btn {
+  width: 100%;
+  padding: 12px;
+  text-align: center;
+  background-color: transparent;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.close-btn:hover {
+  background-color: #f7fafc;
+}
+
+
+.dialog-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.dialog {
+  display: flex;
+  flex-direction: row; /* Arrange dialog components side-by-side */
+  background-color: white;
+  border-radius: 8px;
+  width: 60%; /* Adjust dialog width */
+  max-width: 700px; /* Max-width for responsiveness */
+  height: auto;
+}
+
+.dialog-left {
+  background: linear-gradient(to bottom right, #4caf50, #2196f3);
+  color: white;
+  padding: 2rem;
+  width: 40%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  font-family: Poppins, serif;
+}
+
+.dialog-right {
+  padding: 2rem;
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.form-section {
+  margin-bottom: 1.5rem;
+}
+
+.form-section label {
+  display: block;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+}
+
+.input, .select {
+  width: 100%;
+  padding: 0.75rem;
   border: 1px solid #ccc;
   border-radius: 4px;
 }
 
-.form-group input.error,
-.form-group textarea.error,
-.form-group select.error,
-.form-group button.error {
-  border-color: red;
-}
-
-.error-message {
-  color: red;
-  font-size: 12px;
-  margin-top: 4px;
-}
-
-.form-actions {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 16px;
-  flex-wrap: wrap;
-}
-
-button {
-  padding: 10px 20px;
-  background-color: #28a745;
+.submit-button {
+  padding: 1rem;
+  background-color: #4caf50;
   color: white;
   border: none;
+  border-radius: 4px;
   cursor: pointer;
-  margin-top: 8px;
+  width: 100%; /* Full-width button */
 }
 
-button:hover {
-  background-color: #218838;
+.submit-button:hover {
+  background-color: #45a049;
 }
 
-button[type='button'] {
-  background-color: #ccc;
+.error-text {
+  color: red;
+  font-size: 0.875rem;
 }
 
-button[type='button']:hover {
-  background-color: #999;
+.dialog-left h2 {
+  font-size: 1.75rem;
 }
 
-/* Responsive Styles */
-@media (min-width: 768px) {
-  .left-panel {
-    width: 33%;
+.dialog-right p {
+  font-size: 1rem;
+  margin-bottom: 2rem;
+}
+
+/* Media Queries for Responsiveness */
+@media screen and (max-width: 768px) {
+  .dialog {
+    flex-direction: column; /* Stack elements vertically on smaller screens */
+    width: 80%; /* Ensure the dialog takes up 80% of the screen width */
   }
 
-  .right-panel {
-    width: 67%;
+  .dialog-left {
+    width: 100%;
+    padding: 1rem;
   }
+
+  .dialog-right {
+    width: 100%;
+  }
+}
+
+.dialog-right {
+  position: relative;
+}
+
+.close-button-container {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.close-button {
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: #189346;
+  cursor: pointer;
+}
+
+.responsive-img {
+  width: 100%;
+  max-width: 400px; /* Default size */
+}
+.image-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%; /* Ensure the container takes full width */
+  margin: 0 auto; /* Center the container horizontally if needed */
+}
+
+.responsive-img {
+  width: 100%;
+  max-width: 400px; /* Default size */
 }
 
 @media (max-width: 768px) {
-  .form-row {
-    flex-direction: column;
-  }
-
-  .form-actions {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .form-group {
-    width: 100%;
-  }
-
-  button {
-    width: 100%;
-    margin-top: 8px;
-  }
-
-  button[type='button'] {
-    width: 100%;
-    margin-top: 8px;
+  .responsive-img {
+    max-width: 200px; /* Smaller size for phones and tablets */
   }
 }
 
 @media (max-width: 480px) {
-  .dialog-content {
-    flex-direction: column;
+  .responsive-img {
+    max-width: 150px; /* Even smaller size for very small devices */
+  }
+}
+/* Media Queries for Mobile Responsiveness */
+@media screen and (max-width: 768px) {
+  .dialog {
+    flex-direction: column; /* Stack elements vertically on smaller screens */
+    width: 90%; /* Ensure the dialog takes up 90% of the screen width */
   }
 
-  .left-panel, .right-panel {
+  .dialog-left, .dialog-right {
     width: 100%;
+    padding: 1rem; /* Reduced padding for compactness */
   }
 
-  .form-row {
-    flex-direction: column;
+  /* Hide the image container completely on mobile */
+  .dialog-left .image-container {
+    display: none;
   }
 
-  .form-actions {
-    flex-direction: column;
-    align-items: stretch;
+  .form-inline {
+    flex-direction: column; /* Stack fields vertically */
+    gap: 0.5rem; /* Reduced gap between fields */
+  }
+
+  .inline-field {
+    width: 100%;
+    margin-bottom: 0.5rem; /* Reduced margin for compactness */
+  }
+
+  .input {
+    padding: 0.5rem; /* Smaller padding for compact inputs */
+    margin-bottom: 0.5rem; /* Reduced margin between inputs */
+  }
+
+  .submit-button {
+    padding: 0.75rem; /* Reduced padding for a more compact button */
+  }
+
+  .form-section {
+    margin-bottom: 0.75rem; /* Reduced section margin */
+  }
+}
+
+/* Very Small Devices (Phones in Portrait Mode) */
+@media screen and (max-width: 480px) {
+  .dialog {
+    width: 95%; /* Take up 95% of the screen on very small devices */
+  }
+
+  .dialog-left, .dialog-right {
+    padding: 0.75rem; /* Further reduced padding */
+  }
+
+  .input, .submit-button {
+    padding: 0.5rem; /* Smaller padding for very small devices */
+  }
+
+  .submit-button {
+    font-size: 0.9rem; /* Slightly smaller button on very small screens */
+  }
+
+  .form-section label {
+    font-size: 0.875rem; /* Smaller font size for very small screens */
   }
 }

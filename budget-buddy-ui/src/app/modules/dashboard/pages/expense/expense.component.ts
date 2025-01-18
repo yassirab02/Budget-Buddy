@@ -20,6 +20,10 @@ export class ExpenseComponent implements OnInit {
   errorMsg: Array<string> = [];
   expensesResponse: PageResponseExpensesResponse = {};  // Store the actual wallet
   createExpense=false;
+  showSuccess=false
+  isArchive=false;
+  isMonthlyArchive=false;
+  isSubmenuOpen = false;
 
 
   constructor(
@@ -59,6 +63,37 @@ export class ExpenseComponent implements OnInit {
       });
   }
 
+  toggleCreateExpense() {
+    this.createExpense = !this.createExpense;
+  }
 
+  get nonArchivedExpenses() {
+   return  this.expensesResponse.content = (this.expensesResponse.content ?? []).filter(expense => !expense.archived);
+  }
 
+  resetMonthlyExpenses() {
+    this.expensesService.resetMonthlyExpenses().subscribe({
+      next: (res) => {
+        this.isMonthlyArchive=false;
+        this.findAllExpenses();
+      },
+      error: (err) => {
+        console.log(err.error);
+        this.errorMsg = err.error.validationErrors;
+      }
+    });
+  }
+
+  resetAllExpenses() {
+    this.expensesService.resetExpenses().subscribe({
+      next: (res) => {
+        this.isArchive=false;
+        this.findAllExpenses();
+      },
+      error: (err) => {
+        console.log(err.error);
+        this.errorMsg = err.error.validationErrors;
+      }
+    });
+  }
 }

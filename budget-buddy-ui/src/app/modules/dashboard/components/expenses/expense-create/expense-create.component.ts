@@ -1,27 +1,50 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {ExpensesResponse} from '../../../../../services/models/expenses-response';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ExpensesRequest} from '../../../../../services/models/expenses-request';
-import {MatDialogRef} from '@angular/material/dialog';
-import {format} from 'node:url';
-import {formatDate} from '@angular/common';
+import {CategoryService} from '../../../../../services/services/category.service';
+import {ExpensesService} from '../../../../../services/services/expenses.service';
+import {WalletService} from '../../../../../services/services/wallet.service';
+import {BudgetService} from '../../../../../services/services/budget.service';
+import {WalletResponse} from '../../../../../services/models/wallet-response';
+import {BudgetResponse} from '../../../../../services/models/budget-response';
+import {PageResponseBudgetResponse} from '../../../../../services/models/page-response-budget-response';
+import {ExpensesCategory} from '../../../../../services/models/expenses-category';
+import {ExpensesCategoryResponse} from '../../../../../services/models/expenses-category-response';
+
 
 @Component({
   selector: 'app-expense-create',
   templateUrl: './expense-create.component.html',
   styleUrl: './expense-create.component.css'
 })
-export class ExpenseCreateComponent implements OnInit{
+export class ExpenseCreateComponent implements OnInit {
   @Output() closeModal = new EventEmitter<void>();
   @Output() expenseCreated = new EventEmitter<void>(); // Emits an event when a new budget is created
 
   expenseForm: FormGroup;
-  expenseTypes = ['Fixed', 'Variable'];
   date: Date | null = null;
+  errorMsg: Array<string> = [];
+  expensesCategory: Array<ExpensesCategoryResponse> = [];
+  wallets: WalletResponse[] = [];
+  budgets: BudgetResponse[] = [];
+  expenseRequest: ExpensesRequest = {
+    name: '',
+    amount: 0,
+    description: '',
+    date: '',
+    expensesType: 'FIXED',
+    categoryId: 0,
+    budgetId: 0,
+    walletId: 0
+  };
+  showSuccess = false;
 
   constructor(
     private fb: FormBuilder,
-    private dialogRef: MatDialogRef<ExpenseCreateComponent>
+    private categoryService: CategoryService,
+    private expenseService: ExpensesService,
+    private walletService: WalletService,
+    private budgetService: BudgetService,
   ) {
     this.expenseForm = this.fb.group({
       name: ['', Validators.required],
@@ -36,46 +59,74 @@ export class ExpenseCreateComponent implements OnInit{
   }
 
   ngOnInit() {
+    this.fetchingUserInfo();
   }
 
-  formatDate(date: Date | null): string {
-    return date ? this.formatDate(date) : 'Pick a date';
-  }
 
-  onDateChange(date: Date): void {
-    this.date = date;
-    this.expenseForm.patchValue({ date });
-  }
-
-  onSubmit(): void {
-    if (this.expenseForm.valid) {
-      const formValues = this.expenseForm.value;
-      console.log({
-        ...formValues,
-        amount: parseFloat(formValues.amount),
-        categoryId: parseInt(formValues.categoryId, 10),
-        budgetId: parseInt(formValues.budgetId, 10),
-        walletId: formValues.walletId ? parseInt(formValues.walletId, 10) : undefined,
-      });
-      this.dialogRef.close();
-    } else {
-      this.markFormGroupTouched(this.expenseForm);
-    }
-  }
-
-  markFormGroupTouched(group: FormGroup): void {
-    Object.values(group.controls).forEach((control) => {
-      control.markAsTouched();
+  saveExpense() {
+    this.expenseService.addOrUpdateExpense({
+      body: this.expenseRequest
+    }).subscribe({
+      next: (expenseId) => {
+        // Set isAdd to false after successful save
+        this.closeModal.emit();
+        this.expenseForm.reset();
+        this.showSuccess = true;
+        this.expenseCreated.emit(); // Emit the event to notify parent component
+        setTimeout(() => {
+          this.showSuccess = false;
+        }, 5000);
+      },
+      error: (err) => {
+        console.log(err.error);
+        this.errorMsg = err.error.validationErrors;
+      }
     });
   }
 
-  closeDialog(): void {
-    this.dialogRef.close();
+
+  fetchingUserInfo() {
+    this.categoryService.getExpensesCategory().subscribe({
+      next: (categories) => {
+        this.expensesCategory = categories;
+      },
+      error: (err) => {
+        console.error('Error fetching categories:', err);
+      }
+    });
+
+    this.budgetService.findAllBudgetsByOwner().subscribe({
+      next: (budgets) => {
+        if (budgets.content) {
+          this.budgets = budgets.content;
+        } else {
+          this.budgets = [];
+        }
+      },
+      error: (err) => {
+        console.error('Error fetching budgets:', err);
+      }
+    });
+
+    this.walletService.findAllWalletsByOwner().subscribe({
+      next: (wallets) => {
+        if (wallets.content) {
+          this.wallets = wallets.content;
+        } else {
+          this.wallets = [];
+        }
+      },
+      error: (err) => {
+        console.error('Error fetching wallets:', err);
+      }
+    });
   }
 
   close() {
     this.closeModal.emit();
   }
 
-  protected readonly Date = Date;
+  closeError(): void {
+    this.errorMsg = []; // Clear the error messages
+  }
 }

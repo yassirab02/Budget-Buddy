@@ -26,7 +26,8 @@
         [description]="budget.description || 'No description provided.'"
         [amount]="budget.amount || 0"
         [targetAmount]="budget.targetAmount || 0"
-        [limitAmount]="budget.limitAmount || 0">
+        [limitAmount]="budget.limitAmount || 0"
+        (refreshBudget)="handleRefreshBudget($event)">
       </app-budget-card>
     </div>
 
