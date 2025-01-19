@@ -29,7 +29,7 @@ public record GoalRequest(
         @NotNull(message = "Target date is required")
         LocalDate targetDate,
 
-        @NotNull(message = "User ID is required")
-        Integer userId
+        boolean reached
+
 ) {
 }

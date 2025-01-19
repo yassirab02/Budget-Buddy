@@ -4,6 +4,9 @@ import { UserControllerService } from '../../../../services/services/user-contro
 import { User } from '../../../../services/models/user';
 import { BudgetService } from '../../../../services/services/budget.service';
 import {BudgetResponse} from '../../../../services/models/budget-response';
+import {GoalResponse} from '../../../../services/models/goal-response';
+import {GoalService} from '../../../../services/services/goal.service';
+import {PageResponseGoalResponse} from '../../../../services/models/page-response-goal-response';
 
 @Component({
   selector: 'app-dashboard',
@@ -11,6 +14,9 @@ import {BudgetResponse} from '../../../../services/models/budget-response';
   styleUrl: './dashboard.component.css'
 })
 export class DashboardComponent implements OnInit {
+  message = '';
+  level: 'success' | 'error' = 'success';
+  errorMsg: Array<string> = [];
   add = false;
   isOpen = false;
   amountToAdd: number = 0; // Variable bound to the input field
@@ -18,18 +24,21 @@ export class DashboardComponent implements OnInit {
   budgets: BudgetResponse[] = []; // Array to store fetched budgets
   isLoadingUser: boolean = true;
   isLoadingBudgets = false; // To show a loading indicator while fetching budgets
-
+  goalResponse:GoalResponse[] = []; // Array to store fetched goals
   private _user: User | undefined;  // Defining private variable with undefined initially
+
 
   constructor(
     private router: Router,
     private userService: UserControllerService,
-    private budgetService: BudgetService
+    private budgetService: BudgetService,
+    private goalService: GoalService
   ) { }
 
   ngOnInit() {
     this.initializeDashboard(); // Call the reusable method during component initialization
     this.fetchBudgetsByOwner(); // Fetch budgets by owner
+    this.findAllGoals(); // Fetch goals
   }
 
 
@@ -67,11 +76,6 @@ export class DashboardComponent implements OnInit {
     { name: 'Groceries', amount: -50, date: '2023-06-15' },
     { name: 'Salary', amount: 3000, date: '2023-06-14' },
     { name: 'Electric Bill', amount: -80, date: '2023-06-13' }
-  ];
-
-  savingsGoals = [
-    { name: 'Vacation Fund', current: 2000, target: 5000 },
-    { name: 'New Laptop', current: 800, target: 1500 }
   ];
 
   // Getter and Setter for user
@@ -123,4 +127,21 @@ export class DashboardComponent implements OnInit {
   }
 
 
+  findAllGoals(): void {
+    this.goalService.findAllGoalsByUser().subscribe({
+      next: (goals) => {
+        this.goalResponse = goals.content || [];
+      },
+      error: (err) => {
+        console.error('Error fetching goals:', err);
+        this.message = 'An error occurred while fetching the goals.';
+        this.level = 'error';
+      }
+    });
+  }
+
+
+  redirectToGoals() {
+    this.router.navigate(['/goal']);
+  }
 }

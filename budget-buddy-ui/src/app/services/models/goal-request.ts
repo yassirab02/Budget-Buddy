@@ -10,5 +10,5 @@ export interface GoalRequest {
   startDate: string;
   targetAmount: number;
   targetDate: string;
-  userId: number;
+  reached: boolean;
 }

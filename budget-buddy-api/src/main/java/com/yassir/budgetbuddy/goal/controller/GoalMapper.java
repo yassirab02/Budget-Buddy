@@ -17,7 +17,7 @@ public class GoalMapper {
                 .currentAmount(request.currentAmount())
                 .startDate(request.startDate())
                 .targetDate(request.targetDate())
-                .reached(false)  // Assuming goal is not reached initially
+                .reached(request.reached())  // Assuming goal is not reached initially
                 .build();
     }
 

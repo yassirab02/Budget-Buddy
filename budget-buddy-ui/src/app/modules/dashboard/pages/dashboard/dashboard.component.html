@@ -134,16 +134,21 @@
     <section class="bg-white rounded-lg shadow p-6">
       <h2 class="text-xl font-semibold text-green-800 mb-4">Savings and Goals</h2>
       <div class="space-y-4">
-        <div *ngFor="let goal of savingsGoals">
+        <div *ngFor="let goal of goalResponse | slice:0:3">
           <div class="flex flex-col sm:flex-row justify-between items-center">
             <h3 class="font-semibold">{{ goal.name }}</h3>
-            <p class="text-sm text-green-600">${{ goal.current }} / ${{ goal.target }}</p>
+            <p class="text-sm text-green-600">${{ goal.currentAmount }} / ${{ goal.targetAmount }}</p>
           </div>
           <div class="mt-2 h-2 bg-green-200 rounded-full">
-            <div class="h-full bg-green-500 rounded-full" [style.width.%]="(goal.current / goal.target) * 100"></div>
+            <div class="h-full bg-green-500 rounded-full"
+                 [style.width.%]="(goal?.currentAmount ?? 0) / (goal?.targetAmount ?? 1) * 100">
+            </div>
           </div>
         </div>
       </div>
+      <button (click)="redirectToGoals()" class="mt-4 text-green-600 font-semibold flex items-center">
+        See All
+      </button>
     </section>
 
     <!-- Debts Summary -->

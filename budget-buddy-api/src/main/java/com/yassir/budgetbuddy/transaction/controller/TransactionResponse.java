@@ -23,5 +23,5 @@ public class TransactionResponse {
     private String destinationWallet;
     private String sender;
     private String receiver;
-    private Integer goalId;
+    private String goalName;
 }

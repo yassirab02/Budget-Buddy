@@ -45,5 +45,5 @@ public interface GoalRepository extends JpaRepository<Goal, Integer>, JpaSpecifi
                 WHERE goal.name = :name
                 AND goal.user.id = :userId
             """)
-    Optional<Goal> findByNameAndUserId(@NotNull(message = "Goal name cannot be null") @NotEmpty(message = "Goal name cannot be empty") String name, Integer id);
+    Optional<Goal> findByNameAndUserId(@NotNull(message = "Goal name cannot be null") @NotEmpty(message = "Goal name cannot be empty") String name, Integer userId);
 }

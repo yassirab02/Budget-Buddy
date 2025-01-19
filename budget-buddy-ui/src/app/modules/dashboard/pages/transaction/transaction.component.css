@@ -1,10 +1,80 @@
-.w-32 {
-  width: 8rem;
+.container {
+  padding: 20px;
 }
 
-.py-2 {
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
+.filters {
+  margin-bottom: 20px;
 }
 
-/* Add more Tailwind or custom CSS classes here as needed */
+.filter-options {
+  margin-top: 10px;
+}
+
+.transaction-list {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+}
+
+.transaction-card {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
+}
+
+.transaction-card:hover {
+  transform: translateY(-5px);
+}
+
+.transaction-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+.transaction-type {
+  font-weight: bold;
+  color: #3e8e41; /* Green color for transaction types */
+}
+
+.transaction-type-label {
+  background-color: #e0f7e0;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.transaction-date {
+  font-size: 12px;
+  color: #888;
+}
+
+.transaction-content h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 10px 0;
+}
+
+.transaction-content p {
+  font-size: 14px;
+  margin: 5px 0;
+}
+
+.transaction-footer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+}
+
+.status {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.goal {
+  font-size: 14px;
+  color: #00796b;
+}

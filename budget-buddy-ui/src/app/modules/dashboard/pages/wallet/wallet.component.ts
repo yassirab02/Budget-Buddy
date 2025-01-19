@@ -133,4 +133,35 @@ export class WalletComponent implements OnInit{
   toggleDialog() {
     this.createWallet = !this.createWallet;
   }
+
+
+  gotToPage(page: number) {
+    this.page = page;
+    this.findAllWallets();
+  }
+
+  goToFirstPage() {
+    this.page = 0;
+    this.findAllWallets();
+  }
+
+  goToPreviousPage() {
+    this.page --;
+    this.findAllWallets();
+  }
+
+  goToLastPage() {
+    this.page = this.walletResponse.totalPages as number - 1;
+    this.findAllWallets();
+  }
+
+  goToNextPage() {
+    this.page++;
+    this.findAllWallets();
+  }
+
+  get isLastPage() {
+    return this.page === this.walletResponse.totalPages as number - 1;
+  }
+
 }

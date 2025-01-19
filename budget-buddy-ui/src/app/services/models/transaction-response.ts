@@ -7,7 +7,7 @@ export interface TransactionResponse {
   date?: string;
   description?: string;
   destinationWallet?: string;
-  goalId?: number;
+  goalName?: string;
   id?: number;
   message?: string;
   receiver?: string;

@@ -25,8 +25,21 @@
       </div>
     </div>
 
+
+    <div class="flex justify-between items-center mb-6">
+      <div class="flex items-center space-x-2">
+        <label class="switch">
+          <input type="checkbox" [checked]="showPaid" (change)="toggleShowPaid($event)">
+          <span class="slider"></span>
+        </label>
+        <label for="show-paid" class="text-red-600 font-medium">
+          {{ showPaid ? 'Showing all debts' : 'Hiding paid debts' }}
+        </label>
+      </div>
+    </div>
+
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      <div *ngFor="let debt of debtResponse.content" class="motion-div">
+      <div *ngFor="let debt of filteredDebts" class="motion-div">
         <div
           class="card bg-white shadow-lg rounded-xl overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
           <div
@@ -70,6 +83,73 @@
       <p>Try adding a new debt.</p>
     </div>
   </div>
+
+  <div class="flex justify-center mt-3 mb-6">
+    <nav aria-label="Page navigation example">
+      <ul class="flex items-center space-x-2">
+        <li>
+          <a
+            (click)="goToFirstPage()"
+            class="px-3 py-2 text-gray-500 bg-white border rounded-md hover:bg-gray-100"
+            href="javascript:void(0)"
+            aria-label="Previous"
+            [class.disabled]="page === 0"
+          >
+            <i class="fa-solid fa-angles-left"></i>
+          </a>
+        </li>
+        <li>
+          <a
+            (click)="goToPreviousPage()"
+            class="px-3 py-2 text-gray-500 bg-white border rounded-md hover:bg-gray-100"
+            href="javascript:void(0)"
+            aria-label="Previous"
+            [class.disabled]="page === 0"
+          >
+            <i class="fa-solid fa-angle-left"></i>
+          </a>
+        </li>
+        <li
+          *ngFor="let pageIndex of pages"
+          class="flex items-center"
+        >
+          <a
+            (click)="gotToPage(pageIndex)"
+            class="px-3 py-2 text-gray-500 bg-white border rounded-md hover:bg-gray-100"
+            [class.active]="page === pageIndex"
+            href="javascript:void(0)"
+            [ngClass]="{
+            'text-green-500': page === pageIndex,
+            'bg-green-100': page === pageIndex
+          }"
+          >{{ pageIndex + 1 }}</a>
+        </li>
+        <li>
+          <a
+            (click)="goToNextPage()"
+            class="px-3 py-2 text-gray-500 bg-white border rounded-md hover:bg-gray-100"
+            href="javascript:void(0)"
+            aria-label="Next"
+            [class.disabled]="isLastPage"
+          >
+            <i class="fa-solid fa-chevron-right"></i>
+          </a>
+        </li>
+        <li>
+          <a
+            (click)="goToLastPage()"
+            class="px-3 py-2 text-gray-500 bg-white border rounded-md hover:bg-gray-100"
+            href="javascript:void(0)"
+            aria-label="Next"
+            [class.disabled]="isLastPage"
+          >
+            <i class="fa-solid fa-angles-right"></i>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+
 </ng-template>
 
 <!-- Modal outside ng-template -->

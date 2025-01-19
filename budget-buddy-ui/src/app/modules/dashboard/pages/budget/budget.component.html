@@ -41,4 +41,77 @@
       </div>
     </div>
   </div>
+  <div *ngIf="budgetResponse?.content?.length === 0"
+       class="text-center text-gray-500 mt-8 p-8 bg-white rounded-lg shadow">
+    <span class="icon mx-auto h-12 w-12 text-gray-400 mb-4">🔍</span>
+    <p class="text-xl font-semibold mb-2">No budgets found</p>
+    <p>Try adding a new budget.</p>
+  </div>
 </ng-template>
+
+<div class="flex justify-center mt-3 mb-6">
+  <nav aria-label="Page navigation example">
+    <ul class="flex items-center space-x-2">
+      <li>
+        <a
+          (click)="goToFirstPage()"
+          class="px-3 py-2 text-gray-500 bg-white border rounded-md hover:bg-gray-100"
+          href="javascript:void(0)"
+          aria-label="Previous"
+          [class.disabled]="page === 0"
+        >
+          <i class="fa-solid fa-angles-left"></i>
+        </a>
+      </li>
+      <li>
+        <a
+          (click)="goToPreviousPage()"
+          class="px-3 py-2 text-gray-500 bg-white border rounded-md hover:bg-gray-100"
+          href="javascript:void(0)"
+          aria-label="Previous"
+          [class.disabled]="page === 0"
+        >
+          <i class="fa-solid fa-angle-left"></i>
+        </a>
+      </li>
+      <li
+        *ngFor="let pageIndex of pages"
+        class="flex items-center"
+      >
+        <a
+          (click)="gotToPage(pageIndex)"
+          class="px-3 py-2 text-gray-500 bg-white border rounded-md hover:bg-gray-100"
+          [class.active]="page === pageIndex"
+          href="javascript:void(0)"
+          [ngClass]="{
+            'text-green-500': page === pageIndex,
+            'bg-green-100': page === pageIndex
+          }"
+        >{{ pageIndex + 1 }}</a>
+      </li>
+      <li>
+        <a
+          (click)="goToNextPage()"
+          class="px-3 py-2 text-gray-500 bg-white border rounded-md hover:bg-gray-100"
+          href="javascript:void(0)"
+          aria-label="Next"
+          [class.disabled]="isLastPage"
+        >
+          <i class="fa-solid fa-chevron-right"></i>
+        </a>
+      </li>
+      <li>
+        <a
+          (click)="goToLastPage()"
+          class="px-3 py-2 text-gray-500 bg-white border rounded-md hover:bg-gray-100"
+          href="javascript:void(0)"
+          aria-label="Next"
+          [class.disabled]="isLastPage"
+        >
+          <i class="fa-solid fa-angles-right"></i>
+        </a>
+      </li>
+    </ul>
+  </nav>
+</div>
+

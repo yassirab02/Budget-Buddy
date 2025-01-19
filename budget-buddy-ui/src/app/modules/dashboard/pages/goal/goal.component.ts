@@ -18,6 +18,9 @@ export class GoalComponent implements OnInit {
   errorMsg: Array<string> = [];
   createGoal = false;
   goalResponse: PageResponseGoalResponse = {};  // Store the actual wallet
+  showSuccess=false;
+  showReached = true;
+
 
   constructor(
     private goalService: GoalService,
@@ -57,6 +60,45 @@ export class GoalComponent implements OnInit {
     const totalCurrent = this.goalResponse.content?.reduce((sum, goal) => sum + (goal.currentAmount || 0), 0) || 0;
     const totalTarget = this.goalResponse.content?.reduce((sum, goal) => sum + (goal.targetAmount || 0), 0) || 0;
     return totalTarget > 0 ? (totalCurrent / totalTarget) * 100 : 0;
+  }
+
+  toggleShowReached(event: any): void {
+    this.showReached = event.target.checked;
+  }
+
+  get filteredGoals() {
+    return this.goalResponse.content?.filter(goal =>
+      this.showReached || !goal.reached // Show all if showReached is true, else show only not reached goals
+    );
+  }
+
+  gotToPage(page: number) {
+    this.page = page;
+    this.findAllGoals();
+  }
+
+  goToFirstPage() {
+    this.page = 0;
+    this.findAllGoals();
+  }
+
+  goToPreviousPage() {
+    this.page --;
+    this.findAllGoals();
+  }
+
+  goToLastPage() {
+    this.page = this.goalResponse.totalPages as number - 1;
+    this.findAllGoals();
+  }
+
+  goToNextPage() {
+    this.page++;
+    this.findAllGoals();
+  }
+
+  get isLastPage() {
+    return this.page === this.goalResponse.totalPages as number - 1;
   }
 
 }

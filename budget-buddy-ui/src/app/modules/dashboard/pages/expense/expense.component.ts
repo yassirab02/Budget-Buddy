@@ -85,7 +85,7 @@ export class ExpenseComponent implements OnInit {
   resetAllExpenses() {
     this.expensesService.resetExpenses().subscribe({
       next: (res) => {
-        this.isArchive=false;
+        this.isArchive = false;
         this.findAllExpenses();
       },
       error: (err) => {
@@ -94,4 +94,33 @@ export class ExpenseComponent implements OnInit {
       }
     });
   }
+
+    gotToPage(page: number) {
+      this.page = page;
+      this.findAllExpenses();
+    }
+
+    goToFirstPage() {
+      this.page = 0;
+      this.findAllExpenses();
+    }
+
+    goToPreviousPage() {
+      this.page --;
+      this.findAllExpenses();
+    }
+
+    goToLastPage() {
+      this.page = this.expensesResponse.totalPages as number - 1;
+      this.findAllExpenses();
+    }
+
+    goToNextPage() {
+      this.page++;
+      this.findAllExpenses();
+    }
+
+    get isLastPage() {
+      return this.page === this.expensesResponse.totalPages as number - 1;
+    }
 }

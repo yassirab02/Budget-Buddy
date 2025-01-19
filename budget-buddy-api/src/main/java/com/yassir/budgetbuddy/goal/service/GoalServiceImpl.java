@@ -20,6 +20,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -40,6 +41,9 @@ public class GoalServiceImpl implements GoalService {
         }
         Goal goal = goalMapper.toGoal(request);
         goal.setUser(user);
+        if (Objects.equals(goal.getCurrentAmount(), goal.getTargetAmount())){
+            goal.setReached(true);
+        }
         return repository.save(goal).getId();
     }
 
