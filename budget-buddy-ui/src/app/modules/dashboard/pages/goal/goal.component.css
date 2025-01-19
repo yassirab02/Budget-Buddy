@@ -1,0 +1,16 @@
+.min-h-screen {
+  min-height: 100vh;
+}
+
+.bg-gradient-to-br {
+  background: linear-gradient(to bottom right, #e6f7ff, #ffffff, #e6f7ff);
+}
+
+input:focus {
+  outline: none;
+  box-shadow: 0 0 5px rgba(59, 130, 246, 0.5);
+}
+
+button:hover {
+  cursor: pointer;
+}

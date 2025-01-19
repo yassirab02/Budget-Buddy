@@ -28,48 +28,46 @@
         </div>
 
         <!-- Amount Section -->
+        <div class="form-section">
+          <label for="amount">Amount</label>
+          <input
+            id="amount"
+            type="number"
+            step="0.01"
+            [(ngModel)]="debtRequest.amount"
+            name="amount"
+            placeholder="0.00"
+            class="input"
+            required
+          />
+        </div>
+
+        <!-- Issue Date and Due Date Section -->
         <div class="form-inline">
           <div class="inline-field">
-            <label for="amount">Amount</label>
+            <label for="issueDate">Issue Date</label>
             <input
-              id="amount"
-              type="number"
-              step="0.01"
-              [(ngModel)]="debtRequest.amount"
-              name="amount"
-              placeholder="0.00"
+              id="issueDate"
+              type="date"
+              [(ngModel)]="debtRequest.issueDate"
+              name="issueDate"
               class="input"
-              required
+            />
+          </div>
+          <div class="inline-field">
+            <label for="dueDate">Due Date</label>
+            <input
+              id="dueDate"
+              type="date"
+              [(ngModel)]="debtRequest.dueDate"
+              name="dueDate"
+              class="input"
             />
           </div>
         </div>
 
-        <!-- Due Date Section -->
-        <div class="inline-field">
-          <label for="dueDate">Due Date</label>
-          <input
-            id="dueDate"
-            type="date"
-            [(ngModel)]="debtRequest.dueDate"
-            name="dueDate"
-            class="input"
-          />
-        </div>
-
-        <!-- issue Date Section -->
-        <div class="inline-field">
-          <label for="dueDate">Issue Date</label>
-          <input
-            id="dueDate"
-            type="date"
-            [(ngModel)]="debtRequest.issueDate"
-            name="dueDate"
-            class="input"
-          />
-        </div>
-
         <!-- Description Section -->
-        <div class="inline-field">
+        <div class="form-section">
           <label for="description">Description</label>
           <input
             id="description"
@@ -92,20 +90,26 @@
           >
             <option value="PERSONAL_LOAN">Personal Loan</option>
             <option value="MORTGAGE">Mortgage</option>
-            <!-- Add more debt types if necessary -->
+            <option value="CREDIT_CARD">Credit Card</option>
+            <option value="STUDENT_LOAN">Student Loan</option>
+            <option value="CAR_LOAN">Car Loan</option>
+            <option value="BUSINESS_LOAN">Business Loan</option>
+            <option value="OTHER">Other</option>
           </select>
         </div>
 
         <!-- Is Paid Section -->
-        <div class="form-section">
-          <label for="isPaid">Is Paid</label>
-          <input
-            id="isPaid"
-            type="checkbox"
-            [(ngModel)]="debtRequest.isPaid"
-            name="isPaid"
-            class="input"
-          />
+        <div class="form-section form-inline align-center">
+          <label for="isPaid" class="flex items-center gap-2">
+            <input
+              id="isPaid"
+              type="checkbox"
+              [(ngModel)]="debtRequest.isPaid"
+              name="isPaid"
+              class="custom-checkbox"
+            />
+            Is Paid
+          </label>
         </div>
 
         <!-- Submit Section -->
