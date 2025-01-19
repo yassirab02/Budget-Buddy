@@ -46,7 +46,7 @@ public class TransactionMapper {
                 .destinationWallet(transaction.getDestinationWallet() != null ? transaction.getDestinationWallet().getName() : null)
                 .sender(transaction.getSender().fullName())
                 .receiver(transaction.getReceiver() != null ? transaction.getReceiver().fullName() : null)
-                .goalId(transaction.getGoal() != null ? transaction.getGoal().getId() : null)
+                .goalName(transaction.getGoal() != null ? transaction.getGoal().getName() : null)
                 .build();
     }
 }

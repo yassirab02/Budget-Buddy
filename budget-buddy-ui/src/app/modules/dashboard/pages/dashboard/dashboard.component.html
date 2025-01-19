@@ -151,20 +151,22 @@
       </button>
     </section>
 
-    <!-- Debts Summary -->
+    <!-- Income vs Expenses Summary -->
+    <!-- Income vs Expenses Summary -->
     <section class="bg-white rounded-lg shadow p-6">
-      <h2 class="text-xl font-semibold text-green-800 mb-4">Debts Summary</h2>
+      <h2 class="text-xl font-semibold text-green-800 mb-4">Income vs Expenses Summary</h2>
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <div class="bg-red-100 p-4 rounded-lg">
-          <h3 class="font-semibold text-red-700">Debts Owed</h3>
-          <p class="text-2xl font-bold text-red-600 mt-2">$1,500.00</p>
+        <div class="bg-blue-100 p-4 rounded-lg">
+          <h3 class="font-semibold text-blue-700">Total Income</h3>
+          <p class="text-2xl font-bold text-blue-600 mt-2">${{ totalIncomes ?? 0 }}</p>
         </div>
-        <div class="bg-green-100 p-4 rounded-lg">
-          <h3 class="font-semibold text-green-700">Debts Owed to You</h3>
-          <p class="text-2xl font-bold text-green-600 mt-2">$300.00</p>
+        <div class="bg-red-100 p-4 rounded-lg">
+          <h3 class="font-semibold text-red-700">Total Expenses</h3>
+          <p class="text-2xl font-bold text-red-600 mt-2">${{ totalExpenses ?? 0 }}</p>
         </div>
       </div>
     </section>
+
   </main>
 </ng-template>
 

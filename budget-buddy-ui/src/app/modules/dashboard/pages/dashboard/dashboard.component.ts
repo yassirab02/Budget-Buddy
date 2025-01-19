@@ -6,7 +6,10 @@ import { BudgetService } from '../../../../services/services/budget.service';
 import {BudgetResponse} from '../../../../services/models/budget-response';
 import {GoalResponse} from '../../../../services/models/goal-response';
 import {GoalService} from '../../../../services/services/goal.service';
-import {PageResponseGoalResponse} from '../../../../services/models/page-response-goal-response';
+import {ExpensesResponse} from '../../../../services/models/expenses-response';
+import {IncomeResponse} from '../../../../services/models/income-response';
+import {IncomeService} from '../../../../services/services/income.service';
+import {ExpensesService} from '../../../../services/services/expenses.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -25,6 +28,8 @@ export class DashboardComponent implements OnInit {
   isLoadingUser: boolean = true;
   isLoadingBudgets = false; // To show a loading indicator while fetching budgets
   goalResponse:GoalResponse[] = []; // Array to store fetched goals
+  expenseResponse:ExpensesResponse[] = []; // Array to store fetched expenses
+  incomeResponse:IncomeResponse[] = []; // Array to store fetched incomes
   private _user: User | undefined;  // Defining private variable with undefined initially
 
 
@@ -32,13 +37,17 @@ export class DashboardComponent implements OnInit {
     private router: Router,
     private userService: UserControllerService,
     private budgetService: BudgetService,
-    private goalService: GoalService
+    private goalService: GoalService,
+    private expenseService: ExpensesService,
+    private incomeService: IncomeService,
   ) { }
 
   ngOnInit() {
     this.initializeDashboard(); // Call the reusable method during component initialization
     this.fetchBudgetsByOwner(); // Fetch budgets by owner
     this.findAllGoals(); // Fetch goals
+    this.findAllIncome(); // Fetch income
+    this.findAllExpenses(); // Fetch expenses
   }
 
 
@@ -140,6 +149,39 @@ export class DashboardComponent implements OnInit {
     });
   }
 
+ findAllIncome():void{
+    this.incomeService.findAllIncomes().subscribe({
+      next: (income) => {
+        this.incomeResponse = income.content || [];
+      },
+      error: (err) => {
+        console.error('Error fetching income:', err);
+        this.message = 'An error occurred while fetching the income.';
+        this.level = 'error';
+      }
+    });
+  }
+
+  findAllExpenses(): void {
+    this.expenseService.findAllExpenses().subscribe({
+      next: (expenses) => {
+        this.expenseResponse = expenses.content || [];
+      },
+      error: (err) => {
+        console.error('Error fetching expenses:', err);
+        this.message = 'An error occurred while fetching the expenses.';
+        this.level = 'error';
+      }
+    });
+  }
+
+  get totalIncomes(): number | undefined {
+    return this.incomeResponse?.reduce((sum, income) => sum + (income.amount ?? 0), 0);
+  }
+
+  get totalExpenses(): number | undefined {
+    return this.expenseResponse?.reduce((sum, expense) => sum + (expense.amount ?? 0), 0);
+  }
 
   redirectToGoals() {
     this.router.navigate(['/goal']);
