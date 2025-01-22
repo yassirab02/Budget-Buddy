@@ -32,6 +32,7 @@ import {MatSelectModule} from '@angular/material/select';
 import { IncomeCreateComponent } from './components/income/income-create/income-create.component';
 import { DebtCreateComponent } from './components/debt/debt-create/debt-create.component';
 import { GoalCreateComponent } from './components/goal/goal-create/goal-create.component';
+import { TransactionCreateComponent } from './components/transaction/transaction-create/transaction-create.component';
 
 
 @NgModule({
@@ -60,6 +61,7 @@ import { GoalCreateComponent } from './components/goal/goal-create/goal-create.c
     IncomeCreateComponent,
     DebtCreateComponent,
     GoalCreateComponent,
+    TransactionCreateComponent,
   ],
   exports: [
     SpinnerComponent

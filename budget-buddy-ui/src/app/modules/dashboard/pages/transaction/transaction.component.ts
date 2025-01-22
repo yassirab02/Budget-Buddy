@@ -3,6 +3,7 @@ import {Router} from '@angular/router';
 import {TransactionResponse} from '../../../../services/models/transaction-response';
 import {animate, style, transition, trigger} from '@angular/animations';
 import {FormControl} from '@angular/forms';
+import {WalletResponse} from '../../../../services/models/wallet-response';
 
 @Component({
   selector: 'app-transaction',
@@ -27,6 +28,9 @@ export class TransactionComponent implements OnInit{
   statusFilter: string = 'ALL';
   sortConfig = { key: 'date', direction: 'desc' };
   showFilters = false;
+  currentView = 'Grid';
+  views = ['Grid', 'List'];
+  createTransfer=false;
   mockTransactions: TransactionResponse[] = [
     {
       id: 1,
@@ -49,7 +53,7 @@ export class TransactionComponent implements OnInit{
       amount: 1200,
       date: "2023-05-05",
       transactionType: "WITHDRAWAL",
-      status: "COMPLETED",
+      status: "FAILED",
       sourceWallet: "Main Account",
       destinationWallet: "Landlord",
       sender: "John Doe",
@@ -110,5 +114,26 @@ export class TransactionComponent implements OnInit{
 
   getIconClass(transactionType: string): string {
     return transactionType === 'DEPOSIT' ? 'text-green-600' : 'text-red-600';
+  }
+
+  sort(key: keyof TransactionResponse) {
+    const direction = this.sortConfig.key === key && this.sortConfig.direction === 'asc' ? 'desc' : 'asc';
+    this.sortConfig = { key, direction };
+  }
+
+  getBadgeClasses(transaction: TransactionResponse): string {
+    return `px-2 py-1 text-xs font-semibold rounded-full ${
+      transaction.transactionType === 'DEPOSIT'
+        ? 'bg-blue-100 text-blue-800'
+        : 'bg-gray-100 text-gray-800'
+    }`;
+  }
+
+  getStatusBadgeClasses(transaction: TransactionResponse): string {
+    return `px-2 py-1 text-xs font-semibold rounded-full ${
+      transaction.status === 'COMPLETED'
+        ? 'bg-green-100 text-green-800'
+        : 'bg-yellow-100 text-yellow-800'
+    }`;
   }
 }

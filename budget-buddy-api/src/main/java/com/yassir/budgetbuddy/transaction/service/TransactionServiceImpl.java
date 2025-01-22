@@ -160,7 +160,7 @@ public class TransactionServiceImpl implements TransactionService {
         User receiver = userRepository.findById(request.receiverId())
                 .orElseThrow(() -> new IllegalArgumentException("Receiver not found with ID: " + request.receiverId()));
 
-        if (request.transactionType() != TransactionType.TRANSFER) {
+        if (request.transactionType() != TransactionType.TRANSFER_TO_USER) {
             throw new IllegalArgumentException("Invalid transaction type. Expected TRANSFER.");
         }
 

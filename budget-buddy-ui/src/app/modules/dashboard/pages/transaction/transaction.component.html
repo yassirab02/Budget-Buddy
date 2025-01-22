@@ -1,76 +1,236 @@
 <div class="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
   <div class="container mx-auto py-12 px-4 sm:px-6 lg:px-8">
+    <!-- Header -->
     <div class="flex flex-col sm:flex-row justify-between items-center mb-8 space-y-4 sm:space-y-0">
       <h1 class="text-4xl font-bold text-blue-600">Transactions</h1>
-      <button class="bg-blue-600 hover:bg-blue-700 text-white rounded-full transition-all duration-300 transform hover:scale-105">
-         New Transaction
+      <button
+        class="bg-blue-600 hover:bg-blue-700 text-white rounded-full px-4 py-2 transition-all duration-300 transform hover:scale-105"
+        (click)="createTransfer=true"
+      >
+        <i class="fas fa-plus mr-2"></i> New Transaction
       </button>
     </div>
 
-    <div class="mb-8 bg-white shadow-lg rounded-2xl overflow-hidden">
-      <div class="p-6">
-        <div class="flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0 sm:space-x-4">
-          <div class="relative w-full sm:w-auto">
-            <input
-              type="text"
-              placeholder="Search transactions..."
-              class="pl-10 pr-4 py-2 w-full sm:w-64 border-gray-300 rounded-full focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50 transition-all duration-300"
-              [formControl]="searchControl"
-            />
-          </div>
+    <!-- Search and Filters -->
+    <div class="mb-8 bg-white shadow-lg rounded-2xl overflow-hidden p-6">
+      <div
+        class="w-full sm:w-auto border-gray-300 text-gray-700 hover:bg-gray-100 transition-all duration-300">
+        <button
+          (click)="toggleFilters()"
+          class="w-full sm:w-auto border border-gray-300 text-gray-700 hover:bg-gray-100 transition-all duration-300 px-4 py-2 rounded-lg"
+        >
+          <i class="fas fa-filter mr-2"></i> Filters
+        </button>
+      </div>
+
+      <!-- Expandable Filters -->
+      <div *ngIf="showFilters" class="mt-4 flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+        <select [(ngModel)]="typeFilter" class="border border-gray-300 rounded-lg px-3 py-2">
+          <option value="ALL">All Types</option>
+          <option value="DEPOSIT">Deposit</option>
+          <option value="WITHDRAWAL">Withdrawal</option>
+          <option value="TRANSFER">Transfer</option>
+        </select>
+
+        <select [(ngModel)]="statusFilter" class="border border-gray-300 rounded-lg px-3 py-2">
+          <option value="ALL">All Statuses</option>
+          <option value="COMPLETED">Completed</option>
+          <option value="PENDING">Pending</option>
+        </select>
+
+        <div class="flex space-x-2">
           <button
-            class="w-full sm:w-auto border-gray-300 text-gray-700 hover:bg-gray-100 transition-all duration-300"
-            (click)="toggleFilters()"
+            (click)="sort('date')"
+            class="border border-gray-300 text-gray-700 hover:bg-gray-100 transition-all duration-300 px-3 py-1 rounded-lg"
           >
+            Date
+            <i *ngIf="sortConfig.key === 'date'"
+               [class]="sortConfig.direction === 'asc' ? 'fas fa-arrow-up' : 'fas fa-arrow-down'" class="ml-2"></i>
+          </button>
+          <button
+            (click)="sort('amount')"
+            class="border border-gray-300 text-gray-700 hover:bg-gray-100 transition-all duration-300 px-3 py-1 rounded-lg"
+          >
+            Amount
+            <i *ngIf="sortConfig.key === 'amount'"
+               [class]="sortConfig.direction === 'asc' ? 'fas fa-arrow-up' : 'fas fa-arrow-down'" class="ml-2"></i>
           </button>
         </div>
+      </div>
+    </div>
 
-        <div *ngIf="showFilters" class="mt-4 flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
-          <select [(ngModel)]="typeFilter" (change)="applyFiltersAndSorting()">
-            <option value="ALL">All Types</option>
-            <option value="DEPOSIT">Deposit</option>
-            <option value="WITHDRAWAL">Withdrawal</option>
-            <option value="TRANSFER">Transfer</option>
-          </select>
-          <select [(ngModel)]="statusFilter" (change)="applyFiltersAndSorting()">
-            <option value="ALL">All Statuses</option>
-            <option value="COMPLETED">Completed</option>
-            <option value="PENDING">Pending</option>
-          </select>
-          <div class="flex space-x-2">
-            <button
-              (click)="requestSort('date')"
-              class="border-gray-300 text-gray-700 hover:bg-gray-100 transition-all duration-300"
+    <!-- View Toggle -->
+    <div class="mb-4">
+      <div class="border-b border-gray-200">
+        <nav class="-mb-px flex space-x-8">
+          <a
+            *ngFor="let view of views"
+            [class.border-blue-500]="currentView === view"
+            [class.text-blue-600]="currentView === view"
+            (click)="currentView = view"
+            class="cursor-pointer whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm"
+            [class.border-transparent]="currentView !== view"
+            [class.text-gray-500]="currentView !== view"
+          >
+            {{ view }} View
+          </a>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Transactions List -->
+    <div *ngIf="currentView === 'List'" class="bg-white shadow-md rounded-xl overflow-hidden">
+      <div class="card bg-white shadow-md rounded-xl overflow-hidden">
+        <div class="card-content p-0">
+          <table class="w-full">
+            <thead class="bg-gray-50">
+            <tr>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Transaction
+              </th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Amount
+              </th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Date
+              </th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Type
+              </th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Status
+              </th>
+            </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+            <tr
+              *ngFor="let transaction of filteredAndSortedTransactions"
+              class="hover:bg-gray-50 transition-colors duration-200"
             >
-              Date
-            </button>
-            <button
-              (click)="requestSort('amount')"
-              class="border-gray-300 text-gray-700 hover:bg-gray-100 transition-all duration-300"
-            >
-              Amount
-            </button>
-          </div>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="flex items-center">
+                  <div class="flex-shrink-0 h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center">
+                    <i class="fa-solid fa-dollar-sign text-gray-500"></i>
+                  </div>
+                  <div class="ml-4">
+                    <div class="text-sm font-medium text-gray-900">{{ transaction.message }}</div>
+                    <div class="text-sm text-gray-500">{{ transaction.description }}</div>
+                  </div>
+                </div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div
+                  class="text-sm font-semibold"
+                  [ngClass]="transaction.transactionType === 'DEPOSIT' ? 'text-green-600' : 'text-red-600'"
+                >
+                  ${{ transaction.amount }}
+                </div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                {{ transaction.date }}
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+              <span
+                class="badge bg-blue-100 text-blue-800 rounded-lg px-2"
+                [ngClass]="transaction.transactionType === 'DEPOSIT' ? 'default' : 'secondary'"
+              >
+                {{ transaction.transactionType }}
+              </span>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+              <span
+                class="badge rounded-lg px-2"
+                [ngClass]="{
+                  'bg-green-100 text-green-800': transaction.status === 'COMPLETED',
+                  'border bg-red-100 border-yellow-500 text-yellow-800': transaction.status !== 'COMPLETED'
+                }"
+              >
+                {{ transaction.status }}
+              </span>
+              </td>
+            </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      <div *ngFor="let transaction of filteredAndSortedTransactions" class="bg-white shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 rounded-xl overflow-hidden">
-        <div class="pb-2 bg-gradient-to-r from-blue-500 to-purple-500">
-          <h3 class="text-lg font-semibold text-white">{{ transaction.message }}</h3>
+    <!-- Transactions Grid -->
+    <div *ngIf="currentView === 'Grid'" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div *ngFor="let transaction of filteredAndSortedTransactions"
+           class="bg-white shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 rounded-xl overflow-hidden"
+      >
+        <div class="py-4 px-4 bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center">
+          <h3 class="text-lg font-semibold text-white text-center">
+            {{ transaction.message }}
+          </h3>
         </div>
+
         <div class="p-4">
-          <p class="text-sm text-gray-600 mb-3">{{ transaction.description }}</p>
+          <p class="text-sm text-gray-600 mb-3">
+            {{ transaction.description }}
+          </p>
           <div class="flex justify-between items-center mb-3">
-            <span class="text-xs text-gray-400">{{ transaction.date }}</span>
+      <span
+        class="text-lg font-bold"
+        [ngClass]="{
+          'text-green-600': transaction.transactionType === 'DEPOSIT',
+          'text-red-600': transaction.transactionType !== 'DEPOSIT'
+        }"
+      >
+        ${{ transaction.amount | number: '1.2-2' }}
+      </span>
+            <span class="text-sm text-gray-600 flex items-center">
+              <i class="fa-regular fa-calendar-days h-4 w-4 mr-1"></i>
+              {{ transaction.date }}
+      </span>
           </div>
-          <div class="text-xs text-gray-500">
-            <div><strong>From:</strong> {{ transaction.sourceWallet }}</div>
-            <div><strong>To:</strong> {{ transaction.destinationWallet }}</div>
+          <div class="flex justify-between items-center mb-3">
+      <span
+        class="bg-blue-100 text-blue-800 rounded-lg px-2"
+        [ngClass]="{
+          'default': transaction.transactionType === 'DEPOSIT',
+          'secondary': transaction.transactionType !== 'DEPOSIT'
+        }"
+      >
+        {{ transaction.transactionType }}
+      </span>
+            <span
+              class="rounded-lg px-2"
+              [ngClass]="{
+          'bg-green-100 text-green-800': transaction.status === 'COMPLETED',
+          'border bg-red-100 border-yellow-500 text-yellow-800': transaction.status !== 'COMPLETED'
+        }"
+            >
+        {{ transaction.status }}
+      </span>
+          </div>
+          <div class="text-sm text-gray-600">
+            <div class="flex items-center mb-1">
+              <i class="fa-solid fa-arrow-right h-4 w-4 mr-1 text-blue-500"></i>
+              From: {{ transaction.sourceWallet }}
+            </div>
+            <div class="flex items-center">
+              <i class="fa-solid fa-arrow-right h-4 w-4 mr-1 text-blue-500"></i>
+              To: {{ transaction.destinationWallet }}
+            </div>
+          </div>
+          <div
+            *ngIf="transaction.goalName"
+            class="mt-2 text-sm text-blue-600 flex items-center"
+          >
+            <i class="fa-solid fa-briefcase h-4 w-4 mr-1"></i>
+            Goal: {{ transaction.goalName }}
           </div>
         </div>
       </div>
     </div>
+  </div>
+</div>
+
+<div *ngIf="createTransfer" class="fixed inset-0 flex items-center justify-center bg-opacity-75 bg-gray-600 z-50">
+  <div class="rounded-lg w-full sm:w-1/2 md:w-1/3 bg-white p-8">
+    <app-transaction-create (closeModal)="createTransfer = false"
+    ></app-transaction-create>
   </div>
 </div>

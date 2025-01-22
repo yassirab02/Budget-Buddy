@@ -11,7 +11,7 @@ export class GoalComponent implements OnInit {
 
   isLoading: boolean = true;
   page = 0;
-  size = 5;
+  size = 6;
   pages: any = [];
   message = '';
   level: 'success' | 'error' = 'success';
