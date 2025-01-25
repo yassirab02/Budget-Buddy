@@ -1,7 +1,9 @@
-package com.yassir.budgetbuddy.auth;
+package com.yassir.budgetbuddy.user.controller;
 
 
 import lombok.*;
+
+import java.math.BigDecimal;
 
 @Getter
 @Setter
@@ -13,5 +15,7 @@ public class UserResponse {
     private String email;
     private String firstName;
     private String lastName;
+    private String fullName;
+    private BigDecimal totalBalance;
     private String role;
 }

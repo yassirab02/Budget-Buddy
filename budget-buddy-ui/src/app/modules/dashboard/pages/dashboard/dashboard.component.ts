@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserControllerService } from '../../../../services/services/user-controller.service';
-import { User } from '../../../../services/models/user';
 import { BudgetService } from '../../../../services/services/budget.service';
 import {BudgetResponse} from '../../../../services/models/budget-response';
 import {GoalResponse} from '../../../../services/models/goal-response';
@@ -10,6 +9,7 @@ import {ExpensesResponse} from '../../../../services/models/expenses-response';
 import {IncomeResponse} from '../../../../services/models/income-response';
 import {IncomeService} from '../../../../services/services/income.service';
 import {ExpensesService} from '../../../../services/services/expenses.service';
+import {UserResponse} from '../../../../services/models/user-response';
 
 @Component({
   selector: 'app-dashboard',
@@ -30,7 +30,7 @@ export class DashboardComponent implements OnInit {
   goalResponse:GoalResponse[] = []; // Array to store fetched goals
   expenseResponse:ExpensesResponse[] = []; // Array to store fetched expenses
   incomeResponse:IncomeResponse[] = []; // Array to store fetched incomes
-  private _user: User | undefined;  // Defining private variable with undefined initially
+  private _user: UserResponse | undefined;  // Defining private variable with undefined initially
 
 
   constructor(
@@ -55,7 +55,7 @@ export class DashboardComponent implements OnInit {
   initializeDashboard() {
     this.isLoadingUser = true;  // Set loading to true
     this.userService.getCurrentUser().subscribe(
-      (user: User) => {
+      (user: UserResponse) => {
         this._user = user;
         this.isLoadingUser = false; // Hide the spinner once data is loaded
       },
@@ -88,11 +88,11 @@ export class DashboardComponent implements OnInit {
   ];
 
   // Getter and Setter for user
-  get user(): User | undefined {
+  get user(): UserResponse | undefined {
     return this._user;
   }
 
-  set user(value: User | undefined) {
+  set user(value: UserResponse | undefined) {
     this._user = value;
   }
 
@@ -112,6 +112,7 @@ export class DashboardComponent implements OnInit {
       () => {
         this.showSuccess = true;  // Show success message
         this.amountToAdd = 0;     // Reset input field
+        this.add = false;
         this.initializeDashboard(); // Refresh the dashboard
         setTimeout(() => this.showSuccess = false, 3000); // Hide success message after 3 seconds
       },
@@ -185,5 +186,9 @@ export class DashboardComponent implements OnInit {
 
   redirectToGoals() {
     this.router.navigate(['/goal']);
+  }
+
+  viewAllTransactions() {
+
   }
 }

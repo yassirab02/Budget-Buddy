@@ -5,7 +5,6 @@ import com.yassir.budgetbuddy.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
@@ -19,6 +18,7 @@ import java.security.Principal;
 public class UserController {
 
     private final UserService service;
+    private final UserMapper userMapper;
 
     @PatchMapping
     public ResponseEntity<?> changePassword(
@@ -30,10 +30,11 @@ public class UserController {
     }
 
     @GetMapping("/current-user")
-    public User getCurrentUser() {
+    public UserResponse getCurrentUser() {
         // Retrieve the current authenticated user from the security context
         String username = service.getCurrentUsername();
-        return service.findByEmail(username);
+        User connectedUser = service.findByEmail(username);
+        return userMapper.toUserResponse(connectedUser);
     }
 
     @PostMapping("/add-balance/{amount}")

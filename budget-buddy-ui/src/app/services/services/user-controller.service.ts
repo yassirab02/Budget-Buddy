@@ -17,7 +17,7 @@ import { changePassword } from '../fn/user-controller/change-password';
 import { ChangePassword$Params } from '../fn/user-controller/change-password';
 import { getCurrentUser } from '../fn/user-controller/get-current-user';
 import { GetCurrentUser$Params } from '../fn/user-controller/get-current-user';
-import { User } from '../models/user';
+import { UserResponse } from '../models/user-response';
 
 @Injectable({ providedIn: 'root' })
 export class UserControllerService extends BaseService {
@@ -92,7 +92,7 @@ export class UserControllerService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  getCurrentUser$Response(params?: GetCurrentUser$Params, context?: HttpContext): Observable<StrictHttpResponse<User>> {
+  getCurrentUser$Response(params?: GetCurrentUser$Params, context?: HttpContext): Observable<StrictHttpResponse<UserResponse>> {
     return getCurrentUser(this.http, this.rootUrl, params, context);
   }
 
@@ -102,9 +102,9 @@ export class UserControllerService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  getCurrentUser(params?: GetCurrentUser$Params, context?: HttpContext): Observable<User> {
+  getCurrentUser(params?: GetCurrentUser$Params, context?: HttpContext): Observable<UserResponse> {
     return this.getCurrentUser$Response(params, context).pipe(
-      map((r: StrictHttpResponse<User>): User => r.body)
+      map((r: StrictHttpResponse<UserResponse>): UserResponse => r.body)
     );
   }
 
