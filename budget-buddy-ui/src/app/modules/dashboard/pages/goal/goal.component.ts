@@ -72,7 +72,7 @@ export class GoalComponent implements OnInit {
     );
   }
 
-  gotToPage(page: number) {
+  goToPage(page: number) {
     this.page = page;
     this.findAllGoals();
   }

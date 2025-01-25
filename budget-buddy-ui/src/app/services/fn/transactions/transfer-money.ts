@@ -10,12 +10,12 @@ import { RequestBuilder } from '../../request-builder';
 
 import { TransactionRequest } from '../../models/transaction-request';
 
-export interface TransferMoneyToWallet$Params {
+export interface TransferMoney$Params {
       body: TransactionRequest
 }
 
-export function transferMoneyToWallet(http: HttpClient, rootUrl: string, params: TransferMoneyToWallet$Params, context?: HttpContext): Observable<StrictHttpResponse<number>> {
-  const rb = new RequestBuilder(rootUrl, transferMoneyToWallet.PATH, 'post');
+export function transferMoney(http: HttpClient, rootUrl: string, params: TransferMoney$Params, context?: HttpContext): Observable<StrictHttpResponse<number>> {
+  const rb = new RequestBuilder(rootUrl, transferMoney.PATH, 'post');
   if (params) {
     rb.body(params.body, 'application/json');
   }
@@ -30,4 +30,4 @@ export function transferMoneyToWallet(http: HttpClient, rootUrl: string, params:
   );
 }
 
-transferMoneyToWallet.PATH = '/transactions/to-wallet';
+transferMoney.PATH = '/transactions/transfer-money';

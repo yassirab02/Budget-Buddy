@@ -1,5 +1,6 @@
 package com.yassir.budgetbuddy.transaction;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.yassir.budgetbuddy.common.BaseEntity;
 import com.yassir.budgetbuddy.goal.Goal;
@@ -51,10 +52,11 @@ public class Transaction extends BaseEntity {
     private Wallet destinationWallet; // The wallet to which the money is transferred (nullable for Goal transfers)
 
 
-    @JsonIgnore
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "sender_id", nullable = false)
     private User sender;
+
 
     @JsonIgnore
     @ManyToOne

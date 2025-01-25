@@ -4,6 +4,8 @@ import {TransactionResponse} from '../../../../services/models/transaction-respo
 import {animate, style, transition, trigger} from '@angular/animations';
 import {FormControl} from '@angular/forms';
 import {WalletResponse} from '../../../../services/models/wallet-response';
+import {TransactionsService} from '../../../../services/services/transactions.service';
+import {PageResponseTransactionResponse} from '../../../../services/models/page-response-transaction-response';
 
 @Component({
   selector: 'app-transaction',
@@ -12,17 +14,24 @@ import {WalletResponse} from '../../../../services/models/wallet-response';
   animations: [
     trigger('fadeIn', [
       transition(':enter', [
-        style({ opacity: 0, transform: 'translateY(-20px)' }),
-        animate('0.5s', style({ opacity: 1, transform: 'translateY(0)' })),
+        style({ opacity: 0 }),
+        animate('300ms', style({ opacity: 1 }))
       ]),
       transition(':leave', [
-        style({ opacity: 1, transform: 'translateY(0)' }),
-        animate('0.3s', style({ opacity: 0, transform: 'translateY(-20px)' })),
-      ]),
-    ]),
-  ],
+        animate('300ms', style({ opacity: 0 }))
+      ])
+    ])
+  ]
 })
 export class TransactionComponent implements OnInit{
+  isLoading: boolean = true;
+  page = 0;
+  size = 6;
+  pages: any = [];
+  message = '';
+  level: 'success' | 'error' = 'success';
+  errorMsg: Array<string> = [];
+  showSuccess=false ;
   searchTerm: string = '';
   typeFilter: string = 'ALL';
   statusFilter: string = 'ALL';
@@ -31,72 +40,47 @@ export class TransactionComponent implements OnInit{
   currentView = 'Grid';
   views = ['Grid', 'List'];
   createTransfer=false;
-  mockTransactions: TransactionResponse[] = [
-    {
-      id: 1,
-      message: "Salary deposit",
-      description: "Monthly salary",
-      amount: 5000,
-      date: "2023-05-01",
-      transactionType: "DEPOSIT",
-      status: "COMPLETED",
-      sourceWallet: "Employer",
-      destinationWallet: "Main Account",
-      sender: "ABC Company",
-      receiver: "John Doe",
-      goalName: ""
-    },
-    {
-      id: 2,
-      message: "Rent payment",
-      description: "Monthly rent",
-      amount: 1200,
-      date: "2023-05-05",
-      transactionType: "WITHDRAWAL",
-      status: "FAILED",
-      sourceWallet: "Main Account",
-      destinationWallet: "Landlord",
-      sender: "John Doe",
-      receiver: "Property Management LLC",
-      goalName: ""
-    },
-    {
-      id: 3,
-      message: "Savings transfer",
-      description: "Transfer to savings account",
-      amount: 500,
-      date: "2023-05-10",
-      transactionType: "TRANSFER",
-      status: "COMPLETED",
-      sourceWallet: "Main Account",
-      destinationWallet: "Savings Account",
-      sender: "John Doe",
-      receiver: "John Doe",
-      goalName: "Emergency Fund"
-    }
-    // Add other mock transactions
-  ];
-  filteredAndSortedTransactions: TransactionResponse[] = [];
+  transactionResponse: PageResponseTransactionResponse = {};
 
-  searchControl: FormControl = new FormControl('');
-
-  ngOnInit(): void {
-    this.filteredAndSortedTransactions = [...this.mockTransactions];
-    this.searchControl.valueChanges.subscribe((value: string) => {
-      this.searchTerm = value;
-      this.applyFiltersAndSorting();
-    });
+  constructor(private transactionService:TransactionsService,private router:Router) {
   }
 
-  applyFiltersAndSorting(): void {
-    let result = this.mockTransactions.filter(transaction =>
-      (transaction.message?.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-        transaction.description?.toLowerCase().includes(this.searchTerm.toLowerCase())) &&
-      (this.typeFilter === 'ALL' || transaction.transactionType === this.typeFilter) &&
-      (this.statusFilter === 'ALL' || transaction.status === this.statusFilter)
-    );
+  ngOnInit(): void {
+    this.findAllTransactions();
+  }
 
-    this.filteredAndSortedTransactions = result;
+
+  findAllTransactions(resetPage: boolean = false) {
+    if (resetPage) {
+      this.page = 0; // Reset to the first page
+    }
+      this.page = 0; // Reset to the first page
+    this.transactionService.findAllTransactions({
+      page: this.page,
+      size: this.size
+    })
+      .subscribe({
+        next: (transactions) => {
+          this.transactionResponse = transactions;
+          this.pages = Array(this.transactionResponse.totalPages)
+            .fill(0)
+            .map((x, i) => i);
+          this.isLoading = false;
+        },
+        error: (err) => {
+          console.error('Error fetching transactions:', err);
+          this.message = 'An error occurred while fetching the transactions.';
+          this.level = 'error';
+          this.isLoading = false;
+        }
+      });
+  }
+
+  handleSuccess(): void {
+    this.showSuccess = true;
+    setTimeout(() => {
+      this.showSuccess = false;
+    }, 4000);
   }
 
   toggleFilters(): void {
@@ -109,7 +93,6 @@ export class TransactionComponent implements OnInit{
       direction = 'desc';
     }
     this.sortConfig = { key, direction };
-    this.applyFiltersAndSorting();
   }
 
   getIconClass(transactionType: string): string {

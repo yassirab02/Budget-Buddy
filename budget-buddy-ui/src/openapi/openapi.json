@@ -101,74 +101,12 @@
         }
       }
     },
-    "/transactions/to-wallet": {
+    "/transactions/transfer-money": {
       "post": {
         "tags": [
           "Transactions"
         ],
-        "operationId": "transferMoneyToWallet",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/TransactionRequest"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "integer",
-                  "format": "int32"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/transactions/to-user": {
-      "post": {
-        "tags": [
-          "Transactions"
-        ],
-        "operationId": "transferMoneyToUser",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/TransactionRequest"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "integer",
-                  "format": "int32"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/transactions/to-goal": {
-      "post": {
-        "tags": [
-          "Transactions"
-        ],
-        "operationId": "transferMoneyToGoal",
+        "operationId": "transferMoney",
         "requestBody": {
           "content": {
             "application/json": {
@@ -901,6 +839,48 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/PageResponseWalletResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/transactions/all-transactions": {
+      "get": {
+        "tags": [
+          "Transactions"
+        ],
+        "operationId": "findAllTransactions",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 10
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PageResponseTransactionResponse"
                 }
               }
             }
@@ -2250,8 +2230,9 @@
           "transactionType": {
             "type": "string",
             "enum": [
-              "TRANSFER",
+              "TRANSFER_TO_USER",
               "TRANSFER_TO_GOAL",
+              "TRANSFER_TO_DEBT",
               "TRANSFER_TO_WALLET"
             ]
           },
@@ -2430,8 +2411,7 @@
           "name",
           "startDate",
           "targetAmount",
-          "targetDate",
-          "userId"
+          "targetDate"
         ],
         "type": "object",
         "properties": {
@@ -2463,9 +2443,8 @@
             "type": "string",
             "format": "date"
           },
-          "userId": {
-            "type": "integer",
-            "format": "int32"
+          "reached": {
+            "type": "boolean"
           }
         }
       },
@@ -2523,8 +2502,7 @@
       "DebtRequest": {
         "required": [
           "amount",
-          "name",
-          "ownerId"
+          "name"
         ],
         "type": "object",
         "properties": {
@@ -2559,15 +2537,12 @@
             "type": "string",
             "format": "date"
           },
-          "debtType": {
-            "type": "string"
+          "issueDate": {
+            "type": "string",
+            "format": "date"
           },
           "isPaid": {
             "type": "boolean"
-          },
-          "ownerId": {
-            "type": "integer",
-            "format": "int32"
           }
         }
       },
@@ -2912,9 +2887,8 @@
           "receiver": {
             "type": "string"
           },
-          "goalId": {
-            "type": "integer",
-            "format": "int32"
+          "goalName": {
+            "type": "string"
           }
         }
       },
@@ -3618,10 +3592,10 @@
               "$ref": "#/components/schemas/Expenses"
             }
           },
-          "remainingAmount": {
+          "usedAmount": {
             "type": "number"
           },
-          "usedAmount": {
+          "remainingAmount": {
             "type": "number"
           }
         }
@@ -3974,8 +3948,9 @@
           "transactionType": {
             "type": "string",
             "enum": [
-              "TRANSFER",
+              "TRANSFER_TO_USER",
               "TRANSFER_TO_GOAL",
+              "TRANSFER_TO_DEBT",
               "TRANSFER_TO_WALLET"
             ]
           },
@@ -4073,17 +4048,14 @@
           "name": {
             "type": "string"
           },
+          "username": {
+            "type": "string"
+          },
           "authorities": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/GrantedAuthority"
             }
-          },
-          "username": {
-            "type": "string"
-          },
-          "accountNonLocked": {
-            "type": "boolean"
           },
           "credentialsNonExpired": {
             "type": "boolean"
@@ -4093,6 +4065,9 @@
             "format": "int32"
           },
           "accountNonExpired": {
+            "type": "boolean"
+          },
+          "accountNonLocked": {
             "type": "boolean"
           }
         }

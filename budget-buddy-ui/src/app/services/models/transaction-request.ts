@@ -11,5 +11,5 @@ export interface TransactionRequest {
   message: string;
   receiverId?: number;
   sourceWalletId: number;
-  transactionType: 'TRANSFER' | 'TRANSFER_TO_GOAL' | 'TRANSFER_TO_WALLET';
+  transactionType: 'TRANSFER_TO_USER' | 'TRANSFER_TO_GOAL' | 'TRANSFER_TO_DEBT' | 'TRANSFER_TO_WALLET';
 }

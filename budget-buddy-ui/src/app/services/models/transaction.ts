@@ -15,5 +15,5 @@ export interface Transaction {
   lastModifiedDate?: string;
   message?: string;
   status?: 'PENDING' | 'SUCCESS' | 'FAILED';
-  transactionType?: 'TRANSFER' | 'TRANSFER_TO_GOAL' | 'TRANSFER_TO_WALLET';
+  transactionType?: 'TRANSFER_TO_USER' | 'TRANSFER_TO_GOAL' | 'TRANSFER_TO_DEBT' | 'TRANSFER_TO_WALLET';
 }

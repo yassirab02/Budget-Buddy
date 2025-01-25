@@ -19,28 +19,22 @@ public class TransactionController {
 
     private final TransactionService service;
 
-    @PostMapping("/to-goal")
-    public ResponseEntity<Integer> transferMoneyToGoal(
+    @PostMapping("/transfer-money")
+    public ResponseEntity<Integer> transferMoney(
             @RequestBody @Valid TransactionRequest request,
             Authentication connectedUser) throws InsufficientResourcesException {
 
-        return ResponseEntity.ok(service.transferMoneyToGoal(request, connectedUser));
+        return ResponseEntity.ok(service.transferMoney(request, connectedUser));
     }
 
-    @PostMapping("/to-wallet")
-    public ResponseEntity<Integer> transferMoneyToWallet(
-            @RequestBody @Valid TransactionRequest request,
-            Authentication connectedUser) throws InsufficientResourcesException {
 
-        return ResponseEntity.ok(service.transferMoneyToWallet(request, connectedUser));
-    }
-
-    @PostMapping("/to-user")
-    public ResponseEntity<Integer> transferMoneyToUser(
-            @RequestBody @Valid TransactionRequest request,
-            Authentication connectedUser) throws InsufficientResourcesException {
-
-        return ResponseEntity.ok(service.transferMoneyToUser(request, connectedUser));
+    @GetMapping(("/all-transactions"))
+    public ResponseEntity<PageResponse<TransactionResponse>> findAllTransactions(
+            @RequestParam(name = "page", defaultValue = "0", required = false) int page,
+            @RequestParam(name = "size", defaultValue = "10", required = false) int size,
+            Authentication connectedUser
+    ) {
+        return ResponseEntity.ok(service.findAllTransactions(page, size, connectedUser));
     }
 
     @GetMapping(("/all-transactions-sent"))

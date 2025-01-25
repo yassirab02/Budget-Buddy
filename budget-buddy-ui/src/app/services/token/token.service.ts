@@ -14,6 +14,9 @@ export class TokenService {
     if (typeof localStorage !== 'undefined') {
       return localStorage.getItem('token');
     }
+    if (typeof window === 'undefined') {
+      return null;
+    }
     return null;
   }
 
@@ -27,7 +30,7 @@ export class TokenService {
     // check expiry date
     const isTokenExpired = jwtHelper.isTokenExpired(token);
     if (isTokenExpired) {
-      localStorage.clear();
+      localStorage.removeItem('token');
       return false;
     }
     return true;

@@ -6,9 +6,9 @@ export interface DebtRequest {
   amount: number;
   description?: string;
   dueDate?: string;
-  issueDate?: string;
   id?: number;
   isPaid?: boolean;
+  issueDate?: string;
   name: string;
   type?: 'PERSONAL_LOAN' | 'MORTGAGE' | 'CREDIT_CARD' | 'STUDENT_LOAN' | 'BUSINESS_LOAN' | 'CAR_LOAN' | 'OTHER';
 }

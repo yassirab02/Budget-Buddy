@@ -14,4 +14,12 @@ public class TransactionSpecification {
     public static Specification<Transaction> withReceiverId(Integer receiverId) {
         return (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("receiver").get("id"), receiverId);
     }
+
+    public static Specification<Transaction> withSenderIdOrReceiverId(Integer userId) {
+        return (root, query, criteriaBuilder) -> criteriaBuilder.or(
+                criteriaBuilder.equal(root.get("sender").get("id"), userId),
+                criteriaBuilder.equal(root.get("receiver").get("id"), userId)
+        );
+    }
+
 }

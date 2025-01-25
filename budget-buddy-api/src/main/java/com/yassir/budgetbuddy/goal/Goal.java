@@ -1,5 +1,6 @@
 package com.yassir.budgetbuddy.goal;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.yassir.budgetbuddy.common.BaseEntity;
 import com.yassir.budgetbuddy.transaction.Transaction;
 import com.yassir.budgetbuddy.user.User;
@@ -35,9 +36,11 @@ public class Goal extends BaseEntity {
     private boolean reached; // Whether the goal has been reached or not
 
 
+    @JsonManagedReference
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user; // The user who set the goal
+
 
     @OneToMany(mappedBy = "goal")
     private List<Transaction> transactions; // Transactions related to the wallet

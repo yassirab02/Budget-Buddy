@@ -11,17 +11,15 @@ import { BaseService } from '../base-service';
 import { ApiConfiguration } from '../api-configuration';
 import { StrictHttpResponse } from '../strict-http-response';
 
+import { findAllTransactions } from '../fn/transactions/find-all-transactions';
+import { FindAllTransactions$Params } from '../fn/transactions/find-all-transactions';
 import { findAllTransactionsByReciever } from '../fn/transactions/find-all-transactions-by-reciever';
 import { FindAllTransactionsByReciever$Params } from '../fn/transactions/find-all-transactions-by-reciever';
 import { findAllTransactionsBySender } from '../fn/transactions/find-all-transactions-by-sender';
 import { FindAllTransactionsBySender$Params } from '../fn/transactions/find-all-transactions-by-sender';
 import { PageResponseTransactionResponse } from '../models/page-response-transaction-response';
-import { transferMoneyToGoal } from '../fn/transactions/transfer-money-to-goal';
-import { TransferMoneyToGoal$Params } from '../fn/transactions/transfer-money-to-goal';
-import { transferMoneyToUser } from '../fn/transactions/transfer-money-to-user';
-import { TransferMoneyToUser$Params } from '../fn/transactions/transfer-money-to-user';
-import { transferMoneyToWallet } from '../fn/transactions/transfer-money-to-wallet';
-import { TransferMoneyToWallet$Params } from '../fn/transactions/transfer-money-to-wallet';
+import { transferMoney } from '../fn/transactions/transfer-money';
+import { TransferMoney$Params } from '../fn/transactions/transfer-money';
 
 @Injectable({ providedIn: 'root' })
 export class TransactionsService extends BaseService {
@@ -29,78 +27,53 @@ export class TransactionsService extends BaseService {
     super(config, http);
   }
 
-  /** Path part for operation `transferMoneyToWallet()` */
-  static readonly TransferMoneyToWalletPath = '/transactions/to-wallet';
+  /** Path part for operation `transferMoney()` */
+  static readonly TransferMoneyPath = '/transactions/transfer-money';
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `transferMoneyToWallet()` instead.
+   * To access only the response body, use `transferMoney()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  transferMoneyToWallet$Response(params: TransferMoneyToWallet$Params, context?: HttpContext): Observable<StrictHttpResponse<number>> {
-    return transferMoneyToWallet(this.http, this.rootUrl, params, context);
+  transferMoney$Response(params: TransferMoney$Params, context?: HttpContext): Observable<StrictHttpResponse<number>> {
+    return transferMoney(this.http, this.rootUrl, params, context);
   }
 
   /**
    * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `transferMoneyToWallet$Response()` instead.
+   * To access the full response (for headers, for example), `transferMoney$Response()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  transferMoneyToWallet(params: TransferMoneyToWallet$Params, context?: HttpContext): Observable<number> {
-    return this.transferMoneyToWallet$Response(params, context).pipe(
+  transferMoney(params: TransferMoney$Params, context?: HttpContext): Observable<number> {
+    return this.transferMoney$Response(params, context).pipe(
       map((r: StrictHttpResponse<number>): number => r.body)
     );
   }
 
-  /** Path part for operation `transferMoneyToUser()` */
-  static readonly TransferMoneyToUserPath = '/transactions/to-user';
+  /** Path part for operation `findAllTransactions()` */
+  static readonly FindAllTransactionsPath = '/transactions/all-transactions';
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `transferMoneyToUser()` instead.
+   * To access only the response body, use `findAllTransactions()` instead.
    *
-   * This method sends `application/json` and handles request body of type `application/json`.
+   * This method doesn't expect any request body.
    */
-  transferMoneyToUser$Response(params: TransferMoneyToUser$Params, context?: HttpContext): Observable<StrictHttpResponse<number>> {
-    return transferMoneyToUser(this.http, this.rootUrl, params, context);
+  findAllTransactions$Response(params?: FindAllTransactions$Params, context?: HttpContext): Observable<StrictHttpResponse<PageResponseTransactionResponse>> {
+    return findAllTransactions(this.http, this.rootUrl, params, context);
   }
 
   /**
    * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `transferMoneyToUser$Response()` instead.
+   * To access the full response (for headers, for example), `findAllTransactions$Response()` instead.
    *
-   * This method sends `application/json` and handles request body of type `application/json`.
+   * This method doesn't expect any request body.
    */
-  transferMoneyToUser(params: TransferMoneyToUser$Params, context?: HttpContext): Observable<number> {
-    return this.transferMoneyToUser$Response(params, context).pipe(
-      map((r: StrictHttpResponse<number>): number => r.body)
-    );
-  }
-
-  /** Path part for operation `transferMoneyToGoal()` */
-  static readonly TransferMoneyToGoalPath = '/transactions/to-goal';
-
-  /**
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `transferMoneyToGoal()` instead.
-   *
-   * This method sends `application/json` and handles request body of type `application/json`.
-   */
-  transferMoneyToGoal$Response(params: TransferMoneyToGoal$Params, context?: HttpContext): Observable<StrictHttpResponse<number>> {
-    return transferMoneyToGoal(this.http, this.rootUrl, params, context);
-  }
-
-  /**
-   * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `transferMoneyToGoal$Response()` instead.
-   *
-   * This method sends `application/json` and handles request body of type `application/json`.
-   */
-  transferMoneyToGoal(params: TransferMoneyToGoal$Params, context?: HttpContext): Observable<number> {
-    return this.transferMoneyToGoal$Response(params, context).pipe(
-      map((r: StrictHttpResponse<number>): number => r.body)
+  findAllTransactions(params?: FindAllTransactions$Params, context?: HttpContext): Observable<PageResponseTransactionResponse> {
+    return this.findAllTransactions$Response(params, context).pipe(
+      map((r: StrictHttpResponse<PageResponseTransactionResponse>): PageResponseTransactionResponse => r.body)
     );
   }
 

@@ -78,3 +78,13 @@
   font-size: 14px;
   color: #00796b;
 }
+.modal-overlay {
+  @apply fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50;
+}
+.animate-progress {
+  animation: progress 3s linear;
+}
+@keyframes progress {
+  from { width: 0; }
+  to { width: 100%; }
+}

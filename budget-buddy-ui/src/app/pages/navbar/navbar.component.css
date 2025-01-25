@@ -1,0 +1,28 @@
+nav a {
+  text-decoration: none;
+  position: relative;
+}
+
+nav a::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  background-color: green;
+  bottom: 0;
+  left: 0;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s;
+}
+
+/* Add underline on hover for all links except `.no-underline` */
+nav a:hover::after,
+nav a.active::after {
+  transform: scaleX(1);
+}
+
+/* Remove underline for links with the `.no-underline` class */
+nav a.no-underline::after {
+  content: none;
+}

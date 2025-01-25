@@ -1,8 +1,14 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {WalletService} from '../../../../../services/services/wallet.service';
-import {WalletResponse} from '../../../../../services/models/wallet-response';
-import {IncomeSourceResponse} from '../../../../../services/models/income-source-response';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { WalletService } from '../../../../../services/services/wallet.service';
+import { WalletResponse } from '../../../../../services/models/wallet-response';
+import { animate, style, transition, trigger } from '@angular/animations';
+import { DebtResponse } from '../../../../../services/models/debt-response';
+import { GoalResponse } from '../../../../../services/models/goal-response';
+import { DebtService } from '../../../../../services/services/debt.service';
+import { GoalService } from '../../../../../services/services/goal.service';
+import { TransactionRequest } from '../../../../../services/models/transaction-request';
+import { TransactionsService } from '../../../../../services/services/transactions.service';
 
 enum TransactionType {
   TRANSFER_TO_USER = 'Transfer to User',
@@ -11,70 +17,78 @@ enum TransactionType {
   TRANSFER_TO_WALLET = 'Transfer to Wallet',
 }
 
-enum SourceWalletType {
-  CHECKING = 'Checking',
-  SAVINGS = 'Savings',
-  CREDIT = 'Credit',
-  INVESTMENT = 'Investment',
-}
 @Component({
   selector: 'app-transaction-create',
   templateUrl: './transaction-create.component.html',
-  styleUrl: './transaction-create.component.css'
+  styleUrls: ['./transaction-create.component.css'],
+  animations: [
+    trigger('fadeIn', [
+      transition(':enter', [
+        style({ opacity: 0 }),
+        animate('300ms', style({ opacity: 1 }))
+      ]),
+      transition(':leave', [
+        animate('300ms', style({ opacity: 0 }))
+      ])
+    ])
+  ]
 })
-export class TransactionCreateComponent implements OnInit{
+export class TransactionCreateComponent implements OnInit {
   @Input() isOpen = false;
   @Output() closeModal = new EventEmitter<void>();
-  @Output() submit = new EventEmitter<any>();
-  walletResponse: Array<WalletResponse> = [];
-  errorMsg: Array<string> = [];
+  @Output() showSuccess = new EventEmitter<void>();
+
+  walletResponse: WalletResponse[] = [];
+  debtResponse: DebtResponse[] = [];
+  goalResponse: GoalResponse[] = [];
   message = '';
   level: 'success' | 'error' = 'success';
-
-
-  transactionTypes = Object.keys(TransactionType) as (keyof typeof TransactionType)[];
-  sourceWalletTypes = Object.keys(SourceWalletType) as (keyof typeof SourceWalletType)[];
-
-  getTransactionLabel(key: keyof typeof TransactionType): string {
-    return TransactionType[key];
-  }
-
-  getSourceWalletLabel(key: keyof typeof SourceWalletType): string {
-    return SourceWalletType[key];
-  }
-
+  errorMsg: string[] = [];
   transferForm: FormGroup;
-  selectedTransactionType: TransactionType = TransactionType.TRANSFER_TO_USER;
+  walletTransfer=true;
+  goalTransfer=false;
+  debtTransfer=false;
+  userTransfer=false;
 
-  constructor(private fb: FormBuilder,private walletService:WalletService) {
+
+  transactionTypes = ['TRANSFER_TO_WALLET', 'TRANSFER_TO_GOAL', 'TRANSFER_TO_DEBT', 'TRANSFER_TO_USER'];
+
+  transactionRequest: TransactionRequest = {
+    amount: 0,
+    description: '',
+    message: '',
+    transactionType: 'TRANSFER_TO_WALLET',
+    goalId: 0,
+    receiverId: 0,
+    sourceWalletId: 0,
+    destinationWalletId: 0
+  };
+
+  constructor(
+    private fb: FormBuilder,
+    private walletService: WalletService,
+    private debtService: DebtService,
+    private goalService: GoalService,
+    private transactionService: TransactionsService
+  ) {
     this.transferForm = this.fb.group({
-      transactionType: [TransactionType.TRANSFER_TO_USER, [Validators.required]],
-      sourceWalletType: [SourceWalletType.CHECKING, [Validators.required]],
-      message: ['', [Validators.required]],
+      message: ['', Validators.required],
       description: [''],
-      amount: [null, [Validators.required, Validators.min(0.01)]],
-      destinationId: [null, [Validators.required, Validators.min(1)]],
+      amount: [0, [Validators.required, Validators.min(0.01)]],
+      transactionType: [TransactionType.TRANSFER_TO_USER],
+      destinationId: [null, Validators.required]
     });
   }
 
-  ngOnInit(): void {
-    this.transferForm.get('transactionType')?.valueChanges.subscribe((type: TransactionType) => {
-      this.selectedTransactionType = type;
-    });
-    this.findAllWallets();
+  ngOnInit() {
+    this.findAllInfo();
   }
 
-
-  findAllWallets() {
-    this.walletService.findAllWalletsByOwner({
-    })
+  findAllInfo() {
+    this.walletService.findAllWalletsByOwner({})
       .subscribe({
         next: (wallets) => {
-          if (wallets.content) {
-            this.walletResponse = wallets.content;
-          } else {
-            this.walletResponse = [];
-          }
+          this.walletResponse = wallets.content || [];
         },
         error: (err) => {
           console.error('Error fetching wallets:', err);
@@ -82,48 +96,92 @@ export class TransactionCreateComponent implements OnInit{
           this.level = 'error';
         }
       });
-  }
 
-
-
-  getIcon(type: TransactionType): string {
-    switch (type) {
-      case TransactionType.TRANSFER_TO_USER:
-        return 'person';
-      case TransactionType.TRANSFER_TO_GOAL:
-        return 'work';
-      case TransactionType.TRANSFER_TO_DEBT:
-        return 'credit_card';
-      case TransactionType.TRANSFER_TO_WALLET:
-        return 'wallet';
-    }
-  }
-
-  getSourceWalletIcon(type: SourceWalletType): string {
-    switch (type) {
-      case SourceWalletType.CHECKING:
-        return 'account_balance';
-      case SourceWalletType.SAVINGS:
-        return 'savings';
-      case SourceWalletType.CREDIT:
-        return 'credit_card';
-      case SourceWalletType.INVESTMENT:
-        return 'trending_up';
-    }
-  }
-
-  onSubmit(): void {
-    if (this.transferForm.valid) {
-      this.submit.emit(this.transferForm.value);
-      this.closeModal.emit();
-      this.transferForm.reset({
-        transactionType: TransactionType.TRANSFER_TO_USER,
-        sourceWalletType: SourceWalletType.CHECKING,
+    this.debtService.findAllNonPaidDebtsByOwner({ paidStatus: false })
+      .subscribe({
+        next: (debts) => {
+          this.debtResponse = debts.content || [];
+        },
+        error: (err) => {
+          console.error('Error fetching debts:', err);
+          this.message = 'An error occurred while fetching the debts.';
+          this.level = 'error';
+        }
       });
+
+    this.goalService.findGoalsByUserAndReachedStatus({ reached: false })
+      .subscribe({
+        next: (goals) => {
+          this.goalResponse = goals.content || [];
+        },
+        error: (err) => {
+          console.error('Error fetching goals:', err);
+          this.message = 'An error occurred while fetching the goals.';
+          this.level = 'error';
+        }
+      });
+  }
+
+  saveTransaction() {
+    this.transactionService.transferMoney({
+      body: this.transactionRequest
+    }).subscribe({
+      next: () => {
+        this.closeModal.emit();
+        this.showSuccess.emit();
+        this.transferForm.reset();
+      },
+      error: (err) => {
+        console.error(err.error);
+        this.errorMsg = err.error.validationErrors || [];
+      }
+    });
+  }
+
+  updateTransferTypeBooleans(event: any): void {
+    const selectedType = event.target.value;
+    this.transactionRequest.transactionType = selectedType;
+
+    // You can add any logic here to toggle additional fields based on the selected type
+    switch (selectedType) {
+      case 'TRANSFER_TO_WALLET':
+        this.walletTransfer = true;
+        this.goalTransfer = false;
+        this.debtTransfer = false;
+        this.userTransfer = false;
+        break;
+      case 'TRANSFER_TO_GOAL':
+        this.walletTransfer = false;
+        this.goalTransfer = true;
+        this.debtTransfer = false;
+        this.userTransfer = false;
+        break;
+      case 'TRANSFER_TO_DEBT':
+        this.walletTransfer = false;
+        this.goalTransfer = false;
+        this.debtTransfer = true;
+        this.userTransfer = false;
+        break;
+      case 'TRANSFER_TO_USER':
+        this.walletTransfer = false;
+        this.goalTransfer = false;
+        this.debtTransfer = false;
+        this.userTransfer = true;
+        break;
+      default:
+        this.walletTransfer = false;
+        this.goalTransfer = false;
+        this.debtTransfer = false;
+        this.userTransfer = false;
+        break;
     }
   }
 
-  getDestinationLabel() {
-    return "";
+  close(): void {
+    this.closeModal.emit();
+  }
+
+  closeError() {
+    this.errorMsg = [];
   }
 }

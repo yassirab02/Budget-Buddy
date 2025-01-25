@@ -7,8 +7,8 @@ export interface GoalRequest {
   description?: string;
   id?: number;
   name: string;
+  reached?: boolean;
   startDate: string;
   targetAmount: number;
   targetDate: string;
-  reached: boolean;
 }
