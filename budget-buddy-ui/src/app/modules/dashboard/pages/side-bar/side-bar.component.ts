@@ -1,5 +1,6 @@
 import {Component, HostListener, Input, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
+import {NavigationEnd, Router} from '@angular/router';
+import {filter} from 'rxjs/operators';
 
 @Component({
   selector: 'app-side-bar',
@@ -7,7 +8,7 @@ import {Router} from '@angular/router';
   styleUrl: './side-bar.component.css'
 })
 export class SideBarComponent implements OnInit{
-  isSidebarVisible: boolean = true;
+  isSidebarVisible: boolean = false;
 
 
   toggleSidebar() {
@@ -18,6 +19,12 @@ export class SideBarComponent implements OnInit{
 
 
   ngOnInit(): void {
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe(() => {
+      // Close the sidebar on route change (for mobile)
+      this.isSidebarVisible = false;
+    });
   }
 
 }

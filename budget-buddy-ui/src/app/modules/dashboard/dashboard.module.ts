@@ -34,6 +34,7 @@ import { DebtCreateComponent } from './components/debt/debt-create/debt-create.c
 import { GoalCreateComponent } from './components/goal/goal-create/goal-create.component';
 import { TransactionCreateComponent } from './components/transaction/transaction-create/transaction-create.component';
 import { ReportDetailComponent } from './components/report/report-detail/report-detail.component';
+import { ChartComponent } from './components/chart/chart.component';
 
 
 @NgModule({
@@ -65,6 +66,7 @@ import { ReportDetailComponent } from './components/report/report-detail/report-
         TransactionCreateComponent,
         TransactionCreateComponent,
         ReportDetailComponent,
+        ChartComponent,
     ],
   exports: [
     SpinnerComponent

@@ -3,6 +3,8 @@ import {ExpensesResponse} from '../../../../services/models/expenses-response';
 import {PageResponseWalletResponse} from '../../../../services/models/page-response-wallet-response';
 import {PageResponseExpensesResponse} from '../../../../services/models/page-response-expenses-response';
 import {ExpensesService} from '../../../../services/services/expenses.service';
+import {DeleteBudget1$Params} from '../../../../services/fn/budget/delete-budget-1';
+import {DeleteExpense$Params} from '../../../../services/fn/expenses/delete-expense';
 
 
 @Component({
@@ -24,6 +26,8 @@ export class ExpenseComponent implements OnInit {
   isArchive=false;
   isMonthlyArchive=false;
   isSubmenuOpen = false;
+  isDelete=false;
+  expenseToDelete: any;
 
 
   constructor(
@@ -123,4 +127,24 @@ export class ExpenseComponent implements OnInit {
     get isLastPage() {
       return this.page === this.expensesResponse.totalPages as number - 1;
     }
+
+
+  deleteExpense(id: any) {
+    const params: DeleteExpense$Params = { 'expense-id': id };
+    this.expensesService.deleteExpense(params).subscribe({
+      next: (res) => {
+        this.isDelete = false;
+        this.findAllExpenses();
+      },
+      error: (err) => {
+        console.log(err.error);
+        this.errorMsg = err.error.validationErrors;
+      }
+    });
+  }
+
+  openDelete(id:any) {
+    this.expenseToDelete = id;
+    this.isDelete = true;
+  }
 }
