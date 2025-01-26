@@ -65,10 +65,9 @@ export class DebtComponent implements OnInit {
   }
 
   get filteredDebts() {
-    return this.debtResponse.content?.filter(debt =>
-      this.showPaid || !!debt.paid  // Coerce 'paid' to boolean (true or false)
-    );
+    return this.debtResponse.content?.filter(debt => this.showPaid || !debt.paid) || [];
   }
+
 
   gotToPage(page: number) {
     this.page = page;

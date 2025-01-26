@@ -21,7 +21,7 @@
           <p class="text-lg font-semibold mb-2">Total Debt</p>
           <p class="text-4xl font-bold">${{ totalDebt }}</p>
         </div>
-        <i class="fa-solid fa-arrow-trend-down text-white" style="font-size: 48px;"></i>
+        <i class="fa-solid fa-chart-gantt text-white" style="font-size: 48px;"></i>
       </div>
     </div>
 
@@ -67,7 +67,7 @@
                 {{ debt.owner }}
               </div>
             </div>
-            <div [ngClass]="{ 'text-green-600': debt.paid, 'text-red-600': !debt.paid }"
+            <div [ngClass]="{ 'text-green-600': !!debt.paid, 'text-red-600': !debt.paid }"
                  class="text-center font-semibold">
               {{ debt.paid ? 'Paid' : 'Unpaid' }}
             </div>
@@ -156,7 +156,7 @@
 <div *ngIf="createDebt" class="fixed inset-0 flex items-center justify-center bg-opacity-75 bg-gray-600 z-50">
   <div class="rounded-lg w-full sm:w-1/2 md:w-1/3 bg-white p-8">
     <app-debt-create (closeModal)="createDebt = false"
-                       (debtCreated)="findAllDebts(true)"
+                     (debtCreated)="findAllDebts(true)"
     ></app-debt-create>
   </div>
 </div>

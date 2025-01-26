@@ -150,7 +150,6 @@ public class StoryServiceImpl implements StoryService {
                 isLiked = existingReaction.get().getReaction() == ReactionType.LIKE;
             }
 
-            // Calculate the number of likes
             long likes = storyReactionRepository.countReactionsByType(story.getId(), ReactionType.LIKE);
 
             // Map the story to StoryResponse

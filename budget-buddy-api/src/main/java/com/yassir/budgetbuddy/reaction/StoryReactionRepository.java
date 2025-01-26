@@ -19,6 +19,9 @@ public interface StoryReactionRepository extends JpaRepository<StoryReaction, In
     long countReactionsByType(@Param("storyId") Integer storyId, @Param("reactionType") ReactionType reactionType);
 
     @Query("SELECT r.story.id, COUNT(r) FROM StoryReaction r WHERE r.story.id IN :storyIds AND r.reaction = :reactionType GROUP BY r.story.id")
-    Map<Integer, Long> countReactionsByTypeForStories(@Param("storyIds") List<Integer> storyIds, @Param("reactionType") ReactionType reactionType);
+    Map<Integer, Integer> countReactionsByTypeForStories(@Param("storyIds") List<Integer> storyIds, @Param("reactionType") ReactionType reactionType);
+
+    @Query("SELECT sr.story.id, true FROM StoryReaction sr WHERE sr.story.id IN :storyIds AND sr.user.id = :userId AND sr.reaction = :reactionType")
+    Map<Integer, Boolean> findReactionsByUserAndStories(@Param("storyIds") List<Integer> storyIds, @Param("userId") Integer userId, @Param("reactionType") ReactionType reactionType);
 
 }

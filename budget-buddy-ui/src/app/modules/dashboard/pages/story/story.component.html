@@ -33,13 +33,13 @@
         <div class="flex justify-between items-center p-4 bg-gray-50">
           <div class="flex space-x-2">
             <button
-              class="flex items-center"
+              class="flex items-center space-x-1"
               (click)="toggleReaction(story.id, 'LIKE')"
-              [ngClass]="{ 'text-green-500': story.liked }"
+              [class.text-green-500]="story.liked"
+              aria-label="Toggle like"
             >
               <i
-                class="fa-heart w-5 h-5 mr-1"
-                [ngClass]="{ 'fa-solid': story.liked, 'fa-regular': !story.liked }"
+                [class]="story.liked ? 'fa-solid fa-heart w-5 h-5' : 'fa-regular fa-heart w-5 h-5'"
               ></i>
               <span>{{ story.numberOfLikes }}</span>
             </button>
