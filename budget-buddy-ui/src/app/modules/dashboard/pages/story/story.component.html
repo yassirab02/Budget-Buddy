@@ -1,2 +1,61 @@
+<div *ngIf="isLoading; else storyContent" class="flex justify-center items-center h-screen">
+  <app-spinner class="w-16 h-16"></app-spinner>
+</div>
 
-<p>story works!</p>
+<ng-template class="min-h-screen bg-gray-50 text-gray-900" #storyContent>
+<div>
+  <header class="sticky top-0 z-10 backdrop-blur-sm bg-white/80 border-b border-gray-200">
+    <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+      <h1 class="text-3xl font-bold text-green-600">Budget Buddy Stories</h1>
+      <button class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out"
+      (click)="toggleCreate()">
+        Create Story
+      </button>
+    </div>
+  </header>
+
+  <main class="container mx-auto px-4 py-8">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div *ngFor="let story of storyPageResponse.content" class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
+        <div class="relative">
+          <img [src]="story.cover" alt="Story cover" class="w-full h-48 object-cover">
+        </div>
+        <div class="p-4">
+          <h3 class="text-lg font-semibold mb-2 truncate">{{ story.title }}</h3>
+          <p class="text-sm text-gray-600 mb-4 line-clamp-2">{{ story.description }}</p>
+          <div class="flex items-center mb-2">
+            <div class="w-6 h-6 rounded-full bg-gray-200 flex items-center justify-center mr-2 text-lg text-green-600">
+              {{ getFirstName(story.owner)[0] }} <!-- Display first letter of the first name -->
+            </div>
+            <span class="text-sm text-gray-600">{{ story.owner }}</span>
+          </div>
+        </div>
+        <div class="flex justify-between items-center p-4 bg-gray-50">
+          <div class="flex space-x-2">
+            <button
+              class="flex items-center"
+              (click)="toggleReaction(story.id, 'LIKE')"
+              [ngClass]="{ 'text-green-500': story.liked }"
+            >
+              <i
+                class="fa-heart w-5 h-5 mr-1"
+                [ngClass]="{ 'fa-solid': story.liked, 'fa-regular': !story.liked }"
+              ></i>
+              <span>{{ story.numberOfLikes }}</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+</div>
+
+  <!-- Add Budget Modal -->
+  <div *ngIf="createStory" class="fixed inset-0 flex items-center justify-center bg-opacity-75 bg-gray-600 z-50">
+    <div class="rounded-lg md:w-1/2">
+      <app-story-create
+        (closeModal)="createStory = false">
+      </app-story-create>
+    </div>
+  </div>

@@ -14,7 +14,6 @@ import { IncomeService } from './services/income.service';
 import { GoalService } from './services/goal.service';
 import { ExpensesService } from './services/expenses.service';
 import { DebtService } from './services/debt.service';
-import { CommentService } from './services/comment.service';
 import { BudgetService } from './services/budget.service';
 import { AuthenticationService } from './services/authentication.service';
 import { UserControllerService } from './services/user-controller.service';
@@ -39,7 +38,6 @@ import { CategoryService } from './services/category.service';
     GoalService,
     ExpensesService,
     DebtService,
-    CommentService,
     BudgetService,
     AuthenticationService,
     UserControllerService,

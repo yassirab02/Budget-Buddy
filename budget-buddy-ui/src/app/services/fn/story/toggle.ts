@@ -12,7 +12,7 @@ import { StoryResponse } from '../../models/story-response';
 
 export interface Toggle$Params {
   'story-id': number;
-  reactionType: 'LIKE' | 'DISLIKE';
+  reactionType: 'LIKE';
 }
 
 export function toggle(http: HttpClient, rootUrl: string, params: Toggle$Params, context?: HttpContext): Observable<StrictHttpResponse<StoryResponse>> {

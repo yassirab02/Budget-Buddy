@@ -39,13 +39,11 @@ public class StoryServiceImpl implements StoryService {
         Story story = storyMapper.toStory(request);
         story.setOwner(user);
         repository.save(story);
-        // Calculate the number of likes and dislikes dynamically
         if (request.id() != null) {
             long likes = storyReactionRepository.countReactionsByType(story.getId(), ReactionType.LIKE);
-            long dislikes = storyReactionRepository.countReactionsByType(story.getId(), ReactionType.DISLIKE);
-            return storyMapper.toStoryResponse(story, likes, dislikes);
+            return storyMapper.toStoryResponse(story, likes,false);
         }
-        return storyMapper.toStoryResponse(story);
+        return storyMapper.toStoryResponse(story,0L,false);
     }
 
     @Override
@@ -89,29 +87,49 @@ public class StoryServiceImpl implements StoryService {
         if (!Objects.equals(user.getId(), story.getOwner().getId())) {
             throw new IllegalArgumentException("You are not allowed to see this story");
         }
-        // Calculate the number of likes and dislikes dynamically
-        long likes = storyReactionRepository.countReactionsByType(story.getId(), ReactionType.LIKE);
-        long dislikes = storyReactionRepository.countReactionsByType(story.getId(), ReactionType.DISLIKE);
+        boolean isLiked = false;
+        Optional<StoryReaction> existingReaction = storyReactionRepository.findByStoryIdAndUserId(storyId, user.getId());
+        if (existingReaction.isPresent()) {
+            // Check if the reaction is a LIKE
+            isLiked = existingReaction.get().getReaction() == ReactionType.LIKE;
+        }
 
-        return storyMapper.toStoryResponse(story, likes, dislikes);
+        long likes = storyReactionRepository.countReactionsByType(story.getId(), ReactionType.LIKE);
+
+        // Map the story to a response, passing the likes count and isLiked flag
+        return storyMapper.toStoryResponse(story, likes, isLiked);
     }
+
 
     @Override
     public PageResponse<StoryResponse> findAllStoriesByOwner(int page, int size, Authentication connectedUser) {
         User user = ((User) connectedUser.getPrincipal());
         Pageable pageable = PageRequest.of(page, size, Sort.by("createdDate").descending());
-        Page<Story> Stories = repository.findAll(StorySpecification.withOwnerId(user.getId()), pageable);
-        List<StoryResponse> storyResponse = Stories.stream()
-                .map(storyMapper::toStoryResponse)
-                .toList();
+
+        Page<Story> stories = repository.findAll(StorySpecification.withOwnerId(user.getId()), pageable);
+
+        List<StoryResponse> storyResponses = stories.stream().map(story -> {
+            boolean isLiked = false;
+            Optional<StoryReaction> existingReaction = storyReactionRepository.findByStoryIdAndUserId(story.getId(), user.getId());
+            if (existingReaction.isPresent()) {
+                isLiked = existingReaction.get().getReaction() == ReactionType.LIKE;
+            }
+
+            long likes = storyReactionRepository.countReactionsByType(story.getId(), ReactionType.LIKE);
+
+            // Map the story to StoryResponse
+            return storyMapper.toStoryResponse(story, likes, isLiked);
+        }).toList();
+
+        // Return a PageResponse with the mapped StoryResponse
         return new PageResponse<>(
-                storyResponse,
-                Stories.getNumber(),
-                Stories.getSize(),
-                Stories.getTotalElements(),
-                Stories.getTotalPages(),
-                Stories.isFirst(),
-                Stories.isLast()
+                storyResponses,
+                stories.getNumber(),
+                stories.getSize(),
+                stories.getTotalElements(),
+                stories.getTotalPages(),
+                stories.isFirst(),
+                stories.isLast()
         );
     }
 
@@ -119,12 +137,29 @@ public class StoryServiceImpl implements StoryService {
     public PageResponse<StoryResponse> findAllDisplayableStories(int page, int size, Authentication connectedUser) {
         User user = ((User) connectedUser.getPrincipal());
         Pageable pageable = PageRequest.of(page, size, Sort.by("createdDate").descending());
+
+        // Fetch stories that are displayable, based on the user's ID
         Page<Story> stories = repository.findAllDisplayableStories(pageable, user.getId());
-        List<StoryResponse> storyResponse = stories.stream()
-                .map(storyMapper::toStoryResponse)
-                .toList();
+
+        // Map stories to StoryResponse including the isLiked flag and the number of likes
+        List<StoryResponse> storyResponses = stories.stream().map(story -> {
+            // Check if the user has liked the story
+            boolean isLiked = false;
+            Optional<StoryReaction> existingReaction = storyReactionRepository.findByStoryIdAndUserId(story.getId(), user.getId());
+            if (existingReaction.isPresent()) {
+                isLiked = existingReaction.get().getReaction() == ReactionType.LIKE;
+            }
+
+            // Calculate the number of likes
+            long likes = storyReactionRepository.countReactionsByType(story.getId(), ReactionType.LIKE);
+
+            // Map the story to StoryResponse
+            return storyMapper.toStoryResponse(story, likes, isLiked);
+        }).toList();
+
+        // Return a PageResponse with the mapped StoryResponse
         return new PageResponse<>(
-                storyResponse,
+                storyResponses,
                 stories.getNumber(),
                 stories.getSize(),
                 stories.getTotalElements(),
@@ -137,24 +172,43 @@ public class StoryServiceImpl implements StoryService {
 
     @Override
     public PageResponse<StoryResponse> findAllStories(int page, int size, Authentication connectedUser) {
+        User user = ((User) connectedUser.getPrincipal());
 
-        if (connectedUser.getAuthorities().stream().noneMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))) {
+        // Check if the user has ADMIN role
+        if (user.getAuthorities().stream().noneMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))) {
             throw new IllegalArgumentException("You are not allowed to see all stories");
         }
 
         Pageable pageable = PageRequest.of(page, size, Sort.by("createdDate").descending());
-        Page<Story> books = repository.findAll(pageable);
-        List<StoryResponse> bookResponse = books.stream()
-                .map(storyMapper::toStoryResponse)
-                .toList();
+
+        // Fetch all stories
+        Page<Story> stories = repository.findAll(pageable);
+
+        // Map stories to StoryResponse including the isLiked flag and the number of likes
+        List<StoryResponse> storyResponses = stories.stream().map(story -> {
+            // Check if the user has liked the story
+            boolean isLiked = false;
+            Optional<StoryReaction> existingReaction = storyReactionRepository.findByStoryIdAndUserId(story.getId(), user.getId());
+            if (existingReaction.isPresent()) {
+                isLiked = existingReaction.get().getReaction() == ReactionType.LIKE;
+            }
+
+            // Calculate the number of likes
+            long likes = storyReactionRepository.countReactionsByType(story.getId(), ReactionType.LIKE);
+
+            // Map the story to StoryResponse
+            return storyMapper.toStoryResponse(story, likes, isLiked);
+        }).toList();
+
+        // Return a PageResponse with the mapped StoryResponse
         return new PageResponse<>(
-                bookResponse,
-                books.getNumber(),
-                books.getSize(),
-                books.getTotalElements(),
-                books.getTotalPages(),
-                books.isFirst(),
-                books.isLast()
+                storyResponses,
+                stories.getNumber(),
+                stories.getSize(),
+                stories.getTotalElements(),
+                stories.getTotalPages(),
+                stories.isFirst(),
+                stories.isLast()
         );
     }
 
@@ -169,6 +223,8 @@ public class StoryServiceImpl implements StoryService {
 
         // Check if the user has already reacted to the story
         Optional<StoryReaction> existingReaction = storyReactionRepository.findByStoryIdAndUserId(storyId, user.getId());
+
+        boolean isLiked = false; // To track if the user liked the story
 
         if (existingReaction.isPresent()) {
             StoryReaction reaction = existingReaction.get();
@@ -190,14 +246,19 @@ public class StoryServiceImpl implements StoryService {
             storyReactionRepository.save(newReaction);
         }
 
-        // Fetch updated counts dynamically for likes and dislikes
+        // Check if the user liked the story
+        Optional<StoryReaction> reactionAfterToggle = storyReactionRepository.findByStoryIdAndUserId(storyId, user.getId());
+        if (reactionAfterToggle.isPresent()) {
+            isLiked = reactionAfterToggle.get().getReaction() == ReactionType.LIKE;
+        }
+
+        // Fetch updated counts dynamically for likes
         long likes = storyReactionRepository.countReactionsByType(story.getId(), ReactionType.LIKE);
-        long dislikes = storyReactionRepository.countReactionsByType(story.getId(), ReactionType.DISLIKE);
 
         story.setNumberOfLikes(likes);
-        story.setNumberOfDislikes(dislikes);
-        repository.save(story); // Update the story with the new counts of likes and dislikes
-        return storyMapper.toStoryResponse(story, likes, dislikes);
+        repository.save(story);
+
+        return storyMapper.toStoryResponse(story, likes, isLiked);
     }
 
 

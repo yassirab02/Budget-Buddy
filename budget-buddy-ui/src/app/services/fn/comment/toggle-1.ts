@@ -12,7 +12,7 @@ import { CommentResponse } from '../../models/comment-response';
 
 export interface Toggle1$Params {
   'comment-id': number;
-  reactionType: 'LIKE' | 'DISLIKE';
+  reactionType: 'LIKE';
 }
 
 export function toggle1(http: HttpClient, rootUrl: string, params: Toggle1$Params, context?: HttpContext): Observable<StrictHttpResponse<CommentResponse>> {

@@ -4,13 +4,11 @@
 
 export interface StoryResponse {
   archived?: boolean;
-  comments?: Array<string>;
   content?: string;
   cover?: string;
   description?: string;
   id?: number;
-  numberOfComments?: number;
-  numberOfDislikes?: number;
+  liked?: boolean;
   numberOfLikes?: number;
   owner?: string;
   status?: string;

@@ -155,8 +155,7 @@
             "schema": {
               "type": "string",
               "enum": [
-                "LIKE",
-                "DISLIKE"
+                "LIKE"
               ]
             }
           }
@@ -413,79 +412,6 @@
                 "schema": {
                   "type": "integer",
                   "format": "int32"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/comment/toggle/{comment-id}/reaction/{reactionType}": {
-      "post": {
-        "tags": [
-          "Comment"
-        ],
-        "operationId": "toggle_1",
-        "parameters": [
-          {
-            "name": "comment-id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "reactionType",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "enum": [
-                "LIKE",
-                "DISLIKE"
-              ]
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CommentResponse"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/comment/add-comment": {
-      "post": {
-        "tags": [
-          "Comment"
-        ],
-        "operationId": "addOrUpdateComment",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CommentRequest"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CommentResponse"
                 }
               }
             }
@@ -1819,57 +1745,6 @@
         }
       }
     },
-    "/comment/story/{story-id}": {
-      "get": {
-        "tags": [
-          "Comment"
-        ],
-        "operationId": "findAllCommentsByStory",
-        "parameters": [
-          {
-            "name": "story-id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "page",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "format": "int32",
-              "default": 0
-            }
-          },
-          {
-            "name": "size",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "format": "int32",
-              "default": 10
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/PageResponseCommentResponse"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/category/income-source": {
       "get": {
         "tags": [
@@ -2103,37 +1978,6 @@
         }
       }
     },
-    "/comment/{comment-id}": {
-      "delete": {
-        "tags": [
-          "Comment"
-        ],
-        "operationId": "deleteComment",
-        "parameters": [
-          {
-            "name": "comment-id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/admin/{quote-id}": {
       "delete": {
         "tags": [
@@ -2280,25 +2124,14 @@
             "type": "integer",
             "format": "int64"
           },
-          "numberOfDislikes": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "numberOfComments": {
-            "type": "integer",
-            "format": "int64"
-          },
           "status": {
             "type": "string"
           },
           "owner": {
             "type": "string"
           },
-          "comments": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
+          "liked": {
+            "type": "boolean"
           }
         }
       },
@@ -2543,115 +2376,6 @@
           },
           "isPaid": {
             "type": "boolean"
-          }
-        }
-      },
-      "CommentResponse": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "comment": {
-            "type": "string"
-          },
-          "numberOfLikes": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "numberOfDislikes": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "isActive": {
-            "type": "boolean"
-          },
-          "isFlagged": {
-            "type": "boolean"
-          },
-          "flaggedReason": {
-            "type": "string"
-          },
-          "isEdited": {
-            "type": "boolean"
-          },
-          "story": {
-            "type": "string"
-          },
-          "user": {
-            "type": "string"
-          },
-          "creationDate": {
-            "type": "string"
-          },
-          "lastUpdateDate": {
-            "type": "string"
-          },
-          "parentComment": {
-            "type": "string"
-          },
-          "replies": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CommentResponse"
-            }
-          },
-          "ownComment": {
-            "type": "boolean"
-          }
-        }
-      },
-      "CommentRequest": {
-        "required": [
-          "comment",
-          "storyId",
-          "userId"
-        ],
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "comment": {
-            "type": "string"
-          },
-          "numberOfLikes": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "numberOfDislikes": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "numberOfReplies": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "isActive": {
-            "type": "boolean"
-          },
-          "isFlagged": {
-            "type": "boolean"
-          },
-          "flaggedReason": {
-            "type": "string"
-          },
-          "isEdited": {
-            "type": "boolean"
-          },
-          "storyId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "userId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "parentCommentId": {
-            "type": "integer",
-            "format": "int32"
           }
         }
       },
@@ -3361,39 +3085,6 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/DebtResponse"
-            }
-          },
-          "number": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "size": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "totalElements": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "totalPages": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "first": {
-            "type": "boolean"
-          },
-          "last": {
-            "type": "boolean"
-          }
-        }
-      },
-      "PageResponseCommentResponse": {
-        "type": "object",
-        "properties": {
-          "content": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CommentResponse"
             }
           },
           "number": {
