@@ -14,6 +14,7 @@ export class ChartComponent implements OnChanges {
   @Input() totalDebt: number | undefined;
 
   chart: any; // Declare the chart instance
+  showMessage: boolean = false; // Flag to show the message
 
   constructor() {}
 
@@ -25,14 +26,24 @@ export class ChartComponent implements OnChanges {
   }
 
   loadChartData() {
-    if (this.chart) {
-      this.chart.destroy(); // Destroy the previous chart if it exists
-    }
-
     const income = this.totalIncome ?? 0; // Use 0 if undefined
     const expense = this.totalExpense ?? 0; // Use 0 if undefined
     const debt = this.totalDebt ?? 0; // Use 0 if undefined
 
+    // If all values are 0, show the message and don't create the chart
+    if (income === 0 && expense === 0 && debt === 0) {
+      this.showMessage = true;
+      return; // Don't proceed with chart creation
+    } else {
+      this.showMessage = false; // Hide message if data exists
+    }
+
+    // Destroy previous chart if it exists
+    if (this.chart) {
+      this.chart.destroy();
+    }
+
+    // Create the chart with available data
     this.chart = new Chart('dashboardChart', {
       type: 'pie', // Change chart type to 'pie'
       data: {

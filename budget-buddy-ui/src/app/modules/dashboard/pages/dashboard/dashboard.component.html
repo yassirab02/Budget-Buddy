@@ -19,22 +19,22 @@
 
 <ng-template class="min-h-screen bg-gradient-to-br to-green-300 font-sans" #dashboardContent>
   <header class="bg-gradient-to-r from-green-700 to-green-500 text-white shadow-lg">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-4 sm:space-y-0">
-        <div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+      <div class="flex justify-between items-center w-full">
+        <div class="flex-1">
           <h1 class="text-3xl sm:text-4xl font-bold tracking-tight mb-2">Welcome back, {{ user?.firstName }}!</h1>
           <p class="text-green-100">Here's your financial overview for today.</p>
         </div>
-        <div class="flex items-center space-x-4">
-          <div class="text-right">
+        <div class="flex items-center space-x-4 sm:space-x-4">
+          <div class="text-right sm:text-left">
             <p class="text-sm text-green-100">Current Balance</p>
-            <p class="text-2xl font-bold">$ {{ user?.totalBalance }}</p>
+            <p class="text-2xl font-bold">$ {{ user?.totalBalance || 0}}</p>
           </div>
           <button
             (click)="toggleDropdown()"
-            class="rounded-full h-14 w-14 border-2 border-white hover:border-green-300 transition-all duration-300 transform hover:scale-110 flex items-center justify-center">
+            class="ml-auto rounded-full h-14 w-14 border-2 border-white hover:border-green-300 transition-all duration-300 transform hover:scale-110 flex items-center justify-center">
             <span class="text-2xl font-bold">
-            {{ getUserInitials() }}
+              {{ getUserInitials() }}
             </span>
           </button>
         </div>
@@ -84,7 +84,7 @@
           Total Balance
         </h2>
         <div class="flex items-center justify-between">
-          <p class="text-4xl font-bold text-green-700">$ {{ user?.totalBalance }}</p>
+          <p class="text-4xl font-bold text-green-700">$ {{ user?.totalBalance || 0}}</p>
           <div class="flex flex-wrap items-center space-y-2 md:space-y-0 md:space-x-4 justify-between">
             <!-- Input field for entering the amount -->
             <input *ngIf="add" type="number" [(ngModel)]="amountToAdd"

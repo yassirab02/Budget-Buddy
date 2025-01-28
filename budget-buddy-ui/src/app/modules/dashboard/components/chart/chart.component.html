@@ -1,1 +1,22 @@
-<canvas id="dashboardChart"></canvas>
+<div *ngIf="showMessage" class="no-data-message">
+  <div class="message-content">
+    <h2>No Data Available</h2>
+    <p>There is no income, expense, or debt data to display.</p>
+    <div class="icons-container">
+      <div class="icon-box">
+        <div class="icon-income"></div>
+        <p>Income</p>
+      </div>
+      <div class="icon-box">
+        <div class="icon-expense"></div>
+        <p>Expense</p>
+      </div>
+      <div class="icon-box">
+        <div class="icon-debt"></div>
+        <p>Debt</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<canvas id="dashboardChart" *ngIf="!showMessage"></canvas>
