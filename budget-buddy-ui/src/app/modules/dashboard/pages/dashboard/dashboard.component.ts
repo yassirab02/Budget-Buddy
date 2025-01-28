@@ -183,6 +183,15 @@ export class DashboardComponent implements OnInit {
       });
   }
 
+  getUserInitials(): string {
+    if (this.user) {
+      const firstName = this.user.firstName || '';
+      const lastName = this.user.lastName || '';
+      return (firstName.charAt(0).toUpperCase() + lastName.charAt(0).toUpperCase());
+    }
+    return '';
+  }
+
 
   get totalIncomes(): number | undefined {
     return this.incomeResponse?.reduce((sum, income) => sum + (income.amount ?? 0), 0);

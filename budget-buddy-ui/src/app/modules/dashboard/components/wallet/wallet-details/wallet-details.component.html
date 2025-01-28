@@ -57,7 +57,7 @@
           <div class="space-y-2">
             <!-- Show recent incomes if they exist -->
             <div *ngIf="walletResponseDetails.incomes && walletResponseDetails.incomes.length > 0">
-              <div *ngFor="let income of walletResponseDetails.incomes.slice(0, 2)" class="bg-green-50 p-3 rounded-lg flex justify-between items-center">
+              <div *ngFor="let income of walletResponseDetails.incomes.slice(0, 2)" class="bg-green-50 p-3 rounded-lg flex justify-between items-center mb-1">
                 <div>
                   <p class="text-sm font-medium text-gray-800">{{ income.name }}</p>
                   <p class="text-xs text-gray-500">Income</p>
@@ -66,12 +66,12 @@
               </div>
             </div>
             <div *ngIf="!walletResponseDetails.incomes || walletResponseDetails.incomes.length === 0">
-              <p class="text-sm text-gray-500">No recent incomes available</p>
+              <p class="text-sm text-gray-500 bg-green-50 p-3 rounded-lg">No recent incomes available</p>
             </div>
 
             <!-- Show recent expenses if they exist -->
             <div *ngIf="walletResponseDetails.expenses && walletResponseDetails.expenses.length > 0">
-              <div *ngFor="let expense of walletResponseDetails.expenses.slice(0, 2)" class="bg-red-50 p-3 rounded-lg flex justify-between items-center">
+              <div *ngFor="let expense of walletResponseDetails.expenses.slice(0, 2)" class="bg-red-50 p-3 rounded-lg flex justify-between items-center mb-1">
                 <div>
                   <p class="text-sm font-medium text-gray-800">{{ expense.name }}</p>
                   <p class="text-xs text-gray-500">Expense</p>
@@ -80,7 +80,7 @@
               </div>
             </div>
             <div *ngIf="!walletResponseDetails.expenses || walletResponseDetails.expenses.length === 0">
-              <p class="text-sm text-gray-500">No recent expenses available</p>
+              <p class="text-sm text-gray-500 bg-red-50 p-3 rounded-lg">No recent expenses available</p>
             </div>
           </div>
         </div>
