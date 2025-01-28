@@ -227,8 +227,7 @@
                     <path *ngIf="transaction?.transactionType !== 'TRANSFER_TO_USER'" stroke-linecap="round"
                           stroke-linejoin="round" stroke-width="2"
                           d="M5 10l7-7m0 0l7 7m-7-7v18"/>
-                  </svg>
-                  {{ transaction?.amount | currency:'USD' }}
+                  </svg>                  {{ transaction?.amount | currency:'USD' }}
                 </p>
                 <p class="text-xs text-green-600">{{ (transaction?.transactionType) }}</p>
               </div>
