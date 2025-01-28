@@ -63,8 +63,15 @@ export class StoryComponent implements OnInit {
   }
 
   // Inside your component class
-  getFirstName(owner: string | undefined): string {
-    return owner?.split(' ')[0] || ''; // Splits the string by spaces and returns the first part
+  getInitials(owner: string | undefined): string {
+    if (!owner) {
+      return ''; // Handle undefined or empty owner
+    }
+
+    const parts = owner.trim().split(' '); // Split the string into parts by spaces
+    const firstNameInitial = parts[0]?.charAt(0).toUpperCase() || '';
+    const lastNameInitial = parts[1]?.charAt(0).toUpperCase() || ''; // Use the second part if it exists
+    return firstNameInitial + lastNameInitial;
   }
 
   toggleReaction(storyId: number | undefined, reactionType: "LIKE"): void {

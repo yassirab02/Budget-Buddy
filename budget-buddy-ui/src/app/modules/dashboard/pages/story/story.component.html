@@ -24,10 +24,13 @@
           <h3 class="text-lg font-semibold mb-2 truncate">{{ story.title }}</h3>
           <p class="text-sm text-gray-600 mb-4 line-clamp-2">{{ story.description }}</p>
           <div class="flex items-center mb-2">
-            <div class="w-6 h-6 rounded-full bg-gray-200 flex items-center justify-center mr-2 text-lg text-green-600">
-              {{ getFirstName(story.owner)[0] }} <!-- Display first letter of the first name -->
+            <div
+              class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center mr-2 text-lg font-semibold text-green-600"
+            >
+              {{ getInitials(story.owner) }}
             </div>
-            <span class="text-sm text-gray-600">{{ story.owner }}</span>
+
+            <span class="text-md text-green-600 font-bold">{{ story.owner }}</span>
           </div>
         </div>
         <div class="flex justify-between items-center p-4 bg-gray-50">
