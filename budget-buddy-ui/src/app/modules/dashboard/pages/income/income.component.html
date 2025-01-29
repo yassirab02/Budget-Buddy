@@ -65,7 +65,7 @@
 </ng-template>
 
 <!-- Modal outside ng-template -->
-<div *ngIf="createIncome" class="fixed inset-0 flex items-center justify-center  bg-black bg-opacity-50 backdrop-blur-sm z-50">
+<div *ngIf="createIncome" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm z-50">
   <div class="rounded-lg w-full sm:w-1/2 md:w-1/3 bg-white p-8">
     <app-income-create (closeModal)="createIncome = false"
                        (incomeCreated)="findAllIncomes(true)"

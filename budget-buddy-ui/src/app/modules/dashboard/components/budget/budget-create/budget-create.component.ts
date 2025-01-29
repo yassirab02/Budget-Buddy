@@ -12,8 +12,9 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 export class BudgetCreateComponent implements OnInit {
   @Output() closeModal = new EventEmitter<void>();
   @Output() budgetCreated = new EventEmitter<void>(); // Emits an event when a new budget is created
+  @Output() showSuccess = new EventEmitter<unknown>();
 
-  showSuccess=false
+
   errorMsg: Array<string> = [];
   budgetRequest: BudgetRequest = {
     name: '',
@@ -25,7 +26,6 @@ export class BudgetCreateComponent implements OnInit {
 
 
   budgetForm: FormGroup;
-  isSubmitting = false;
 
   constructor(private fb: FormBuilder,
               private router: Router,
@@ -68,11 +68,8 @@ export class BudgetCreateComponent implements OnInit {
         // Set isAdd to false after successful save
         this.closeModal.emit();
         this.budgetForm.reset();
-        this.showSuccess = true;
+        this.showSuccess.emit();
         this.budgetCreated.emit(); // Emit the event to notify parent component
-        setTimeout(() => {
-          this.showSuccess = false;
-        }, 5000);
       },
       error: (err) => {
         console.log(err.error);

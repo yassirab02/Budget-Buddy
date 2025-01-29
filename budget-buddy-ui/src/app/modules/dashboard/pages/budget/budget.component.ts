@@ -18,6 +18,7 @@ export class BudgetComponent implements OnInit {
   pages: any = [];
   message = '';
   level: 'success' | 'error' = 'success';
+  showSuccess=false;
 
   constructor(
     private budgetService: BudgetService,
@@ -96,6 +97,13 @@ export class BudgetComponent implements OnInit {
 
   handleRefreshBudget(id: number) {
       this.budgetResponse.content = (this.budgetResponse.content ?? []).filter((budget: BudgetResponse) => budget.id !== id);
+  }
+
+  handleSuccess(): void {
+    this.showSuccess = true;
+    setTimeout(() => {
+      this.showSuccess = false;
+    }, 4000);
   }
 
 }
