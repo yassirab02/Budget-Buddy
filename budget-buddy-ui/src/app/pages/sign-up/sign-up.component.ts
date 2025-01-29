@@ -14,6 +14,7 @@ export class SignUpComponent {
   errorMsg: Array<string> = [];
 
   passwordVisible = false;
+  isLoading=false;
 
   togglePasswordVisibility() {
     this.passwordVisible = !this.passwordVisible;
@@ -36,10 +37,12 @@ export class SignUpComponent {
     })
       .subscribe({
         next: () => {
+          this.isLoading = true;
           this.router.navigate(['activate-account']);
         },
         error: (err) => {
           this.errorMsg = err.error.validationErrors;
+          this.isLoading=false;
         }
       });
   }
