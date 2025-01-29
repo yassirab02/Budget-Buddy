@@ -8,6 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("report")
 @RequiredArgsConstructor
@@ -19,13 +21,13 @@ public class ReportController {
 
     // Fetch monthly reports for a user
     @GetMapping("/monthly")
-    public ResponseEntity<ReportResponse> getMonthlyReports(Authentication connectedUser) {
+    public ResponseEntity<List<ReportResponse>> getMonthlyReports(Authentication connectedUser) {
         return ResponseEntity.ok(service.getMonthlyReport(connectedUser));
     }
 
     // Fetch yearly reports for a user
     @GetMapping("/yearly")
-    public ResponseEntity<ReportResponse> getYearlyReports(Authentication connectedUser) {
+    public ResponseEntity<List<ReportResponse>>  getYearlyReports(Authentication connectedUser) {
         return ResponseEntity.ok(service.getYearlyReports(connectedUser));
     }
 

@@ -35,7 +35,7 @@ export class ReportService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  getYearlyReports$Response(params?: GetYearlyReports$Params, context?: HttpContext): Observable<StrictHttpResponse<ReportResponse>> {
+  getYearlyReports$Response(params?: GetYearlyReports$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<ReportResponse>>> {
     return getYearlyReports(this.http, this.rootUrl, params, context);
   }
 
@@ -45,9 +45,9 @@ export class ReportService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  getYearlyReports(params?: GetYearlyReports$Params, context?: HttpContext): Observable<ReportResponse> {
+  getYearlyReports(params?: GetYearlyReports$Params, context?: HttpContext): Observable<Array<ReportResponse>> {
     return this.getYearlyReports$Response(params, context).pipe(
-      map((r: StrictHttpResponse<ReportResponse>): ReportResponse => r.body)
+      map((r: StrictHttpResponse<Array<ReportResponse>>): Array<ReportResponse> => r.body)
     );
   }
 
@@ -60,7 +60,7 @@ export class ReportService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  getMonthlyReports$Response(params?: GetMonthlyReports$Params, context?: HttpContext): Observable<StrictHttpResponse<ReportResponse>> {
+  getMonthlyReports$Response(params?: GetMonthlyReports$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<ReportResponse>>> {
     return getMonthlyReports(this.http, this.rootUrl, params, context);
   }
 
@@ -70,9 +70,9 @@ export class ReportService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  getMonthlyReports(params?: GetMonthlyReports$Params, context?: HttpContext): Observable<ReportResponse> {
+  getMonthlyReports(params?: GetMonthlyReports$Params, context?: HttpContext): Observable<Array<ReportResponse>> {
     return this.getMonthlyReports$Response(params, context).pipe(
-      map((r: StrictHttpResponse<ReportResponse>): ReportResponse => r.body)
+      map((r: StrictHttpResponse<Array<ReportResponse>>): Array<ReportResponse> => r.body)
     );
   }
 

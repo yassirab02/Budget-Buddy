@@ -30,6 +30,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -79,13 +80,15 @@ public class ReportServiceImpl implements ReportService {
     }
 
 
-
     // Scheduled method to generate monthly reports (runs on the 1st day of each month at midnight)
-    @Scheduled(cron = "0 0 0 1 * ?")
+    @Scheduled(cron = "0 0 0 1 * ?") // Run on the 1st day of each month at midnight
+   // @Scheduled(cron = "0 * * * * ?") // For testing purposes, run every minute
+    @Transactional
     @Override
     public void generateMonthlyReport() {
+
         LocalDate now = LocalDate.now();
-        List<User> users = userRepository.findAllUsers(); // Get all users
+        List<User> users = userRepository.findAll(); // Get all users
 
         for (User user : users) {
             Optional<Report> existingReport = repository.findByUserAndYearAndMonth(user, now.getYear(), now.getMonthValue());
@@ -146,6 +149,7 @@ public class ReportServiceImpl implements ReportService {
         }
         System.out.println("Monthly reports generated successfully!");
     }
+
     private BigDecimal calculateTotalDebt(User user, LocalDate now) {
         return debtRepository.findByOwnerAndIssueDateBefore(user, now.plusDays(1))
                 .stream()
@@ -189,14 +193,6 @@ public class ReportServiceImpl implements ReportService {
         return goalRepository
                 .findByUserAndReachedDateBetween(user, startOfMonth, endOfMonth)
                 .size(); // Count the number of goals reached
-    }
-
-    @Override
-    public ReportResponse getMonthlyReport(Authentication connectedUser) {
-        User user = ((User) connectedUser.getPrincipal());
-        Integer userId = user.getId();
-        Report report = repository.findByUserIdAndTypeAndCurrentMonth(userId, ReportType.MONTHLY);
-        return reportMapper.toReportResponse(report);
     }
 
     private String generateReportDetails(User user, LocalDate now) {
@@ -254,10 +250,12 @@ public class ReportServiceImpl implements ReportService {
 
     // Scheduled method to generate yearly reports (runs on the 1st of January at midnight)
     @Scheduled(cron = "0 0 0 1 1 *")
+    //@Scheduled(cron = "0 * * * * ?") // For testing purposes, run every minute
+    @Transactional
     @Override
     public void generateYearlyReports() {
         LocalDate now = LocalDate.now();
-        List<User> users = userRepository.findAllUsers(); // Get all users
+        List<User> users = userRepository.findAll(); // Get all users
 
         for (User user : users) {
             Optional<Report> existingReport = repository.findByUserAndYearAndMonth(user, now.getYear(), 0);
@@ -422,7 +420,7 @@ public class ReportServiceImpl implements ReportService {
 
         // Find the month with the highest spending
         return spendingByMonth.entrySet().stream()
-                .max(Comparator.comparing(Map.Entry::getValue)) // Compare by spending amount
+                .max(Map.Entry.comparingByValue()) // Compare by spending amount
                 .map(Map.Entry::getKey) // Return the month
                 .orElse(null); // Return null if no expenses are found
     }
@@ -452,10 +450,22 @@ public class ReportServiceImpl implements ReportService {
 
 
     @Override
-    public ReportResponse getYearlyReports(Authentication connectedUser) {
+    public List<ReportResponse> getMonthlyReport(Authentication connectedUser) {
         User user = ((User) connectedUser.getPrincipal());
-        Integer userId = user.getId();
-        Report report = repository.findByUserIdAndTypeAndCurrentYear(userId, ReportType.YEARLY);
-        return reportMapper.toReportResponse(report);
+        List<Report> reports = repository.findByUserIdAndTypeAndCurrentMonth(user.getId(), ReportType.MONTHLY);
+        if (reports == null) {
+            return null;
+        }
+        return reportMapper.toReportResponseList(reports);
+    }
+
+    @Override
+    public List<ReportResponse> getYearlyReports(Authentication connectedUser) {
+        User user = ((User) connectedUser.getPrincipal());
+        List<Report> reports = repository.findByUserIdAndTypeAndCurrentYear(user.getId(), ReportType.YEARLY);
+        if (reports == null) {
+            return null;
+        }
+        return reportMapper.toReportResponseList(reports);
     }
 }

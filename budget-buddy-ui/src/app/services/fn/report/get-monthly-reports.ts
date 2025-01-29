@@ -13,7 +13,7 @@ import { ReportResponse } from '../../models/report-response';
 export interface GetMonthlyReports$Params {
 }
 
-export function getMonthlyReports(http: HttpClient, rootUrl: string, params?: GetMonthlyReports$Params, context?: HttpContext): Observable<StrictHttpResponse<ReportResponse>> {
+export function getMonthlyReports(http: HttpClient, rootUrl: string, params?: GetMonthlyReports$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<ReportResponse>>> {
   const rb = new RequestBuilder(rootUrl, getMonthlyReports.PATH, 'get');
   if (params) {
   }
@@ -23,7 +23,7 @@ export function getMonthlyReports(http: HttpClient, rootUrl: string, params?: Ge
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<ReportResponse>;
+      return r as StrictHttpResponse<Array<ReportResponse>>;
     })
   );
 }

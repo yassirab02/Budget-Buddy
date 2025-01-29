@@ -20,16 +20,16 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class Report extends BaseEntity {
 
-
     private LocalDate startDate; // Start date of the report period
     private LocalDate endDate;   // End date of the report period
     private BigDecimal totalIncome;   // Total income during the period
     private BigDecimal totalExpenses; // Total expenses during the period
-    private int totalGoalsReached; // Total goals reached during the period
+    private Integer totalGoalsReached; // Total goals reached during the period
     private BigDecimal balance;// Remaining balance during the period
     private BigDecimal totalDebt; // Total debt
     private BigDecimal totalPaidDebt; // Total paid debt
     private BigDecimal totalUnpaidDebt; // Total unpaid debt
+    @Lob
     private String details; // Additional report details, e.g., summary or analytics
     private int year;   // Year of the report
     private int month;  // Month of the report

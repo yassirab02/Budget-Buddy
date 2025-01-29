@@ -13,7 +13,7 @@ import { ReportResponse } from '../../models/report-response';
 export interface GetYearlyReports$Params {
 }
 
-export function getYearlyReports(http: HttpClient, rootUrl: string, params?: GetYearlyReports$Params, context?: HttpContext): Observable<StrictHttpResponse<ReportResponse>> {
+export function getYearlyReports(http: HttpClient, rootUrl: string, params?: GetYearlyReports$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<ReportResponse>>> {
   const rb = new RequestBuilder(rootUrl, getYearlyReports.PATH, 'get');
   if (params) {
   }
@@ -23,7 +23,7 @@ export function getYearlyReports(http: HttpClient, rootUrl: string, params?: Get
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<ReportResponse>;
+      return r as StrictHttpResponse<Array<ReportResponse>>;
     })
   );
 }
