@@ -15,6 +15,8 @@ import {IncomeService} from '../../../../../services/services/income.service';
 export class IncomeCreateComponent implements OnInit{
   @Output() closeModal = new EventEmitter<void>();
   @Output() incomeCreated = new EventEmitter<void>(); // Emits an event when a new budget is created
+  @Output() showSuccess = new EventEmitter<unknown>();
+
 
   incomeForm: FormGroup;
   date: Date | null = null;
@@ -29,7 +31,6 @@ export class IncomeCreateComponent implements OnInit{
     incomeSourceId: 0,
     walletId: 0
   };
-  showSuccess = false;
 
   constructor(
     private fb: FormBuilder,
@@ -61,11 +62,8 @@ export class IncomeCreateComponent implements OnInit{
       next: (expenseId) => {
         this.closeModal.emit();
         this.incomeForm.reset();
-        this.showSuccess = true;
+        this.showSuccess.emit();
         this.incomeCreated.emit(); // Emit the event to notify parent component
-        setTimeout(() => {
-          this.showSuccess = false;
-        }, 5000);
       },
       error: (err) => {
         console.log(err.error);

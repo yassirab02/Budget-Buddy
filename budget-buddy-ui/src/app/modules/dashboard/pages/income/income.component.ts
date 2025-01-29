@@ -20,6 +20,7 @@ export class IncomeComponent implements OnInit {
   errorMsg: Array<string> = [];
   createIncome=false;
   incomeResponse: PageResponseIncomeResponse = {};  // Store the actual wallet
+  showSuccess=false;
 
   constructor(
     private incomeService:IncomeService,
@@ -58,4 +59,10 @@ export class IncomeComponent implements OnInit {
     return this.incomeResponse.content?.reduce((sum, income) => sum + (income.amount ?? 0), 0);
   }
 
+  handleSuccess(): void {
+    this.showSuccess = true;
+    setTimeout(() => {
+      this.showSuccess = false;
+    }, 4000);
+  }
 }

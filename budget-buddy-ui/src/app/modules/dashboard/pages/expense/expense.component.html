@@ -127,7 +127,7 @@
   <div class="">
     <app-expense-create (closeModal)="createExpense = false"
                         (expenseCreated)="findAllExpenses(true)"
-                        (showSuccess)="showSuccess = true"
+                        (showSuccess)="handleSuccess()"
     ></app-expense-create>
   </div>
 </div>
