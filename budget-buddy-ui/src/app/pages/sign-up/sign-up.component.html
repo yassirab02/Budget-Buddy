@@ -1,132 +1,128 @@
-<div class="min-h-screen bg-white">
-  <div class="flex min-h-screen">
-    <div class="absolute top-4 left-4">
-      <button
-        type="button"
-        class="flex items-center justify-center gap-2 bg-gradient-to-r from-green-400 to-blue-500 hover:from-green-500 hover:to-blue-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-0.5"
-        (click)="returnHome()"
-      >
-        <i class="fa-solid fa-arrow-left"></i>
-        Back Home
-      </button>
-    </div>
+<div
+  class="min-h-screen w-full flex items-center justify-center p-4 bg-cover bg-center"
+  style="background-image: url('assets/logo.png'); background-size: cover; background-position: center;"
+>
+  <div class="w-full max-w-md p-8 rounded-3xl backdrop-blur-xl bg-black/20 shadow-xl">
+    <h1 class="text-2xl font-semibold text-white text-center mb-6">Register</h1>
 
-    <div class="hidden lg:block lg:w-1/2">
-      <div
-        class="h-full w-full bg-cover bg-center"
-        style="background-image: url('assets/logo.png'); background-size: cover; background-position: center;"
-      ></div>
-    </div>
-    <!-- Left section -->
-    <div class="flex w-full flex-col p-6 lg:w-1/2">
-      <div class="mx-auto mt-20 w-full max-w-md space-y-8">
-        <div class="space-y-2">
-          <p class="text-sm uppercase tracking-wider text-gray-500">START FOR FREE</p>
-          <h1 class="text-3xl font-bold text-green-600">
-            Create new account<span class="text-green-500">.</span>
-          </h1>
-          <p class="text-sm text-gray-600">
-            Already A Member?
-            <button (click)="login()" class="text-green-500 hover:underline">Log In</button>
-          </p>
-        </div>
-
-        <div class="space-y-4">
-          <div class="flex gap-4">
-            <div class="flex-1">
-              <input
-                type="text"
-                placeholder="First name"
-                class="w-full border border-gray-300 bg-white text-gray-900 placeholder:text-gray-400 rounded px-3 py-2"
-                [(ngModel)]="registerRequest.firstname"
-                autofocus
-              />
-            </div>
-            <div class="flex-1">
-              <input
-                type="text"
-                placeholder="Last name"
-                class="w-full border border-gray-300 bg-white text-gray-900 placeholder:text-gray-400 rounded px-3 py-2"
-                [(ngModel)]="registerRequest.lastname"
-              />
-            </div>
-          </div>
-
+    <div class="space-y-4" (keydown.enter)="signUp()">
+      <div class="flex space-x-4">
+        <div class="w-1/2">
+          <label for="first-name" class="text-white block text-sm font-medium mb-2">
+            First Name
+          </label>
           <input
-            type="email"
-            placeholder="Email"
-            class="w-full border border-gray-300 bg-white text-gray-900 placeholder:text-gray-400 rounded px-3 py-2"
-            [(ngModel)]="registerRequest.email"
+            id="first-name"
+            type="text"
+            [(ngModel)]="registerRequest.firstname"
+            placeholder="First Name"
+            class="w-full px-4 py-2 bg-white/10 border border-white/10 rounded-md text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent"
           />
-
-          <div class="relative">
-            <input
-              [type]="passwordVisible ? 'text' : 'password'"
-              placeholder="Password"
-              class="w-full border border-gray-300 bg-white text-gray-900 placeholder:text-gray-400 rounded px-3 py-2"
-              [(ngModel)]="registerRequest.password"
-            />
-            <button
-              type="button"
-              class="absolute right-2 top-2"
-              (click)="togglePasswordVisibility()"
-            >
-              <i [class]="passwordVisible ? 'fa fa-eye-slash' : 'fa fa-eye'" class="text-green-600"></i>
-            </button>
-          </div>
-
-
-          <div class="flex gap-4 pt-4">
-            <button
-              type="button"
-              class="flex-1 border border-gray-200 bg-white text-gray-900 hover:bg-gray-50 py-2 px-4 rounded"
-            >
-              Change method
-            </button>
-            <button
-              type="submit"
-              class="flex-1 bg-green-500 text-white hover:bg-green-600 py-2 px-4 rounded"
-              (click)="signUp()"
-            >
-              Create account
-            </button>
-          </div>
-        </div>
-        <div class="relative mt-4">
-          <div class="absolute inset-0 flex items-center">
-            <span class="w-full border-t border-gray-300"></span>
-          </div>
-          <div class="relative flex justify-center text-xs uppercase">
-            <span class="bg-white px-2 text-gray-500">Or continue with</span>
-          </div>
         </div>
 
-        <!-- Google Login -->
-        <a href="#"
-           class="flex items-center justify-center mt-4 text-gray-600 transition-colors duration-300 transform border rounded-lg hover:bg-gray-50">
-          <svg class="w-6 h-6" viewBox="0 0 40 40">
-            <path
-              d="M36.3425 16.7358H35V16.6667H20V23.3333H29.4192C28.045 27.2142 24.3525 30 20 30C14.4775 30 10 25.5225 10 20C10 14.4775 14.4775 9.99999 20 9.99999C22.5492 9.99999 24.8683 10.9617 26.6342 12.5325L31.3483 7.81833C28.3717 5.04416 24.39 3.33333 20 3.33333C10.7958 3.33333 3.33335 10.7958 3.33335 20C3.33335 29.2042 10.7958 36.6667 20 36.6667C29.2042 36.6667 36.6667 29.2042 36.6667 20C36.6667 18.8825 36.5517 17.7917 36.3425 16.7358Z"
-              fill="#FFC107"/>
-            <path
-              d="M5.25497 12.2425L10.7308 16.2583C12.2125 12.59 15.8008 9.99999 20 9.99999C22.5491 9.99999 24.8683 10.9617 26.6341 12.5325L31.3483 7.81833C28.3716 5.04416 24.39 3.33333 20 3.33333C13.5983 3.33333 8.04663 6.94749 5.25497 12.2425Z"
-              fill="#FF3D00"/>
-            <path
-              d="M20 36.6667C24.305 36.6667 28.2167 35.0192 31.1742 32.34L26.0159 27.975C24.3425 29.2425 22.2625 30 20 30C15.665 30 11.9842 27.2359 10.5975 23.3784L5.16254 27.5659C7.92087 32.9634 13.5225 36.6667 20 36.6667Z"
-              fill="#4CAF50"/>
-            <path
-              d="M36.3425 16.7358H35V16.6667H20V23.3333H29.4192C28.7592 25.1975 27.56 26.805 26.0133 27.9758C26.0142 27.975 26.015 27.975 26.0158 27.9742L31.1742 32.3392C30.8092 32.6708 36.6667 28.3333 36.6667 20C36.6667 18.8825 36.5517 17.7917 36.3425 16.7358Z"
-              fill="#1976D2"/>
-          </svg>
-          <span class="w-5/6 px-4 py-3 font-bold text-center">Google</span>
-        </a>
+        <div class="w-1/2">
+          <label for="last-name" class="text-white block text-sm font-medium mb-2">
+            Last Name
+          </label>
+          <input
+            id="last-name"
+            type="text"
+            [(ngModel)]="registerRequest.lastname"
+            placeholder="Last Name"
+            class="w-full px-4 py-2 bg-white/10 border border-white/10 rounded-md text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+          />
+        </div>
       </div>
+
+      <div>
+        <label for="email" class="text-white block text-sm font-medium mb-2">
+          Email
+        </label>
+        <input
+          id="email"
+          type="email"
+          [(ngModel)]="registerRequest.email"
+          placeholder="Email"
+          class="w-full px-4 py-2 bg-white/10 border border-white/10 rounded-md text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+        />
+      </div>
+
+      <div>
+        <label for="password" class="text-white block text-sm font-medium mb-2">
+          Password
+        </label>
+        <input
+          id="password"
+          type="password"
+          [(ngModel)]="registerRequest.password"
+          placeholder="Password"
+          class="w-full px-4 py-2 bg-white/10 border border-white/10 rounded-md text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+        />
+      </div>
+
+      <div class="flex items-center">
+        <input
+          type="checkbox"
+          id="terms"
+          class="w-4 h-4 rounded border-white/30 bg-white/10 text-teal-500 focus:ring-teal-500 focus:ring-offset-0 mr-2"
+        />
+        <label for="terms" class="text-sm font-medium text-white">
+          I agree to the <a href="#" class="text-teal-400 hover:text-teal-300">Terms and Conditions</a>
+        </label>
+      </div>
+
+      <button
+        type="submit"
+        (click)="signUp()"
+        class="w-full py-2 px-4 bg-teal-500 hover:bg-teal-600 text-white rounded-md transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 focus:ring-offset-transparent"
+      >
+        Register
+      </button>
+
+      <p class="text-center text-sm text-white/70">
+        Already have an account?
+        <button (click)="login()" class="text-teal-400 hover:text-teal-300 ml-1">
+          Login
+        </button>
+      </p>
+
+      <div class="relative mt-4">
+        <div class="absolute inset-0 flex items-center">
+          <span class="w-full border-t border-gray-300"></span>
+        </div>
+        <div class="relative flex justify-center text-xs uppercase">
+          <span class="bg-green-100 px-2 text-gray-500">Or continue with</span>
+        </div>
+      </div>
+
+      <!-- Google Login -->
+      <a href="#"
+         class="flex items-center justify-center mt-4 text-gray-600 transition-colors bg-gray-50 duration-300 transform border rounded-lg hover:bg-gray-300">
+        <svg class="w-6 h-6" viewBox="0 0 40 40">
+          <path
+            d="M36.3425 16.7358H35V16.6667H20V23.3333H29.4192C28.045 27.2142 24.3525 30 20 30C14.4775 30 10 25.5225 10 20C10 14.4775 14.4775 9.99999 20 9.99999C22.5492 9.99999 24.8683 10.9617 26.6342 12.5325L31.3483 7.81833C28.3717 5.04416 24.39 3.33333 20 3.33333C10.7958 3.33333 3.33335 10.7958 3.33335 20C3.33335 29.2042 10.7958 36.6667 20 36.6667C29.2042 36.6667 36.6667 29.2042 36.6667 20C36.6667 18.8825 36.5517 17.7917 36.3425 16.7358Z"
+            fill="#FFC107"/>
+          <path
+            d="M5.25497 12.2425L10.7308 16.2583C12.2125 12.59 15.8008 9.99999 20 9.99999C22.5491 9.99999 24.8683 10.9617 26.6341 12.5325L31.3483 7.81833C28.3716 5.04416 24.39 3.33333 20 3.33333C13.5983 3.33333 8.04663 6.94749 5.25497 12.2425Z"
+            fill="#FF3D00"/>
+          <path
+            d="M20 36.6667C24.305 36.6667 28.2167 35.0192 31.1742 32.34L26.0159 27.975C24.3425 29.2425 22.2625 30 20 30C15.665 30 11.9842 27.2359 10.5975 23.3784L5.16254 27.5659C7.92087 32.9634 13.5225 36.6667 20 36.6667Z"
+            fill="#4CAF50"/>
+          <path
+            d="M36.3425 16.7358H35V16.6667H20V23.3333H29.4192C28.7592 25.1975 27.56 26.805 26.0133 27.9758C26.0142 27.975 26.015 27.975 26.0158 27.9742L31.1742 32.3392C30.8092 32.6708 36.6667 28.3333 36.6667 20C36.6667 18.8825 36.5517 17.7917 36.3425 16.7358Z"
+            fill="#1976D2"/>
+        </svg>
+        <span class="w-5/6 px-4 py-3 font-bold text-center">Google</span>
+      </a>
     </div>
   </div>
 </div>
 
-<div class="absolute top-5 right-5 z-20 w-auto max-w-sm rounded-lg shadow-md flex items-center mt-12 mx-4 px-4 rounded-md border-l-4 border-red-500 bg-red-50 md:max-w-2xl md:mx-auto"
-     *ngIf="errorMsg.length">
+
+
+<div
+  class="absolute top-5 right-5 z-20 w-auto max-w-sm rounded-lg shadow-md flex items-center mt-12 mx-4 px-4 rounded-md border-l-4 border-red-500 bg-red-50 md:max-w-2xl md:mx-auto"
+  *ngIf="errorMsg.length">
   <div class="flex justify-between py-3">
     <div class="flex">
       <div>
