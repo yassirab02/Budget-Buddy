@@ -56,7 +56,7 @@ public class WalletMapper {
                 .balance(wallet.getBalance())
                 .totalIncome(wallet.getTotalIncome())
                 .totalExpenses(wallet.getTotalExpenses())
-                .walletType(wallet.getType().name())  // getType() returns an enum
+                .walletType(wallet.getType() != null ? wallet.getType().name() : "GENERAL")
                 .owner(wallet.getOwner().fullName())
                 .incomes(incomeResponses)
                 .expenses(expenseResponses)
