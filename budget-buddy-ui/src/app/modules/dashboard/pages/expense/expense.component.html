@@ -123,8 +123,8 @@
 </ng-template>
 
 <!-- Modal outside ng-template -->
-<div *ngIf="createExpense" class="fixed inset-0 flex items-center justify-center bg-opacity-75 bg-gray-600 z-50">
-  <div class="rounded-lg w-full sm:w-1/2 md:w-1/3 bg-white p-8">
+<div *ngIf="createExpense" class="fixed inset-0 flex items-center justify-center bg-opacity-75 bg-gray-200 z-50">
+  <div class="">
     <app-expense-create (closeModal)="createExpense = false"
                         (expenseCreated)="findAllExpenses(true)"
     ></app-expense-create>
