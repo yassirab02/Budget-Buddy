@@ -157,6 +157,48 @@
   <div class="rounded-lg w-full sm:w-1/2 md:w-1/3 bg-white p-8">
     <app-debt-create (closeModal)="createDebt = false"
                      (debtCreated)="findAllDebts(true)"
+                     (showSuccess)="handleSuccess()"
     ></app-debt-create>
+  </div>
+</div>
+
+<div class="fixed top-4 right-4 z-50" *ngIf="showSuccess">
+  <!-- Success Toast -->
+  <div
+    class="flex items-center p-4 mb-4 bg-white border-l-4 border-green-500 rounded-lg shadow-md animate-slideIn"
+    role="alert"
+  >
+    <!-- Icon -->
+    <div class="animate-bounce">
+      <svg class="w-8 h-8 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+        ></path>
+      </svg>
+    </div>
+
+    <!-- Content -->
+    <div class="ml-4 flex-1">
+      <p class="font-semibold text-gray-800">Success!</p>
+      <p class="text-sm text-gray-600">Debt added successfully</p>
+    </div>
+
+    <!-- Close Button -->
+    <button
+      class="ml-4 text-gray-400 hover:text-gray-600 transition-colors"
+      onclick="this.parentElement.remove()"
+    >
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M6 18L18 6M6 6l12 12"
+        ></path>
+      </svg>
+    </button>
   </div>
 </div>

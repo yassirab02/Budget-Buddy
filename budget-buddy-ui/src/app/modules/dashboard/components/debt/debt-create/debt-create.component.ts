@@ -17,6 +17,7 @@ import {DebtService} from '../../../../../services/services/debt.service';
 export class DebtCreateComponent {
   @Output() closeModal = new EventEmitter<void>();
   @Output() debtCreated = new EventEmitter<void>(); // Emits an event when a new budget is created
+  @Output() showSuccess = new EventEmitter<unknown>();
 
   debtForm: FormGroup;
   date: Date | null = null;
@@ -31,8 +32,6 @@ export class DebtCreateComponent {
     type: 'PERSONAL_LOAN', // or any other type like 'MORTGAGE', etc.
     isPaid: false,
   };
-
-  showSuccess = false;
 
   constructor(
     private fb: FormBuilder,
@@ -58,11 +57,8 @@ export class DebtCreateComponent {
       next: (expenseId) => {
         this.closeModal.emit();
         this.debtForm.reset();
-        this.showSuccess = true;
+        this.showSuccess.emit();
         this.debtCreated.emit(); // Emit the event to notify parent component
-        setTimeout(() => {
-          this.showSuccess = false;
-        }, 5000);
       },
       error: (err) => {
         console.log(err.error);

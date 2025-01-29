@@ -72,6 +72,13 @@ export class GoalComponent implements OnInit {
     );
   }
 
+  handleSuccess(): void {
+    this.showSuccess = true;
+    setTimeout(() => {
+      this.showSuccess = false;
+    }, 4000);
+  }
+
   goToPage(page: number) {
     this.page = page;
     this.findAllGoals();

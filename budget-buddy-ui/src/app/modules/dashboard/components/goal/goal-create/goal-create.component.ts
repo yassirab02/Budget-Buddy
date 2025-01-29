@@ -11,6 +11,7 @@ import {GoalService} from '../../../../../services/services/goal.service';
 export class GoalCreateComponent {
   @Output() closeModal = new EventEmitter<void>();
   @Output() goalCreated = new EventEmitter<void>(); // Emits an event when a new budget is created
+  @Output() showSuccess = new EventEmitter<unknown>();
 
   goalForm: FormGroup;
   errorMsg: Array<string> = [];
@@ -23,7 +24,6 @@ export class GoalCreateComponent {
     description: '',
     reached: false,
   };
-  showSuccess = false;
 
   constructor(
     private fb: FormBuilder,
@@ -49,11 +49,8 @@ export class GoalCreateComponent {
         // Set isAdd to false after successful save
         this.closeModal.emit();
         this.goalForm.reset();
-        this.showSuccess = true;
+        this.showSuccess.emit();
         this.goalCreated.emit(); // Emit the event to notify parent component
-        setTimeout(() => {
-          this.showSuccess = false;
-        }, 5000);
       },
       error: (err) => {
         console.log(err.error);

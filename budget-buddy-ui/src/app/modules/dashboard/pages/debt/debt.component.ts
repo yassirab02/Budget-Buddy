@@ -21,6 +21,7 @@ export class DebtComponent implements OnInit {
   createDebt = false;
   debtResponse: PageResponseDebtResponse = {};  // Store the actual wallet
   showPaid=true;
+  showSuccess=false;
 
   constructor(
     private debtService: DebtService,
@@ -68,6 +69,12 @@ export class DebtComponent implements OnInit {
     return this.debtResponse.content?.filter(debt => this.showPaid || !debt.paid) || [];
   }
 
+  handleSuccess(): void {
+    this.showSuccess = true;
+    setTimeout(() => {
+      this.showSuccess = false;
+    }, 4000);
+  }
 
   gotToPage(page: number) {
     this.page = page;
