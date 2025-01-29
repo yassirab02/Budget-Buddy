@@ -18,6 +18,8 @@ import {ExpensesCategoryResponse} from '../../../../../services/models/expenses-
 export class ExpenseCreateComponent implements OnInit {
   @Output() closeModal = new EventEmitter<void>();
   @Output() expenseCreated = new EventEmitter<void>(); // Emits an event when a new budget is created
+  @Output() showSuccess = new EventEmitter<void>();
+
 
   expenseForm: FormGroup;
   date: Date | null = null;
@@ -35,8 +37,6 @@ export class ExpenseCreateComponent implements OnInit {
     budgetId: 0,
     walletId: 0
   };
-  showSuccess = false;
-
   constructor(
     private fb: FormBuilder,
     private categoryService: CategoryService,
@@ -69,11 +69,8 @@ export class ExpenseCreateComponent implements OnInit {
         // Set isAdd to false after successful save
         this.closeModal.emit();
         this.expenseForm.reset();
-        this.showSuccess = true;
+        this.showSuccess.emit();
         this.expenseCreated.emit(); // Emit the event to notify parent component
-        setTimeout(() => {
-          this.showSuccess = false;
-        }, 5000);
       },
       error: (err) => {
         console.log(err.error);

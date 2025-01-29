@@ -152,21 +152,6 @@
 
   <!-- Notifications Container -->
   <div class="fixed top-4 right-4 space-y-3 w-80">
-    <!-- Success Notification -->
-    <div *ngIf="showSuccess" class="p-4 bg-white rounded-lg shadow-lg border border-emerald-100 flex items-start">
-      <div class="flex-shrink-0">
-        <div class="w-6 h-6 text-emerald-500">
-          <svg fill="currentColor" viewBox="0 0 20 20">
-            <path d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"/>
-          </svg>
-        </div>
-      </div>
-      <div class="ml-3">
-        <h3 class="font-medium text-emerald-800">Success!</h3>
-        <p class="mt-1 text-sm text-emerald-600">Expense added successfully</p>
-      </div>
-    </div>
-
     <!-- Error Notification -->
     <div *ngIf="errorMsg.length" class="p-4 bg-white rounded-lg shadow-lg border border-red-100 flex items-start">
       <div class="flex-shrink-0">

@@ -65,6 +65,13 @@ export class ExpenseComponent implements OnInit {
       });
   }
 
+  handleSuccess(): void {
+    this.showSuccess = true;
+    setTimeout(() => {
+      this.showSuccess = false;
+    }, 4000);
+  }
+
   toggleCreateExpense() {
     this.createExpense = !this.createExpense;
   }
