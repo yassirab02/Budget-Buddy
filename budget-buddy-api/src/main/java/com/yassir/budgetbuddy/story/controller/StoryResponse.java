@@ -2,6 +2,7 @@ package com.yassir.budgetbuddy.story.controller;
 
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -19,5 +20,6 @@ public class StoryResponse {
     private Long numberOfLikes;
     private boolean isLiked;  // Add the liked property
     private String status;
+    private LocalDateTime createdDate;
     private String owner;
 }

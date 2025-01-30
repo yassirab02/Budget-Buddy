@@ -17,5 +17,6 @@ public class UserResponse {
     private String lastName;
     private String fullName;
     private BigDecimal totalBalance;
+    private boolean isNew;
     private String role;
 }

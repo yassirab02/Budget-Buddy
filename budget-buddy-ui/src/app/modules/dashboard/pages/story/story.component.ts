@@ -3,6 +3,8 @@ import {StoryService} from '../../../../services/services/story.service';
 import {PageResponseStoryResponse} from '../../../../services/models/page-response-story-response';
 import {StoryResponse} from '../../../../services/models/story-response';
 import {Toggle$Params} from '../../../../services/fn/story/toggle';
+import {DeleteBudget1$Params} from '../../../../services/fn/budget/delete-budget-1';
+import {DeleteStory$Params} from '../../../../services/fn/story/delete-story';
 
 @Component({
   selector: 'app-story',
@@ -19,7 +21,13 @@ export class StoryComponent implements OnInit {
   level: 'success' | 'error' = 'success';
   errorMsg: Array<string> = [];
   storyPageResponse: PageResponseStoryResponse = {};  // Store the actual story
+  myStories: PageResponseStoryResponse = {};  // Store the actual story
   storyResponse: StoryResponse = {};
+  activeTab = "all";
+  isDelete=false;
+  storyToDelete: any;
+
+
 
 
   toggleCreate() {
@@ -33,6 +41,7 @@ export class StoryComponent implements OnInit {
 
   ngOnInit() {
     this.findAllStories();
+    this.findAllStoriesByOwner();
   }
 
   findAllStories(resetPage: boolean = false) {
@@ -47,6 +56,33 @@ export class StoryComponent implements OnInit {
         next: (stories) => {
           // Store the backend response in budgetResponse
           this.storyPageResponse = stories;
+          // Create an array of page numbers for pagination
+          this.pages = Array(this.storyPageResponse.totalPages)
+            .fill(0)
+            .map((x, i) => i);
+          this.isLoading = false;
+        },
+        error: (err) => {
+          console.error('Error fetching stories:', err);
+          this.message = 'An error occurred while fetching the stories.';
+          this.level = 'error';
+          this.isLoading = false;
+        }
+      });
+  }
+
+  findAllStoriesByOwner(resetPage: boolean = false) {
+    if (resetPage) {
+      this.page = 0; // Reset to the first page
+    }
+    this.storyService.findAllStoriesByOwner({
+      page: this.page,
+      size: this.size
+    })
+      .subscribe({
+        next: (stories) => {
+          // Store the backend response in budgetResponse
+          this.myStories = stories;
           // Create an array of page numbers for pagination
           this.pages = Array(this.storyPageResponse.totalPages)
             .fill(0)
@@ -88,5 +124,30 @@ export class StoryComponent implements OnInit {
         this.level = 'error';
       }
     });
+  }
+
+  deleteStory(id: number | undefined) {
+    if (id === undefined) {
+      console.error('Story ID is undefined');
+      return;
+    }
+    const params: DeleteStory$Params = { 'story-id': id };
+    this.storyService.deleteStory(params)
+      .subscribe({
+        next: (response) => {
+          this.findAllStories();
+          this.findAllStoriesByOwner();
+        },
+        error: (err) => {
+          console.error('Error deleting story:', err);
+          this.message = 'An error occurred while deleting the story.';
+          this.level = 'error';
+        }
+      });
+  }
+
+  openDelete(id:any) {
+    this.storyToDelete = id;
+    this.isDelete = true;
   }
 }

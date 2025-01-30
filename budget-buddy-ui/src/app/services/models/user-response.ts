@@ -8,6 +8,7 @@ export interface UserResponse {
   fullName?: string;
   id?: number;
   lastName?: string;
+  new?: boolean;
   role?: string;
   totalBalance?: number;
 }

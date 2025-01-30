@@ -6,6 +6,7 @@ export interface StoryResponse {
   archived?: boolean;
   content?: string;
   cover?: string;
+  createdDate?: string;
   description?: string;
   id?: number;
   liked?: boolean;

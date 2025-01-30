@@ -30,6 +30,7 @@ public class StoryMapper {
                 .numberOfLikes(numberOfLikes) // Get this from the reaction count
                 .isLiked(isLiked) // Get this from the reaction count
                 .status(story.getStatus().name())
+                .createdDate(story.getCreatedDate())
                 .owner(story.getOwner().fullName()) // Assuming User has a getUsername() method
                 .build();
     }

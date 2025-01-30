@@ -20,6 +20,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;
@@ -47,20 +48,29 @@ public class StoryServiceImpl implements StoryService {
     }
 
     @Override
+    @Transactional
     public void deleteStory(Integer storyId, Authentication connectedUser) {
         if (storyId == null) {
             throw new IllegalArgumentException("Story ID cannot be null");
         }
+
         User user = (User) connectedUser.getPrincipal();
+
+        // Delete the reactions associated with the story
+        storyReactionRepository.deleteByStoryId(storyId);
+
         Story story = repository.findById(storyId)
                 .orElseThrow(() -> new EntityNotFoundException("Story not found with id: " + storyId));
 
+        // Check if the user is allowed to delete the story
         if (!Objects.equals(user.getId(), story.getOwner().getId()) && user.getAuthorities().stream().noneMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))) {
             throw new IllegalArgumentException("You are not allowed to delete this story");
         }
 
+        // Now delete the story
         repository.delete(story);
     }
+
 
 
     @Override

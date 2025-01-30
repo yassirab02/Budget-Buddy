@@ -2133,6 +2133,10 @@
           "status": {
             "type": "string"
           },
+          "createdDate": {
+            "type": "string",
+            "format": "date-time"
+          },
           "owner": {
             "type": "string"
           },
@@ -3264,6 +3268,9 @@
           },
           "role": {
             "type": "string"
+          },
+          "new": {
+            "type": "boolean"
           }
         }
       }

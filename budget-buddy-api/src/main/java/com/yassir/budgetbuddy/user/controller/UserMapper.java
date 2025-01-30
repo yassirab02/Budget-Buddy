@@ -16,6 +16,7 @@ public class UserMapper {
                     .email(user.getEmail())
                     .fullName(user.fullName())
                     .totalBalance(user.getTotalBalance())
+                    .isNew(user.isNew())
                     .build();
         }
 }

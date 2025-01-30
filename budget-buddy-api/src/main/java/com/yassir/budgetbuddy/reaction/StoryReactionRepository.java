@@ -24,4 +24,5 @@ public interface StoryReactionRepository extends JpaRepository<StoryReaction, In
     @Query("SELECT sr.story.id, true FROM StoryReaction sr WHERE sr.story.id IN :storyIds AND sr.user.id = :userId AND sr.reaction = :reactionType")
     Map<Integer, Boolean> findReactionsByUserAndStories(@Param("storyIds") List<Integer> storyIds, @Param("userId") Integer userId, @Param("reactionType") ReactionType reactionType);
 
+    void deleteByStoryId(Integer storyId);
 }
