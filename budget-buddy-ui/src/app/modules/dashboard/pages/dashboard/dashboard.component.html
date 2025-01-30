@@ -22,7 +22,10 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
       <div class="flex justify-between items-center w-full">
         <div class="flex-1">
-          <h1 class="text-3xl sm:text-4xl font-bold tracking-tight mb-2">Welcome back, {{ user?.firstName }}!</h1>
+          <h1 class="text-3xl sm:text-4xl font-bold tracking-tight mb-2">
+            Welcome back, <span class="font-['Roboto']">{{ user?.firstName | titlecase }} </span>!
+          </h1>
+
           <p class="text-green-100">Here's your financial overview for today.</p>
         </div>
         <div class="flex items-center space-x-4 sm:space-x-4">
