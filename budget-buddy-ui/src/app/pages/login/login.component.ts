@@ -37,8 +37,12 @@ export class LoginComponent {
         //save the token
         this.tokenService.token = res.token as string;
         this.isLoading = false;
-        this.router.navigate(['dashboard']);
-      },
+        // Check if the user is new and redirect to the appropriate page
+        if (res.new) {
+          this.router.navigate(['questions']);  // Redirect to a different page for new users
+        } else {
+          this.router.navigate(['dashboard']);
+        }      },
       error: (err) => {
         console.log(err);
         if (err.error && err.error.validationErrors) {

@@ -113,6 +113,7 @@ public class AuthenticationService {
 
         return AuthenticationResponse.builder()
                 .token(jwtToken)
+                .isNew(user.isNew())
                 .build();
     }
 

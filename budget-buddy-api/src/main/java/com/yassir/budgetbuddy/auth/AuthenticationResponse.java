@@ -9,6 +9,6 @@ import lombok.Setter;
 @Setter
 @Builder
 public class AuthenticationResponse {
-
     private String token;
+    private boolean isNew;
 }
