@@ -15,6 +15,7 @@ import {ReportComponent} from './pages/report/report.component';
 import {TransactionComponent} from './pages/transaction/transaction.component';
 import {DashboardComponent} from './pages/dashboard/dashboard.component';
 import {BudgetComponent} from './pages/budget/budget.component';
+import {QuestionsComponent} from './pages/questions/questions.component';
 
 const routes: Routes = [
   {
@@ -85,8 +86,13 @@ const routes: Routes = [
         path: 'contact',
         component: ContactComponent,
         canActivate: [AuthGuard]
-      }
+      },
     ]
+  },
+  {
+    path: 'questions',
+    component: QuestionsComponent,
+    canActivate: [AuthGuard]
   }
 ];
 

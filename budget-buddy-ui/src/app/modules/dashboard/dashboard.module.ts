@@ -37,6 +37,7 @@ import { ReportDetailComponent } from './components/report/report-detail/report-
 import { ChartComponent } from './components/chart/chart.component';
 import { StoryCreateComponent } from './components/story/story-create/story-create.component';
 import { StoryDetailComponent } from './components/story/story-detail/story-detail.component';
+import { QuestionsComponent } from './pages/questions/questions.component';
 
 
 @NgModule({
@@ -71,6 +72,7 @@ import { StoryDetailComponent } from './components/story/story-detail/story-deta
         ChartComponent,
         StoryCreateComponent,
         StoryDetailComponent,
+        QuestionsComponent,
     ],
   exports: [
     SpinnerComponent
