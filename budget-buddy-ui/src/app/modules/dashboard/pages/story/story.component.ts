@@ -135,8 +135,8 @@ export class StoryComponent implements OnInit {
     this.storyService.deleteStory(params)
       .subscribe({
         next: (response) => {
-          this.findAllStories();
           this.findAllStoriesByOwner();
+          this.isDelete = false;
         },
         error: (err) => {
           console.error('Error deleting story:', err);

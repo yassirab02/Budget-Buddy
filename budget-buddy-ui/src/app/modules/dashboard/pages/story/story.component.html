@@ -17,14 +17,14 @@
 
   <main class="container mx-auto px-4 py-8">
     <div class="mb-8 flex justify-center">
-      <nav class="inline-flex rounded-md shadow-sm" role="group">
+      <nav class="inline-flex rounded-lg shadow-sm" role="group">
         <button
           (click)="activeTab = 'all'"
           [class.bg-green-500]="activeTab === 'all'"
           [class.text-white]="activeTab === 'all'"
           [class.bg-white]="activeTab !== 'all'"
           [class.text-teal-600]="activeTab !== 'all'"
-          class="px-4 py-2 text-lg font-medium rounded-l-md border border-teal-600 focus:outline-none"
+          class="px-3 py-1 text-lg font-medium rounded-l-lg border border-green-500 focus:outline-none"
         >
           All Stories
         </button>
@@ -34,7 +34,7 @@
           [class.text-white]="activeTab === 'my'"
           [class.bg-white]="activeTab !== 'my'"
           [class.text-teal-600]="activeTab !== 'my'"
-          class="px-4 py-2 text-lg font-medium rounded-r-md border border-teal-600 focus:outline-none"
+          class="px-3 py-1 text-lg font-medium rounded-r-lg border border-green-500 focus:outline-none"
         >
           My Stories
         </button>
