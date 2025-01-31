@@ -1,360 +1,394 @@
 <app-navbar></app-navbar>
 <div class="min-h-screen bg-gradient-to-br from-white via-green-50 to-green-100">
-<!-- Decorative Elements -->
-<div class="fixed inset-0 z-0 overflow-hidden opacity-20">
-  <div class="absolute top-0 left-0 w-96 h-96 bg-green-400 rounded-full mix-blend-multiply filter blur-xl animate-blob"></div>
-  <div class="absolute top-0 right-0 w-96 h-96 bg-green-300 rounded-full mix-blend-multiply filter blur-xl animate-blob animation-delay-2000"></div>
-  <div class="absolute bottom-0 left-1/2 w-96 h-96 bg-green-200 rounded-full mix-blend-multiply filter blur-xl animate-blob animation-delay-4000"></div>
-</div>
+  <!-- Decorative Elements -->
+  <div class="fixed inset-0 z-0 overflow-hidden opacity-20">
+    <div
+      class="absolute top-0 left-0 w-96 h-96 bg-green-400 rounded-full mix-blend-multiply filter blur-xl animate-blob"></div>
+    <div
+      class="absolute top-0 right-0 w-96 h-96 bg-green-300 rounded-full mix-blend-multiply filter blur-xl animate-blob animation-delay-2000"></div>
+    <div
+      class="absolute bottom-0 left-1/2 w-96 h-96 bg-green-200 rounded-full mix-blend-multiply filter blur-xl animate-blob animation-delay-4000"></div>
+  </div>
 
-<!-- Header -->
-<header class="relative z-10 text-center py-10">
-  <div class="max-w-4xl mx-auto px-4">
-    <h1 class="text-6xl font-bold text-green-800 mb-6 leading-tight">
-      Your Journey to
-      <span class="gradient-text bg-gradient-to-r from-green-600 to-green-400">
+  <!-- Header -->
+  <header class="relative z-10 text-center py-10">
+    <div class="max-w-4xl mx-auto px-4">
+      <h1 class="text-6xl font-bold text-green-800 mb-6 leading-tight">
+        Your Journey to
+        <span class="gradient-text bg-gradient-to-r from-green-600 to-green-400">
                     Financial Freedom
                 </span>
-    </h1>
-    <p class="text-xl text-green-700 max-w-2xl mx-auto leading-relaxed">
-      Follow these simple steps to transform your financial life with BudgetBuddy.
-      Start your journey today and take control of your money.
-    </p>
-  </div>
-</header>
-
-<!-- Main Content -->
-<main class="container mx-auto px-4 py-12 relative z-10">
-  <!-- Steps Section -->
-  <div class="max-w-5xl mx-auto space-y-32">
-    <!-- Step 1 -->
-    <section class="relative bg-white rounded-2xl p-10 shadow-xl transform transition-all duration-300 hover:scale-102 hover:shadow-2xl">
-      <div class="absolute -top-6 -left-6 w-20 h-20 bg-gradient-to-br from-green-500 to-green-600 rounded-2xl shadow-lg flex items-center justify-center transform -rotate-6">
-        <span class="text-3xl font-bold text-white">1</span>
-      </div>
-      <div class="flex flex-col md:flex-row items-center gap-12">
-        <div class="md:w-1/2">
-          <h2 class="text-3xl font-bold text-green-800 mb-6">Create Your First Budget</h2>
-          <p class="text-lg text-gray-600 mb-6 leading-relaxed">
-            Start your financial journey by creating a personalized budget that works for you. Our intuitive interface makes it easy to set up and maintain your budget.
-          </p>
-          <ul class="space-y-4">
-            <li class="flex items-center text-gray-600">
-                                <span class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center mr-3">
-                                    <i class="fa-solid fa-check w-6 h-6 text-green-600"></i>
-                                </span>
-              Choose from preset categories or create custom ones
-            </li>
-            <li class="flex items-center text-gray-600">
-                                <span class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center mr-3">
-                                    <i class="fa-solid fa-check w-6 h-6 text-green-600"></i>
-                                </span>
-              Set flexible spending limits that work for you
-            </li>
-            <li class="flex items-center text-gray-600">
-                                <span class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center mr-3">
-                                    <i class="fa-solid fa-check w-6 h-6 text-green-600"></i>
-                                </span>
-              Customize your budget period and goals
-            </li>
-          </ul>
-        </div>
-        <div class="md:w-1/2">
-          <div class="relative group">
-            <div class="absolute -inset-2 bg-gradient-to-r from-green-400 to-green-600 rounded-xl blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
-            <div class="relative rounded-xl shadow-lg transform transition-transform duration-300 group-hover:scale-105 bg-white p-4">
-              <img src="assets/works/budget.png" class="w-full h-full text-green-600" style="font-size: 150px;">
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Step 2 -->
-    <section class="relative bg-white rounded-2xl p-10 shadow-xl transform transition-all duration-300 hover:scale-102 hover:shadow-2xl">
-      <div class="absolute -top-6 -left-6 w-20 h-20 bg-gradient-to-br from-green-500 to-green-600 rounded-2xl shadow-lg flex items-center justify-center transform -rotate-6">
-        <span class="text-3xl font-bold text-white">2</span>
-      </div>
-      <div class="flex flex-col md:flex-row items-center gap-12">
-        <div class="md:w-1/2 order-2 md:order-1">
-          <div class="relative group">
-            <div class="absolute -inset-2 bg-gradient-to-r from-green-400 to-green-600 rounded-xl blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
-            <div class="relative rounded-xl shadow-lg transform transition-transform duration-300 group-hover:scale-105 bg-white p-4">
-              <i class="lucide-dollar-sign w-full h-full text-green-600" style="font-size: 150px;"></i>
-              <img src="assets/works/income.png" class="w-full h-full text-green-600" style="font-size: 150px;">
-            </div>
-          </div>
-        </div>
-        <div class="md:w-1/2 order-1 md:order-2">
-          <h2 class="text-3xl font-bold text-green-800 mb-6">Add Your Income</h2>
-          <p class="text-lg text-gray-600 mb-6 leading-relaxed">
-            Track all your income sources in one place for better financial planning and management.
-          </p>
-          <ul class="space-y-4">
-            <li class="flex items-center text-gray-600">
-                                <span class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center mr-3">
-                                    <i class="fa-solid fa-check w-6 h-6 text-green-600"></i>
-                                </span>
-              Add regular salary and recurring income
-            </li>
-            <li class="flex items-center text-gray-600">
-                                <span class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center mr-3">
-                                    <i class="fa-solid fa-check w-6 h-6 text-green-600"></i>
-                                </span>
-              Include side hustles and freelance earnings
-            </li>
-            <li class="flex items-center text-gray-600">
-                                <span class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center mr-3">
-                                    <i class="fa-solid fa-check w-6 h-6 text-green-600"></i>
-                                </span>
-              Track irregular income and bonuses
-            </li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <!-- Step 3 -->
-    <section class="relative bg-white rounded-2xl p-10 shadow-xl transform transition-all duration-300 hover:scale-102 hover:shadow-2xl">
-      <div class="absolute -top-6 -left-6 w-20 h-20 bg-gradient-to-br from-green-500 to-green-600 rounded-2xl shadow-lg flex items-center justify-center transform -rotate-6">
-        <span class="text-3xl font-bold text-white">3</span>
-      </div>
-      <div class="flex flex-col md:flex-row items-center gap-12">
-        <div class="md:w-1/2">
-          <h2 class="text-3xl font-bold text-green-800 mb-6">Track Your Expenses</h2>
-          <p class="text-lg text-gray-600 mb-6 leading-relaxed">
-            Keep a close eye on where your money goes with our easy-to-use expense tracking feature.
-          </p>
-          <ul class="space-y-4">
-            <li class="flex items-center text-gray-600">
-                                <span class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center mr-3">
-                                    <i class="fa-solid fa-check w-6 h-6 text-green-600"></i>
-                                </span>
-              Categorize expenses automatically
-            </li>
-            <li class="flex items-center text-gray-600">
-                                <span class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center mr-3">
-                                    <i class="fa-solid fa-check w-6 h-6 text-green-600"></i>
-                                </span>
-              Set up recurring bills and payments
-            </li>
-            <li class="flex items-center text-gray-600">
-                                <span class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center mr-3">
-                                    <i class="fa-solid fa-check w-6 h-6 text-green-600"></i>
-                                </span>
-              Get insights into your spending patterns
-            </li>
-          </ul>
-        </div>
-        <div class="md:w-1/2">
-          <div class="relative group">
-            <div class="absolute -inset-2 bg-gradient-to-r from-green-400 to-green-600 rounded-xl blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
-            <div class="relative rounded-xl shadow-lg transform transition-transform duration-300 group-hover:scale-105 bg-white p-4">
-              <img src="assets/works/expense.png" class="w-full h-full text-green-600" style="font-size: 150px;">
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Step 4 -->
-    <section class="relative bg-white rounded-2xl p-10 shadow-xl transform transition-all duration-300 hover:scale-102 hover:shadow-2xl">
-      <div class="absolute -top-6 -left-6 w-20 h-20 bg-gradient-to-br from-green-500 to-green-600 rounded-2xl shadow-lg flex items-center justify-center transform -rotate-6">
-        <span class="text-3xl font-bold text-white">4</span>
-      </div>
-      <div class="flex flex-col md:flex-row items-center gap-12">
-        <div class="md:w-1/2 order-2 md:order-1">
-          <div class="relative group">
-            <div class="absolute -inset-2 bg-gradient-to-r from-green-400 to-green-600 rounded-xl blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
-            <div class="relative rounded-xl shadow-lg transform transition-transform duration-300 group-hover:scale-105 bg-white p-4">
-              <img src="assets/works/wallet.png" class="w-full h-full text-green-600" style="font-size: 150px;">
-            </div>
-          </div>
-        </div>
-        <div class="md:w-1/2 order-1 md:order-2">
-          <h2 class="text-3xl font-bold text-green-800 mb-6">Create Your Wallets</h2>
-          <p class="text-lg text-gray-600 mb-6 leading-relaxed">
-            Organize your money across different wallets for better management and control.
-          </p>
-          <ul class="space-y-4">
-            <li class="flex items-center text-gray-600">
-                                <span class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center mr-3">
-                                    <i class="fa-solid fa-check w-6 h-6 text-green-600"></i>
-                                </span>
-              Set up multiple wallets for different purposes
-            </li>
-            <li class="flex items-center text-gray-600">
-                                <span class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center mr-3">
-                                    <i class="fa-solid fa-check w-6 h-6 text-green-600"></i>
-                                </span>
-              Track different currencies and accounts
-            </li>
-            <li class="flex items-center text-gray-600">
-                                <span class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center mr-3">
-                                    <i class="fa-solid fa-check w-6 h-6 text-green-600"></i>
-                                </span>
-              Monitor wallet balances in real-time
-            </li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <!-- Step 5 -->
-    <section class="relative bg-white rounded-2xl p-10 shadow-xl transform transition-all duration-300 hover:scale-102 hover:shadow-2xl">
-      <div class="absolute -top-6 -left-6 w-20 h-20 bg-gradient-to-br from-green-500 to-green-600 rounded-2xl shadow-lg flex items-center justify-center transform -rotate-6">
-        <span class="text-3xl font-bold text-white">5</span>
-      </div>
-      <div class="flex flex-col md:flex-row items-center gap-12">
-        <div class="md:w-1/2">
-          <h2 class="text-3xl font-bold text-green-800 mb-6">Manage Transactions</h2>
-          <p class="text-lg text-gray-600 mb-6 leading-relaxed">
-            Easily transfer money between wallets, fund your goals, and manage your finances with ease.
-          </p>
-          <ul class="space-y-4">
-            <li class="flex items-center text-gray-600">
-                                <span class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center mr-3">
-                                    <i class="fa-solid fa-check w-6 h-6 text-green-600"></i>
-                                </span>
-              Transfer between wallets seamlessly
-            </li>
-            <li class="flex items-center text-gray-600">
-                                <span class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center mr-3">
-                                    <i class="fa-solid fa-check w-6 h-6 text-green-600"></i>
-                                </span>
-              Fund your savings goals automatically
-            </li>
-            <li class="flex items-center text-gray-600">
-                                <span class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center mr-3">
-                                    <i class="fa-solid fa-check w-6 h-6 text-green-600"></i>
-                                </span>
-              Pay off debts and track progress
-            </li>
-            <li class="flex items-center text-gray-600">
-                                <span class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center mr-3">
-                                    <i class="fa-solid fa-check w-6 h-6 text-green-600"></i>
-                                </span>
-              Send money to friends and family
-            </li>
-          </ul>
-        </div>
-        <div class="md:w-1/2">
-          <div class="relative group">
-            <div class="absolute -inset-2 bg-gradient-to-r from-green-400 to-green-600 rounded-xl blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
-            <div class="relative rounded-xl shadow-lg transform transition-transform duration-300 group-hover:scale-105 bg-white p-4">
-              <img src="assets/works/transaction.png" class="w-full h-full text-green-600" style="font-size: 150px;">
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Step 6 -->
-    <section class="relative bg-white rounded-2xl p-10 shadow-xl transform transition-all duration-300 hover:scale-102 hover:shadow-2xl">
-      <div class="absolute -top-6 -left-6 w-20 h-20 bg-gradient-to-br from-green-500 to-green-600 rounded-2xl shadow-lg flex items-center justify-center transform -rotate-6">
-        <span class="text-3xl font-bold text-white">6</span>
-      </div>
-      <div class="flex flex-col md:flex-row items-center gap-12">
-        <div class="md:w-1/2 order-2 md:order-1">
-          <div class="relative group">
-            <div class="absolute -inset-2 bg-gradient-to-r from-green-400 to-green-600 rounded-xl blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
-            <div class="relative rounded-xl shadow-lg transform transition-transform duration-300 group-hover:scale-105 bg-white p-4">
-              <img src="assets/works/goal.png" class="w-full h-full text-green-600" style="font-size: 150px;">
-            </div>
-          </div>
-        </div>
-        <div class="md:w-1/2 order-1 md:order-2">
-          <h2 class="text-3xl font-bold text-green-800 mb-6">Set and Achieve Financial Goals</h2>
-          <p class="text-lg text-gray-600 mb-6 leading-relaxed">
-            Define your financial goals and track your progress towards achieving them.
-          </p>
-          <ul class="space-y-4">
-            <li class="flex items-center text-gray-600">
-                                <span class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center mr-3">
-                                    <i class="fa-solid fa-check w-6 h-6 text-green-600"></i>
-                                </span>
-              Create short-term and long-term financial goals
-            </li>
-            <li class="flex items-center text-gray-600">
-                                <span class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center mr-3">
-                                    <i class="fa-solid fa-check w-6 h-6 text-green-600"></i>
-                                </span>
-              Set up automatic savings plans
-            </li>
-            <li class="flex items-center text-gray-600">
-                                <span class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center mr-3">
-                                    <i class="fa-solid fa-check w-6 h-6 text-green-600"></i>
-                                </span>
-              Visualize your progress with interactive charts
-            </li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <!-- Step 7 -->
-    <section class="relative bg-white rounded-2xl p-10 shadow-xl transform transition-all duration-300 hover:scale-102 hover:shadow-2xl">
-      <div class="absolute -top-6 -left-6 w-20 h-20 bg-gradient-to-br from-green-500 to-green-600 rounded-2xl shadow-lg flex items-center justify-center transform -rotate-6">
-        <span class="text-3xl font-bold text-white">7</span>
-      </div>
-      <div class="flex flex-col md:flex-row items-center gap-12">
-        <div class="md:w-1/2">
-          <h2 class="text-3xl font-bold text-green-800 mb-6">Share Your Journey</h2>
-          <p class="text-lg text-gray-600 mb-6 leading-relaxed">
-            Connect with the BudgetBuddy community to share tips, get advice, and stay motivated.
-          </p>
-          <ul class="space-y-4">
-            <li class="flex items-center text-gray-600">
-                                <span class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center mr-3">
-                                    <i class="fa-solid fa-check w-6 h-6 text-green-600"></i>
-                                </span>
-              Share your success stories and milestones
-            </li>
-            <li class="flex items-center text-gray-600">
-                                <span class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center mr-3">
-                                    <i class="fa-solid fa-check w-6 h-6 text-green-600"></i>
-                                </span>
-              Get financial advice from the community
-            </li>
-            <li class="flex items-center text-gray-600">
-                                <span class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center mr-3">
-                                    <i class="fa-solid fa-check w-6 h-6 text-green-600"></i>
-                                </span>
-              Learn from others' experiences
-            </li>
-            <li class="flex items-center text-gray-600">
-                                <span class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center mr-3">
-                                    <i class="fa-solid fa-check w-6 h-6 text-green-600"></i>
-                                </span>
-              Participate in financial challenges
-            </li>
-          </ul>
-        </div>
-        <div class="md:w-1/2">
-          <div class="relative group">
-            <div class="absolute -inset-2 bg-gradient-to-r from-green-400 to-green-600 rounded-xl blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
-            <div class="relative rounded-xl shadow-lg transform transition-transform duration-300 group-hover:scale-105 bg-white p-4">
-              <img src="assets/works/share.png" class="w-full h-full text-green-600" style="font-size: 150px;">
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  </div>
-
-  <!-- Call to Action -->
-  <div class="text-center mt-32 mb-20">
-    <div class="bg-gradient-to-r from-green-600 to-green-400 p-12 rounded-3xl shadow-xl max-w-4xl mx-auto transform hover:scale-105 transition-transform duration-300">
-      <h2 class="text-4xl font-bold text-white mb-6">Ready to Transform Your Finances?</h2>
-      <p class="text-lg text-green-50 mb-8 max-w-2xl mx-auto">
-        Join thousands of others who have already taken control of their financial future with BudgetBuddy.
+      </h1>
+      <p class="text-xl text-green-700 max-w-2xl mx-auto leading-relaxed">
+        Follow these simple steps to transform your financial life with BudgetBuddy.
+        Start your journey today and take control of your money.
       </p>
-      <a href="/sign-up" class="inline-flex items-center px-8 py-4 bg-white text-green-600 font-semibold rounded-full text-lg hover:bg-green-50 transition duration-300 shadow-lg space-x-2">
-        <span>Get Started Now</span>
-        <i class="lucide-arrow-right w-5 h-5"></i>
-      </a>
     </div>
-  </div>
-</main>
+  </header>
+
+  <!-- Main Content -->
+  <main class="container mx-auto px-4 py-12 relative z-10">
+    <!-- Steps Section -->
+    <div class="max-w-5xl mx-auto space-y-32">
+      <!-- Step 1 -->
+      <section
+        class="relative bg-white rounded-2xl p-10 shadow-xl transform transition-all duration-300 hover:scale-102 hover:shadow-2xl">
+        <div
+          class="absolute -top-6 -left-6 w-20 h-20 bg-gradient-to-br from-green-500 to-green-600 rounded-2xl shadow-lg flex items-center justify-center transform -rotate-6">
+          <span class="text-3xl font-bold text-white">1</span>
+        </div>
+        <div class="flex flex-col md:flex-row items-center gap-12">
+          <div class="md:w-1/2">
+            <h2 class="text-3xl font-bold text-green-800 mb-6">Create Your First Budget</h2>
+            <p class="text-lg text-gray-600 mb-6 leading-relaxed">
+              Start your financial journey by creating a personalized budget that works for you. Our intuitive interface
+              makes it easy to set up and maintain your budget.
+            </p>
+            <ul class="space-y-4">
+              <li class="flex items-center text-gray-600">
+                                    <span class="w-8 h-8 rounded-full bg-green-100 flex justify-center items-center mr-3">
+                              <i class="fa-solid fa-check text-green-600" style="font-size: 20px;"></i>
+                          </span>
+                Choose from preset categories or create custom ones
+              </li>
+              <li class="flex items-center text-gray-600">
+                               <span class="w-8 h-8 rounded-full bg-green-100 flex justify-center items-center mr-3">
+                              <i class="fa-solid fa-check text-green-600" style="font-size: 20px;"></i>
+                          </span>
+                Set flexible spending limits that work for you
+              </li>
+              <li class="flex items-center text-gray-600">
+                         <span class="w-8 h-8 rounded-full bg-green-100 flex justify-center items-center mr-3">
+                              <i class="fa-solid fa-check text-green-600" style="font-size: 20px;"></i>
+                          </span>
+                Customize your budget period and goals
+              </li>
+            </ul>
+          </div>
+          <div class="md:w-1/2">
+            <div class="relative group">
+              <div
+                class="absolute -inset-2 bg-gradient-to-r from-green-400 to-green-600 rounded-xl blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
+              <div
+                class="relative rounded-xl shadow-lg transform transition-transform duration-300 group-hover:scale-105 bg-white p-4">
+                <img src="assets/works/budget.png" class="w-full h-full text-green-600" style="font-size: 150px;">
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Step 2 -->
+      <section
+        class="relative bg-white rounded-2xl p-10 shadow-xl transform transition-all duration-300 hover:scale-102 hover:shadow-2xl">
+        <div
+          class="absolute -top-6 -left-6 w-20 h-20 bg-gradient-to-br from-green-500 to-green-600 rounded-2xl shadow-lg flex items-center justify-center transform -rotate-6">
+          <span class="text-3xl font-bold text-white">2</span>
+        </div>
+        <div class="flex flex-col md:flex-row items-center gap-12">
+          <div class="md:w-1/2 order-2 md:order-1">
+            <div class="relative group">
+              <div
+                class="absolute -inset-2 bg-gradient-to-r from-green-400 to-green-600 rounded-xl blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
+              <div
+                class="relative rounded-xl shadow-lg transform transition-transform duration-300 group-hover:scale-105 bg-white p-4">
+                <i class="lucide-dollar-sign w-full h-full text-green-600" style="font-size: 150px;"></i>
+                <img src="assets/works/income.png" class="w-full h-full text-green-600" style="font-size: 150px;">
+              </div>
+            </div>
+          </div>
+          <div class="md:w-1/2 order-1 md:order-2">
+            <h2 class="text-3xl font-bold text-green-800 mb-6">Add Your Income</h2>
+            <p class="text-lg text-gray-600 mb-6 leading-relaxed">
+              Track all your income sources in one place for better financial planning and management.
+            </p>
+            <ul class="space-y-4">
+              <li class="flex items-center text-gray-600">
+                                     <span class="w-8 h-8 rounded-full bg-green-100 flex justify-center items-center mr-3">
+                              <i class="fa-solid fa-check text-green-600" style="font-size: 20px;"></i>
+                          </span>
+                Add regular salary and recurring income
+              </li>
+              <li class="flex items-center text-gray-600">
+                                     <span class="w-8 h-8 rounded-full bg-green-100 flex justify-center items-center mr-3">
+                              <i class="fa-solid fa-check text-green-600" style="font-size: 20px;"></i>
+                          </span>
+                Include side hustles and freelance earnings
+              </li>
+              <li class="flex items-center text-gray-600">
+                                    <span class="w-8 h-8 rounded-full bg-green-100 flex justify-center items-center mr-3">
+                              <i class="fa-solid fa-check text-green-600" style="font-size: 20px;"></i>
+                          </span>
+                Track irregular income and bonuses
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Step 3 -->
+      <section
+        class="relative bg-white rounded-2xl p-10 shadow-xl transform transition-all duration-300 hover:scale-102 hover:shadow-2xl">
+        <div
+          class="absolute -top-6 -left-6 w-20 h-20 bg-gradient-to-br from-green-500 to-green-600 rounded-2xl shadow-lg flex items-center justify-center transform -rotate-6">
+          <span class="text-3xl font-bold text-white">3</span>
+        </div>
+        <div class="flex flex-col md:flex-row items-center gap-12">
+          <div class="md:w-1/2">
+            <h2 class="text-3xl font-bold text-green-800 mb-6">Track Your Expenses</h2>
+            <p class="text-lg text-gray-600 mb-6 leading-relaxed">
+              Keep a close eye on where your money goes with our easy-to-use expense tracking feature.
+            </p>
+            <ul class="space-y-4">
+              <li class="flex items-center text-gray-600">
+                                    <span class="w-8 h-8 rounded-full bg-green-100 flex justify-center items-center mr-3">
+                              <i class="fa-solid fa-check text-green-600" style="font-size: 20px;"></i>
+                          </span>
+                Categorize expenses automatically
+              </li>
+              <li class="flex items-center text-gray-600">
+                                     <span class="w-8 h-8 rounded-full bg-green-100 flex justify-center items-center mr-3">
+                              <i class="fa-solid fa-check text-green-600" style="font-size: 20px;"></i>
+                          </span>
+                Set up recurring bills and payments
+              </li>
+              <li class="flex items-center text-gray-600">
+                                    <span class="w-8 h-8 rounded-full bg-green-100 flex justify-center items-center mr-3">
+                              <i class="fa-solid fa-check text-green-600" style="font-size: 20px;"></i>
+                          </span>
+                Get insights into your spending patterns
+              </li>
+            </ul>
+          </div>
+          <div class="md:w-1/2">
+            <div class="relative group">
+              <div
+                class="absolute -inset-2 bg-gradient-to-r from-green-400 to-green-600 rounded-xl blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
+              <div
+                class="relative rounded-xl shadow-lg transform transition-transform duration-300 group-hover:scale-105 bg-white p-4">
+                <img src="assets/works/expense.png" class="w-full h-full text-green-600" style="font-size: 150px;">
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Step 4 -->
+      <section
+        class="relative bg-white rounded-2xl p-10 shadow-xl transform transition-all duration-300 hover:scale-102 hover:shadow-2xl">
+        <div
+          class="absolute -top-6 -left-6 w-20 h-20 bg-gradient-to-br from-green-500 to-green-600 rounded-2xl shadow-lg flex items-center justify-center transform -rotate-6">
+          <span class="text-3xl font-bold text-white">4</span>
+        </div>
+        <div class="flex flex-col md:flex-row items-center gap-12">
+          <div class="md:w-1/2 order-2 md:order-1">
+            <div class="relative group">
+              <div
+                class="absolute -inset-2 bg-gradient-to-r from-green-400 to-green-600 rounded-xl blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
+              <div
+                class="relative rounded-xl shadow-lg transform transition-transform duration-300 group-hover:scale-105 bg-white p-4">
+                <img src="assets/works/wallet.png" class="w-full h-full text-green-600" style="font-size: 150px;">
+              </div>
+            </div>
+          </div>
+          <div class="md:w-1/2 order-1 md:order-2">
+            <h2 class="text-3xl font-bold text-green-800 mb-6">Create Your Wallets</h2>
+            <p class="text-lg text-gray-600 mb-6 leading-relaxed">
+              Organize your money across different wallets for better management and control.
+            </p>
+            <ul class="space-y-4">
+              <li class="flex items-center text-gray-600">
+                                       <span class="w-8 h-8 rounded-full bg-green-100 flex justify-center items-center mr-3">
+                              <i class="fa-solid fa-check text-green-600" style="font-size: 20px;"></i>
+                          </span>
+                Set up multiple wallets for different purposes
+              </li>
+              <li class="flex items-center text-gray-600">
+                                     <span class="w-8 h-8 rounded-full bg-green-100 flex justify-center items-center mr-3">
+                              <i class="fa-solid fa-check text-green-600" style="font-size: 20px;"></i>
+                          </span>
+                Track different currencies and accounts
+              </li>
+              <li class="flex items-center text-gray-600">
+                                       <span class="w-8 h-8 rounded-full bg-green-100 flex justify-center items-center mr-3">
+                              <i class="fa-solid fa-check text-green-600" style="font-size: 20px;"></i>
+                          </span>
+                Monitor wallet balances in real-time
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Step 5 -->
+      <section
+        class="relative bg-white rounded-2xl p-10 shadow-xl transform transition-all duration-300 hover:scale-102 hover:shadow-2xl">
+        <div
+          class="absolute -top-6 -left-6 w-20 h-20 bg-gradient-to-br from-green-500 to-green-600 rounded-2xl shadow-lg flex items-center justify-center transform -rotate-6">
+          <span class="text-3xl font-bold text-white">5</span>
+        </div>
+        <div class="flex flex-col md:flex-row items-center gap-12">
+          <div class="md:w-1/2">
+            <h2 class="text-3xl font-bold text-green-800 mb-6">Manage Transactions</h2>
+            <p class="text-lg text-gray-600 mb-6 leading-relaxed">
+              Easily transfer money between wallets, fund your goals, and manage your finances with ease.
+            </p>
+            <ul class="space-y-4">
+              <li class="flex items-center text-gray-600">
+                                      <span class="w-8 h-8 rounded-full bg-green-100 flex justify-center items-center mr-3">
+                              <i class="fa-solid fa-check text-green-600" style="font-size: 20px;"></i>
+                          </span>
+                Transfer between wallets seamlessly
+              </li>
+              <li class="flex items-center text-gray-600">
+                                     <span class="w-8 h-8 rounded-full bg-green-100 flex justify-center items-center mr-3">
+                              <i class="fa-solid fa-check text-green-600" style="font-size: 20px;"></i>
+                          </span>
+                Fund your savings goals automatically
+              </li>
+              <li class="flex items-center text-gray-600">
+                                     <span class="w-8 h-8 rounded-full bg-green-100 flex justify-center items-center mr-3">
+                              <i class="fa-solid fa-check text-green-600" style="font-size: 20px;"></i>
+                          </span>
+                Pay off debts and track progress
+              </li>
+              <li class="flex items-center text-gray-600">
+                                     <span class="w-8 h-8 rounded-full bg-green-100 flex justify-center items-center mr-3">
+                              <i class="fa-solid fa-check text-green-600" style="font-size: 20px;"></i>
+                          </span>
+                Send money to friends and family
+              </li>
+            </ul>
+          </div>
+          <div class="md:w-1/2">
+            <div class="relative group">
+              <div
+                class="absolute -inset-2 bg-gradient-to-r from-green-400 to-green-600 rounded-xl blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
+              <div
+                class="relative rounded-xl shadow-lg transform transition-transform duration-300 group-hover:scale-105 bg-white p-4">
+                <img src="assets/works/transaction.png" class="w-full h-full text-green-600" style="font-size: 150px;">
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Step 6 -->
+      <section
+        class="relative bg-white rounded-2xl p-10 shadow-xl transform transition-all duration-300 hover:scale-102 hover:shadow-2xl">
+        <div
+          class="absolute -top-6 -left-6 w-20 h-20 bg-gradient-to-br from-green-500 to-green-600 rounded-2xl shadow-lg flex items-center justify-center transform -rotate-6">
+          <span class="text-3xl font-bold text-white">6</span>
+        </div>
+        <div class="flex flex-col md:flex-row items-center gap-12">
+          <div class="md:w-1/2 order-2 md:order-1">
+            <div class="relative group">
+              <div
+                class="absolute -inset-2 bg-gradient-to-r from-green-400 to-green-600 rounded-xl blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
+              <div
+                class="relative rounded-xl shadow-lg transform transition-transform duration-300 group-hover:scale-105 bg-white p-4">
+                <img src="assets/works/goal.png" class="w-full h-full text-green-600" style="font-size: 150px;">
+              </div>
+            </div>
+          </div>
+          <div class="md:w-1/2 order-1 md:order-2">
+            <h2 class="text-3xl font-bold text-green-800 mb-6">Set and Achieve Financial Goals</h2>
+            <p class="text-lg text-gray-600 mb-6 leading-relaxed">
+              Define your financial goals and track your progress towards achieving them.
+            </p>
+            <ul class="space-y-4">
+              <li class="flex items-center text-gray-600">
+                                      <span class="w-8 h-8 rounded-full bg-green-100 flex justify-center items-center mr-3">
+                              <i class="fa-solid fa-check text-green-600" style="font-size: 20px;"></i>
+                          </span>
+                Create short-term and long-term financial goals
+              </li>
+              <li class="flex items-center text-gray-600">
+                              <span class="w-8 h-8 rounded-full bg-green-100 flex justify-center items-center mr-3">
+                              <i class="fa-solid fa-check text-green-600" style="font-size: 20px;"></i>
+                          </span>
+                Set up automatic savings plans
+              </li>
+              <li class="flex items-center text-gray-600">
+                                      <span class="w-8 h-8 rounded-full bg-green-100 flex justify-center items-center mr-3">
+                              <i class="fa-solid fa-check text-green-600" style="font-size: 20px;"></i>
+                          </span>
+                Visualize your progress with interactive charts
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Step 7 -->
+      <section
+        class="relative bg-white rounded-2xl p-10 shadow-xl transform transition-all duration-300 hover:scale-102 hover:shadow-2xl">
+        <div
+          class="absolute -top-6 -left-6 w-20 h-20 bg-gradient-to-br from-green-500 to-green-600 rounded-2xl shadow-lg flex items-center justify-center transform -rotate-6">
+          <span class="text-3xl font-bold text-white">7</span>
+        </div>
+        <div class="flex flex-col md:flex-row items-center gap-12">
+          <div class="md:w-1/2">
+            <h2 class="text-3xl font-bold text-green-800 mb-6">Share Your Journey</h2>
+            <p class="text-lg text-gray-600 mb-6 leading-relaxed">
+              Connect with the BudgetBuddy community to share tips, get advice, and stay motivated.
+            </p>
+            <ul class="space-y-4">
+              <li class="flex items-center text-gray-600">
+                                    <span class="w-8 h-8 rounded-full bg-green-100 flex justify-center items-center mr-3">
+                              <i class="fa-solid fa-check text-green-600" style="font-size: 20px;"></i>
+                          </span>
+                Share your success stories and milestones
+              </li>
+              <li class="flex items-center text-gray-600">
+                                     <span class="w-8 h-8 rounded-full bg-green-100 flex justify-center items-center mr-3">
+                              <i class="fa-solid fa-check text-green-600" style="font-size: 20px;"></i>
+                          </span>
+                Get financial advice from the community
+              </li>
+              <li class="flex items-center text-gray-600">
+                                     <span class="w-8 h-8 rounded-full bg-green-100 flex justify-center items-center mr-3">
+                              <i class="fa-solid fa-check text-green-600" style="font-size: 20px;"></i>
+                          </span>
+                Learn from others' experiences
+              </li>
+              <li class="flex items-center text-gray-600">
+                                   <span class="w-8 h-8 rounded-full bg-green-100 flex justify-center items-center mr-3">
+                              <i class="fa-solid fa-check text-green-600" style="font-size: 20px;"></i>
+                          </span>
+                Participate in financial challenges
+              </li>
+            </ul>
+          </div>
+          <div class="md:w-1/2">
+            <div class="relative group">
+              <div
+                class="absolute -inset-2 bg-gradient-to-r from-green-400 to-green-600 rounded-xl blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
+              <div
+                class="relative rounded-xl shadow-lg transform transition-transform duration-300 group-hover:scale-105 bg-white p-4">
+                <img src="assets/works/share.png" class="w-full h-full text-green-600" style="font-size: 150px;">
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Call to Action -->
+    <div class="text-center mt-32 mb-20">
+      <div
+        class="bg-gradient-to-r from-green-600 to-green-400 p-12 rounded-3xl shadow-xl max-w-4xl mx-auto transform hover:scale-105 transition-transform duration-300">
+        <h2 class="text-4xl font-bold text-white mb-6">Ready to Transform Your Finances?</h2>
+        <p class="text-lg text-green-50 mb-8 max-w-2xl mx-auto">
+          Join thousands of others who have already taken control of their financial future with BudgetBuddy.
+        </p>
+        <a href="/sign-up"
+           class="inline-flex items-center px-8 py-4 bg-white text-green-600 font-semibold rounded-full text-lg hover:bg-green-50 transition duration-300 shadow-lg space-x-2">
+          <span>Get Started Now</span>
+          <i class="lucide-arrow-right w-5 h-5"></i>
+        </a>
+      </div>
+    </div>
+  </main>
 </div>
 <app-footer></app-footer>
