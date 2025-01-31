@@ -24,6 +24,7 @@ import { WorkExplainComponent } from './pages/work-explain/work-explain.componen
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { FeauturesOpenComponent } from './pages/feautures-open/feautures-open.component';
 import { PrivacyComponent } from './pages/privacy/privacy.component';
+import { ContactComponent } from './pages/contact/contact.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { PrivacyComponent } from './pages/privacy/privacy.component';
     WorkExplainComponent,
     FeauturesOpenComponent,
     PrivacyComponent,
+    ContactComponent,
   ],
   imports: [
     BrowserModule,

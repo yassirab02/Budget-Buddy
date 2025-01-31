@@ -9,6 +9,7 @@ import {WorkExplainComponent} from './pages/work-explain/work-explain.component'
 import {FeaturesComponent} from './pages/features/features.component';
 import {FeauturesOpenComponent} from './pages/feautures-open/feautures-open.component';
 import {PrivacyComponent} from './pages/privacy/privacy.component';
+import {ContactComponent} from './pages/contact/contact.component';
 
 const routes: Routes = [
   {
@@ -39,6 +40,10 @@ const routes: Routes = [
   {
     path: 'works',
     component: WorkExplainComponent
+  },
+  {
+    path: 'contact',
+    component: ContactComponent
   },
   {
     path: 'activate-account',
