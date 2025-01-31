@@ -6,8 +6,9 @@ import {ActivateAccountComponent} from './pages/activate-account/activate-accoun
 import {HomeComponent} from './pages/home/home.component';
 import {AuthGuard} from './services/guard/auth.guard';
 import {WorkExplainComponent} from './pages/work-explain/work-explain.component';
-import {AboutComponent} from './pages/about/about.component';
 import {FeaturesComponent} from './pages/features/features.component';
+import {FeauturesOpenComponent} from './pages/feautures-open/feautures-open.component';
+import {PrivacyComponent} from './pages/privacy/privacy.component';
 
 const routes: Routes = [
   {
@@ -29,15 +30,15 @@ const routes: Routes = [
   },
   {
     path: 'features',
-    component: FeaturesComponent
+    component: FeauturesOpenComponent
+  },
+  {
+    path: 'privacy',
+    component: PrivacyComponent
   },
   {
     path: 'works',
     component: WorkExplainComponent
-  },
-  {
-    path: 'about',
-    component: AboutComponent
   },
   {
     path: 'activate-account',

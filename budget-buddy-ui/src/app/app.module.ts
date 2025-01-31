@@ -15,7 +15,6 @@ import {NgOptimizedImage} from '@angular/common';
 import { NavbarComponent } from './pages/navbar/navbar.component';
 import { ErrorPageComponent } from './pages/error-page/error-page.component';
 import { HeroComponent } from './pages/hero/hero.component';
-import { AboutComponent } from './pages/about/about.component';
 import { FeaturesComponent } from './pages/features/features.component';
 import { StaticsComponent } from './pages/statics/statics.component';
 import {DashboardModule} from './modules/dashboard/dashboard.module';
@@ -23,6 +22,8 @@ import { NewsLetterComponent } from './pages/news-letter/news-letter.component';
 import {HttpTokenInterceptor} from './services/interceptor/http-token.interceptor';
 import { WorkExplainComponent } from './pages/work-explain/work-explain.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { FeauturesOpenComponent } from './pages/feautures-open/feautures-open.component';
+import { PrivacyComponent } from './pages/privacy/privacy.component';
 
 @NgModule({
   declarations: [
@@ -35,11 +36,12 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
     NavbarComponent,
     ErrorPageComponent,
     HeroComponent,
-    AboutComponent,
     FeaturesComponent,
     StaticsComponent,
     NewsLetterComponent,
     WorkExplainComponent,
+    FeauturesOpenComponent,
+    PrivacyComponent,
   ],
   imports: [
     BrowserModule,
