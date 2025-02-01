@@ -36,7 +36,6 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.Month;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -460,6 +459,16 @@ public class ReportServiceImpl implements ReportService {
     }
 
     @Override
+    public List<ReportResponse> getAllMonthlyReport(Authentication connectedUser) {
+        User user = ((User) connectedUser.getPrincipal());
+        List<Report> reports = repository.findByUserIdAndAllMonthlyReports(user.getId(), ReportType.MONTHLY);
+        if (reports == null) {
+            return null;
+        }
+        return reportMapper.toReportResponseList(reports);
+    }
+
+    @Override
     public List<ReportResponse> getYearlyReports(Authentication connectedUser) {
         User user = ((User) connectedUser.getPrincipal());
         List<Report> reports = repository.findByUserIdAndTypeAndCurrentYear(user.getId(), ReportType.YEARLY);
@@ -467,5 +476,25 @@ public class ReportServiceImpl implements ReportService {
             return null;
         }
         return reportMapper.toReportResponseList(reports);
+    }
+
+    @Override
+    public List<ReportResponse> getAllYearlyReports(Authentication connectedUser) {
+        User user = ((User) connectedUser.getPrincipal());
+        List<Report> reports = repository.findByUserIdAndAllYearlyReports(user.getId(), ReportType.YEARLY);
+        if (reports == null) {
+            return null;
+        }
+        return reportMapper.toReportResponseList(reports);
+    }
+
+    @Override
+    public ReportResponse getReportById(Authentication connectedUser, Integer id) {
+        User user = ((User) connectedUser.getPrincipal());
+        Report report = repository.findById(id).orElse(null);
+        if (report == null || !report.getUser().getId().equals(user.getId())) {
+            return null;
+        }
+        return reportMapper.toReportResponse(report);
     }
 }

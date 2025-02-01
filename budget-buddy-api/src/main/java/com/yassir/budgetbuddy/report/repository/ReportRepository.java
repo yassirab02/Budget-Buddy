@@ -13,6 +13,14 @@ import java.util.Optional;
 
 public interface ReportRepository extends JpaRepository<Report, Integer> , JpaSpecificationExecutor<Report> {
 
+    @Query("SELECT r FROM Report r WHERE r.user.id = :userId AND r.type = :type AND " +
+            "MONTH(r.startDate) = MONTH(r.startDate) AND YEAR(r.startDate) = YEAR(r.startDate)")
+    List<Report> findByUserIdAndAllMonthlyReports(@Param("userId") Integer userId, @Param("type") ReportType type);
+
+    @Query("SELECT r FROM Report r WHERE r.user.id = :userId AND r.type = :type AND " +
+            "YEAR(r.startDate) = YEAR(CURRENT_DATE)")
+    List<Report> findByUserIdAndAllYearlyReports(@Param("userId") Integer userId, @Param("type") ReportType type);
+
 
     @Query("SELECT r FROM Report r WHERE r.user.id = :userId AND r.type = :type AND " +
             "MONTH(r.startDate) = MONTH(CURRENT_DATE) AND YEAR(r.startDate) = YEAR(CURRENT_DATE)")

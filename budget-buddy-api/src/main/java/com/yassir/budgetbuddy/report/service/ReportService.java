@@ -15,6 +15,8 @@ public interface ReportService {
 
     List<ReportResponse> getMonthlyReport(Authentication connectedUser);
 
+    List<ReportResponse> getAllMonthlyReport(Authentication connectedUser);
+
     List<ReportResponse> getYearlyReports(Authentication connectedUser);
 
     // Scheduled method to generate monthly reports (runs on the 1st day of each month at midnight)
@@ -28,4 +30,7 @@ public interface ReportService {
     void generateYearlyReports();
 
 
+    List<ReportResponse> getAllYearlyReports(Authentication connectedUser);
+
+    ReportResponse getReportById(Authentication connectedUser, Integer id);
 }

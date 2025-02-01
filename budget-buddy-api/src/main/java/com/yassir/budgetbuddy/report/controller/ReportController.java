@@ -20,6 +20,18 @@ public class ReportController {
 
 
     // Fetch monthly reports for a user
+    @GetMapping("/report/{report-id}")
+    public ResponseEntity<ReportResponse> getReportById(Authentication connectedUser,@PathVariable("report-id") Integer id) {
+        return ResponseEntity.ok(service.getReportById(connectedUser,id));
+    }
+
+    // Fetch monthly reports for a user
+    @GetMapping("/all-monthly")
+    public ResponseEntity<List<ReportResponse>> getAllMonthlyReports(Authentication connectedUser) {
+        return ResponseEntity.ok(service.getAllMonthlyReport(connectedUser));
+    }
+
+    // Fetch monthly reports for a user
     @GetMapping("/monthly")
     public ResponseEntity<List<ReportResponse>> getMonthlyReports(Authentication connectedUser) {
         return ResponseEntity.ok(service.getMonthlyReport(connectedUser));
@@ -29,6 +41,13 @@ public class ReportController {
     @GetMapping("/yearly")
     public ResponseEntity<List<ReportResponse>>  getYearlyReports(Authentication connectedUser) {
         return ResponseEntity.ok(service.getYearlyReports(connectedUser));
+    }
+
+
+    // Fetch yearly reports for a user
+    @GetMapping("/all-yearly")
+    public ResponseEntity<List<ReportResponse>>  getAllYearlyReports(Authentication connectedUser) {
+        return ResponseEntity.ok(service.getAllYearlyReports(connectedUser));
     }
 
     // Get all reports for a user

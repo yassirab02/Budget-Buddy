@@ -11,10 +11,16 @@ import { BaseService } from '../base-service';
 import { ApiConfiguration } from '../api-configuration';
 import { StrictHttpResponse } from '../strict-http-response';
 
+import { getAllMonthlyReports } from '../fn/report/get-all-monthly-reports';
+import { GetAllMonthlyReports$Params } from '../fn/report/get-all-monthly-reports';
 import { getAllReports } from '../fn/report/get-all-reports';
 import { GetAllReports$Params } from '../fn/report/get-all-reports';
+import { getAllYearlyReports } from '../fn/report/get-all-yearly-reports';
+import { GetAllYearlyReports$Params } from '../fn/report/get-all-yearly-reports';
 import { getMonthlyReports } from '../fn/report/get-monthly-reports';
 import { GetMonthlyReports$Params } from '../fn/report/get-monthly-reports';
+import { getReportById } from '../fn/report/get-report-by-id';
+import { GetReportById$Params } from '../fn/report/get-report-by-id';
 import { getYearlyReports } from '../fn/report/get-yearly-reports';
 import { GetYearlyReports$Params } from '../fn/report/get-yearly-reports';
 import { PageResponseReportResponse } from '../models/page-response-report-response';
@@ -51,6 +57,31 @@ export class ReportService extends BaseService {
     );
   }
 
+  /** Path part for operation `getReportById()` */
+  static readonly GetReportByIdPath = '/report/report/{report-id}';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `getReportById()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getReportById$Response(params: GetReportById$Params, context?: HttpContext): Observable<StrictHttpResponse<ReportResponse>> {
+    return getReportById(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `getReportById$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getReportById(params: GetReportById$Params, context?: HttpContext): Observable<ReportResponse> {
+    return this.getReportById$Response(params, context).pipe(
+      map((r: StrictHttpResponse<ReportResponse>): ReportResponse => r.body)
+    );
+  }
+
   /** Path part for operation `getMonthlyReports()` */
   static readonly GetMonthlyReportsPath = '/report/monthly';
 
@@ -72,6 +103,31 @@ export class ReportService extends BaseService {
    */
   getMonthlyReports(params?: GetMonthlyReports$Params, context?: HttpContext): Observable<Array<ReportResponse>> {
     return this.getMonthlyReports$Response(params, context).pipe(
+      map((r: StrictHttpResponse<Array<ReportResponse>>): Array<ReportResponse> => r.body)
+    );
+  }
+
+  /** Path part for operation `getAllYearlyReports()` */
+  static readonly GetAllYearlyReportsPath = '/report/all-yearly';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `getAllYearlyReports()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getAllYearlyReports$Response(params?: GetAllYearlyReports$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<ReportResponse>>> {
+    return getAllYearlyReports(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `getAllYearlyReports$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getAllYearlyReports(params?: GetAllYearlyReports$Params, context?: HttpContext): Observable<Array<ReportResponse>> {
+    return this.getAllYearlyReports$Response(params, context).pipe(
       map((r: StrictHttpResponse<Array<ReportResponse>>): Array<ReportResponse> => r.body)
     );
   }
@@ -98,6 +154,31 @@ export class ReportService extends BaseService {
   getAllReports(params?: GetAllReports$Params, context?: HttpContext): Observable<PageResponseReportResponse> {
     return this.getAllReports$Response(params, context).pipe(
       map((r: StrictHttpResponse<PageResponseReportResponse>): PageResponseReportResponse => r.body)
+    );
+  }
+
+  /** Path part for operation `getAllMonthlyReports()` */
+  static readonly GetAllMonthlyReportsPath = '/report/all-monthly';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `getAllMonthlyReports()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getAllMonthlyReports$Response(params?: GetAllMonthlyReports$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<ReportResponse>>> {
+    return getAllMonthlyReports(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `getAllMonthlyReports$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getAllMonthlyReports(params?: GetAllMonthlyReports$Params, context?: HttpContext): Observable<Array<ReportResponse>> {
+    return this.getAllMonthlyReports$Response(params, context).pipe(
+      map((r: StrictHttpResponse<Array<ReportResponse>>): Array<ReportResponse> => r.body)
     );
   }
 

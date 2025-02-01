@@ -18,7 +18,7 @@
       <div *ngFor="let report of monthlyReports" class="bg-white rounded-lg shadow-md overflow-hidden">
         <div class="p-4">
           <div class="flex justify-between items-center mb-2">
-            <span class="text-lg font-semibold">Monthly Report</span>
+            <span class="text-lg font-semibold">{{report.type}} Report</span>
             <span class="text-sm font-normal text-gray-500 flex items-center">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
@@ -61,7 +61,7 @@
             </p>
             <p class="text-lg font-semibold text-blue-600">${{ report.balance }}</p>
           </div>
-          <a [routerLink]="['/financial-report', report.id]" class="block w-full bg-green-600 text-white text-center py-2 px-4 rounded hover:bg-green-700 transition duration-300">View Full Report</a>
+          <button (click)="navigateToReport(report?.id)" class="block w-full bg-green-600 text-white text-center py-2 px-4 rounded hover:bg-green-700 transition duration-300">View Full Report</button>
         </div>
       </div>
 
@@ -69,7 +69,7 @@
       <div *ngFor="let report of yearlyReports" class="bg-white rounded-lg shadow-md overflow-hidden">
         <div class="p-4">
           <div class="flex justify-between items-center mb-2">
-            <span class="text-lg font-semibold">Yearly Report</span>
+            <span class="text-lg font-semibold">{{ report.type }} Report</span>
             <span class="text-sm font-normal text-gray-500 flex items-center">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>

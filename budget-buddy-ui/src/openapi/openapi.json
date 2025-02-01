@@ -1138,12 +1138,66 @@
         }
       }
     },
+    "/report/report/{report-id}": {
+      "get": {
+        "tags": [
+          "Report"
+        ],
+        "operationId": "getReportById",
+        "parameters": [
+          {
+            "name": "report-id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReportResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/report/monthly": {
       "get": {
         "tags": [
           "Report"
         ],
         "operationId": "getMonthlyReports",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ReportResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/report/all-yearly": {
+      "get": {
+        "tags": [
+          "Report"
+        ],
+        "operationId": "getAllYearlyReports",
         "responses": {
           "200": {
             "description": "OK",
@@ -1196,6 +1250,29 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/PageResponseReportResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/report/all-monthly": {
+      "get": {
+        "tags": [
+          "Report"
+        ],
+        "operationId": "getAllMonthlyReports",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ReportResponse"
+                  }
                 }
               }
             }
