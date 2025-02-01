@@ -1,146 +1,156 @@
-<div *ngIf="isLoading; else reportContent" class="flex justify-center items-center h-screen">
-  <app-spinner class="w-16 h-16"></app-spinner>
-</div>
-
-<ng-template class="bg-gradient-to-br from-green-50 to-white min-h-screen p-4 md:p-8" #reportContent>
-  <div class="max-w-6xl mx-auto">
-    <h1 class="text-3xl md:text-4xl font-bold mb-6 text-green-800">Financial Reports</h1>
-
-    <hr class="p-4">
-
-    <div class="mb-6 flex space-x-4">
-      <button
-        (click)="toggleReportView('monthly')"
-        [class.bg-green-600]="isMonthlyReport"
-        [class.text-white]="isMonthlyReport"
-        [class.bg-white]="!isMonthlyReport"
-        [class.text-green-600]="!isMonthlyReport"
-        [class.border]="!isMonthlyReport"
-        [class.border-green-600]="!isMonthlyReport"
-        class="w-1/2 px-4 py-2 rounded-md font-semibold"
-      >
-        Monthly Reports
+<div class="min-h-screen bg-green-50 p-4 md:p-8">
+<div class="max-w-7xl mx-auto">
+  <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 space-y-4 md:space-y-0">
+    <h1 class="text-3xl font-bold text-green-800">Financial Reports</h1>
+    <div class="flex flex-wrap items-center gap-4">
+      <select class="w-[180px] bg-white border-green-300 text-green-800 rounded-md px-4 py-2">
+        <option value="2023">2023</option>
+        <option value="2022">2022</option>
+        <option value="2021">2021</option>
+      </select>
+      <button class="bg-white text-green-700 border border-green-300 hover:bg-green-100 px-4 py-2 rounded-md flex items-center">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+        </svg>
+        PDF
       </button>
-
-      <button
-        (click)="toggleReportView('yearly')"
-        [class.bg-green-600]="!isMonthlyReport"
-        [class.text-white]="!isMonthlyReport"
-        [class.bg-white]="isMonthlyReport"
-        [class.text-green-600]="isMonthlyReport"
-        [class.border]="isMonthlyReport"
-        [class.border-green-600]="isMonthlyReport"
-        class="w-1/2 px-4 py-2 rounded-md font-semibold"
-      >
-        Yearly Reports
+      <button class="bg-white text-green-700 border border-green-300 hover:bg-green-100 px-4 py-2 rounded-md flex items-center">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+        </svg>
+        CSV
       </button>
     </div>
+  </div>
+  <div class="w-full mb-8">
+    <div class="grid w-full grid-cols-2 bg-green-100 rounded-lg p-1">
+      <button class="py-2 px-4 rounded-md" [ngClass]="{'bg-white text-green-700': isMonthlyReport, 'text-green-700': !isMonthlyReport}"
+              (click)="toggleReportView('monthly')">Monthly Reports</button>
+      <button class="py-2 px-4 rounded-md" [ngClass]="{'bg-white text-green-700': !isMonthlyReport, 'text-green-700': isMonthlyReport}"
+              (click)="toggleReportView('yearly')">Yearly Reports</button>
+    </div>
+  </div>
 
-
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-16">
-      <!-- Loop over Monthly Reports -->
-      <div *ngIf="isMonthlyReport"  class="bg-white rounded-lg shadow-md overflow-hidden">
-        <div class="p-4" *ngFor="let report of monthlyReports">
-          <div class="flex justify-between items-center mb-2">
-            <span class="text-lg font-semibold">{{report.type}} Report</span>
-            <span class="text-sm font-normal text-gray-500 flex items-center">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-                <line x1="16" y1="2" x2="16" y2="6"></line>
-                <line x1="8" y1="2" x2="8" y2="6"></line>
-                <line x1="3" y1="10" x2="21" y2="10"></line>
-              </svg>
-              {{ report.year }} - {{ report.month }}
-            </span>
+  <div *ngIf="isMonthlyReport">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <!-- Loop through monthly reports -->
+      <div *ngFor="let report of monthlyReports" class="bg-white border-green-200 rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300">
+        <div class="bg-green-100 p-4">
+          <div class="flex justify-between items-center text-lg text-green-800">
+            <span>Monthly Report</span>
+            <span class="text-sm font-normal flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
+              {{ report.year }} - {{ report.month | month}}
+          </span>
           </div>
+        </div>
+        <div class="p-6">
           <div class="grid grid-cols-2 gap-4 mb-4">
             <div>
-              <p class="text-sm text-gray-500 flex items-center">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
-                  <polyline points="17 6 23 6 23 12"></polyline>
+              <p class="text-sm text-green-600 flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
                 </svg>
                 Income
               </p>
-              <p class="text-lg font-semibold text-green-600">${{ report.totalIncome }}</p>
+              <p class="text-lg font-semibold text-green-800">${{ report.totalIncome }}</p>
             </div>
             <div>
-              <p class="text-sm text-gray-500 flex items-center">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
-                  <polyline points="17 18 23 18 23 12"></polyline>
+              <p class="text-sm text-red-600 flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6" />
                 </svg>
                 Expenses
               </p>
-              <p class="text-lg font-semibold text-red-600">${{ report.totalExpenses }}</p>
+              <p class="text-lg font-semibold text-red-800">${{ report.totalExpenses }}</p>
             </div>
-          </div>
-          <div class="mb-4">
-            <p class="text-sm text-gray-500 flex items-center">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <line x1="12" y1="1" x2="12" y2="23"></line>
-                <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
-              </svg>
-              Balance
-            </p>
-            <p class="text-lg font-semibold text-blue-600">${{ report.balance }}</p>
-          </div>
-          <button (click)="navigateToMonthlyReport(report?.id)" class="block w-full bg-green-600 text-white text-center py-2 px-4 rounded hover:bg-green-700 transition duration-300">View Full Report</button>
-        </div>
-      </div>
-
-      <div  *ngIf="!isMonthlyReport">
-      <!-- Loop over Yearly Reports -->
-      <div *ngFor="let report of yearlyReports" class="bg-white rounded-lg shadow-md overflow-hidden">
-        <div class="p-4">
-          <div class="flex justify-between items-center mb-2">
-            <span class="text-lg font-semibold">{{ report.type }} Report</span>
-            <span class="text-sm font-normal text-gray-500 flex items-center">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-                <line x1="16" y1="2" x2="16" y2="6"></line>
-                <line x1="8" y1="2" x2="8" y2="6"></line>
-                <line x1="3" y1="10" x2="21" y2="10"></line>
-              </svg>
-              {{ report.year }}
-            </span>
           </div>
           <div class="grid grid-cols-2 gap-4 mb-4">
-            <div>
-              <p class="text-sm text-gray-500 flex items-center">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
-                  <polyline points="17 6 23 6 23 12"></polyline>
-                </svg>
-                Income
-              </p>
-              <p class="text-lg font-semibold text-green-600">${{ report.totalIncome }}</p>
-            </div>
-            <div>
-              <p class="text-sm text-gray-500 flex items-center">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
-                  <polyline points="17 18 23 18 23 12"></polyline>
-                </svg>
-                Expenses
-              </p>
-              <p class="text-lg font-semibold text-red-600">${{ report.totalExpenses }}</p>
-            </div>
-          </div>
-          <div class="mb-4">
-            <p class="text-sm text-gray-500 flex items-center">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <line x1="12" y1="1" x2="12" y2="23"></line>
-                <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+          <div class="">
+            <p class="text-sm text-green-600 flex items-center">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
               Balance
             </p>
-            <p class="text-lg font-semibold text-blue-600">${{ report.balance }}</p>
+            <p class="text-lg font-semibold text-green-800">${{ report.balance }}</p>
           </div>
-          <button (click)="navigateToYearlyReport(report?.id)" class="block w-full bg-green-600 text-white text-center py-2 px-4 rounded hover:bg-green-700 transition duration-300">View Full Report</button>
+          <div class="">
+            <p class="text-sm text-green-600 flex items-center">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+              </svg>
+              Saving Rate
+            </p>
+            <p class="text-lg font-semibold text-green-800">{{report.savingRate}}%</p>
+          </div>
         </div>
-      </div>
+          <button (click)="navigateToMonthlyReport(report?.id)" class="w-full bg-green-600 text-white hover:bg-green-700 py-2 px-4 rounded-md">View Full Report</button>
+        </div>
       </div>
     </div>
   </div>
-</ng-template>
+
+  <div *ngIf="!isMonthlyReport">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <!-- Loop through yearly reports -->
+      <div *ngFor="let report of yearlyReports" class="bg-white border-green-200 rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300">
+        <div class="bg-green-100 p-4">
+          <div class="flex justify-between items-center text-lg text-green-800">
+            <span>Yearly Report</span>
+            <span class="text-sm font-normal flex items-center">
+               <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
+            {{ report.year }}
+          </span>
+          </div>
+        </div>
+        <div class="p-6">
+          <div class="grid grid-cols-2 gap-4 mb-4">
+            <div>
+              <p class="text-sm text-green-600 flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                </svg>
+                Income
+              </p>
+              <p class="text-lg font-semibold text-green-800">${{ report.totalIncome }}</p>
+            </div>
+            <div>
+              <p class="text-sm text-red-600 flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6" />
+                </svg>
+                Expenses
+              </p>
+              <p class="text-lg font-semibold text-red-800">${{ report.totalExpenses }}</p>
+            </div>
+          </div>
+          <div class="grid grid-cols-2 gap-4 mb-4">
+            <div class="">
+              <p class="text-sm text-green-600 flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                Balance
+              </p>
+              <p class="text-lg font-semibold text-green-800">${{ report.balance }}</p>
+            </div>
+            <div class="">
+              <p class="text-sm text-green-600 flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                </svg>
+                Saving Rate
+              </p>
+              <p class="text-lg font-semibold text-green-800">{{report.savingRate}}%</p>
+            </div>
+          </div>
+          <button (click)="navigateToYearlyReport(report?.id)" class="w-full bg-green-600 text-white hover:bg-green-700 py-2 px-4 rounded-md">View Full Report</button>
+        </div>
+      </div>
+    </div>
+  </div>
