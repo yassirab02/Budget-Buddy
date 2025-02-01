@@ -44,7 +44,7 @@ export class ChartComponent implements OnChanges {
     }
 
     // Create the chart with available data
-    this.chart = new Chart('dashboardChart', {
+    this.chart = new Chart('expensesChart', {
       type: 'pie', // Change chart type to 'pie'
       data: {
         labels: ['Incomes', 'Expenses', 'Debts'],

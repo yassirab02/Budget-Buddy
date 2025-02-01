@@ -2914,6 +2914,18 @@
             "type": "integer",
             "format": "int32"
           },
+          "totalGoals": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalDebt": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalPaidDebt": {
+            "type": "integer",
+            "format": "int32"
+          },
           "balance": {
             "type": "number"
           },

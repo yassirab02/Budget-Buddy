@@ -106,9 +106,14 @@ public class ReportServiceImpl implements ReportService {
             monthlyReport.setUser(user);
 
             // Custom methods for calculations
-            monthlyReport.setTotalIncome(calculateTotalIncome(user, now)); // Calculate total income
-            monthlyReport.setTotalExpenses(calculateTotalExpenses(user, now)); // Calculate total expenses
-            monthlyReport.setTotalGoalsReached(calculateTotalGoals(user, now)); // Calculate goals reached
+            BigDecimal totalIncome = calculateTotalIncome(user, now); // Calculate total income
+            BigDecimal totalExpenses = calculateTotalExpenses(user, now); // Calculate total expenses
+
+            // Custom methods for calculations
+            monthlyReport.setTotalIncome(totalIncome);
+            monthlyReport.setTotalExpenses(totalExpenses);
+            monthlyReport.setTotalGoalsReached(calculateTotalReachedGoals(user, now)); // Calculate goals reached
+            monthlyReport.setTotalGoals(calculateTotalGoals(user,now)); // Total goals set by the user
 
             // Calculate debts
             BigDecimal totalDebt = calculateTotalDebt(user, now); // Custom method to calculate total debt
@@ -118,6 +123,10 @@ public class ReportServiceImpl implements ReportService {
             monthlyReport.setTotalDebt(totalDebt); // Add total debt
             monthlyReport.setTotalPaidDebt(totalPaidDebt); // Add paid debt
             monthlyReport.setTotalUnpaidDebt(totalUnpaidDebt); // Add unpaid debt
+
+            // Calculate the saving rate for the month
+            BigDecimal savingRate = calculateMonthlySavingRate(totalIncome, totalExpenses);
+            monthlyReport.setSavingRate(savingRate); // Set saving rate
 
             monthlyReport.setBalance(monthlyReport.getTotalIncome().subtract(monthlyReport.getTotalExpenses()));
             monthlyReport.setDetails(generateReportDetails(user, now)); // Generate report details
@@ -147,6 +156,14 @@ public class ReportServiceImpl implements ReportService {
             }
         }
         System.out.println("Monthly reports generated successfully!");
+    }
+
+    private BigDecimal calculateMonthlySavingRate(BigDecimal totalIncome, BigDecimal totalExpenses) {
+        if (totalIncome.compareTo(BigDecimal.ZERO) == 0) {
+            return BigDecimal.ZERO; // Avoid division by zero
+        }
+        return totalIncome.subtract(totalExpenses)
+                .divide(totalIncome, 2, RoundingMode.HALF_UP); // Round to 2 decimal places
     }
 
     private BigDecimal calculateTotalDebt(User user, LocalDate now) {
@@ -185,12 +202,21 @@ public class ReportServiceImpl implements ReportService {
     }
 
 
-    private int calculateTotalGoals(User user, LocalDate now) {
+    private int calculateTotalReachedGoals(User user, LocalDate now) {
         LocalDate startOfMonth = now.withDayOfMonth(1);
         LocalDate endOfMonth = now.withDayOfMonth(now.lengthOfMonth());
 
         return goalRepository
                 .findByUserAndReachedDateBetween(user, startOfMonth, endOfMonth)
+                .size(); // Count the number of goals reached
+    }
+
+    private int calculateTotalGoals(User user, LocalDate now) {
+        LocalDate startOfMonth = now.withDayOfMonth(1);
+        LocalDate endOfMonth = now.withDayOfMonth(now.lengthOfMonth());
+
+        return goalRepository
+                .findByUserAndDateBetween(user, startOfMonth, endOfMonth)
                 .size(); // Count the number of goals reached
     }
 
@@ -200,7 +226,7 @@ public class ReportServiceImpl implements ReportService {
         BigDecimal totalDebt = calculateTotalDebt(user, now); // New method for total debt
         BigDecimal totalPaidDebt = calculateTotalPaidDebt(user, now); // New method for paid debt
         BigDecimal totalUnpaidDebt = totalDebt.subtract(totalPaidDebt); // Calculate remaining unpaid debt
-        int totalGoals = calculateTotalGoals(user, now);
+        int totalGoals = calculateTotalReachedGoals(user, now);
         BigDecimal balance = totalIncome.subtract(totalExpenses);
 
         // No income case

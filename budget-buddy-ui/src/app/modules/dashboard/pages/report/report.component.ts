@@ -20,7 +20,6 @@ export class ReportComponent implements OnInit  {
   errorMsg: Array<string> = [];
   monthlyReports: ReportResponse[] = [];
   yearlyReports: ReportResponse[] = [];
-  selectedReportId: number | null = null;
 
   constructor(private reportService: ReportService,private router: Router) {
   }

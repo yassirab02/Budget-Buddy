@@ -12,9 +12,12 @@ export interface ReportResponse {
   owner?: string;
   savingRate?: number;
   startDate?: string;
+  totalDebt?: number;
   totalExpenses?: number;
+  totalGoals?: number;
   totalGoalsReached?: number;
   totalIncome?: number;
+  totalPaidDebt?: number;
   type?: string;
   year?: number;
 }

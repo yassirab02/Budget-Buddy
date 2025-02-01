@@ -30,6 +30,9 @@ public interface GoalRepository extends JpaRepository<Goal, Integer>, JpaSpecifi
     @Query("SELECT g FROM Goal g WHERE g.user = :user AND g.reached = true AND g.targetDate BETWEEN :startDate AND :endDate")
     List<Goal> findByUserAndReachedDateBetween(@Param("user") User user, @Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
 
+    @Query("SELECT g FROM Goal g WHERE g.user = :user AND g.targetDate BETWEEN :startDate AND :endDate")
+    List<Goal> findByUserAndDateBetween(@Param("user") User user, @Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
+
     @Query("""
                 SELECT goal
                 FROM Goal goal

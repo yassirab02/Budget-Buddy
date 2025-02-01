@@ -25,6 +25,7 @@ public class Report extends BaseEntity {
     private BigDecimal totalIncome;   // Total income during the period
     private BigDecimal totalExpenses; // Total expenses during the period
     private Integer totalGoalsReached; // Total goals reached during the period
+    private Integer totalGoals; // Total goals
     private BigDecimal balance;// Remaining balance during the period
     private BigDecimal totalDebt; // Total debt
     private BigDecimal totalPaidDebt; // Total paid debt
