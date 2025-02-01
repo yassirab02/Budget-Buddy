@@ -74,8 +74,8 @@ public class User implements UserDetails , Principal {
     @OneToMany(mappedBy = "receiver", cascade = CascadeType.ALL)
     private List<Transaction> receivedTransfers;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
-    private Report report;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Report> reports;
 
 
     @Override

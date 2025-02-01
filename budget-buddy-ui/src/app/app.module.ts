@@ -58,9 +58,13 @@ import { ContactComponent } from './pages/contact/contact.component';
   providers: [
     HttpClient,
     provideHttpClient(withFetch()), // This enables fetch API
-    { provide: HTTP_INTERCEPTORS,
+    {
+      provide: HTTP_INTERCEPTORS,
       useClass: HttpTokenInterceptor,
-      multi: true }
+      multi: true
+    }
+  ],
+  exports: [
   ],
   bootstrap: [AppComponent]
 })

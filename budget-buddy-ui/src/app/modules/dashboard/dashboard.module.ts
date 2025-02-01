@@ -37,7 +37,9 @@ import {ChartComponent} from './components/chart/chart.component';
 import {StoryCreateComponent} from './components/story/story-create/story-create.component';
 import {StoryDetailComponent} from './components/story/story-detail/story-detail.component';
 import {QuestionsComponent} from './pages/questions/questions.component';
-import {ReportDetailComponent} from './pages/report/report-detail/report-detail.component';
+import {ReportDetailComponent} from './pages/report/report-detail/report-month/report-detail.component';
+import { ReportYearComponent } from './pages/report/report-detail/report-year/report-year.component';
+import {MonthPipe} from '../../pipes/month.pipe';
 
 
 @NgModule({
@@ -72,7 +74,9 @@ import {ReportDetailComponent} from './pages/report/report-detail/report-detail.
     StoryCreateComponent,
     StoryDetailComponent,
     QuestionsComponent,
-    ReportDetailComponent
+    ReportDetailComponent,
+    ReportYearComponent,
+    MonthPipe,
   ],
   exports: [
     SpinnerComponent

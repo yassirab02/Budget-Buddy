@@ -9,14 +9,38 @@
     <hr class="p-4">
 
     <div class="mb-6 flex space-x-4">
-      <button class="w-1/2 px-4 py-2 bg-green-600 text-white rounded-md font-semibold">Monthly Reports</button>
-      <button class="w-1/2 px-4 py-2 bg-white text-green-600 border border-green-600 rounded-md font-semibold">Yearly Reports</button>
+      <button
+        (click)="toggleReportView('monthly')"
+        [class.bg-green-600]="isMonthlyReport"
+        [class.text-white]="isMonthlyReport"
+        [class.bg-white]="!isMonthlyReport"
+        [class.text-green-600]="!isMonthlyReport"
+        [class.border]="!isMonthlyReport"
+        [class.border-green-600]="!isMonthlyReport"
+        class="w-1/2 px-4 py-2 rounded-md font-semibold"
+      >
+        Monthly Reports
+      </button>
+
+      <button
+        (click)="toggleReportView('yearly')"
+        [class.bg-green-600]="!isMonthlyReport"
+        [class.text-white]="!isMonthlyReport"
+        [class.bg-white]="isMonthlyReport"
+        [class.text-green-600]="isMonthlyReport"
+        [class.border]="isMonthlyReport"
+        [class.border-green-600]="isMonthlyReport"
+        class="w-1/2 px-4 py-2 rounded-md font-semibold"
+      >
+        Yearly Reports
+      </button>
     </div>
+
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-16">
       <!-- Loop over Monthly Reports -->
-      <div *ngFor="let report of monthlyReports" class="bg-white rounded-lg shadow-md overflow-hidden">
-        <div class="p-4">
+      <div *ngIf="isMonthlyReport"  class="bg-white rounded-lg shadow-md overflow-hidden">
+        <div class="p-4" *ngFor="let report of monthlyReports">
           <div class="flex justify-between items-center mb-2">
             <span class="text-lg font-semibold">{{report.type}} Report</span>
             <span class="text-sm font-normal text-gray-500 flex items-center">
@@ -61,10 +85,11 @@
             </p>
             <p class="text-lg font-semibold text-blue-600">${{ report.balance }}</p>
           </div>
-          <button (click)="navigateToReport(report?.id)" class="block w-full bg-green-600 text-white text-center py-2 px-4 rounded hover:bg-green-700 transition duration-300">View Full Report</button>
+          <button (click)="navigateToMonthlyReport(report?.id)" class="block w-full bg-green-600 text-white text-center py-2 px-4 rounded hover:bg-green-700 transition duration-300">View Full Report</button>
         </div>
       </div>
 
+      <div  *ngIf="!isMonthlyReport">
       <!-- Loop over Yearly Reports -->
       <div *ngFor="let report of yearlyReports" class="bg-white rounded-lg shadow-md overflow-hidden">
         <div class="p-4">
@@ -112,8 +137,9 @@
             </p>
             <p class="text-lg font-semibold text-blue-600">${{ report.balance }}</p>
           </div>
-          <a [routerLink]="['/financial-report', report.id]" class="block w-full bg-green-600 text-white text-center py-2 px-4 rounded hover:bg-green-700 transition duration-300">View Full Report</a>
+          <button (click)="navigateToYearlyReport(report?.id)" class="block w-full bg-green-600 text-white text-center py-2 px-4 rounded hover:bg-green-700 transition duration-300">View Full Report</button>
         </div>
+      </div>
       </div>
     </div>
   </div>

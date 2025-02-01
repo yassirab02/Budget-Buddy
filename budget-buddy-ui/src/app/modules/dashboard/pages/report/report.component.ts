@@ -20,8 +20,14 @@ export class ReportComponent implements OnInit  {
   errorMsg: Array<string> = [];
   monthlyReports: ReportResponse[] = [];
   yearlyReports: ReportResponse[] = [];
+  isMonthlyReport: boolean = true; // Default to monthly reports
 
-  constructor(private reportService: ReportService,private router: Router) {
+  toggleReportView(view: 'monthly' | 'yearly') {
+    this.isMonthlyReport = view === 'monthly';
+  }
+
+
+constructor(private reportService: ReportService,private router: Router) {
   }
     ngOnInit() {
     this.getAllMonthlyReports();
@@ -84,7 +90,11 @@ export class ReportComponent implements OnInit  {
     });
   }
 
-  navigateToReport(id: number|undefined): void {
-    this.router.navigate(['/report', id]);
+  navigateToMonthlyReport(id: number|undefined): void {
+    this.router.navigate(['/report/monthly', id]);
+  }
+
+  navigateToYearlyReport(id: number|undefined): void {
+    this.router.navigate(['/report/yearly', id]);
   }
 }

@@ -44,15 +44,9 @@ public class Report extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private ReportType type; // MONTHLY or YEARLY
 
-    // Optionally, you can add a method to calculate startDate and endDate based on year and month
-    public void setStartAndEndDate() {
-        this.startDate = LocalDate.of(year, month, 1);
-        this.endDate = this.startDate.withDayOfMonth(this.startDate.lengthOfMonth());
-    }
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
 
-
-    @OneToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user; // User who requested the report
 
 }

@@ -8,10 +8,10 @@ import {
   ViewChild,
   ElementRef
 } from '@angular/core';
-import { ReportService } from '../../../../../services/services/report.service';
-import { ReportResponse } from '../../../../../services/models/report-response';
+import { ReportService } from '../../../../../../services/services/report.service';
+import { ReportResponse } from '../../../../../../services/models/report-response';
 import { ActivatedRoute } from '@angular/router';
-import { GetReportById$Params } from '../../../../../services/fn/report/get-report-by-id';
+import { GetReportById$Params } from '../../../../../../services/fn/report/get-report-by-id';
 import { Chart, registerables } from 'chart.js';
 
 Chart.register(...registerables);

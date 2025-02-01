@@ -19,8 +19,8 @@ public class ReportResponse {
     private BigDecimal totalExpenses;  // Total expenses during the period
     private int totalGoalsReached;   // Total goals reached during the period
     private int totalGoals;   // Total goals
-    private int totalDebt;   // Total Debt
-    private int totalPaidDebt;   // Total Paid Debt
+    private BigDecimal totalDebt;   // Total Debt
+    private BigDecimal totalPaidDebt;   // Total Paid Debt
     private BigDecimal balance;     // Remaining balance during the period
     private String details;         // Additional report details
     private int year;               // Year of the report

@@ -70,15 +70,16 @@
               Goals Progress
             </h3>
           </div>
-          <div>
-            <div class="flex items-center justify-between mb-4">
-              <span class="text-5xl font-bold text-emerald-700">{{reportResponseDetails.totalGoalsReached}}</span>
-              <div class="w-2/3 h-4 bg-emerald-100 rounded-full overflow-hidden">
-                <div class="h-4 bg-emerald-500 rounded-full transition-all duration-500 ease-out" style="width: 70%;"></div>
-              </div>
+          <div class="flex items-center justify-between mb-4">
+            <span class="text-5xl font-bold text-emerald-700">{{ reportResponseDetails.totalGoalsReached || 0 }}</span>
+            <div class="w-2/3 h-4 bg-emerald-100 rounded-full overflow-hidden">
+              <div
+                class="h-4 bg-emerald-500 rounded-full transition-all duration-500 ease-out"
+                [ngStyle]="{ width: (reportResponseDetails.totalGoalsReached || 0) / (reportResponseDetails.totalGoals || 1) * 100 + '%' }"
+              ></div>
             </div>
-            <p class="text-lg text-gray-600">Of {{reportResponseDetails.totalGoals}} reached</p>
           </div>
+          <p class="text-lg text-gray-600">Of {{ reportResponseDetails.totalGoals || 0 }} reached</p>
         </div>
 
         <div class="bg-white rounded-2xl shadow-lg p-6 border border-emerald-100">
@@ -134,7 +135,7 @@
           <div class="pb-4">
             <h3 class="text-emerald-600 flex items-center text-xl font-semibold">
               <span class="mr-3 text-2xl"><i class="fa-solid fa-chart-pie"></i></span>
-              Expense Distribution
+              Money Distribution
             </h3>
           </div>
           <div>

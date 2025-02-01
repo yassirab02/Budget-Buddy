@@ -1,0 +1,177 @@
+<div *ngIf="isLoading; else reportDetailContent" class="flex justify-center items-center h-screen">
+  <app-spinner class="w-16 h-16"></app-spinner>
+</div>
+
+<ng-template class="bg-gradient-to-br from-green-50 to-emerald-100 min-h-screen p-4 md:p-8" #reportDetailContent >
+  <div class="max-w-6xl mx-auto bg-white rounded-3xl shadow-2xl overflow-hidden">
+    <div class="bg-gradient-to-r from-emerald-600 to-green-700 text-white p-8">
+      <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
+        <div>
+          <h1 class="text-4xl md:text-5xl font-bold mb-2 tracking-tight">Financial Report</h1>
+          <p class="text-emerald-100 flex items-center text-lg">
+            <span class="inline mr-2"><i class="fa-solid fa-calendar-check"></i></span>
+            {{reportResponseDetails.startDate}} - {{reportResponseDetails.endDate}}
+          </p>
+        </div>
+        <button class="mt-4 md:mt-0 text-white bg-emerald-500 hover:bg-emerald-400 px-6 py-3 rounded-full text-sm font-semibold flex items-center transition duration-300 ease-in-out transform hover:scale-105">
+          <span class="mr-2"><i class="fa-solid fa-download"></i></span> Export Report
+        </button>
+      </div>
+      <div class="mt-6">
+        <p class="text-2xl font-semibold">{{ reportResponseDetails.type }} Report</p>
+        <p class="text-emerald-100 text-lg">Report Owner: {{reportResponseDetails.owner}}</p>
+      </div>
+    </div>
+
+    <div class="p-8">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+        <div class="bg-gradient-to-br from-emerald-50 to-green-100 rounded-2xl shadow-lg p-6 transform transition duration-300 hover:scale-105">
+          <div class="pb-4">
+            <h3 class="text-emerald-700 flex items-center text-xl font-semibold">
+              <span class="mr-3 text-2xl"><i class="fa-solid fa-arrow-trend-up"></i></span>
+              Total Income
+            </h3>
+          </div>
+          <div>
+            <p class="text-4xl font-bold text-emerald-800">$ {{reportResponseDetails.totalIncome}}</p>
+          </div>
+        </div>
+
+        <div class="bg-gradient-to-br from-red-50 to-red-100 rounded-2xl shadow-lg p-6 transform transition duration-300 hover:scale-105">
+          <div class="pb-4">
+            <h3 class="text-red-700 flex items-center text-xl font-semibold">
+              <span class="mr-3 text-2xl"><i class="fa-solid fa-arrow-trend-down"></i></span>
+              Total Expenses
+            </h3>
+          </div>
+          <div>
+            <p class="text-4xl font-bold text-red-800">$ {{reportResponseDetails.totalExpenses}}</p>
+          </div>
+        </div>
+
+        <div class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl shadow-lg p-6 transform transition duration-300 hover:scale-105">
+          <div class="pb-4">
+            <h3 class="text-blue-700 flex items-center text-xl font-semibold">
+              <span class="mr-3 text-2xl"><i class="fa-solid fa-dollar-sign"></i></span>
+              Net Balance
+            </h3>
+          </div>
+          <div>
+            <p class="text-4xl font-bold text-blue-800">$ {{reportResponseDetails.balance}}</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+        <div class="bg-white rounded-2xl shadow-lg p-6 border border-emerald-100">
+          <div class="pb-4">
+            <h3 class="text-emerald-600 flex items-center text-xl font-semibold">
+              <span class="mr-3 text-2xl"><i class="fa-solid fa-bullseye"></i></span>
+              Goals Progress
+            </h3>
+          </div>
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <span class="text-5xl font-bold text-emerald-700">{{ reportResponseDetails.totalGoalsReached || 0 }}</span>
+              <div class="w-2/3 h-4 bg-emerald-100 rounded-full overflow-hidden">
+                <div
+                  class="h-4 bg-emerald-500 rounded-full transition-all duration-500 ease-out"
+                  [ngStyle]="{ width: (reportResponseDetails.totalGoalsReached || 0) / (reportResponseDetails.totalGoals || 1) * 100 + '%' }"
+                ></div>
+              </div>
+            </div>
+            <p class="text-lg text-gray-600">Of {{ reportResponseDetails.totalGoals || 0 }} reached</p>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-lg p-6 border border-emerald-100">
+          <div class="pb-4">
+            <h3 class="text-emerald-600 flex items-center text-xl font-semibold">
+              <span class="mr-3 text-2xl"><i class="fa-solid fa-percent"></i></span>
+              Saving Rate
+            </h3>
+          </div>
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <span class="text-5xl font-bold text-emerald-700">{{reportResponseDetails.savingRate}} %</span>
+              <div class="w-2/3 h-4 bg-emerald-100 rounded-full overflow-hidden">
+                <div class="h-4 bg-emerald-500 rounded-full transition-all duration-500 ease-out" style="width: 33%;"></div>
+              </div>
+            </div>
+            <p class="text-lg text-gray-600">Of total income saved</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+        <div class="bg-white rounded-2xl shadow-lg p-6 md:col-span-2 border border-emerald-100">
+          <div class="pb-4">
+            <h3 class="text-emerald-600 flex items-center text-xl font-semibold">
+              <span class="mr-3 text-2xl"><i class="fa-solid fa-money-bill-trend-up"></i></span>
+              Financial Overview
+            </h3>
+          </div>
+          <div>
+            <div class="grid grid-cols-2 gap-6">
+              <div class="bg-emerald-50 p-4 rounded-xl">
+                <p class="text-sm font-semibold text-emerald-600 mb-2">Year</p>
+                <p class="text-2xl font-bold text-emerald-700">{{ reportResponseDetails.year }}</p>
+              </div>
+              <div class="bg-emerald-50 p-4 rounded-xl">
+                <p class="text-sm font-semibold text-emerald-600 mb-2">Most Spending Month</p>
+                <p class="text-2xl font-bold text-emerald-700">{{ reportResponseDetails.mostSpendingMonth | month }}</p>
+              </div>
+              <div class="bg-emerald-50 p-4 rounded-xl md:col-span-2">
+                <p class="text-sm font-semibold text-emerald-600 mb-2">Expense Ratio</p>
+                <p class="text-2xl font-bold text-emerald-700">
+                  {{
+                    ((reportResponseDetails.totalExpenses || 0) / (reportResponseDetails.totalIncome || 1) * 100) | number: '1.2-2'
+                  }}%
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-lg p-6 border border-emerald-100">
+          <div class="pb-4">
+            <h3 class="text-emerald-600 flex items-center text-xl font-semibold">
+              <span class="mr-3 text-2xl"><i class="fa-solid fa-chart-pie"></i></span>
+              Money Distribution
+            </h3>
+          </div>
+          <div>
+            <div class="h-48 flex items-center justify-center text-gray-400">
+              <canvas #chartCanvas></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-2xl shadow-lg p-6 mb-8 border border-emerald-100">
+        <div class="pb-4">
+          <h3 class="text-emerald-600 text-xl font-semibold flex items-center">
+            <span class="mr-3 text-2xl"><i class="fa-solid fa-lightbulb"></i></span>
+            Financial Insights
+          </h3>
+        </div>
+        <div>
+          <p class="text-gray-700 leading-relaxed mb-6 text-lg">
+            {{reportResponseDetails.details}}
+          </p>
+          <div class="space-y-4">
+            <p class="text-lg text-blue-700 flex items-center">
+              <span class="font-semibold mr-2"><i class="fa-solid fa-arrow-right-circle"></i></span>
+              <span class="font-semibold">Next Steps:</span> Review budget allocation for next period
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-gradient-to-r from-emerald-100 to-green-200 p-6 text-center">
+      <p class="text-lg text-emerald-700 font-semibold">Generated on 1/25/2025 | Financial Report ID: {{reportResponseDetails.id}}</p>
+      <p class="mt-2 text-sm text-emerald-600">Powered by BudgetBuddy</p>
+    </div>
+  </div>
+</ng-template>

@@ -216,7 +216,7 @@ public class ReportServiceImpl implements ReportService {
         LocalDate endOfMonth = now.withDayOfMonth(now.lengthOfMonth());
 
         return goalRepository
-                .findByUserAndDateBetween(user, startOfMonth, endOfMonth)
+                .findByUserAndMonthDateBetween(user, startOfMonth, endOfMonth)
                 .size(); // Count the number of goals reached
     }
 
@@ -275,7 +275,7 @@ public class ReportServiceImpl implements ReportService {
 
     // Scheduled method to generate yearly reports (runs on the 1st of January at midnight)
     @Scheduled(cron = "0 0 0 1 1 *")
-    //@Scheduled(cron = "0 * * * * ?") // For testing purposes, run every minute
+   //@Scheduled(cron = "0 * * * * ?") // For testing purposes, run every minute
     @Transactional
     @Override
     public void generateYearlyReports() {
@@ -285,62 +285,77 @@ public class ReportServiceImpl implements ReportService {
         for (User user : users) {
             Optional<Report> existingReport = repository.findByUserAndYearAndMonth(user, now.getYear(), 0);
             if (existingReport.isPresent()) {
-                System.out.println("Yearly report already generated! for the user " + user.fullName());
-                continue;
-            }
+                System.out.println("Yearly report already generated for user " + user.fullName());
+                // If the report already exists, update it
+                Report existing = existingReport.get();
+                existing.setTotalIncome(calculateYearlyTotalIncome(user, now));
+                existing.setTotalExpenses(calculateYearlyTotalExpenses(user, now));
+                existing.setTotalDebt(calculateYearlyTotalDebt(user, now));
+                existing.setTotalPaidDebt(calculateYearlyTotalPaidDebt(user, now));
+                existing.setTotalUnpaidDebt(existing.getTotalDebt().subtract(existing.getTotalPaidDebt()));
+                existing.setBalance(existing.getTotalIncome().subtract(existing.getTotalExpenses()));
+                existing.setDetails(generateYearlyReportDetails(user, now));
+                existing.setMostSpendingMonth(calculateMostSpendingMonth(user, now));
+                existing.setSavingRate(calculateSavingRate(existing.getTotalIncome(), existing.getTotalExpenses()));
+                existing.setTotalGoals(calculateYearlyGoals(user,now)); // Total goals set by the user
+                existing.setTotalGoalsReached(calculateYearlyReachedGoals(user, now));
 
-            // Create a new report for each user
-            BigDecimal totalIncome = calculateYearlyTotalIncome(user, now); // Custom method to calculate income
-            BigDecimal totalExpenses = calculateYearlyTotalExpenses(user, now); // Custom method to calculate expenses
-            BigDecimal totalDebt = calculateYearlyTotalDebt(user, now); // Custom method to calculate total debt
-            BigDecimal totalPaidDebt = calculateYearlyTotalPaidDebt(user, now); // Custom method to calculate paid debt
-            BigDecimal totalUnpaidDebt = totalDebt.subtract(totalPaidDebt); // Calculate unpaid debt
+                // Save the updated report
+                repository.save(existing);
+            } else {
+                // Create a new report for each user
+                Report yearlyReport = new Report();
+                yearlyReport.setType(ReportType.YEARLY);
+                yearlyReport.setYear(now.getYear());
+                yearlyReport.setMonth(0);
+                yearlyReport.setStartDate(now.withMonth(Month.JANUARY.getValue()).withDayOfMonth(1));
+                yearlyReport.setEndDate(now.withMonth(Month.DECEMBER.getValue()).withDayOfMonth(31));
+                yearlyReport.setUser(user);
 
-            Report yearlyReport = new Report();
-            yearlyReport.setType(ReportType.YEARLY);
-            yearlyReport.setYear(now.getYear()); // Set the year to the current year
-            yearlyReport.setMonth(0); // 0 represents the entire year (no specific month)
-            yearlyReport.setStartDate(now.withMonth(Month.JANUARY.getValue()).withDayOfMonth(1)); // Start date: January 1st
-            yearlyReport.setEndDate(now.withMonth(Month.DECEMBER.getValue()).withDayOfMonth(31)); // End date: December 31st
-            yearlyReport.setUser(user);
-            yearlyReport.setTotalIncome(totalIncome);
-            yearlyReport.setTotalExpenses(totalExpenses);
-            yearlyReport.setTotalDebt(totalDebt);
-            yearlyReport.setTotalPaidDebt(totalPaidDebt);
-            yearlyReport.setTotalUnpaidDebt(totalUnpaidDebt);
-            yearlyReport.setTotalGoalsReached(calculateYearlyTotalGoals(user, now)); // Custom method to calculate goals reached
-            yearlyReport.setBalance(totalIncome.subtract(totalExpenses));
-            yearlyReport.setDetails(generateYearlyReportDetails(user, now));
-            yearlyReport.setCreatedBy(user.getId());
+                // Custom methods for calculations
+                BigDecimal totalIncome = calculateYearlyTotalIncome(user, now); // Calculate total income
+                BigDecimal totalExpenses = calculateYearlyTotalExpenses(user, now); // Calculate total expenses
 
-            // Calculate most spending month and saving rate
-            yearlyReport.setMostSpendingMonth(calculateMostSpendingMonth(user, now)); // Most spending month
-            yearlyReport.setSavingRate(calculateSavingRate(totalIncome, totalExpenses)); // Saving rate
+                yearlyReport.setTotalIncome(totalIncome);
+                yearlyReport.setTotalExpenses(totalExpenses);
+                yearlyReport.setTotalDebt(calculateYearlyTotalDebt(user, now));
+                yearlyReport.setTotalPaidDebt(calculateYearlyTotalPaidDebt(user, now));
+                yearlyReport.setTotalUnpaidDebt(yearlyReport.getTotalDebt().subtract(yearlyReport.getTotalPaidDebt()));
+                yearlyReport.setBalance(yearlyReport.getTotalIncome().subtract(yearlyReport.getTotalExpenses()));
+                yearlyReport.setTotalGoals(calculateYearlyGoals(user,now)); // Total goals set by the user
+                yearlyReport.setTotalGoalsReached(calculateYearlyReachedGoals(user, now));
 
-            try {
+                // Calculate the saving rate for the month
+                BigDecimal savingRate = calculateMonthlySavingRate(totalIncome, totalExpenses);
+                yearlyReport.setSavingRate(savingRate); // Set saving rate
+
+                yearlyReport.setDetails(generateYearlyReportDetails(user, now));
+                yearlyReport.setCreatedBy(user.getId());
+
+                yearlyReport.setMostSpendingMonth(calculateMostSpendingMonth(user, now));
+                yearlyReport.setSavingRate(calculateSavingRate(yearlyReport.getTotalIncome(), yearlyReport.getTotalExpenses()));
+
+                // Save the newly created report
                 repository.save(yearlyReport);
-            } catch (DataIntegrityViolationException e) {
-                System.err.println("Error saving report for user " + user.getId() + ": " + e.getMessage());
-            }
 
-            // Send email with the generated report
-            try {
-                emailService.sendEmailWithYearlyReport(
-                        List.of(user.getEmail()),
-                        List.of(user.fullName()),
-                        EmailTemplateName.YEARLY_REPORT,
-                        url,
-                        "Yearly Report",
-                        yearlyReport.getTotalExpenses(),
-                        yearlyReport.getTotalIncome(),
-                        yearlyReport.getSavingRate(),
-                        now.getYear()
-                );
-            } catch (MessagingException e) {
-                System.err.println("Error sending email to user " + user.getId() + ": " + e.getMessage());
+                // Send email with the generated report
+                try {
+                    emailService.sendEmailWithYearlyReport(
+                            List.of(user.getEmail()),
+                            List.of(user.fullName()),
+                            EmailTemplateName.YEARLY_REPORT,
+                            url,
+                            "Yearly Report",
+                            yearlyReport.getTotalExpenses(),
+                            yearlyReport.getTotalIncome(),
+                            yearlyReport.getSavingRate(),
+                            now.getYear()
+                    );
+                } catch (MessagingException e) {
+                    System.err.println("Error sending email to user " + user.getId() + ": " + e.getMessage());
+                }
             }
         }
-
         System.out.println("Yearly reports generated successfully!");
     }
 
@@ -368,12 +383,21 @@ public class ReportServiceImpl implements ReportService {
     }
 
     // Custom method to calculate total goals reached for the entire year
-    private int calculateYearlyTotalGoals(User user, LocalDate now) {
+    private int calculateYearlyReachedGoals(User user, LocalDate now) {
         LocalDate startOfYear = now.withMonth(Month.JANUARY.getValue()).withDayOfMonth(1);
         LocalDate endOfYear = now.withMonth(Month.DECEMBER.getValue()).withDayOfMonth(31);
 
         // Logic to calculate total goals reached for the entire year
         return goalRepository.findByUserAndReachedDateBetween(user, startOfYear, endOfYear).size();
+    }
+
+  // Custom method to calculate total goals reached for the entire year
+    private int calculateYearlyGoals(User user, LocalDate now) {
+        LocalDate startOfYear = now.withMonth(Month.JANUARY.getValue()).withDayOfMonth(1);
+        LocalDate endOfYear = now.withMonth(Month.DECEMBER.getValue()).withDayOfMonth(31);
+
+        // Logic to calculate total goals reached for the entire year
+        return goalRepository.findByUserAndYearDateBetween(user, startOfYear, endOfYear).size();
     }
 
     // Custom method to generate yearly report details
@@ -383,7 +407,7 @@ public class ReportServiceImpl implements ReportService {
         BigDecimal totalDebt = calculateYearlyTotalDebt(user, now); // New method for total debt
         BigDecimal totalPaidDebt = calculateYearlyTotalPaidDebt(user, now); // New method for paid debt
         BigDecimal totalUnpaidDebt = totalDebt.subtract(totalPaidDebt); // Calculate remaining unpaid debt
-        int totalGoals = calculateYearlyTotalGoals(user, now);
+        int totalGoals = calculateYearlyReachedGoals(user, now);
         BigDecimal balance = totalIncome.subtract(totalExpenses);
 
         // No income case

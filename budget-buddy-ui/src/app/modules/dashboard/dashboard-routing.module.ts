@@ -16,7 +16,8 @@ import {TransactionComponent} from './pages/transaction/transaction.component';
 import {DashboardComponent} from './pages/dashboard/dashboard.component';
 import {BudgetComponent} from './pages/budget/budget.component';
 import {QuestionsComponent} from './pages/questions/questions.component';
-import {ReportDetailComponent} from './pages/report/report-detail/report-detail.component';
+import {ReportDetailComponent} from './pages/report/report-detail/report-month/report-detail.component';
+import {ReportYearComponent} from './pages/report/report-detail/report-year/report-year.component';
 
 const routes: Routes = [
   {
@@ -89,8 +90,13 @@ const routes: Routes = [
         canActivate: [AuthGuard]
       },
       {
-        path: 'report/:id',
+        path: 'report/monthly/:id',
         component: ReportDetailComponent,
+        canActivate: [AuthGuard]
+      },
+      {
+        path: 'report/yearly/:id',
+        component: ReportYearComponent,
         canActivate: [AuthGuard]
       },
     ]
