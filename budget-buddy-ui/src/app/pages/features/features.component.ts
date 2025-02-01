@@ -34,9 +34,9 @@ export class FeaturesComponent {
       desc: 'Post about your financial journey, share ideas, or tell stories to connect with the BudgetBuddy community and get inspired.'
     },
     {
-      icon: 'fa-solid fa-flag-checkered',
-      title: 'Add a Goal and Make It Happen',
-      desc: 'Create actionable financial goals, break them into smaller milestones, and track your progress to turn your dreams into reality.'
+      icon: 'fa-solid fa-lightbulb',
+      title: 'Financial Tips and Insights',
+      desc: 'Get personalized tips and insights based on your spending habits and goals to make smarter financial decisions.'
     },
   ];
 }

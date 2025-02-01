@@ -1,25 +1,31 @@
-<section class="py-14">
-  <div class="max-w-screen-xl mx-auto px-4 text-center text-gray-600 md:px-8">
-    <div class="max-w-2xl mx-auto">
-      <h3 class="text-4xl font-bold sm:text-5xl leading-tight transform transition duration-300 hover:scale-105 text-green-600 bg-yellow-200 px-2 py-1 rounded-full shadow-lg inline-block mb-3">
-        Save more with less complexity
+<div class="bg-gradient-to-b from-green-50 to-white min-h-screen">
+<section class="py-20">
+  <div class="max-w-screen-xl mx-auto px-4 text-center md:px-8">
+    <div class="max-w-2xl mx-auto animate-fadeInUp">
+      <h3 class="text-4xl font-extrabold sm:text-5xl leading-tight text-green-600 mb-6">
+        Save more with
+        <span class="bg-yellow-200 px-2 py-1 rounded-full shadow-lg inline-block transition duration-300 hover:scale-105">
+                        less complexity
+                    </span>
       </h3>
-      <p class="mt-3 text-lg text-gray-600 font-semibold">
+      <p class="mt-3 text-xl text-gray-600 font-medium">
         BudgetBuddy helps you take control of your finances with ease. Track your spending, set budgets, and achieve your financial goals, all from one simple and user-friendly platform.
       </p>
     </div>
 
-
-    <div class="mt-12">
-      <ul class="grid gap-y-8 gap-x-12 sm:grid-cols-2 lg:grid-cols-3">
-        <li *ngFor="let feature of features" class="space-y-3">
-          <div class="w-12 h-12 mx-auto bg-indigo-50 text-cyan-500 rounded-full flex items-center justify-center text-green-600">
-            <i [class]="feature.icon"></i>
+    <div class="mt-16">
+      <ul class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3" >
+        <li class="animate-fadeInUp" style="animation-delay: 0.1s;" *ngFor="let feature of features" >
+          <div class="space-y-3 p-6 bg-white rounded-xl shadow-md transition-all duration-300 hover:shadow-xl group">
+            <div class="w-12 h-12 mx-auto bg-indigo-50 text-green-600 rounded-full flex items-center justify-center transition-all duration-300 group-hover:bg-green-100">
+              <i [class]="feature.icon"></i>
+            </div>
+            <h4 class="text-lg text-gray-800 font-semibold">{{ feature.title }}</h4>
+            <p class="text-gray-600">{{ feature.desc }}</p>
           </div>
-          <h4 class="text-lg text-gray-800 font-semibold">{{ feature.title }}</h4>
-          <p>{{ feature.desc }}</p>
         </li>
       </ul>
     </div>
   </div>
 </section>
+</div>
