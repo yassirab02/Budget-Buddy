@@ -18,6 +18,7 @@ import {BudgetComponent} from './pages/budget/budget.component';
 import {QuestionsComponent} from './pages/questions/questions.component';
 import {ReportDetailComponent} from './pages/report/report-detail/report-month/report-detail.component';
 import {ReportYearComponent} from './pages/report/report-detail/report-year/report-year.component';
+import {StoryDetailComponent} from './components/story/story-detail/story-detail.component';
 
 const routes: Routes = [
   {
@@ -62,6 +63,11 @@ const routes: Routes = [
       {
         path: 'stories',
         component: StoryComponent,
+        canActivate: [AuthGuard]
+      },
+      {
+        path: 'story/:id',
+        component: StoryDetailComponent,
         canActivate: [AuthGuard]
       },
       {

@@ -1,43 +1,40 @@
-<!DOCTYPE html>
-<html lang="en" class="dark">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Budget Journey - Budget Buddy Stories</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
-<div class="container mx-auto px-4 py-8">
-  <article class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden mb-8">
+<div *ngIf="isLoading" class="flex justify-center items-center h-screen">
+  <app-spinner class="w-16 h-16"></app-spinner>
+</div>
+
+<div class="min-h-screen bg-gradient-to-b from-green-50 to-white py-12">
+<div class="container mx-auto px-4">
+  <div class="bg-white overflow-hidden rounded-lg shadow-2xl">
     <div class="relative">
-      <img src="/placeholder.svg?height=400&width=800&text=Budget+Journey" alt="Cover image for My Budget Journey" class="w-full h-[400px] object-cover">
-      <span class="absolute top-4 right-4 bg-yellow-500 text-white px-2 py-1 rounded-full text-xs">
-                    Published
-                </span>
+      <img [src]="storyResponse.cover" alt="Cover image" class="w-full h-[400px] object-cover">
+      <div class="absolute inset-0 bg-gradient-to-t from-green-900/70 to-transparent"></div>
+      <span class="absolute top-4 right-4 bg-green-500 text-white px-3 py-1 text-sm font-semibold rounded-full">{{storyResponse.status}}</span>
+      <h1 class="absolute bottom-6 left-6 text-4xl font-bold text-white leading-tight">{{ storyResponse.title }}</h1>
     </div>
-    <div class="p-6">
-      <h1 class="text-3xl font-bold mb-4">My Budget Journey</h1>
-      <p class="text-gray-600 dark:text-gray-400 mb-4">How I saved $10,000 in a year</p>
-      <div class="flex items-center mb-6">
-        <div class="w-10 h-10 rounded-full bg-gray-300 mr-4"></div>
-        <span class="text-gray-600 dark:text-gray-400">By JohnDoe</span>
-      </div>
-      <div class="prose dark:prose-invert max-w-none">
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-      </div>
-    </div>
-    <div class="flex justify-between items-center p-6 bg-gray-100 dark:bg-gray-700">
-      <div class="flex space-x-4">
-        <button class="flex items-center text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
-            <path d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z" />
-          </svg>
-          150
+    <div class="bg-white pt-8 px-6">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center space-x-4">
+          <div class="h-12 w-12 rounded-full bg-green-100 flex items-center justify-center text-green-800 font-semibold text-xl border-2 border-green-500">{{getInitials(storyResponse.owner)}}</div>
+          <div>
+            <p class="font-semibold text-green-800 text-lg">{{storyResponse.owner}}</p>
+            <div class="flex items-center text-sm text-green-600">
+              <i class="fas fa-calendar-alt mr-2"></i>
+              <time datetime="2023-05-15">{{storyResponse.createdDate | date:'MMM d, y'}}</time>
+            </div>
+          </div>
+        </div>
+        <button class="text-green-700 hover:bg-green-100 hover:text-green-800 px-3 py-1 rounded-full text-sm font-semibold">
+          <i class="fas fa-thumbs-up mr-2"></i>
+          {{storyResponse.numberOfLikes}}
         </button>
       </div>
-      <span class="text-sm text-gray-600 dark:text-gray-400">Published</span>
+      <p class="text-green-700 text-xl mt-4">{{storyResponse.description}}</p>
     </div>
-  </article>
+    <div class="bg-white px-6 py-8">
+      <div class="max-w-none text-green-800">
+        <p class="text-lg leading-relaxed">{{storyResponse.content}}</p>
+      </div>
+    </div>
+  </div>
 </div>
-</body>
-</html>
+</div>

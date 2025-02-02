@@ -16,7 +16,6 @@ Chart.register(...registerables);
   styleUrls: ['./report-detail.component.css']
 })
 export class ReportDetailComponent implements OnInit, OnChanges {
-  @Output() onClose = new EventEmitter<unknown>();
   @ViewChild('reportDetailContent', { static: false }) reportDetailContent!: ElementRef;
   @ViewChild('chartCanvas') chartCanvas!: ElementRef<HTMLCanvasElement>; // Get canvas reference
 

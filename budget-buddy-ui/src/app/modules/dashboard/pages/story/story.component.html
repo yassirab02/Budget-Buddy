@@ -52,7 +52,7 @@
 
       <div *ngIf="activeTab === 'all' && storyPageResponse.content.length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         <!-- Story Card -->
-        <div *ngFor="let story of storyPageResponse.content" class="bg-white rounded-lg shadow-md overflow-hidden border border-green-100 hover:shadow-lg transition-shadow duration-300">
+        <div *ngFor="let story of storyPageResponse.content" class="bg-white rounded-lg shadow-md overflow-hidden border border-green-100 hover:shadow-lg transition-shadow duration-300 hover:cursor-pointer" (click)="onStoryClick(story.id)">
           <img [src]="story.cover" alt="Story cover" class="w-full h-48 object-cover">
           <div class="p-6">
             <h3 class="text-xl font-semibold mb-2 text-green-700">{{ story.title }}</h3>

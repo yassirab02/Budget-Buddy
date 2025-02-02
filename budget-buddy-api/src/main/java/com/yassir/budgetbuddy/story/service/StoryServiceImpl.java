@@ -93,10 +93,6 @@ public class StoryServiceImpl implements StoryService {
         User user = ((User) connectedUser.getPrincipal());
         Story story = repository.findById(storyId)
                 .orElseThrow(() -> new EntityNotFoundException("Story not found with id: " + storyId));
-
-        if (!Objects.equals(user.getId(), story.getOwner().getId())) {
-            throw new IllegalArgumentException("You are not allowed to see this story");
-        }
         boolean isLiked = false;
         Optional<StoryReaction> existingReaction = storyReactionRepository.findByStoryIdAndUserId(storyId, user.getId());
         if (existingReaction.isPresent()) {

@@ -5,6 +5,7 @@ import {StoryResponse} from '../../../../services/models/story-response';
 import {Toggle$Params} from '../../../../services/fn/story/toggle';
 import {DeleteBudget1$Params} from '../../../../services/fn/budget/delete-budget-1';
 import {DeleteStory$Params} from '../../../../services/fn/story/delete-story';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-story',
@@ -36,6 +37,7 @@ export class StoryComponent implements OnInit {
 
   constructor(
     private storyService: StoryService,
+    private router: Router,
   ) {
   }
 
@@ -149,5 +151,9 @@ export class StoryComponent implements OnInit {
   openDelete(id:any) {
     this.storyToDelete = id;
     this.isDelete = true;
+  }
+
+  onStoryClick(storyId: number | undefined) {
+    this.router.navigate(['/story', storyId]);
   }
 }
