@@ -2,6 +2,7 @@ package com.yassir.budgetbuddy.story.controller;
 
 import com.yassir.budgetbuddy.reaction.StoryReactionRepository;
 import com.yassir.budgetbuddy.story.Story;
+import com.yassir.budgetbuddy.story.StoryStatus;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -15,7 +16,7 @@ public class StoryMapper {
                 .content(request.content())
                 .cover(request.cover())
                 .archived(request.archived())
-                .status(request.status())
+                .status(StoryStatus.PUBLISHED) // Default status
                 .build();
     }
 

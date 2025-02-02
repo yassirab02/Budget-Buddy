@@ -22,7 +22,6 @@ public record StoryRequest(
         @NotNull(message = "Archived status is required")
         Boolean archived,
 
-        @NotNull(message = "Story status is required")
         StoryStatus status,
 
         @NotNull(message = "Owner ID is required")
