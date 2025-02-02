@@ -20,15 +20,15 @@
     <div class="grid grid-cols-3 gap-4">
       <div class="bg-white  rounded-lg p-3 shadow-sm">
         <span class="text-xs text-gray-500 block mb-1">Current</span>
-        <p class="text-lg font-bold text-green-700">{{amount}}</p>
+        <p class="text-lg font-bold text-green-700">{{amount | currency}}</p>
       </div>
       <div class="bg-white rounded-lg p-3 shadow-sm">
         <span class="text-xs text-gray-500 block mb-1">Target</span>
-        <p class="text-lg font-bold text-emerald-600">{{targetAmount}}</p>
+        <p class="text-lg font-bold text-emerald-600">{{targetAmount | currency}}</p>
       </div>
       <div class="bg-white rounded-lg p-3 shadow-sm">
         <span class="text-xs text-gray-500 block mb-1">Limit</span>
-        <p class="text-lg font-bold text-teal-600">{{limitAmount}}</p>
+        <p class="text-lg font-bold text-teal-600">{{limitAmount | currency}}</p>
       </div>
     </div>
     <div class="space-y-2">
