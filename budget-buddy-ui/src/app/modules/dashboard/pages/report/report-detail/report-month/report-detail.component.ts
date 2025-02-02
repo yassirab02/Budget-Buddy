@@ -1,18 +1,12 @@
-import {
-  Component,
-  EventEmitter,
-  OnChanges,
-  OnInit,
-  Output,
-  SimpleChanges,
-  ViewChild,
-  ElementRef
-} from '@angular/core';
+import {Component, EventEmitter, OnChanges, OnInit, Output, SimpleChanges, ViewChild, ElementRef} from '@angular/core';
 import { ReportService } from '../../../../../../services/services/report.service';
 import { ReportResponse } from '../../../../../../services/models/report-response';
 import { ActivatedRoute } from '@angular/router';
 import { GetReportById$Params } from '../../../../../../services/fn/report/get-report-by-id';
 import { Chart, registerables } from 'chart.js';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
+
 
 Chart.register(...registerables);
 
@@ -23,7 +17,7 @@ Chart.register(...registerables);
 })
 export class ReportDetailComponent implements OnInit, OnChanges {
   @Output() onClose = new EventEmitter<unknown>();
-
+  @ViewChild('reportDetailContent', { static: false }) reportDetailContent!: ElementRef;
   @ViewChild('chartCanvas') chartCanvas!: ElementRef<HTMLCanvasElement>; // Get canvas reference
 
   reportResponseDetails: ReportResponse = {};
@@ -114,5 +108,37 @@ export class ReportDetailComponent implements OnInit, OnChanges {
         }
       }
     });
+  }
+
+
+  exportToPDF() {
+      if (!this.reportDetailContent) {
+        console.error('reportDetailContent is not available');
+        return;
+      }
+
+      const data = this.reportDetailContent.nativeElement;
+
+      html2canvas(data, { scale: 2 }).then((canvas) => {
+        const imgData = canvas.toDataURL('image/png');
+        const pdf = new jsPDF('p', 'mm', 'a4');
+        const imgWidth = 210;
+        const pageHeight = 297;
+        const imgHeight = (canvas.height * imgWidth) / canvas.width;
+        let heightLeft = imgHeight;
+        let position = 0;
+
+        pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+        heightLeft -= pageHeight;
+
+        while (heightLeft > 0) {
+          position = heightLeft - imgHeight;
+          pdf.addPage();
+          pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+          heightLeft -= pageHeight;
+        }
+
+        pdf.save('Financial_Report.pdf');
+      });
   }
 }
