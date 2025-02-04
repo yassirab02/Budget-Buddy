@@ -3,6 +3,7 @@ package com.yassir.budgetbuddy.report.controller;
 import com.yassir.budgetbuddy.report.Report;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -14,18 +15,18 @@ public class ReportMapper {
                 .id(report.getId())
                 .startDate(report.getStartDate())
                 .endDate(report.getEndDate())
-                .totalIncome(report.getTotalIncome())
-                .totalExpenses(report.getTotalExpenses())
+                .totalIncome(report.getTotalIncome()!= null ? report.getTotalIncome() : BigDecimal.valueOf(0))
+                .totalExpenses(report.getTotalExpenses()!= null ? report.getTotalExpenses() : BigDecimal.valueOf(0))
                 .totalGoalsReached(report.getTotalGoalsReached() != null ? report.getTotalGoalsReached() : 0)
-                .totalGoals(report.getTotalGoals())
-                .totalDebt(report.getTotalDebt())
-                .totalPaidDebt(report.getTotalPaidDebt())
-                .balance(report.getBalance())
+                .totalGoals(report.getTotalGoals()!= null ? report.getTotalGoals() : 0)
+                .totalDebt(report.getTotalDebt()!= null ? report.getTotalDebt() : BigDecimal.valueOf(0))
+                .totalPaidDebt(report.getTotalPaidDebt()!= null ? report.getTotalPaidDebt() : BigDecimal.valueOf(0))
+                .balance(report.getBalance()!= null ? report.getBalance() : BigDecimal.valueOf(0))
                 .details(report.getDetails())
                 .year(report.getYear())
                 .month(report.getMonth())
                 .mostSpendingMonth(report.getMostSpendingMonth() != null ? report.getMostSpendingMonth() : 0)
-                .savingRate(report.getSavingRate())
+                .savingRate(report.getSavingRate()!= null ? report.getSavingRate() : BigDecimal.valueOf(0))
                 .type(report.getType().getName())
                 .owner(report.getUser().fullName())
                 .build();

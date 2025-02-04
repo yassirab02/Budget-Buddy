@@ -35,7 +35,7 @@
           <div class="flex-1 bg-green-50 rounded-xl p-4">
             <div class="flex items-center justify-between mb-2">
               <p class="text-sm font-medium text-green-800">Total Income</p>
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 6l3 3-3 3M6 9l3 3-3 3"></path></svg>
+              <i class="fa-solid fa-arrow-trend-up text-green-700"></i>
             </div>
             <p class="text-xl font-bold text-green-600">
               ${{ walletResponseDetails.totalIncome?.toFixed(2) || 0 }}
@@ -44,7 +44,7 @@
           <div class="flex-1 bg-red-50 rounded-xl p-4">
             <div class="flex items-center justify-between mb-2">
               <p class="text-sm font-medium text-red-800">Total Expenses</p>
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 18l-3-3 3-3M18 15l-3-3 3-3"></path></svg>
+              <i class="fa-solid fa-arrow-trend-down text-red-700"></i>
             </div>
             <p class="text-xl font-bold text-red-600">
               ${{ walletResponseDetails.totalExpenses?.toFixed(2) || 0 }}
