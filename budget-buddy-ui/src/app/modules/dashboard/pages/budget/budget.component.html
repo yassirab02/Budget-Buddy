@@ -15,8 +15,15 @@
       </button>
     </div>
 
-    <!-- Enhanced HR -->
-    <hr class="p-4">
+    <div class="bg-gradient-to-r from-green-400 to-green-600 text-white p-4 mb-6 rounded-lg">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-lg font-semibold mb-2">This month total budget</p>
+          <p class="text-4xl font-bold">${{ monthlyBudget.totalBudget }}</p>
+        </div>
+        <i class="fa-solid fa-hand-holding-dollar" style="font-size: 48px;"></i>
+      </div>
+    </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       <app-budget-card
@@ -50,6 +57,49 @@
     <p>Try adding a new budget.</p>
   </div>
 </ng-template>
+
+<div class="fixed top-4 right-4 z-50" *ngIf="showSuccess">
+  <!-- Success Toast -->
+  <div
+    class="flex items-center p-4 mb-4 bg-white border-l-4 border-green-500 rounded-lg shadow-md animate-slideIn"
+    role="alert"
+  >
+    <!-- Icon -->
+    <div class="animate-bounce">
+      <svg class="w-8 h-8 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+        ></path>
+      </svg>
+    </div>
+
+    <!-- Content -->
+    <div class="ml-4 flex-1">
+      <p class="font-semibold text-gray-800">Success!</p>
+      <p class="text-sm text-gray-600">Income added successfully</p>
+    </div>
+
+    <!-- Close Button -->
+    <button
+      class="ml-4 text-gray-400 hover:text-gray-600 transition-colors"
+      onclick="this.parentElement.remove()"
+    >
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M6 18L18 6M6 6l12 12"
+        ></path>
+      </svg>
+    </button>
+  </div>
+</div>
+
+
 
 <div class="flex justify-center mt-3 mb-4 mt-6">
   <nav aria-label="Page navigation example">
@@ -116,46 +166,3 @@
     </ul>
   </nav>
 </div>
-
-<div class="fixed top-4 right-4 z-50" *ngIf="showSuccess">
-  <!-- Success Toast -->
-  <div
-    class="flex items-center p-4 mb-4 bg-white border-l-4 border-green-500 rounded-lg shadow-md animate-slideIn"
-    role="alert"
-  >
-    <!-- Icon -->
-    <div class="animate-bounce">
-      <svg class="w-8 h-8 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-        ></path>
-      </svg>
-    </div>
-
-    <!-- Content -->
-    <div class="ml-4 flex-1">
-      <p class="font-semibold text-gray-800">Success!</p>
-      <p class="text-sm text-gray-600">Income added successfully</p>
-    </div>
-
-    <!-- Close Button -->
-    <button
-      class="ml-4 text-gray-400 hover:text-gray-600 transition-colors"
-      onclick="this.parentElement.remove()"
-    >
-      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          d="M6 18L18 6M6 6l12 12"
-        ></path>
-      </svg>
-    </button>
-  </div>
-</div>
-
-

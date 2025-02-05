@@ -1,5 +1,6 @@
 package com.yassir.budgetbuddy.expenses.controller;
 
+import com.yassir.budgetbuddy.category.controller.response.ExpensesCategoryResponse;
 import com.yassir.budgetbuddy.common.PageResponse;
 import com.yassir.budgetbuddy.expenses.service.ExpensesService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -8,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("expenses")
@@ -63,6 +66,13 @@ public class ExpensesController {
     ) {
         service.resetMonthlyExpense(connectedUser);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/top-spending-categories")
+    public ResponseEntity<List<ExpensesCategoryResponse>> getTopSpendingCategories(
+            Authentication connectedUser
+    ) {
+        return ResponseEntity.ok(service.getTopSpendingCategories(connectedUser));
     }
 
 }

@@ -17,4 +17,6 @@ public interface BudgetService {
     PageResponse<BudgetResponse> findAllBudgetsByOwner(int page, int size, Authentication connectedUser);
 
     BudgetResponse findBudgetById(Integer budgetId);
+
+    BudgetResponse calculateMonthlyBudget(Authentication connectedUser);
 }

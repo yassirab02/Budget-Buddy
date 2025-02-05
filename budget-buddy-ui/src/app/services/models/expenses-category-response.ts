@@ -8,5 +8,5 @@ export interface ExpensesCategoryResponse {
   id?: number;
   name?: string;
   parentCategoryName?: string;
-  subcategories?: Array<ExpensesCategoryResponse>;
+  totalExpenses?: number;
 }

@@ -15,11 +15,14 @@ import { addOrUpdateExpense } from '../fn/expenses/add-or-update-expense';
 import { AddOrUpdateExpense$Params } from '../fn/expenses/add-or-update-expense';
 import { deleteExpense } from '../fn/expenses/delete-expense';
 import { DeleteExpense$Params } from '../fn/expenses/delete-expense';
+import { ExpensesCategoryResponse } from '../models/expenses-category-response';
 import { ExpensesResponse } from '../models/expenses-response';
 import { findAllExpenses } from '../fn/expenses/find-all-expenses';
 import { FindAllExpenses$Params } from '../fn/expenses/find-all-expenses';
 import { findExpenseById } from '../fn/expenses/find-expense-by-id';
 import { FindExpenseById$Params } from '../fn/expenses/find-expense-by-id';
+import { getTopSpendingCategories } from '../fn/expenses/get-top-spending-categories';
+import { GetTopSpendingCategories$Params } from '../fn/expenses/get-top-spending-categories';
 import { PageResponseExpensesResponse } from '../models/page-response-expenses-response';
 import { resetExpenses } from '../fn/expenses/reset-expenses';
 import { ResetExpenses$Params } from '../fn/expenses/reset-expenses';
@@ -166,6 +169,31 @@ export class ExpensesService extends BaseService {
       map((r: StrictHttpResponse<{
 }>): {
 } => r.body)
+    );
+  }
+
+  /** Path part for operation `getTopSpendingCategories()` */
+  static readonly GetTopSpendingCategoriesPath = '/expenses/top-spending-categories';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `getTopSpendingCategories()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getTopSpendingCategories$Response(params?: GetTopSpendingCategories$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<ExpensesCategoryResponse>>> {
+    return getTopSpendingCategories(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `getTopSpendingCategories$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getTopSpendingCategories(params?: GetTopSpendingCategories$Params, context?: HttpContext): Observable<Array<ExpensesCategoryResponse>> {
+    return this.getTopSpendingCategories$Response(params, context).pipe(
+      map((r: StrictHttpResponse<Array<ExpensesCategoryResponse>>): Array<ExpensesCategoryResponse> => r.body)
     );
   }
 

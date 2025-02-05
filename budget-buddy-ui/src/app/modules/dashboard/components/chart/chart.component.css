@@ -2,11 +2,13 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 500px;
+  height: 500px;
 }
 
 canvas {
-  max-width: 100%;
-  height: auto;
+  width: 100% !important;
+  height: 100% !important;
 }
 .no-data-message {
   display: flex;

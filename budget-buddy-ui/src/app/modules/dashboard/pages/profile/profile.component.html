@@ -11,12 +11,12 @@
         <div class="text-center mb-8">
           <div
             class="w-40 h-40 rounded-full mx-auto mb-4 border-4 border-white shadow-lg flex items-center justify-center">
-            <span class="text-4xl font-bold text-white">
+            <span class="text-6xl font-bold font-[Poppins] text-white">
                 {{ getUserInitials() }}
             </span>
           </div>
 
-          <h1 class="text-3xl font-bold">{{ userResponse.fullName }}</h1>
+          <h1 class="text-3xl font-bold">{{ userResponse.fullName | titlecase }}</h1>
           <p class="text-green-200">{{ userResponse.role }}</p>
         </div>
         <div class="space-y-4">
@@ -25,8 +25,8 @@
             <p class="text-sm">{{ userResponse.email }}</p>
           </div>
           <div class="flex items-center">
-            <i class="fas fa-phone w-6 mr-3"></i>
-            <p class="text-sm">{{ userResponse.dateOfBirth }}</p>
+            <i class="fa-solid fa-cake-candles w-6 mr-3"></i>
+            <p class="text-sm">{{ userResponse.dateOfBirth || "Not Given" }}</p>
           </div>
           <div class="flex items-center">
             <i class="fas fa-map-marker-alt w-6 mr-3"></i>
@@ -53,9 +53,9 @@
                 <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center mr-4">
                   <i class="fas fa-dollar-sign text-green-500"></i>
                 </div>
-                <p class="text-gray-600">Total Balance</p>
+                <p class="text-gray-600 ml-1">Total Balance</p>
               </div>
-              <p class="text-xl font-semibold text-gray-800">${{ userResponse.totalBalance }}</p>
+              <p class="text-xl font-semibold text-gray-800">${{ userResponse.totalBalance || 0 }}</p>
             </div>
             <div class="flex items-center justify-between bg-gray-50 p-4 rounded-lg">
               <div class="flex items-center">
@@ -71,9 +71,9 @@
                 <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center mr-4">
                   <i class="fas fa-credit-card text-green-500"></i>
                 </div>
-                <p class="text-gray-600">Monthly Budget</p>
+                <p class="text-gray-600">This month total budget</p>
               </div>
-              <p class="text-xl font-semibold text-gray-800">$3,000.00</p>
+              <p class="text-xl font-semibold text-gray-800">${{budgetResponse.totalBudget}}</p>
             </div>
             <div>
               <p class="text-sm text-gray-600 mb-2">Progress to Savings Goal</p>
@@ -86,36 +86,24 @@
           <!-- Top Categories -->
           <div>
             <h2 class="text-2xl font-semibold text-gray-800 mb-4">Top Spending Categories</h2>
-            <div class="space-y-4">
-              <div class="flex items-center justify-between bg-green-50 p-3 rounded-lg">
+
+            <div *ngIf="(categoriesResponse?.length || 0) > 0; else noCategories">
+              <div
+                *ngFor="let category of categoriesResponse || []"
+                class="flex items-center justify-between bg-green-50 p-3 rounded-lg mt-2"
+              >
                 <div class="flex items-center">
                   <i class="fas fa-chart-pie text-green-500 mr-3"></i>
-                  <span class="text-gray-800">Groceries</span>
-                </div>
-                <i class="fas fa-chevron-right text-green-500"></i>
-              </div>
-              <div class="flex items-center justify-between bg-green-50 p-3 rounded-lg">
-                <div class="flex items-center">
-                  <i class="fas fa-chart-pie text-green-500 mr-3"></i>
-                  <span class="text-gray-800">Entertainment</span>
-                </div>
-                <i class="fas fa-chevron-right text-green-500"></i>
-              </div>
-              <div class="flex items-center justify-between bg-green-50 p-3 rounded-lg">
-                <div class="flex items-center">
-                  <i class="fas fa-chart-pie text-green-500 mr-3"></i>
-                  <span class="text-gray-800">Transportation</span>
-                </div>
-                <i class="fas fa-chevron-right text-green-500"></i>
-              </div>
-              <div class="flex items-center justify-between bg-green-50 p-3 rounded-lg">
-                <div class="flex items-center">
-                  <i class="fas fa-chart-pie text-green-500 mr-3"></i>
-                  <span class="text-gray-800">Utilities</span>
+                  <span class="text-gray-800">{{ category.name }}</span>
                 </div>
                 <i class="fas fa-chevron-right text-green-500"></i>
               </div>
             </div>
+
+            <!-- Displayed when no categories exist -->
+            <ng-template #noCategories>
+              <p class="text-gray-500 text-center">No spending categories found.</p>
+            </ng-template>
           </div>
         </div>
       </div>

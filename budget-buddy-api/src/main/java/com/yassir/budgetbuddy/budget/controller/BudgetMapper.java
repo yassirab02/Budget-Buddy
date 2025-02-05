@@ -39,4 +39,10 @@ public class BudgetMapper {
                 .build();
     }
 
+    public BudgetResponse toMonthlyBudgetResponse(BigDecimal totalBudget, BigDecimal availableBalance) {
+        return BudgetResponse.builder()
+                .totalBudget(totalBudget)
+                .availableBalance(availableBalance)
+                .build();
+    }
 }

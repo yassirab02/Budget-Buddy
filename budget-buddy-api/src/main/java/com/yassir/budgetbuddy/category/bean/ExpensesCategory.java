@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
+import java.math.BigDecimal;
 import java.util.List;
 @Entity
 @Getter
@@ -30,6 +31,8 @@ public class ExpensesCategory {
 
     @Column
     private String description; // Optional, for extra details
+
+    private BigDecimal totalExpenses; // Total expenses for the category
 
     @Column(nullable = false)
     private String icon_url; // URL or file path for the category icon

@@ -2,8 +2,8 @@
   <app-spinner class="w-16 h-16"></app-spinner>
 </div>
 
-<ng-template class="min-h-screen bg-gradient-to-br from-green-50 to-white text-gray-800" #storyContent>
-  <header class="sticky top-0 z-10 bg-white shadow-sm border-b border-green-100">
+<ng-template class="min-h-screen text-gray-800" #storyContent>
+  <header class="sticky top-0 z-10 bg-green-50 shadow-sm border-b border-green-100">
     <div class="container mx-auto px-4 py-4 flex justify-between items-center">
       <h1 class="text-3xl font-bold text-green-600">Stories & Tips</h1>
       <button  (click)="toggleCreate()" class="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-full transition duration-300 ease-in-out">
@@ -12,7 +12,7 @@
     </div>
   </header>
 
-  <main class="container mx-auto px-4 py-12">
+  <main class="container mx-auto px-4 py-12 h-full">
     <div class="w-full max-w-md mx-auto mb-12 bg-green-100 p-1 rounded-full">
       <nav  class="grid grid-cols-2" role="group">
         <button

@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges, ViewChild, ElementRef } from '@angular/core';
 import { Chart, registerables } from 'chart.js';
 
 Chart.register(...registerables);
@@ -12,75 +12,108 @@ export class ChartComponent implements OnChanges {
   @Input() totalIncome: number | undefined;
   @Input() totalExpense: number | undefined;
   @Input() totalDebt: number | undefined;
+  @ViewChild('chartCanvas') private chartCanvas!: ElementRef;
 
-  chart: any; // Declare the chart instance
-  showMessage: boolean = false; // Flag to show the message
-
-  constructor() {}
+  chart: any;
+  showMessage: boolean = false;
 
   ngOnChanges(changes: SimpleChanges): void {
-    // Whenever the inputs change, update the chart
     if (changes['totalIncome'] || changes['totalExpense'] || changes['totalDebt']) {
       this.loadChartData();
     }
   }
 
   loadChartData() {
-    const income = this.totalIncome ?? 0; // Use 0 if undefined
-    const expense = this.totalExpense ?? 0; // Use 0 if undefined
-    const debt = this.totalDebt ?? 0; // Use 0 if undefined
+    const income = this.totalIncome ?? 0;
+    const expense = this.totalExpense ?? 0;
+    const debt = this.totalDebt ?? 0;
 
-    // If all values are 0, show the message and don't create the chart
-    if (income === 0 && expense === 0 && debt === 0) {
+    if (income + expense + debt === 0) {
       this.showMessage = true;
-      return; // Don't proceed with chart creation
+      if (this.chart) this.chart.destroy();
+      return;
     } else {
-      this.showMessage = false; // Hide message if data exists
+      this.showMessage = false;
     }
 
-    // Destroy previous chart if it exists
-    if (this.chart) {
-      this.chart.destroy();
-    }
+    if (this.chart) this.chart.destroy();
 
-    // Create the chart with available data
-    this.chart = new Chart('dashboardChart', {
-      type: 'pie', // Change chart type to 'pie'
+    const ctx = this.chartCanvas.nativeElement.getContext('2d');
+    const gradientColors = this.createGradients(ctx);
+
+    this.chart = new Chart(ctx, {
+      type: 'doughnut',
       data: {
         labels: ['Incomes', 'Expenses', 'Debts'],
-        datasets: [
-          {
-            label: 'Amount',
-            data: [income, expense, debt],
-            backgroundColor: ['#4CAF50', '#FF5252', '#FFC107'], // Green for income, red for expense, yellow for debt
-            borderColor: ['#4CAF50', '#FF5252', '#FFC107'], // Same color for borders
-            borderWidth: 1
-          }
-        ]
+        datasets: [{
+          data: [income, expense, debt],
+          backgroundColor: gradientColors,
+          borderColor: ['#ffffff'],
+          borderWidth: 2,
+          hoverOffset: 10,
+          hoverBorderColor: '#ffffff'
+        }]
       },
       options: {
+        cutout: '60%',
         responsive: true,
+        maintainAspectRatio: false,
         plugins: {
           legend: {
-            position: 'top', // Position the legend on top
+            position: 'right',
             labels: {
-              boxWidth: 20, // Make legend box smaller
-              padding: 10,  // Add space between legend items
+              color: '#4a5568',
               font: {
-                size: 14, // Change the font size of the legend
-                weight: 'bold', // Set bold font for the legend
+                size: 14,
+                family: 'Inter, sans-serif'
               },
-            },
+              padding: 20,
+              usePointStyle: true,
+              pointStyle: 'circle'
+            }
           },
           tooltip: {
+            backgroundColor: '#2D3748',
+            titleFont: { size: 16, family: 'Inter, sans-serif' },
+            bodyFont: { size: 14, family: 'Inter, sans-serif' },
+            padding: 12,
+            displayColors: true,
             callbacks: {
-              label: function(tooltipItem: any) {
-                return `$${tooltipItem.raw}`; // Format the tooltip values as currency
+              label: (context) => {
+                const label = context.label || '';
+                const value = context.parsed || 0;
+                return `${label}: $${value.toLocaleString('en-US', { minimumFractionDigits: 2 })}`;
               }
             }
-          }
+          },
+        },
+        animation: {
+          animateRotate: true,
+          animateScale: true
         }
       }
     });
+  }
+
+  private createGradients(ctx: CanvasRenderingContext2D): CanvasGradient[] {
+    const gradients = [
+      ctx.createLinearGradient(0, 0, 0, 200),
+      ctx.createLinearGradient(0, 0, 0, 200),
+      ctx.createLinearGradient(0, 0, 0, 200)
+    ];
+
+    // Income gradient (green)
+    gradients[0].addColorStop(0, '#34d399');
+    gradients[0].addColorStop(1, '#059669');
+
+    // Expense gradient (red)
+    gradients[1].addColorStop(0, '#f87171');
+    gradients[1].addColorStop(1, '#dc2626');
+
+    // Debt gradient (orange)
+    gradients[2].addColorStop(0, '#fb923c');
+    gradients[2].addColorStop(1, '#ea580c');
+
+    return gradients;
   }
 }

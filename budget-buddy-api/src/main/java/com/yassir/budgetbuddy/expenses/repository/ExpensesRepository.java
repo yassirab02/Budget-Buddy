@@ -12,6 +12,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.List;
@@ -52,4 +53,17 @@ public interface ExpensesRepository extends JpaRepository<Expenses, Integer>, Jp
     @Query("SELECT e FROM Expenses e WHERE FUNCTION('MONTH', e.date) = :month AND e.wallet.owner.id = :id AND e.archived = false")
     List<Expenses> findNonArchivedByMonthAndUserId(Integer month, Integer id);
 
+    @Query("""
+                SELECT e.category, SUM(e.amount) 
+                FROM Expenses e 
+                WHERE e.wallet.owner.id = :userId 
+                GROUP BY e.category 
+                ORDER BY SUM(e.amount) DESC
+            """)
+    List<Object[]> findTopSpendingCategoriesByUser(@Param("userId") Integer userId);
+
+
+    // Custom query to calculate the total expenses for the current month
+    @Query("SELECT COALESCE(SUM(e.amount), 0) FROM Expenses e WHERE e.wallet.owner.id = :userId AND FUNCTION('MONTH', e.createdDate) = :month AND FUNCTION('YEAR', e.createdDate) = :year")
+    BigDecimal findTotalExpensesForCurrentMonth(@Param("userId") Integer userId, @Param("month") int month, @Param("year") int year);
 }

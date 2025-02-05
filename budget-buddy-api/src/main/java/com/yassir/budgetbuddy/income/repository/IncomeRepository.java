@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -34,5 +35,11 @@ public interface IncomeRepository extends JpaRepository<Income,Integer> , JpaSpe
         AND FUNCTION('YEAR', i.date) = :year
         """)
     Double getTotalIncomeForUserAndMonth(@Param("id") Integer id, @Param("month") Integer month, @Param("year") Integer year);
+
+
+
+        // Custom query to calculate the total income for the current month
+        @Query("SELECT COALESCE(SUM(i.amount), 0) FROM Income i WHERE i.wallet.owner.id = :userId AND FUNCTION('MONTH', i.createdDate) = :month AND FUNCTION('YEAR', i.createdDate) = :year")
+        BigDecimal findTotalIncomeForCurrentMonth(@Param("userId") Integer userId, @Param("month") int month, @Param("year") int year);
 
 }

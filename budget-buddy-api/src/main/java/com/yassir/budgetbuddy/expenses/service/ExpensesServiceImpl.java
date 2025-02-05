@@ -1,6 +1,9 @@
 package com.yassir.budgetbuddy.expenses.service;
 
 
+import com.yassir.budgetbuddy.category.bean.ExpensesCategory;
+import com.yassir.budgetbuddy.category.controller.mapper.ExpensesCategoryMapper;
+import com.yassir.budgetbuddy.category.controller.response.ExpensesCategoryResponse;
 import com.yassir.budgetbuddy.common.PageResponse;
 import com.yassir.budgetbuddy.expenses.Expenses;
 import com.yassir.budgetbuddy.expenses.repository.ExpensesRepository;
@@ -25,6 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,6 +40,7 @@ public class ExpensesServiceImpl implements ExpensesService {
     private final ExpensesMapper expensesMapper;
     private final WalletRepository walletRepository;
     private final UserRepository userRepository;
+    private final ExpensesCategoryMapper expensesCategoryMapper;
 
     @Override
     public Integer addOrUpdateExpense(ExpensesRequest request) {
@@ -173,6 +178,27 @@ public class ExpensesServiceImpl implements ExpensesService {
 
         // Archive the non-archived expenses in bulk for the current month and specific user
         repository.archiveExpensesByMonthAndUserId(now.getMonthValue(), user.getId());
+    }
+
+
+
+    @Override
+    public List<ExpensesCategoryResponse> getTopSpendingCategories(Authentication connectedUser) {
+        User user = (User) connectedUser.getPrincipal();
+        List<Object[]> results = repository.findTopSpendingCategoriesByUser(user.getId());
+        List<ExpensesCategoryResponse> responseList = new ArrayList<>();
+
+        for (Object[] result : results) {
+            ExpensesCategory category = (ExpensesCategory) result[0];
+            BigDecimal totalSpent = (BigDecimal) result[1];
+
+            // Map category and totalSpent to ExpensesCategoryResponse
+            ExpensesCategoryResponse response = expensesCategoryMapper.toExpensesCategoryResponse(category);
+            response.setTotalExpenses(totalSpent); // Assuming the response has a `totalSpent` field
+
+            responseList.add(response);
+        }
+        return responseList;
     }
 
 

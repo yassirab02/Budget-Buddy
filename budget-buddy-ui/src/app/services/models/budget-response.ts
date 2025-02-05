@@ -4,6 +4,7 @@
 
 export interface BudgetResponse {
   amount?: number;
+  availableBalance?: number;
   description?: string;
   endDate?: string;
   id?: number;
@@ -13,5 +14,6 @@ export interface BudgetResponse {
   remainingAmount?: number;
   startDate?: string;
   targetAmount?: number;
+  totalBudget?: number;
   usedAmount?: number;
 }

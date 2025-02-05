@@ -20,6 +20,8 @@ public class BudgetResponse {
     private Double limitAmount;
     private BigDecimal usedAmount;     // Calculated used amount
     private BigDecimal remainingAmount; // Calculated remaining amount
+    private BigDecimal totalBudget;
+    private BigDecimal availableBalance;
     private LocalDate startDate;
     private LocalDate endDate;
     private String owner; // Full name of the user who owns the budget

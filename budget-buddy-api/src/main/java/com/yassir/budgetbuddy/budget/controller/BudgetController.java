@@ -51,4 +51,11 @@ public class BudgetController {
     ) {
         return ResponseEntity.ok(service.findBudgetById(budgetId));
     }
+
+    // calculate the monthly budget
+    @GetMapping("/monthly-budget")
+    public ResponseEntity<BudgetResponse> calculateMonthlyBudget(Authentication connectedUser) {
+        BudgetResponse monthlyBudget = service.calculateMonthlyBudget(connectedUser);
+        return ResponseEntity.ok(monthlyBudget);
+    }
 }

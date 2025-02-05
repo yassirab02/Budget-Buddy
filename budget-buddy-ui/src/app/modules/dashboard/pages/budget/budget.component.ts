@@ -13,6 +13,7 @@ export class BudgetComponent implements OnInit {
   isLoading = true;
   isAdd = false;
   budgetResponse: PageResponseBudgetResponse = {};  // Store the actual budgets
+  monthlyBudget: BudgetResponse = {};  // Store the actual budgets
   page = 0;
   size = 5;
   pages: any = [];
@@ -28,6 +29,7 @@ export class BudgetComponent implements OnInit {
   ngOnInit() {
     // Fetch the budgets from the backend when the component initializes
     this.findAllBudgets();
+    this.getMonthlyBudget();
   }
 
    findAllBudgets(resetPage:boolean = false) {
@@ -57,6 +59,18 @@ export class BudgetComponent implements OnInit {
         }
       });
   }
+
+  getMonthlyBudget(){
+    this.budgetService.calculateMonthlyBudget().subscribe({
+      next: (data) => {
+        this.monthlyBudget = data;
+      },
+      error: (err) => {
+        console.error('Error fetching monthly budget:', err);
+      }
+    });
+  }
+
 
   gotToPage(page: number) {
     this.page = page;

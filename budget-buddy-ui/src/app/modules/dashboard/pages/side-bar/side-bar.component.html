@@ -1,114 +1,3 @@
-<aside [class.hidden]="!isSidebarVisible"
-       class="flex flex-col md:w-64 w-36 h-screen  px-5 py-5 overflow-y-auto bg-green-200 border-r border-teal-200 rtl:border-r-0 rtl:border-l relative overflow-y-auto scrollbar-hide md:block">
-
-<!-- Logo -->
-  <a href="/dashboard">
-    <img class="h-24" src="../../../../../assets/Budget-face%20logo.png" alt="Budget Logo">
-  </a>
-
-  <div class="flex flex-col justify-between flex-1 mt-6">
-    <nav class="-mx-0 space-y-3">
-      <div class="space-y-3">
-        <label class="px-3 text-xs text-gray-500 uppercase">analytics</label>
-
-        <a
-          class="flex items-center px-3 py-2 text-gray-600 transition-colors duration-300 transform rounded-lg hover:bg-gray-100 hover:text-gray-700"
-          routerLink="/dashboard"
-          routerLinkActive="text-gray-700 bg-gray-100 rounded-lg"
-          [routerLinkActiveOptions]="{ exact: true }">
-          <i class="fa-solid fa-chart-column"></i>
-          <span class="mx-2 text-sm font-medium">Dashboard</span>
-        </a>
-
-        <a
-          class="flex items-center px-3 py-2 text-gray-600 transition-colors duration-300 transform rounded-lg hover:bg-gray-100 hover:text-gray-700"
-          routerLink="/stories"
-          routerLinkActive="text-gray-700 bg-gray-100 rounded-lg"
-          [routerLinkActiveOptions]="{ exact: true }">
-          <i class="fa-solid fa-comments-dollar"></i>
-          <span class="mx-2 text-sm font-medium">Stories</span>
-        </a>
-
-        <a
-          class="flex items-center px-3 py-2 text-gray-600 transition-colors duration-300 transform rounded-lg hover:bg-gray-100 hover:text-gray-700"
-          routerLink="/report"
-          routerLinkActive="text-gray-700 bg-gray-100 rounded-lg "
-          [routerLinkActiveOptions]="{ exact: true }">
-          <i class="fa-solid fa-file-contract"></i>
-          <span class="mx-2 text-sm font-medium">Reports</span>
-        </a>
-      </div>
-
-      <div class="space-y-3">
-        <label class="px-3 text-xs text-gray-500 uppercase">content</label>
-
-        <a
-          class="flex items-center px-3 py-2 text-gray-600 transition-colors duration-300 transform rounded-lg hover:bg-gray-100 hover:text-gray-700"
-          routerLink="/wallet"
-          routerLinkActive="text-gray-700 bg-gray-100 rounded-lg"
-          [routerLinkActiveOptions]="{ exact: true }">
-          <i class="fa-solid fa-wallet"></i>
-          <span class="mx-2 text-sm font-medium">Wallets</span>
-        </a>
-
-        <a
-          class="flex items-center px-3 py-2 text-gray-600 transition-colors duration-300 transform rounded-lg hover:bg-gray-100 hover:text-gray-700"
-          routerLink="/budget"
-          routerLinkActive="text-gray-700 bg-gray-100 rounded-lg"
-          [routerLinkActiveOptions]="{ exact: true }">
-          <i class="fa-solid fa-piggy-bank"></i>
-          <span class="mx-2 text-sm font-medium">Budgets</span>
-        </a>
-
-        <a
-          class="flex items-center px-3 py-2 text-gray-600 transition-colors duration-300 transform rounded-lg hover:bg-gray-100 hover:text-gray-700"
-          routerLink="/expense"
-          routerLinkActive="text-gray-700 bg-gray-100 rounded-lg"
-          [routerLinkActiveOptions]="{ exact: true }">
-          <i class="fa-solid fa-coins"></i>
-          <span class="mx-2 text-sm font-medium">Expenses</span>
-        </a>
-
-        <a
-          class="flex items-center px-3 py-2 text-gray-600 transition-colors duration-300 transform rounded-lg hover:bg-gray-100 hover:text-gray-700"
-          routerLink="/income"
-          routerLinkActive="text-gray-700 bg-gray-100 rounded-lg"
-          [routerLinkActiveOptions]="{ exact: true }">
-          <i class="fa-solid fa-credit-card"></i>
-          <span class="mx-2 text-sm font-medium">Incomes</span>
-        </a>
-
-        <a
-          class="flex items-center px-3 py-2 text-gray-600 transition-colors duration-300 transform rounded-lg hover:bg-gray-100 hover:text-gray-700"
-          routerLink="/debt"
-          routerLinkActive="text-gray-700 bg-gray-100 rounded-lg"
-          [routerLinkActiveOptions]="{ exact: true }">
-          <i class="fa-solid fa-jug-detergent"></i>
-          <span class="mx-2 text-sm font-medium">Debts</span>
-        </a>
-
-        <a
-          class="flex items-center px-3 py-2 text-gray-600 transition-colors duration-300 transform rounded-lg hover:bg-gray-100 hover:text-gray-700"
-          routerLink="/goal"
-          routerLinkActive="text-gray-700 bg-gray-100 rounded-lg"
-          [routerLinkActiveOptions]="{ exact: true }">
-          <i class="fa-solid fa-bullseye"></i>
-          <span class="mx-2 text-sm font-medium">Goals</span>
-        </a>
-
-        <a
-          class="flex items-center px-3 py-2 text-gray-600 transition-colors duration-300 transform rounded-lg hover:bg-gray-100 hover:text-gray-700"
-          routerLink="/transactions"
-          routerLinkActive="text-gray-700 bg-gray-100 rounded-lg"
-          [routerLinkActiveOptions]="{ exact: true }">
-          <i class="fa-solid fa-arrow-right-arrow-left"></i>
-          <span class="mx-2 text-sm font-medium">Transactions</span>
-        </a>
-      </div>
-    </nav>
-  </div>
-</aside>
-
 <!-- Hamburger Menu (Mobile) -->
 <div class="md:hidden fixed top-4 left-4 z-30">
   <button (click)="toggleSidebar()" class="h-10 w-10 flex items-center justify-center rounded-full bg-green-100 text-green-900">
@@ -116,4 +5,138 @@
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
     </svg>
   </button>
+  <div *ngIf="isSidebarVisible" class="fixed inset-0 z-10 bg-black/50" (click)="toggleSidebar()"></div>
 </div>
+
+<!-- Sidebar -->
+<aside [class.hidden]="!isSidebarVisible"
+       class="flex flex-col md:w-64 w-64 h-screen px-5 py-2 bg-green-50 border-r border-green-200 md:relative fixed top-0 left-0 z-20 transform transition-transform duration-300 ease-in-out md:translate-x-0 -translate-x-full md:block">
+  <header class="text-white py-4">
+    <!-- Logo -->
+    <a href="/dashboard">
+      <img class="h-24" src="../../../../../assets/Budget-face%20logo.png" alt="Budget Logo">
+    </a>
+  </header>
+  <div class="flex-grow overflow-y-auto">
+    <div class="p-4">
+      <div class="mb-6">
+        <h2 class="text-green-900 font-semibold mb-2">Analytics</h2>
+        <ul>
+          <li class="mb-1">
+          </li>
+          <a class="flex items-center p-2 rounded-md hover:bg-green-100 text-green-700 hover:text-green-900"
+             routerLink="/dashboard"
+             routerLinkActive="text-white bg-green-700 rounded-lg"
+             [routerLinkActiveOptions]="{ exact: true }">
+            <svg class="w-5 h-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+            </svg>
+            Dashboard
+          </a>
+          <li class="mb-1">
+            <a class="flex items-center p-2 rounded-md hover:bg-green-100 text-green-700 hover:text-green-900"
+               routerLink="/stories"
+               routerLinkActive="text-white bg-green-700 rounded-lg"
+               [routerLinkActiveOptions]="{ exact: true }">
+              <svg class="w-5 h-5  mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+              </svg>
+              Stories
+            </a>
+          </li>
+          <li class="mb-1">
+            <a class="flex items-center p-2 rounded-md hover:bg-green-100 text-green-700 hover:text-green-900"
+               routerLink="/report"
+               routerLinkActive="text-white bg-green-700 rounded-lg"
+               [routerLinkActiveOptions]="{ exact: true }">
+              <svg class="w-5 h-5  mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+              </svg>
+              Reports
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div>
+        <h2 class="text-green-900 font-semibold mb-2">Content</h2>
+        <ul>
+          <li class="mb-1">
+            <a class="flex items-center p-2 rounded-md hover:bg-green-100 text-green-700 hover:text-green-900"
+               routerLink="/wallet"
+               routerLinkActive="text-white bg-green-700 rounded-lg"
+               [routerLinkActiveOptions]="{ exact: true }">
+              <svg class="w-5 h-5  mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+              </svg>
+              Wallets
+            </a>
+          </li>
+          <li class="mb-1">
+            <a class="flex items-center p-2 rounded-md hover:bg-green-100 text-green-700 hover:text-green-900"
+               routerLink="/budget"
+               routerLinkActive="text-white bg-green-700 rounded-lg"
+               [routerLinkActiveOptions]="{ exact: true }">
+              <svg class="w-5 h-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              Budgets
+            </a>
+          </li>
+          <li class="mb-1">
+            <a class="flex items-center p-2 rounded-md hover:bg-green-100 text-green-700 hover:text-green-900"
+               routerLink="/expense"
+               routerLinkActive="text-white bg-green-700 rounded-lg"
+               [routerLinkActiveOptions]="{ exact: true }">
+              <i class="w-5 h-5 mr-2 fa-solid fa-coins"></i>
+              Expenses
+            </a>
+          </li>
+          <li class="mb-1">
+            <a class="flex items-center p-2 rounded-md hover:bg-green-100 text-green-700 hover:text-green-900"
+               routerLink="/income"
+               routerLinkActive="text-white bg-green-700 rounded-lg"
+               [routerLinkActiveOptions]="{ exact: true }">
+              <svg class="w-5 h-5  mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+              </svg>
+              Incomes
+            </a>
+          </li>
+          <li class="mb-1">
+            <a class="flex items-center p-2 rounded-md hover:bg-green-100 text-green-700 hover:text-green-900"
+               routerLink="/debt"
+               routerLinkActive="text-white bg-green-700 rounded-lg"
+               [routerLinkActiveOptions]="{ exact: true }">
+              <svg class="w-5 h-5  mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+              </svg>
+              Debts
+            </a>
+          </li>
+          <li class="mb-1">
+            <a class="flex items-center p-2 rounded-md hover:bg-green-100 text-green-700 hover:text-green-900"
+               routerLink="/goal"
+               routerLinkActive="text-white bg-green-700 rounded-lg"
+               [routerLinkActiveOptions]="{ exact: true }">
+              <svg class="w-5 h-5  mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+              </svg>
+              Goals
+            </a>
+          </li>
+          <li class="mb-1">
+            <a class="flex items-center p-2 rounded-md hover:bg-green-100 text-green-700 hover:text-green-900"
+               routerLink="/transactions"
+               routerLinkActive="text-white bg-green-700 rounded-lg"
+               [routerLinkActiveOptions]="{ exact: true }">
+              <svg class="w-5 h-5  mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+              </svg>
+              Transactions
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</aside>

@@ -7,6 +7,7 @@ import com.yassir.budgetbuddy.file.FileUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.stream.Collectors;
 
 
@@ -20,6 +21,7 @@ public class ExpensesCategoryMapper {
                 .id(request.id()) // Optional field, can be null for new categories
                 .name(request.name())
                 .description(request.description())
+                .totalExpenses(BigDecimal.valueOf(0.0)) // Initialize the total expenses to 0
                 .build();
     }
 

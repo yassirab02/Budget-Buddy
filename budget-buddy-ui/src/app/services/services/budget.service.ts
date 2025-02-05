@@ -14,6 +14,8 @@ import { StrictHttpResponse } from '../strict-http-response';
 import { addOrUpdateBudget } from '../fn/budget/add-or-update-budget';
 import { AddOrUpdateBudget$Params } from '../fn/budget/add-or-update-budget';
 import { BudgetResponse } from '../models/budget-response';
+import { calculateMonthlyBudget } from '../fn/budget/calculate-monthly-budget';
+import { CalculateMonthlyBudget$Params } from '../fn/budget/calculate-monthly-budget';
 import { deleteBudget1 } from '../fn/budget/delete-budget-1';
 import { DeleteBudget1$Params } from '../fn/budget/delete-budget-1';
 import { findAllBudgetsByOwner } from '../fn/budget/find-all-budgets-by-owner';
@@ -104,6 +106,31 @@ export class BudgetService extends BaseService {
       map((r: StrictHttpResponse<{
 }>): {
 } => r.body)
+    );
+  }
+
+  /** Path part for operation `calculateMonthlyBudget()` */
+  static readonly CalculateMonthlyBudgetPath = '/budget/monthly-budget';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `calculateMonthlyBudget()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  calculateMonthlyBudget$Response(params?: CalculateMonthlyBudget$Params, context?: HttpContext): Observable<StrictHttpResponse<BudgetResponse>> {
+    return calculateMonthlyBudget(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `calculateMonthlyBudget$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  calculateMonthlyBudget(params?: CalculateMonthlyBudget$Params, context?: HttpContext): Observable<BudgetResponse> {
+    return this.calculateMonthlyBudget$Response(params, context).pipe(
+      map((r: StrictHttpResponse<BudgetResponse>): BudgetResponse => r.body)
     );
   }
 
