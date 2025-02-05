@@ -56,63 +56,89 @@
 
 
       <ng-template #showExpenses>
-        <div class="grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-          <div class="bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50 rounded-xl shadow-md overflow-hidden transition-transform transform hover:scale-105"
-               *ngFor="let expense of nonArchivedExpenses">
-            <div class="bg-gradient-to-r from-green-600 via-emerald-600 to-teal-600 text-white p-4">
-              <h3 class="font-bold text-lg mb-2 opacity-90 group-hover:opacity-100 transition-opacity duration-300">{{ expense.name }}</h3>
-              <p class="text-xl font-semibold flex items-center group-hover:translate-y-2 transition-all duration-300">
-                $ {{ expense.amount }}
-              </p>
-            </div>
-            <div class="p-4 space-y-3">
-              <div class="flex items-center text-gray-700 transition-all duration-300 hover:translate-x-2">
-                <svg class="w-5 h-5 text-green-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-                </svg>
-                <span class="font-medium text-sm">{{ expense.date | date: 'shortDate' }}</span>
-              </div>
-              <div class="flex items-center text-gray-700 transition-all duration-300 hover:translate-x-2">
-                <svg class="w-5 h-5 text-green-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path>
-                </svg>
-                <span class="font-medium text-sm">{{ expense.category }}</span>
-              </div>
-              <div class="flex items-center text-gray-700 transition-all duration-300 hover:translate-x-2">
-                <svg class="w-5 h-5 text-green-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
-                </svg>
-                <span class="font-medium text-sm">{{ expense.expensesType }}</span>
-              </div>
-              <div class="flex items-center text-gray-700 transition-all duration-300 hover:translate-x-2">
-                <svg class="w-5 h-5 text-green-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"></path>
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"></path>
-                </svg>
-                <span class="font-medium text-sm">{{ expense.budget }}</span>
-              </div>
-              <div *ngIf="expense?.wallet" class="flex items-center text-gray-700 transition-all duration-300 hover:translate-x-2">
-                <svg class="w-5 h-5 text-green-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path>
-                </svg>
-                <span class="font-medium text-sm">{{ expense?.wallet }}</span>
-              </div>
-            </div>
-            <div class="bg-white bg-opacity-50 px-4 py-3 flex justify-between items-center">
-              <button class="flex items-center text-sm bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 text-white px-4 py-2 rounded-full transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-0.5 focus:ring-2 focus:ring-offset-2 focus:ring-red-500 focus:outline-none"
-                      (click)="openDelete(expense.id)">
-                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-                </svg>
-                Delete
-              </button>
-              <button class="flex items-center text-sm bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white px-4 py-2 rounded-full transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-0.5 focus:ring-2 focus:ring-offset-2 focus:ring-green-500 focus:outline-none">
-                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
-                </svg>
-                Edit
-              </button>
-            </div>
+        <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+          <div class="overflow-x-auto">
+            <table class="w-full">
+              <thead>
+              <tr class="bg-gradient-to-r from-green-600 to-green-800">
+                <th class="py-4 px-6 text-left text-xs font-medium text-green-100 uppercase tracking-wider">
+                  Name
+                </th>
+                <th class="py-4 px-6 text-left text-xs font-medium text-green-100 uppercase tracking-wider">
+                  Amount
+                </th>
+                <th class=" sm:table-cell py-4 px-6 text-left text-xs font-medium text-green-100 uppercase tracking-wider">
+                  Date
+                </th>
+                <th class=" md:table-cell py-4 px-6 text-left text-xs font-medium text-green-100 uppercase tracking-wider">
+                  Category
+                </th>
+                <th class=" lg:table-cell py-4 px-6 text-left text-xs font-medium text-green-100 uppercase tracking-wider">
+                  Type
+                </th>
+                <th class=" xl:table-cell py-4 px-6 text-left text-xs font-medium text-green-100 uppercase tracking-wider">
+                  Budget
+                </th>
+                <th class=" xl:table-cell py-4 px-6 text-left text-xs font-medium text-green-100 uppercase tracking-wider">
+                  wallet
+                </th>
+                <th class="py-4 px-6 text-left text-xs font-medium text-green-100 uppercase tracking-wider">
+                  Actions
+                </th>
+              </tr>
+              </thead>
+              <tbody class="bg-white divide-y divide-gray-200" *ngFor="let expense of nonArchivedExpenses">
+              <tr class="hover:bg-green-50 transition-colors duration-200">
+                <td class="py-4 px-6 whitespace-nowrap">
+                  <div class="flex items-center">
+                    <div class="flex-shrink-0 h-10 w-10">
+                <span class="h-10 w-10 rounded-full bg-green-100 flex items-center justify-center text-green-500">
+                  <i class="fa-solid fa-coins"></i>
+                </span>
+                    </div>
+                    <div class="ml-4">
+                      <div class="text-sm font-medium text-gray-900">{{ expense.name }}</div>
+                      <div class="text-sm text-gray-500">{{ expense.description}}</div>
+                    </div>
+                  </div>
+                </td>
+                <td class="py-4 px-6 whitespace-nowrap">
+                  <div class="text-sm font-semibold text-emerald-600">$ {{ expense.amount }}</div>
+                </td>
+                <td class=" sm:table-cell py-4 px-6 whitespace-nowrap text-sm text-gray-500">
+                  {{ expense.date | date: 'shortDate' }}
+                </td>
+                <td class=" md:table-cell py-4 px-6 whitespace-nowrap">
+            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+             {{ expense.category }}
+            </span>
+                </td>
+                <td class=" lg:table-cell py-4 px-6 whitespace-nowrap text-sm text-gray-500">
+                  {{ expense.expensesType }}
+                </td>
+                <td class=" xl:table-cell py-4 px-6 whitespace-nowrap">
+                  <div class="text-sm text-gray-900">{{ expense.budget }}</div>
+                </td>
+                <td class=" xl:table-cell py-4 px-6 whitespace-nowrap">
+                  <div class="text-sm text-gray-900">{{ expense.wallet }}</div>
+                </td>
+                <td class="py-4 px-6 whitespace-nowrap text-right text-sm font-medium">
+                  <button class="text-green-600 hover:text-green-900 mr-2">
+                    <i class="fa-solid fa-pencil h-5 w-5"></i>
+                  </button>
+                  <button (click)="openDelete(expense.id)" class="text-red-600 hover:text-red-900">
+                    <i class="fa-regular fa-trash-can h-5 w-5"></i>
+                  </button>
+                </td>
+
+              </tr>
+              </tbody>
+            </table>
+          </div>
+          <!-- Responsive summary for smaller screens -->
+          <div class=" bg-gray-50 px-4 py-3 border-t border-gray-200 text-sm">
+            <div class="font-medium text-gray-900">Total Expenses: $ {{totalExpenses}}</div>
+            <div class="text-gray-500 mt-1">Across {{ categoriesResponse.length }} categories</div>
           </div>
         </div>
       </ng-template>

@@ -5,6 +5,7 @@ import {PageResponseExpensesResponse} from '../../../../services/models/page-res
 import {ExpensesService} from '../../../../services/services/expenses.service';
 import {DeleteBudget1$Params} from '../../../../services/fn/budget/delete-budget-1';
 import {DeleteExpense$Params} from '../../../../services/fn/expenses/delete-expense';
+import {ExpensesCategoryResponse} from '../../../../services/models/expenses-category-response';
 
 
 @Component({
@@ -21,6 +22,7 @@ export class ExpenseComponent implements OnInit {
   level: 'success' | 'error' = 'success';
   errorMsg: Array<string> = [];
   expensesResponse: PageResponseExpensesResponse = {};  // Store the actual wallet
+  categoriesResponse:Array<ExpensesCategoryResponse>= [];
   createExpense=false;
   showSuccess=false
   isArchive=false;
@@ -38,6 +40,7 @@ export class ExpenseComponent implements OnInit {
 
   ngOnInit() {
     this.findAllExpenses();
+    this.getMostSpendingCategories();
   }
 
   findAllExpenses(resetPage: boolean = false) {
@@ -106,7 +109,21 @@ export class ExpenseComponent implements OnInit {
     });
   }
 
-    gotToPage(page: number) {
+  getMostSpendingCategories(){
+    this.expensesService.getTopSpendingCategories().subscribe({
+      next: (data) => {
+        this.categoriesResponse = data;
+      },
+      error: (err) => {
+        console.error('Error fetching top spending categories:', err);
+      }
+    });
+  }
+
+  get totalExpenses(): number | undefined {
+    return this.expensesResponse.content?.reduce((sum, expense) => sum + (expense.amount ?? 0), 0);
+  }
+  gotToPage(page: number) {
       this.page = page;
       this.findAllExpenses();
     }
