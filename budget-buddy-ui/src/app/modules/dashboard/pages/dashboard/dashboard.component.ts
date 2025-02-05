@@ -242,4 +242,11 @@ export class DashboardComponent implements OnInit {
   set user(value: UserResponse | undefined) {
     this._user = value;
   }
+
+  goToProfile() {
+    this.router.navigate(['/profile'], { state: { user: this.user } });
+  }
+  goToContact() {
+    this.router.navigate(['/profile'], { state: { user: this.user } });
+  }
 }

@@ -47,6 +47,7 @@ public class User implements UserDetails , Principal {
     private boolean accountLocked;
     private boolean enabled;
     private boolean isNew;
+    private String placeOfBirth;
     @CreatedDate
     @Column(nullable = false,updatable = false)
     private LocalDateTime createdAt;

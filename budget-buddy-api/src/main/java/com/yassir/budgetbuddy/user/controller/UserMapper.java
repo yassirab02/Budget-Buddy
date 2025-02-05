@@ -16,6 +16,9 @@ public class UserMapper {
                     .email(user.getEmail())
                     .fullName(user.fullName())
                     .totalBalance(user.getTotalBalance())
+                    .createdAt(user.getCreatedAt())
+                    .dateOfBirth(user.getDateOfBirth())
+                    .placeOfBirth(user.getPlaceOfBirth())
                     .isNew(user.isNew())
                     .build();
         }

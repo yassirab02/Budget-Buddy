@@ -2227,7 +2227,6 @@
           "archived",
           "content",
           "ownerId",
-          "status",
           "title"
         ],
         "type": "object",
@@ -2919,12 +2918,10 @@
             "format": "int32"
           },
           "totalDebt": {
-            "type": "integer",
-            "format": "int32"
+            "type": "number"
           },
           "totalPaidDebt": {
-            "type": "integer",
-            "format": "int32"
+            "type": "number"
           },
           "balance": {
             "type": "number"
@@ -3357,6 +3354,17 @@
           },
           "totalBalance": {
             "type": "number"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "dateOfBirth": {
+            "type": "string",
+            "format": "date"
+          },
+          "placeOfBirth": {
+            "type": "string"
           },
           "role": {
             "type": "string"

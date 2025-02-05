@@ -47,16 +47,16 @@
 
   <div *ngIf="isOpen"
        class="absolute right-16 top-20 z-20 w-48 py-2 bg-green-400 rounded-md shadow-xl">
-    <a href="/profile"
+    <button (click)=" goToProfile()"
        class="block px-4 py-3 text-sm text-gray-600 capitalize transition-colors rounded-lg duration-300 transform hover:bg-gray-100">
       <i class="fa-solid fa-user"></i>
       Your Profile
-    </a>
-    <a href="/contact"
+    </button>
+    <button (click)=" goToContact()"
        class="block px-4 py-3 text-sm text-gray-600 capitalize transition-colors rounded-lg duration-300 transform hover:bg-gray-100">
       <i class="fa-solid fa-circle-question"></i>
       Help
-    </a>
+    </button>
     <a
       class="flex items-center px-3 py-2 text-gray-600 transition-colors duration-300 transform rounded-lg hover:bg-gray-100 hover:text-gray-700"
       href="/setting">
@@ -76,6 +76,18 @@
 
   <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
     <div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+      <!-- Quote Card -->
+      <div class="md:col-span-2 lg:col-span-3">
+        <div class="bg-gradient-to-br from-green-100 to-white rounded-lg shadow-md">
+          <div class="flex items-center justify-between p-6">
+            <div class="flex-1">
+              <blockquote class="text-xl italic text-green-800">"The art is not in making money, but in keeping it."</blockquote>
+              <p class="mt-2 text-right text-sm text-green-600">- Proverb</p>
+            </div>
+            <i class="icon icon-quote text-green-500 text-5xl ml-6"></i>
+          </div>
+        </div>
+      </div>
       <!-- Total Balance Card -->
       <div class="col-span-full lg:col-span-3 bg-white rounded-xl shadow-md p-6">
         <h2 class="text-xl font-semibold mb-4 flex items-center">
