@@ -40,7 +40,6 @@ export class ExpenseComponent implements OnInit {
 
   ngOnInit() {
     this.findAllExpenses();
-    this.getMostSpendingCategories();
   }
 
   findAllExpenses(resetPage: boolean = false) {
@@ -58,6 +57,7 @@ export class ExpenseComponent implements OnInit {
             .fill(0)
             .map((x, i) => i);
           this.isLoading = false;
+          this.getMostSpendingCategories();
         },
         error: (err) => {
           console.error('Error fetching expenses:', err);
