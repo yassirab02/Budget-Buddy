@@ -23,7 +23,7 @@
                 <label class="text-sm font-semibold text-gray-700">Transaction Type</label>
                 <select class="form-select mt-1 w-full border-gray-300 rounded-lg text-lg p-2" (change)="updateTransferTypeBooleans($event)">
                   <option *ngFor="let type of transactionTypes" [value]="type">
-                    {{ type }}
+                    {{ transactionTypeLabels[type] }}  <!-- Display mapped label -->
                   </option>
                 </select>
               </div>
@@ -84,10 +84,10 @@
             </div>
 
             <div *ngIf="userTransfer">
-              <label class="text-sm font-semibold text-gray-700">Choose a debt</label>
+              <label class="text-sm font-semibold text-gray-700">Choose a User</label>
               <select class="form-select mt-1 w-full border-gray-300 rounded-lg text-lg p-2">
-                <option *ngFor="let debt of debtResponse" [value]="debt.id" [(ngModel)]="transactionRequest.receiverId">
-                  {{ debt.name }}
+                <option *ngFor="let user of userTransferResponse" [value]="user.id" [(ngModel)]="transactionRequest.receiverId">
+                  {{ user.fullName }}
                 </option>
               </select>
             </div>

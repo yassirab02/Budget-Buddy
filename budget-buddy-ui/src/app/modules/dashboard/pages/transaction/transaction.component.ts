@@ -2,8 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {TransactionResponse} from '../../../../services/models/transaction-response';
 import {animate, style, transition, trigger} from '@angular/animations';
-import {FormControl} from '@angular/forms';
-import {WalletResponse} from '../../../../services/models/wallet-response';
 import {TransactionsService} from '../../../../services/services/transactions.service';
 import {PageResponseTransactionResponse} from '../../../../services/models/page-response-transaction-response';
 
@@ -32,7 +30,6 @@ export class TransactionComponent implements OnInit{
   level: 'success' | 'error' = 'success';
   errorMsg: Array<string> = [];
   showSuccess=false ;
-  searchTerm: string = '';
   typeFilter: string = 'ALL';
   statusFilter: string = 'ALL';
   sortConfig = { key: 'date', direction: 'desc' };
@@ -79,44 +76,9 @@ export class TransactionComponent implements OnInit{
   handleSuccess(): void {
     this.showSuccess = true;
     setTimeout(() => {
+    this.findAllTransactions();
       this.showSuccess = false;
     }, 4000);
   }
 
-  toggleFilters(): void {
-    this.showFilters = !this.showFilters;
-  }
-
-  requestSort(key: keyof TransactionResponse): void {
-    let direction: 'asc' | 'desc' = 'asc';
-    if (this.sortConfig.key === key && this.sortConfig.direction === 'asc') {
-      direction = 'desc';
-    }
-    this.sortConfig = { key, direction };
-  }
-
-  getIconClass(transactionType: string): string {
-    return transactionType === 'DEPOSIT' ? 'text-green-600' : 'text-red-600';
-  }
-
-  sort(key: keyof TransactionResponse) {
-    const direction = this.sortConfig.key === key && this.sortConfig.direction === 'asc' ? 'desc' : 'asc';
-    this.sortConfig = { key, direction };
-  }
-
-  getBadgeClasses(transaction: TransactionResponse): string {
-    return `px-2 py-1 text-xs font-semibold rounded-full ${
-      transaction.transactionType === 'DEPOSIT'
-        ? 'bg-blue-100 text-blue-800'
-        : 'bg-gray-100 text-gray-800'
-    }`;
-  }
-
-  getStatusBadgeClasses(transaction: TransactionResponse): string {
-    return `px-2 py-1 text-xs font-semibold rounded-full ${
-      transaction.status === 'COMPLETED'
-        ? 'bg-green-100 text-green-800'
-        : 'bg-yellow-100 text-yellow-800'
-    }`;
-  }
 }

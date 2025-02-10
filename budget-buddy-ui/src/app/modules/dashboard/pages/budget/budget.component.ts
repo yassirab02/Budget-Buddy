@@ -15,7 +15,7 @@ export class BudgetComponent implements OnInit {
   budgetResponse: PageResponseBudgetResponse = {};  // Store the actual budgets
   monthlyBudget: BudgetResponse = {};  // Store the actual budgets
   page = 0;
-  size = 5;
+  size = 6;
   pages: any = [];
   message = '';
   level: 'success' | 'error' = 'success';
@@ -29,7 +29,6 @@ export class BudgetComponent implements OnInit {
   ngOnInit() {
     // Fetch the budgets from the backend when the component initializes
     this.findAllBudgets();
-    this.getMonthlyBudget();
   }
 
    findAllBudgets(resetPage:boolean = false) {
@@ -49,6 +48,7 @@ export class BudgetComponent implements OnInit {
           this.pages = Array(this.budgetResponse.totalPages)
             .fill(0)
             .map((x, i) => i);
+          this.getMonthlyBudget();
           this.isLoading = false;
         },
         error: (err) => {

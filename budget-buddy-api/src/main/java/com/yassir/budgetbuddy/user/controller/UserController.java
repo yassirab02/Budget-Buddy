@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.security.Principal;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/user")
@@ -44,5 +45,10 @@ public class UserController {
     ) {
         service.addBalance(amount, connectedUser);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/users-transfer")
+    public ResponseEntity<List<UserTransferResponse>> getUsersTransfer(Authentication connectedUser) {
+        return ResponseEntity.ok(service.getUsersTransfer(connectedUser));
     }
 }

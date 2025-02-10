@@ -3,6 +3,9 @@ package com.yassir.budgetbuddy.user.service;
 import com.yassir.budgetbuddy.user.User;
 import com.yassir.budgetbuddy.user.UserRepository;
 import com.yassir.budgetbuddy.user.controller.ChangePasswordRequest;
+import com.yassir.budgetbuddy.user.controller.UserMapper;
+import com.yassir.budgetbuddy.user.controller.UserResponse;
+import com.yassir.budgetbuddy.user.controller.UserTransferResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -14,6 +17,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.security.Principal;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -25,6 +29,7 @@ public class UserServiceImpl implements UserService {
 
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
+    private final UserMapper userMapper;
 
     @Override
     public void changePassword(ChangePasswordRequest request, Principal connectedUser) {
@@ -128,5 +133,12 @@ public class UserServiceImpl implements UserService {
         User user = (User) connectedUser.getPrincipal();
         user.setTotalBalance(user.getTotalBalance().add(amount));
         userRepository.save(user);
+    }
+
+    @Override
+    public List<UserTransferResponse> getUsersTransfer(Authentication connectedUser) {
+        User user = (User) connectedUser.getPrincipal();
+        List<User> allUsersTransfer = userRepository.findAllUsersTransfer(user.getId());
+        return userMapper.toUserTransferResponse(allUsersTransfer);
     }
 }

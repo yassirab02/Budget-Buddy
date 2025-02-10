@@ -16,53 +16,6 @@
       </button>
     </div>
 
-    <!-- Search and Filters -->
-    <div class="mb-8 bg-white shadow-lg rounded-2xl overflow-hidden p-6">
-      <div
-        class="w-full sm:w-auto border-gray-300 text-gray-700 hover:bg-gray-100 transition-all duration-300">
-        <button
-          (click)="toggleFilters()"
-          class="w-full sm:w-auto border border-gray-300 text-gray-700 hover:bg-gray-100 transition-all duration-300 px-4 py-2 rounded-lg"
-        >
-          <i class="fas fa-filter mr-2"></i> Filters
-        </button>
-      </div>
-
-      <!-- Expandable Filters -->
-      <div *ngIf="showFilters" class="mt-4 flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
-        <select [(ngModel)]="typeFilter" class="border border-gray-300 rounded-lg px-3 py-2">
-          <option value="ALL">All Types</option>
-          <option value="DEPOSIT">Deposit</option>
-          <option value="WITHDRAWAL">Withdrawal</option>
-          <option value="TRANSFER">Transfer</option>
-        </select>
-
-        <select [(ngModel)]="statusFilter" class="border border-gray-300 rounded-lg px-3 py-2">
-          <option value="ALL">All Statuses</option>
-          <option value="COMPLETED">Completed</option>
-          <option value="PENDING">Pending</option>
-        </select>
-
-        <div class="flex space-x-2">
-          <button
-            (click)="sort('date')"
-            class="border border-gray-300 text-gray-700 hover:bg-gray-100 transition-all duration-300 px-3 py-1 rounded-lg"
-          >
-            Date
-            <i *ngIf="sortConfig.key === 'date'"
-               [class]="sortConfig.direction === 'asc' ? 'fas fa-arrow-up' : 'fas fa-arrow-down'" class="ml-2"></i>
-          </button>
-          <button
-            (click)="sort('amount')"
-            class="border border-gray-300 text-gray-700 hover:bg-gray-100 transition-all duration-300 px-3 py-1 rounded-lg"
-          >
-            Amount
-            <i *ngIf="sortConfig.key === 'amount'"
-               [class]="sortConfig.direction === 'asc' ? 'fas fa-arrow-up' : 'fas fa-arrow-down'" class="ml-2"></i>
-          </button>
-        </div>
-      </div>
-    </div>
 
     <!-- View Toggle -->
     <div class="mb-4">

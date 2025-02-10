@@ -17,7 +17,10 @@ import { changePassword } from '../fn/user-controller/change-password';
 import { ChangePassword$Params } from '../fn/user-controller/change-password';
 import { getCurrentUser } from '../fn/user-controller/get-current-user';
 import { GetCurrentUser$Params } from '../fn/user-controller/get-current-user';
+import { getUsersTransfer } from '../fn/user-controller/get-users-transfer';
+import { GetUsersTransfer$Params } from '../fn/user-controller/get-users-transfer';
 import { UserResponse } from '../models/user-response';
+import { UserTransferResponse } from '../models/user-transfer-response';
 
 @Injectable({ providedIn: 'root' })
 export class UserControllerService extends BaseService {
@@ -80,6 +83,31 @@ export class UserControllerService extends BaseService {
       map((r: StrictHttpResponse<{
 }>): {
 } => r.body)
+    );
+  }
+
+  /** Path part for operation `getUsersTransfer()` */
+  static readonly GetUsersTransferPath = '/api/v1/user/users-transfer';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `getUsersTransfer()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getUsersTransfer$Response(params?: GetUsersTransfer$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<UserTransferResponse>>> {
+    return getUsersTransfer(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `getUsersTransfer$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getUsersTransfer(params?: GetUsersTransfer$Params, context?: HttpContext): Observable<Array<UserTransferResponse>> {
+    return this.getUsersTransfer$Response(params, context).pipe(
+      map((r: StrictHttpResponse<Array<UserTransferResponse>>): Array<UserTransferResponse> => r.body)
     );
   }
 

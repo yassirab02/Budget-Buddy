@@ -9,6 +9,8 @@ import { DebtService } from '../../../../../services/services/debt.service';
 import { GoalService } from '../../../../../services/services/goal.service';
 import { TransactionRequest } from '../../../../../services/models/transaction-request';
 import { TransactionsService } from '../../../../../services/services/transactions.service';
+import {UserControllerService} from '../../../../../services/services/user-controller.service';
+import {UserTransferResponse} from '../../../../../services/models/user-transfer-response';
 
 enum TransactionType {
   TRANSFER_TO_USER = 'Transfer to User',
@@ -41,6 +43,7 @@ export class TransactionCreateComponent implements OnInit {
   walletResponse: WalletResponse[] = [];
   debtResponse: DebtResponse[] = [];
   goalResponse: GoalResponse[] = [];
+  userTransferResponse: UserTransferResponse[] = [];
   message = '';
   level: 'success' | 'error' = 'success';
   errorMsg: string[] = [];
@@ -51,8 +54,16 @@ export class TransactionCreateComponent implements OnInit {
   userTransfer=false;
 
 
+// Original transaction types array
   transactionTypes = ['TRANSFER_TO_WALLET', 'TRANSFER_TO_GOAL', 'TRANSFER_TO_DEBT', 'TRANSFER_TO_USER'];
 
+// Mapping object for display labels
+  transactionTypeLabels: { [key: string]: string } = {
+    TRANSFER_TO_WALLET: 'Transfer to Wallet',
+    TRANSFER_TO_GOAL: 'Transfer to Goal',
+    TRANSFER_TO_DEBT: 'Transfer to Debt',
+    TRANSFER_TO_USER: 'Transfer to User'
+  };
   transactionRequest: TransactionRequest = {
     amount: 0,
     description: '',
@@ -69,6 +80,7 @@ export class TransactionCreateComponent implements OnInit {
     private walletService: WalletService,
     private debtService: DebtService,
     private goalService: GoalService,
+    private userService: UserControllerService,
     private transactionService: TransactionsService
   ) {
     this.transferForm = this.fb.group({
@@ -120,6 +132,17 @@ export class TransactionCreateComponent implements OnInit {
           this.level = 'error';
         }
       });
+
+    this.userService.getUsersTransfer().subscribe({
+      next: (users) => {
+        this.userTransferResponse = users;
+      },
+      error: (err) => {
+        console.error('Error fetching users:', err);
+        this.message = 'An error occurred while fetching the users.';
+        this.level = 'error';
+      }
+    })
   }
 
   saveTransaction() {
