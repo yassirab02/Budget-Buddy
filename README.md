@@ -1,8 +1,9 @@
 ﻿<div align="center">
 
-# 💰 BudgetBuddy
+# <span style="font-family: 'Arial', sans-serif;">💰 <span style="color: #4CAF50;">Budget Buddy</span></span>
 
-![BudgetBuddy Logo](budget-buddy-ui/src/assets/Budget-face%20logo.png)
+<img src="budget-buddy-ui/src/assets/Budget-face%20logo.png" width="150" alt="BudgetBuddy Logo">
+
 Your Personal Finance Companion
 
 [![Version](https://img.shields.io/badge/version-1.0.0-brightgreen.svg)](https://github.com/yourusername/budgetbuddy)
@@ -13,9 +14,9 @@ Your Personal Finance Companion
 
 ---
 
-## 🌟 Welcome to BudgetBuddy
+## 🌟 Welcome to <span style="color: #4CAF50;">BudgetBuddy</span>
 
-<span style="color: #4CAF50;">**BudgetBuddy**</span> is your trusted tool for managing and tracking your expenses with ease. Whether you're saving for a big goal, looking to stay on top of your daily spending, or want to connect with a community of like-minded individuals, BudgetBuddy makes budgeting simple, smart, and social.
+<span style="color: #4CAF50;">**BudgetBuddy**</span> is your trusted tool for managing and tracking your expenses with ease. Whether you're saving for a big goal, looking to stay on top of your daily spending, or want to connect with a community of like-minded individuals, <span style="color: #4CAF50;">BudgetBuddy</span> makes budgeting simple, smart, and social.
 
 ## ✨ Features
 
@@ -33,7 +34,6 @@ With an intuitive interface and powerful features, you can:
 - [x] 📱 Responsive design for mobile, tablet, and desktop users
 
 <div align="center">
-  <h2 style="color: #4CAF50;">Take control of your finances with BudgetBuddy</h2>
+  <h2 style="color: #4CAF50; font-family: 'Arial', sans-serif;">Take control of your finances with <span style="color: #4CAF50;">BudgetBuddy</span></h2>
   <p><em>Because managing money should be as easy as spending it, and as fun as sharing it!</em></p>
 </div>
-
