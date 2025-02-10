@@ -91,7 +91,7 @@ const routes: Routes = [
         canActivate: [AuthGuard]
       },
       {
-        path: 'contact',
+        path: 'help',
         component: ContactComponent,
         canActivate: [AuthGuard]
       },

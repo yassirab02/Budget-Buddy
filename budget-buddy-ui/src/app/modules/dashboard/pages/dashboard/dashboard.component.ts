@@ -247,10 +247,10 @@ export class DashboardComponent implements OnInit {
     this.router.navigate(['/profile'], { state: { user: this.user } });
   }
   goToContact() {
-    this.router.navigate(['/profile'], { state: { user: this.user } });
+    this.router.navigate(['/help'], { state: { user: this.user } });
   }
 
   goToSettings() {
-    this.router.navigate(['/settings'], { state: { user: this.user } });
+    this.router.navigate(['/setting'], { state: { user: this.user } });
   }
 }
