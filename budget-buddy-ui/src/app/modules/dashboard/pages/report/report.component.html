@@ -1,14 +1,19 @@
+<div *ngIf="isLoading" class="flex justify-center items-center h-screen">
+  <app-spinner class="w-16 h-16"></app-spinner>
+</div>
+
 <div class="min-h-screen bg-green-50 p-4 md:p-8">
 <div class="max-w-7xl mx-auto">
   <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 space-y-4 md:space-y-0">
     <h1 class="text-3xl font-bold text-green-800">Financial Reports</h1>
     <div class="flex flex-wrap items-center gap-4">
-      <select class="w-[180px] bg-white border-green-300 text-green-800 rounded-md px-4 py-2">
-        <option value="2023">2023</option>
-        <option value="2022">2022</option>
-        <option value="2021">2021</option>
+      <select
+        class="w-[180px] bg-white border-green-300 text-green-800 rounded-md px-4 py-2"
+        (change)="getReportsByYear($event)">
+        <option *ngFor="let year of years" [value]="year">{{ year }}</option>
       </select>
     </div>
+
   </div>
   <div class="w-full mb-8">
     <div class="grid w-full grid-cols-2 bg-green-100 rounded-lg p-1">
@@ -141,4 +146,12 @@
         </div>
       </div>
     </div>
+  </div>
+
+  <div *ngIf="!isLoading && monthlyReports.length === 0 && isMonthlyReport" class="text-center text-gray-500">
+    No monthly reports available.
+  </div>
+
+  <div *ngIf="!isLoading && yearlyReports.length === 0 && !isMonthlyReport" class="text-center text-gray-500">
+    No yearly reports available.
   </div>

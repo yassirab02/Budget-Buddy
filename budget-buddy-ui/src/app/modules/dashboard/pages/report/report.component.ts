@@ -4,13 +4,15 @@ import {FormGroup} from '@angular/forms';
 import {PageResponseWalletResponse} from '../../../../services/models/page-response-wallet-response';
 import {ReportResponse} from '../../../../services/models/report-response';
 import {Router} from '@angular/router';
+import {GetReportById$Params} from '../../../../services/fn/report/get-report-by-id';
+import {GetReportsByYear$Params} from '../../../../services/fn/report/get-reports-by-year';
 
 @Component({
   selector: 'app-report',
   templateUrl: './report.component.html',
   styleUrl: './report.component.css'
 })
-export class ReportComponent implements OnInit  {
+export class ReportComponent implements OnInit {
   isLoading: boolean = true;
   page = 0;
   size = 5;
@@ -21,18 +23,24 @@ export class ReportComponent implements OnInit  {
   monthlyReports: ReportResponse[] = [];
   yearlyReports: ReportResponse[] = [];
   isMonthlyReport: boolean = true; // Default to monthly reports
+  years: number[] = [];
 
   toggleReportView(view: 'monthly' | 'yearly') {
     this.isMonthlyReport = view === 'monthly';
   }
 
 
-constructor(private reportService: ReportService,private router: Router) {
+  constructor(private reportService: ReportService, private router: Router) {
   }
-    ngOnInit() {
+
+  ngOnInit() {
     this.getAllMonthlyReports();
     this.getAllYearlyReports();
+    const currentYear = new Date().getFullYear();
+    for (let year = 2024; year <= currentYear; year++) {
+      this.years.push(year);
     }
+  }
 
   getMonthlyReports() {
     this.reportService.getMonthlyReports().subscribe({
@@ -90,11 +98,30 @@ constructor(private reportService: ReportService,private router: Router) {
     });
   }
 
-  navigateToMonthlyReport(id: number|undefined): void {
+  getReportsByYear(event: Event) {
+    const selectedYear = Number((event.target as HTMLSelectElement).value);
+    const params: GetReportsByYear$Params = { 'report-year': selectedYear };
+
+    this.isLoading = true; // Set loading state before the request
+
+    this.reportService.getReportsByYear(params).subscribe({
+      next: (reports: ReportResponse[]) => {
+        this.monthlyReports = reports.filter((report) => report.type === 'MONTHLY');
+        this.yearlyReports = reports.filter((report) => report.type === 'YEARLY');
+        this.isLoading = false; // Set loading to false after successful response
+      },
+      error: (error) => {
+        console.error('Error fetching reports:', error);
+        this.isLoading = false; // Ensure loading state is cleared on error
+      }
+    });
+  }
+
+  navigateToMonthlyReport(id: number | undefined): void {
     this.router.navigate(['/report/monthly', id]);
   }
 
-  navigateToYearlyReport(id: number|undefined): void {
+  navigateToYearlyReport(id: number | undefined): void {
     this.router.navigate(['/report/yearly', id]);
   }
 }

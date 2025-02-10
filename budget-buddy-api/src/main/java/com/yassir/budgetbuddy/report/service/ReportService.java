@@ -33,4 +33,6 @@ public interface ReportService {
     List<ReportResponse> getAllYearlyReports(Authentication connectedUser);
 
     ReportResponse getReportById(Authentication connectedUser, Integer id);
+
+    List<ReportResponse> getReportsByYear(Authentication connectedUser, Integer year);
 }

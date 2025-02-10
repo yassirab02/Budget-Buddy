@@ -34,4 +34,5 @@ public interface ReportRepository extends JpaRepository<Report, Integer> , JpaSp
     Optional<Report> findByUserAndYearAndMonth(User user, Integer year, Integer month);
 
 
+    List<Report> findByUserIdAndYear(Integer userId, Integer year);
 }

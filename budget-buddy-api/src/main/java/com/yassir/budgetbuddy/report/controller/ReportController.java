@@ -25,6 +25,12 @@ public class ReportController {
         return ResponseEntity.ok(service.getReportById(connectedUser,id));
     }
 
+    // Fetch reports by year for a user
+    @GetMapping("/reports/{report-year}")
+    public ResponseEntity<List<ReportResponse>> getReportsByYear(Authentication connectedUser,@PathVariable("report-year") Integer year) {
+        return ResponseEntity.ok(service.getReportsByYear(connectedUser,year));
+    }
+
     // Fetch monthly reports for a user
     @GetMapping("/all-monthly")
     public ResponseEntity<List<ReportResponse>> getAllMonthlyReports(Authentication connectedUser) {

@@ -21,6 +21,8 @@ import { getMonthlyReports } from '../fn/report/get-monthly-reports';
 import { GetMonthlyReports$Params } from '../fn/report/get-monthly-reports';
 import { getReportById } from '../fn/report/get-report-by-id';
 import { GetReportById$Params } from '../fn/report/get-report-by-id';
+import { getReportsByYear } from '../fn/report/get-reports-by-year';
+import { GetReportsByYear$Params } from '../fn/report/get-reports-by-year';
 import { getYearlyReports } from '../fn/report/get-yearly-reports';
 import { GetYearlyReports$Params } from '../fn/report/get-yearly-reports';
 import { PageResponseReportResponse } from '../models/page-response-report-response';
@@ -53,6 +55,31 @@ export class ReportService extends BaseService {
    */
   getYearlyReports(params?: GetYearlyReports$Params, context?: HttpContext): Observable<Array<ReportResponse>> {
     return this.getYearlyReports$Response(params, context).pipe(
+      map((r: StrictHttpResponse<Array<ReportResponse>>): Array<ReportResponse> => r.body)
+    );
+  }
+
+  /** Path part for operation `getReportsByYear()` */
+  static readonly GetReportsByYearPath = '/report/reports/{report-year}';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `getReportsByYear()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getReportsByYear$Response(params: GetReportsByYear$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<ReportResponse>>> {
+    return getReportsByYear(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `getReportsByYear$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getReportsByYear(params: GetReportsByYear$Params, context?: HttpContext): Observable<Array<ReportResponse>> {
+    return this.getReportsByYear$Response(params, context).pipe(
       map((r: StrictHttpResponse<Array<ReportResponse>>): Array<ReportResponse> => r.body)
     );
   }

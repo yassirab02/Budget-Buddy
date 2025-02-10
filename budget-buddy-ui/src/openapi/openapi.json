@@ -1138,6 +1138,40 @@
         }
       }
     },
+    "/report/reports/{report-year}": {
+      "get": {
+        "tags": [
+          "Report"
+        ],
+        "operationId": "getReportsByYear",
+        "parameters": [
+          {
+            "name": "report-year",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ReportResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/report/report/{report-id}": {
       "get": {
         "tags": [

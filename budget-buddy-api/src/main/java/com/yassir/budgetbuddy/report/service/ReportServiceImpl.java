@@ -547,4 +547,14 @@ public class ReportServiceImpl implements ReportService {
         }
         return reportMapper.toReportResponse(report);
     }
+
+    @Override
+    public List<ReportResponse> getReportsByYear(Authentication connectedUser,Integer year) {
+        User user = ((User) connectedUser.getPrincipal());
+        List<Report> reports = repository.findByUserIdAndYear(user.getId(),year);
+        if (reports == null) {
+            return null;
+        }
+        return reportMapper.toReportResponseList(reports);
+    }
 }
