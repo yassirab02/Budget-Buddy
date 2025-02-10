@@ -178,14 +178,14 @@
             class="mt-2 text-sm text-blue-600 flex items-center"
           >
             <i class="fa-solid fa-bullseye h-4 w-4 mr-1"></i>
-            Goal: {{ transaction.goalName }}
+            Goal : {{ transaction.goalName }}
           </div>
           <div
           *ngIf="transaction.receiver && transaction.transactionType === 'Transfer to User'"
             class="mt-2 text-sm text-blue-600 flex items-center"
           >
             <i class="fa-solid fa-user h-4 w-4 mr-1"></i>
-            user: {{ transaction.receiver }}
+            User : {{ transaction.receiver }}
           </div>
         </div>
       </div>
