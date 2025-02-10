@@ -164,10 +164,18 @@
       </span>
           </div>
           <div class="text-sm text-gray-600">
-            <div class="flex items-center mb-1">
+            <div class="flex items-center mb-1" *ngIf="transaction.sourceWallet &&
+            (transaction.transactionType === 'Transfer to Wallet' ||
+            transaction.transactionType === 'Transfer to Goal' ||
+            transaction.transactionType === 'Transfer to Debt')">
               <i class="fa-solid fa-arrow-right h-4 w-4 mr-1 text-blue-500"></i>
               From: {{ transaction.sourceWallet }}
             </div>
+            <div class="flex items-center mb-1" *ngIf="transaction.sender && transaction.transactionType === 'Transfer to User'">
+              <i class="fa-solid fa-arrow-right h-4 w-4 mr-1 text-blue-500"></i>
+              From: {{ transaction.sender }}
+            </div>
+
             <div class="flex items-center">
               <i class="fa-solid fa-arrow-right h-4 w-4 mr-1 text-blue-500"></i>
               To: {{ transaction.destinationWallet }}
@@ -212,3 +220,68 @@
   </div>
 </div>
 
+<div class="flex justify-center mt-12 mb-6">
+  <nav aria-label="Page navigation example">
+    <ul class="flex items-center space-x-2">
+      <li>
+        <a
+          (click)="goToFirstPage()"
+          class="px-3 py-2 text-gray-500 bg-white border rounded-md hover:bg-gray-100"
+          href="javascript:void(0)"
+          aria-label="Previous"
+          [class.disabled]="page === 0"
+        >
+          <i class="fa-solid fa-angles-left"></i>
+        </a>
+      </li>
+      <li>
+        <a
+          (click)="goToPreviousPage()"
+          class="px-3 py-2 text-gray-500 bg-white border rounded-md hover:bg-gray-100"
+          href="javascript:void(0)"
+          aria-label="Previous"
+          [class.disabled]="page === 0"
+        >
+          <i class="fa-solid fa-angle-left"></i>
+        </a>
+      </li>
+      <li
+        *ngFor="let pageIndex of pages"
+        class="flex items-center"
+      >
+        <a
+          (click)="gotToPage(pageIndex)"
+          class="px-3 py-2 text-gray-500 bg-white border rounded-md hover:bg-gray-100"
+          [class.active]="page === pageIndex"
+          href="javascript:void(0)"
+          [ngClass]="{
+            'text-green-500': page === pageIndex,
+            'bg-green-100': page === pageIndex
+          }"
+        >{{ pageIndex + 1 }}</a>
+      </li>
+      <li>
+        <a
+          (click)="goToNextPage()"
+          class="px-3 py-2 text-gray-500 bg-white border rounded-md hover:bg-gray-100"
+          href="javascript:void(0)"
+          aria-label="Next"
+          [class.disabled]="isLastPage"
+        >
+          <i class="fa-solid fa-chevron-right"></i>
+        </a>
+      </li>
+      <li>
+        <a
+          (click)="goToLastPage()"
+          class="px-3 py-2 text-gray-500 bg-white border rounded-md hover:bg-gray-100"
+          href="javascript:void(0)"
+          aria-label="Next"
+          [class.disabled]="isLastPage"
+        >
+          <i class="fa-solid fa-angles-right"></i>
+        </a>
+      </li>
+    </ul>
+  </nav>
+</div>

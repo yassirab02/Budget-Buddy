@@ -30,10 +30,6 @@ export class TransactionComponent implements OnInit{
   level: 'success' | 'error' = 'success';
   errorMsg: Array<string> = [];
   showSuccess=false ;
-  typeFilter: string = 'ALL';
-  statusFilter: string = 'ALL';
-  sortConfig = { key: 'date', direction: 'desc' };
-  showFilters = false;
   currentView = 'Grid';
   views = ['Grid', 'List'];
   createTransfer=false;
@@ -79,6 +75,35 @@ export class TransactionComponent implements OnInit{
     this.findAllTransactions();
       this.showSuccess = false;
     }, 4000);
+  }
+
+  gotToPage(page: number) {
+    this.page = page;
+    this.findAllTransactions();
+  }
+
+  goToFirstPage() {
+    this.page = 0;
+    this.findAllTransactions();
+  }
+
+  goToPreviousPage() {
+    this.page --;
+    this.findAllTransactions();
+  }
+
+  goToLastPage() {
+    this.page = this.transactionResponse.totalPages as number - 1;
+    this.findAllTransactions();
+  }
+
+  goToNextPage() {
+    this.page++;
+    this.findAllTransactions();
+  }
+
+  get isLastPage() {
+    return this.page === this.transactionResponse.totalPages as number - 1;
   }
 
 }
