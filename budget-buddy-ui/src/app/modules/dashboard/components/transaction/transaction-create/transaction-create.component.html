@@ -85,8 +85,8 @@
 
             <div *ngIf="userTransfer">
               <label class="text-sm font-semibold text-gray-700">Choose a User</label>
-              <select class="form-select mt-1 w-full border-gray-300 rounded-lg text-lg p-2">
-                <option *ngFor="let user of userTransferResponse" [value]="user.id" [(ngModel)]="transactionRequest.receiverId">
+              <select class="form-select mt-1 w-full border-gray-300 rounded-lg text-lg p-2" [(ngModel)]="transactionRequest.receiverId">
+                <option *ngFor="let user of userTransferResponse" [value]="user.id" >
                   {{ user.fullName }}
                 </option>
               </select>
