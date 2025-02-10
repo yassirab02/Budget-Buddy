@@ -2,8 +2,7 @@
 
 # 💰 BudgetBuddy
 
-![BudgetBuddy Logo](https://via.placeholder.com/150x150.png?text=BB#43;logo)
-
+![BudgetBuddy Logo](budget-buddy-ui/src/assets/Budget-face%20logo.png)
 Your Personal Finance Companion
 
 [![Version](https://img.shields.io/badge/version-1.0.0-brightgreen.svg)](https://github.com/yourusername/budgetbuddy)
