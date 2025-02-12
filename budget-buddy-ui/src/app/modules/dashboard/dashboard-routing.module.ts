@@ -19,6 +19,7 @@ import {QuestionsComponent} from './pages/questions/questions.component';
 import {ReportDetailComponent} from './pages/report/report-detail/report-month/report-detail.component';
 import {ReportYearComponent} from './pages/report/report-detail/report-year/report-year.component';
 import {StoryDetailComponent} from './components/story/story-detail/story-detail.component';
+import {TipsComponent} from './pages/tips/tips.component';
 
 const routes: Routes = [
   {
@@ -78,6 +79,11 @@ const routes: Routes = [
       {
         path: 'transactions',
         component: TransactionComponent,
+        canActivate: [AuthGuard]
+      },
+      {
+        path: 'tips',
+        component: TipsComponent,
         canActivate: [AuthGuard]
       },
       {

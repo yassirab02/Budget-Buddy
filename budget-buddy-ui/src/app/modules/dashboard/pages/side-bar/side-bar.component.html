@@ -12,15 +12,15 @@
 
 <!-- Sidebar -->
 <aside [class.-translate-x-full]="!isSidebarVisible"
-       class="flex flex-col md:w-64 w-64 h-screen px-5 py-2 bg-green-50 border-r border-green-200 md:relative fixed top-0 left-0 z-30 transform transition-transform duration-300 ease-in-out md:translate-x-0">
-  <header class="text-white py-4">
+       class="flex flex-col md:w-64 w-64 h-screen bg-green-50 border-r border-green-200 md:relative fixed top-0 left-0 z-30 transform transition-transform duration-300 ease-in-out md:translate-x-0">
+  <header class="text-white p-4">
     <a href="/dashboard">
       <img class="h-24" src="../../../../../assets/Budget-face%20logo.png" alt="Budget Logo">
     </a>
   </header>
 
-  <div class="flex-grow overflow-y-auto sidebar-content">
-    <div class="p-4">
+  <nav class="flex-1">
+    <div class="px-4">
       <div class="mb-6">
         <h2 class="text-green-900 font-semibold mb-2">Analytics</h2>
         <ul>
@@ -39,7 +39,7 @@
             <a class="flex items-center p-2 rounded-md hover:bg-green-100 text-green-700 hover:text-green-900"
                routerLink="/stories"
                routerLinkActive="!text-white !bg-green-700 rounded-lg">
-              <svg class="w-5 h-5  mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg class="w-5 h-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
               </svg>
               Stories
@@ -49,7 +49,7 @@
             <a class="flex items-center p-2 rounded-md hover:bg-green-100 text-green-700 hover:text-green-900"
                routerLink="/report"
                routerLinkActive="!text-white !bg-green-700 rounded-lg">
-              <svg class="w-5 h-5  mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg class="w-5 h-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
               </svg>
               Reports
@@ -64,7 +64,7 @@
             <a class="flex items-center p-2 rounded-md hover:bg-green-100 text-green-700 hover:text-green-900"
                routerLink="/wallet"
                routerLinkActive="!text-white !bg-green-700 rounded-lg">
-              <svg class="w-5 h-5  mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg class="w-5 h-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
               </svg>
               Wallets
@@ -92,7 +92,7 @@
             <a class="flex items-center p-2 rounded-md hover:bg-green-100 text-green-700 hover:text-green-900"
                routerLink="/income"
                routerLinkActive="!text-white !bg-green-700 rounded-lg">
-              <svg class="w-5 h-5  mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg class="w-5 h-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
               </svg>
               Incomes
@@ -102,7 +102,7 @@
             <a class="flex items-center p-2 rounded-md hover:bg-green-100 text-green-700 hover:text-green-900"
                routerLink="/debt"
                routerLinkActive="!text-white !bg-green-700 rounded-lg">
-              <svg class="w-5 h-5  mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg class="w-5 h-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
               </svg>
               Debts
@@ -112,7 +112,7 @@
             <a class="flex items-center p-2 rounded-md hover:bg-green-100 text-green-700 hover:text-green-900"
                routerLink="/goal"
                routerLinkActive="!text-white !bg-green-700 rounded-lg">
-              <svg class="w-5 h-5  mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg class="w-5 h-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
               </svg>
               Goals
@@ -122,14 +122,22 @@
             <a class="flex items-center p-2 rounded-md hover:bg-green-100 text-green-700 hover:text-green-900"
                routerLink="/transactions"
                routerLinkActive="!text-white !bg-green-700 rounded-lg">
-              <svg class="w-5 h-5  mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg class="w-5 h-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
               </svg>
               Transactions
             </a>
           </li>
+          <li class="mb-1">
+            <a class="flex items-center p-2 rounded-md hover:bg-green-100 text-green-700 hover:text-green-900"
+               routerLink="/tips"
+               routerLinkActive="!text-white !bg-green-700 rounded-lg">
+              <i class="fa-regular fa-lightbulb w-5 h-5 ml-1 mr-1"></i>
+              Tips
+            </a>
+          </li>
         </ul>
       </div>
     </div>
-  </div>
+  </nav>
 </aside>

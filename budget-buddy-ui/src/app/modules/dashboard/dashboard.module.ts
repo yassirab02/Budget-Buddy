@@ -40,6 +40,7 @@ import {QuestionsComponent} from './pages/questions/questions.component';
 import {ReportDetailComponent} from './pages/report/report-detail/report-month/report-detail.component';
 import { ReportYearComponent } from './pages/report/report-detail/report-year/report-year.component';
 import {MonthPipe} from '../../pipes/month.pipe';
+import { TipsComponent } from './pages/tips/tips.component';
 
 
 @NgModule({
@@ -77,6 +78,7 @@ import {MonthPipe} from '../../pipes/month.pipe';
     ReportDetailComponent,
     ReportYearComponent,
     MonthPipe,
+    TipsComponent,
   ],
   exports: [
     SpinnerComponent
