@@ -157,7 +157,7 @@
       </div>
 
       <!-- Budgets Card -->
-      <div class="col-span-full lg:col-span-3 bg-white rounded-xl shadow-md p-6">
+      <div class="col-span-full lg:col-span-3 bg-white rounded-xl shadow-md p-6 relative">
         <h2 class="text-xl font-semibold mb-4 flex items-center">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-green-600" fill="none" viewBox="0 0 24 24"
                stroke="currentColor">
@@ -168,7 +168,7 @@
         </h2>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           <div
-            *ngFor="let budget of budgets"
+            *ngFor="let budget of budgets.slice(0, 4)"
             class="bg-gradient-to-br from-white to-green-100 border border-green-200 shadow-md hover:shadow-lg transition-all duration-300 rounded-xl p-4">
             <h3 class="font-semibold text-green-800 mb-2">{{ budget?.name }}</h3>
             <div class="w-full bg-green-200 rounded-full h-2.5 mb-2">
@@ -186,6 +186,13 @@
             </p>
           </div>
         </div>
+        <div class="mt-4 flex justify-end" *ngIf="budgets.length > 4">
+          <button class="group flex items-center gap-2 px-4 py-2 bg-green-50 hover:bg-green-100 text-green-600 rounded-lg transition-all duration-300 font-medium text-sm border border-green-200 hover:border-green-300 shadow-sm hover:shadow"
+                  (click)="redirectToBudget()">
+            See All
+            <i class="fa-solid fa-arrow-right h-4 w-4 transition-transform duration-300 group-hover:translate-x-1"></i>
+          </button>
+        </div>
       </div>
 
       <!-- Savings and Goals Card -->
@@ -200,7 +207,7 @@
         </h2>
         <ul class="space-y-6">
           <li
-            *ngFor="let goal of goalResponse.slice(3)"
+            *ngFor="let goal of goalResponse.slice(0,4)"
             class="bg-gradient-to-br from-green-50 to-white border border-green-200 rounded-xl p-4 shadow-md transition-all duration-300 hover:shadow-lg">
             <div class="flex justify-between items-center mb-2">
               <h3 class="font-medium text-green-800">{{ goal?.name || 'Unnamed Goal' }}</h3>
@@ -219,6 +226,13 @@
             </p>
           </li>
         </ul>
+        <div class="mt-4 flex justify-end" *ngIf="goalResponse.length > 4">
+          <button class="group flex items-center gap-2 px-4 py-2 bg-green-50 hover:bg-green-100 text-green-600 rounded-lg transition-all duration-300 font-medium text-sm border border-green-200 hover:border-green-300 shadow-sm hover:shadow"
+                  (click)="redirectToGoals()">
+            See All
+            <i class="fa-solid fa-arrow-right h-4 w-4 transition-transform duration-300 group-hover:translate-x-1"></i>
+          </button>
+        </div>
       </div>
 
       <!-- Recent Transactions Card -->
@@ -230,7 +244,7 @@
           </svg>
           Recent Transactions
         </h2>
-        <div class="overflow-y-auto pr-4" *ngFor="let transaction of transactionResponse">
+        <div class="overflow-y-auto pr-4" *ngFor="let transaction of transactionResponse.slice(0,4)">
           <ul class="space-y-4">
             <li
               class="flex justify-between items-center pb-2 border-b border-green-100 hover:bg-green-50 transition-all duration-300 rounded-lg p-3">
@@ -255,6 +269,13 @@
               </div>
             </li>
           </ul>
+        </div>
+        <div class="mt-4 flex justify-end" *ngIf="transactionResponse.length > 4">
+          <button class="group flex items-center gap-2 px-4 py-2 bg-green-50 hover:bg-green-100 text-green-600 rounded-lg transition-all duration-300 font-medium text-sm border border-green-200 hover:border-green-300 shadow-sm hover:shadow"
+                  (click)="viewAllTransactions()">
+            See All
+            <i class="fa-solid fa-arrow-right h-4 w-4 transition-transform duration-300 group-hover:translate-x-1"></i>
+          </button>
         </div>
       </div>
 

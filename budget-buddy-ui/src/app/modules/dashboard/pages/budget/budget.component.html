@@ -25,18 +25,19 @@
       </div>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div *ngIf="budgetResponse?.content" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 relative">
       <app-budget-card
         *ngFor="let budget of budgetResponse.content"
         [id]="budget.id"
-        [name]="budget.name || 'No name provided.'"
-        [description]="budget.description || 'No description provided.'"
-        [amount]="budget.amount || 0"
-        [targetAmount]="budget.targetAmount || 0"
-        [limitAmount]="budget.limitAmount || 0"
+        [name]="budget.name ?? 'No name provided.'"
+        [description]="budget.description ?? 'No description provided.'"
+        [amount]="budget.amount ?? 0"
+        [targetAmount]="budget.targetAmount ?? 0"
+        [limitAmount]="budget.limitAmount ?? 0"
         (refreshBudget)="handleRefreshBudget($event)">
       </app-budget-card>
     </div>
+
 
     <!-- Add Budget Modal -->
     <div *ngIf="isAdd" class="fixed inset-0 flex items-center justify-center bg-opacity-75 bg-gray-600 z-50">

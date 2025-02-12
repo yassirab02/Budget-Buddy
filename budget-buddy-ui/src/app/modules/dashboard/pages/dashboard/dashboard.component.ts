@@ -230,7 +230,7 @@ export class DashboardComponent implements OnInit {
     this.router.navigate(['/goal']);
   }
   viewAllTransactions() {
-
+    this.router.navigate(['/transactions']);
   }
 
 
