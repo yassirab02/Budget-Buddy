@@ -18,13 +18,13 @@ import { HeroComponent } from './pages/hero/hero.component';
 import { FeaturesComponent } from './pages/features/features.component';
 import { StaticsComponent } from './pages/statics/statics.component';
 import {DashboardModule} from './modules/dashboard/dashboard.module';
-import { NewsLetterComponent } from './pages/news-letter/news-letter.component';
 import {HttpTokenInterceptor} from './services/interceptor/http-token.interceptor';
 import { WorkExplainComponent } from './pages/work-explain/work-explain.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { FeauturesOpenComponent } from './pages/feautures-open/feautures-open.component';
 import { PrivacyComponent } from './pages/privacy/privacy.component';
 import { ContactComponent } from './pages/contact/contact.component';
+import { CtaComponent } from './pages/cta/cta.component';
 
 @NgModule({
   declarations: [
@@ -39,11 +39,11 @@ import { ContactComponent } from './pages/contact/contact.component';
     HeroComponent,
     FeaturesComponent,
     StaticsComponent,
-    NewsLetterComponent,
     WorkExplainComponent,
     FeauturesOpenComponent,
     PrivacyComponent,
     ContactComponent,
+    CtaComponent,
   ],
   imports: [
     BrowserModule,
