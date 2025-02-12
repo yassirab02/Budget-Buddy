@@ -50,7 +50,7 @@
           <div class="relative">
             <input
               id="password"
-              type="password"
+              [type]="passwordVisible ?  'text' : 'password'"
               [(ngModel)]="authRequest.password"
               placeholder="Password"
               class="w-full px-4 py-2 bg-white/10 border border-white/10 rounded-md text-white placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent"
@@ -59,16 +59,8 @@
               type="button" (click)="togglePasswordVisibility()"
               class="absolute right-3 top-2.5 text-white/50 hover:text-white focus:outline-none"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-5 w-5"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-              </svg>
+              <i *ngIf="passwordVisible" class="fa-regular fa-eye"></i>
+              <i *ngIf="!passwordVisible" class="fa-regular fa-eye-slash"></i>
             </button>
           </div>
         </div>
