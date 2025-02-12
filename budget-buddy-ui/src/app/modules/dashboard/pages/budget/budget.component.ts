@@ -21,6 +21,8 @@ export class BudgetComponent implements OnInit {
   message = '';
   level: 'success' | 'error' = 'success';
   showSuccess=false;
+  isEditing = false;
+  selectedBudgetId: number | undefined;
 
   constructor(
     private budgetService: BudgetService,
@@ -116,8 +118,15 @@ export class BudgetComponent implements OnInit {
 
   handleSuccess(): void {
     this.showSuccess = true;
+    this.isEditing = false;
     setTimeout(() => {
       this.showSuccess = false;
     }, 4000);
   }
+
+  handleCloseModal() {
+    this.isAdd = false;
+    this.selectedBudgetId = undefined;
+  }
+
 }

@@ -50,4 +50,7 @@ export class BudgetCardComponent {
     });
   }
 
+  onEdit() {
+
+  }
 }

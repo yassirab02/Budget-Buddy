@@ -34,7 +34,8 @@
         [amount]="budget.amount ?? 0"
         [targetAmount]="budget.targetAmount ?? 0"
         [limitAmount]="budget.limitAmount ?? 0"
-        (refreshBudget)="handleRefreshBudget($event)">
+        (refreshBudget)="handleRefreshBudget($event)"
+      >
       </app-budget-card>
     </div>
 
@@ -43,7 +44,7 @@
     <div *ngIf="isAdd" class="fixed inset-0 flex items-center justify-center bg-opacity-75 bg-gray-600 z-50">
       <div class="rounded-lg md:w-1/2">
         <app-budget-create
-          (closeModal)="isAdd = false"
+          (closeModal)="handleCloseModal()"
           (budgetCreated)="findAllBudgets(true)"
           (showSuccess)="handleSuccess()"
         >
