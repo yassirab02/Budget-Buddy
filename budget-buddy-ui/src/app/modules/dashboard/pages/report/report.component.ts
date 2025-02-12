@@ -24,6 +24,8 @@ export class ReportComponent implements OnInit {
   yearlyReports: ReportResponse[] = [];
   isMonthlyReport: boolean = true; // Default to monthly reports
   years: number[] = [];
+  selectedYear: number = new Date().getFullYear();
+  showYearFilter=false;
 
   toggleReportView(view: 'monthly' | 'yearly') {
     this.isMonthlyReport = view === 'monthly';
@@ -98,21 +100,27 @@ export class ReportComponent implements OnInit {
     });
   }
 
-  getReportsByYear(event: Event) {
-    const selectedYear = Number((event.target as HTMLSelectElement).value);
-    const params: GetReportsByYear$Params = { 'report-year': selectedYear };
 
-    this.isLoading = true; // Set loading state before the request
+  getReportsByYear(event: Event | number) {
+    // Handle both Event and direct number inputs
+    const year = typeof event === 'number' ? event : Number((event.target as HTMLSelectElement).value);
+    this.selectedYear = year; // Update the selected year
+    this.loadReports(year);
+  }
 
+  private loadReports(year: number) {
+    const params: GetReportsByYear$Params = { 'report-year': year };
+
+    this.isLoading = true;
     this.reportService.getReportsByYear(params).subscribe({
       next: (reports: ReportResponse[]) => {
         this.monthlyReports = reports.filter((report) => report.type === 'MONTHLY');
         this.yearlyReports = reports.filter((report) => report.type === 'YEARLY');
-        this.isLoading = false; // Set loading to false after successful response
+        this.isLoading = false;
       },
       error: (error) => {
         console.error('Error fetching reports:', error);
-        this.isLoading = false; // Ensure loading state is cleared on error
+        this.isLoading = false;
       }
     });
   }

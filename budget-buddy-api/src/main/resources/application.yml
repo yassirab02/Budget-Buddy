@@ -14,3 +14,11 @@ server:
   servlet:
     context-path: /api/v1/  # This will be the base path for all the endpoints
 
+cloud-upload:
+  endpoint: http://localhost:9000
+  accessKey: 7DNnSDPtgLz64QIv
+  secretKey: bRe6BtNkhTNADbfXYjhkmNNtweNFK1zF
+  bucket: zyn
+
+encryption:
+  key: yourEncryptionKeyPlz

@@ -98,6 +98,26 @@
             <artifactId>jjwt-jackson</artifactId>
             <version>0.11.5</version>
         </dependency>
+        <!-- Cloud Upload dependencies -->
+        <dependency>
+            <groupId>io.minio</groupId>
+            <artifactId>minio</artifactId>
+            <version>8.5.2</version>
+        </dependency>
+        <!-- Add this if you face JSON parsing issues -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+        </dependency>
+
+        <!-- Optional: For Spring Cloud compatibility -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-dependencies</artifactId>
+            <version>2023.0.2</version>
+            <type>pom</type>
+            <scope>import</scope>
+        </dependency>
     </dependencies>
 
     <build>
