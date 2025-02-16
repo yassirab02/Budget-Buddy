@@ -1,5 +1,7 @@
 package com.yassir.budgetbuddy.story.service;
 
+import com.yassir.budgetbuddy.cloud.MinIOInfos;
+import com.yassir.budgetbuddy.cloud.MinIOService;
 import com.yassir.budgetbuddy.common.PageResponse;
 import com.yassir.budgetbuddy.reaction.ReactionType;
 import com.yassir.budgetbuddy.reaction.StoryReaction;
@@ -21,7 +23,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -33,11 +37,15 @@ public class StoryServiceImpl implements StoryService {
     private final StoryMapper storyMapper;
     private final StoryRepository repository;
     private final StoryReactionRepository storyReactionRepository;
+    private final MinIOService minIOService;
 
     @Override
-    public StoryResponse addOrUpdateStory(StoryRequest request, Authentication connectedUser) {
+    public StoryResponse addOrUpdateStory(StoryRequest request,MultipartFile cover, Authentication connectedUser) {
         User user = ((User) connectedUser.getPrincipal());
         Story story = storyMapper.toStory(request);
+        String fileName =  user.fullName()+"_"+request.title()+ ".png";
+        String coverPath = uploadCover(fileName,cover);
+        story.setCoverPath(coverPath);
         story.setOwner(user);
         repository.save(story);
         if (request.id() != null) {
@@ -46,6 +54,20 @@ public class StoryServiceImpl implements StoryService {
         }
         return storyMapper.toStoryResponse(story,0L,false);
     }
+
+    private String uploadCover(String fileName, MultipartFile cover) {
+        String bucketName = "budget-buddy";
+        try {
+            byte[] coverBytes = cover.getBytes();
+            MinIOInfos uploadedFile = minIOService.uploadToMinio(coverBytes, fileName, bucketName);
+            return uploadedFile.getLink();
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Handle the exception according to your application's needs
+        }
+        return null;
+    }
+
 
     @Override
     @Transactional

@@ -14,7 +14,6 @@ public class StoryMapper {
                 .title(request.title())
                 .description(request.description())
                 .content(request.content())
-                .cover(request.cover())
                 .archived(request.archived())
                 .status(StoryStatus.PUBLISHED) // Default status
                 .build();
@@ -26,7 +25,7 @@ public class StoryMapper {
                 .title(story.getTitle())
                 .description(story.getDescription())
                 .content(story.getContent())
-                .cover(story.getCover())
+                .cover(story.getCoverPath())
                 .archived(story.isArchived())
                 .numberOfLikes(numberOfLikes) // Get this from the reaction count
                 .isLiked(isLiked) // Get this from the reaction count

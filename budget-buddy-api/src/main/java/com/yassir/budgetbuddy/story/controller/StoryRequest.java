@@ -3,6 +3,7 @@ package com.yassir.budgetbuddy.story.controller;
 import com.yassir.budgetbuddy.story.StoryStatus;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import org.springframework.web.multipart.MultipartFile;
 
 public record StoryRequest(
 
@@ -17,9 +18,6 @@ public record StoryRequest(
         @NotEmpty(message = "Content cannot be empty")
         String content,
 
-        String cover, // Optional, null if not provided
-
-        @NotNull(message = "Archived status is required")
         Boolean archived,
 
         StoryStatus status

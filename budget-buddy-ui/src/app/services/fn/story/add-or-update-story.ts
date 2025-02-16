@@ -12,13 +12,16 @@ import { StoryRequest } from '../../models/story-request';
 import { StoryResponse } from '../../models/story-response';
 
 export interface AddOrUpdateStory$Params {
-      body: StoryRequest
+      body?: {
+'request': StoryRequest;
+'file': Blob;
+}
 }
 
-export function addOrUpdateStory(http: HttpClient, rootUrl: string, params: AddOrUpdateStory$Params, context?: HttpContext): Observable<StrictHttpResponse<StoryResponse>> {
+export function addOrUpdateStory(http: HttpClient, rootUrl: string, params?: AddOrUpdateStory$Params, context?: HttpContext): Observable<StrictHttpResponse<StoryResponse>> {
   const rb = new RequestBuilder(rootUrl, addOrUpdateStory.PATH, 'post');
   if (params) {
-    rb.body(params.body, 'application/json');
+    rb.body(params.body, 'multipart/form-data');
   }
 
   return http.request(

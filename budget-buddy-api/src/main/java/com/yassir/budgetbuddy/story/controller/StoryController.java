@@ -6,9 +6,11 @@ import com.yassir.budgetbuddy.story.service.StoryService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("story")
@@ -18,12 +20,13 @@ public class StoryController {
 
     private final StoryService service;
 
-    @PostMapping("/add-story")
+    @PostMapping(value = "/add-story", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<StoryResponse> addOrUpdateStory(
-            @RequestBody @Valid StoryRequest request,
+            @RequestPart("request") @Valid StoryRequest request,
+            @RequestPart("file") MultipartFile cover,
             Authentication connectedUser
     ) {
-        return ResponseEntity.ok(service.addOrUpdateStory(request,connectedUser));
+        return ResponseEntity.ok(service.addOrUpdateStory(request, cover, connectedUser));
     }
 
 

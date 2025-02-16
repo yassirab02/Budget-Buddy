@@ -16,9 +16,7 @@ server:
 
 cloud-upload:
   endpoint: http://localhost:9000
-  accessKey: 7DNnSDPtgLz64QIv
-  secretKey: bRe6BtNkhTNADbfXYjhkmNNtweNFK1zF
-  bucket: zyn
+  accessKey: 74Q11Ovl6fnwqcXi
+  secretKey: efMrXC41lXt9NM8dOKSMbSabd7PvyOwy
+  bucket: budget-buddy
 
-encryption:
-  key: yourEncryptionKeyPlz

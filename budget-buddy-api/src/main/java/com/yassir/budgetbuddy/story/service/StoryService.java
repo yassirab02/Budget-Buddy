@@ -6,10 +6,11 @@ import com.yassir.budgetbuddy.story.controller.StoryRequest;
 import com.yassir.budgetbuddy.story.controller.StoryResponse;
 import jakarta.validation.Valid;
 import org.springframework.security.core.Authentication;
+import org.springframework.web.multipart.MultipartFile;
 
 public interface StoryService {
 
-    StoryResponse addOrUpdateStory(@Valid StoryRequest request,Authentication connectedUser);
+    StoryResponse addOrUpdateStory(@Valid StoryRequest request, MultipartFile cover, Authentication connectedUser);
 
     void deleteStory(Integer storyId,Authentication connectedUser);
 

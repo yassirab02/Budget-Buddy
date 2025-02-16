@@ -213,13 +213,25 @@
         "operationId": "addOrUpdateStory",
         "requestBody": {
           "content": {
-            "application/json": {
+            "multipart/form-data": {
               "schema": {
-                "$ref": "#/components/schemas/StoryRequest"
+                "required": [
+                  "file",
+                  "request"
+                ],
+                "type": "object",
+                "properties": {
+                  "request": {
+                    "$ref": "#/components/schemas/StoryRequest"
+                  },
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
               }
             }
-          },
-          "required": true
+          }
         },
         "responses": {
           "200": {
@@ -2662,7 +2674,6 @@
       },
       "StoryRequest": {
         "required": [
-          "archived",
           "content",
           "title"
         ],
@@ -2679,9 +2690,6 @@
             "type": "string"
           },
           "content": {
-            "type": "string"
-          },
-          "cover": {
             "type": "string"
           },
           "archived": {

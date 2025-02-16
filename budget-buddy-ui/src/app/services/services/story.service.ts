@@ -95,9 +95,9 @@ export class StoryService extends BaseService {
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
    * To access only the response body, use `addOrUpdateStory()` instead.
    *
-   * This method sends `application/json` and handles request body of type `application/json`.
+   * This method sends `multipart/form-data` and handles request body of type `multipart/form-data`.
    */
-  addOrUpdateStory$Response(params: AddOrUpdateStory$Params, context?: HttpContext): Observable<StrictHttpResponse<StoryResponse>> {
+  addOrUpdateStory$Response(params?: AddOrUpdateStory$Params, context?: HttpContext): Observable<StrictHttpResponse<StoryResponse>> {
     return addOrUpdateStory(this.http, this.rootUrl, params, context);
   }
 
@@ -105,9 +105,9 @@ export class StoryService extends BaseService {
    * This method provides access only to the response body.
    * To access the full response (for headers, for example), `addOrUpdateStory$Response()` instead.
    *
-   * This method sends `application/json` and handles request body of type `application/json`.
+   * This method sends `multipart/form-data` and handles request body of type `multipart/form-data`.
    */
-  addOrUpdateStory(params: AddOrUpdateStory$Params, context?: HttpContext): Observable<StoryResponse> {
+  addOrUpdateStory(params?: AddOrUpdateStory$Params, context?: HttpContext): Observable<StoryResponse> {
     return this.addOrUpdateStory$Response(params, context).pipe(
       map((r: StrictHttpResponse<StoryResponse>): StoryResponse => r.body)
     );
