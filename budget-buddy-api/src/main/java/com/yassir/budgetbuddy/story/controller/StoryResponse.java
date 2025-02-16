@@ -15,7 +15,7 @@ public class StoryResponse {
     private String title;
     private String description;
     private String content;
-    private String cover;
+    private String coverPath;
     private boolean archived;
     private Long numberOfLikes;
     private boolean isLiked;  // Add the liked property

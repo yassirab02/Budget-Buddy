@@ -25,6 +25,7 @@ public class Story extends BaseEntity {
     @Lob
     private String content;
 
+    @Lob
     private String coverPath;
     private boolean archived;
     private Long numberOfLikes;

@@ -25,7 +25,7 @@ public class StoryMapper {
                 .title(story.getTitle())
                 .description(story.getDescription())
                 .content(story.getContent())
-                .cover(story.getCoverPath())
+                .coverPath(story.getCoverPath())
                 .archived(story.isArchived())
                 .numberOfLikes(numberOfLikes) // Get this from the reaction count
                 .isLiked(isLiked) // Get this from the reaction count

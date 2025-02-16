@@ -2647,7 +2647,7 @@
           "content": {
             "type": "string"
           },
-          "cover": {
+          "coverPath": {
             "type": "string"
           },
           "archived": {

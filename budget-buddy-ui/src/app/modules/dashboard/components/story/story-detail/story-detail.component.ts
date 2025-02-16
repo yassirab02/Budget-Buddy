@@ -53,6 +53,7 @@ export class StoryDetailComponent implements OnInit{
     return firstNameInitial + lastNameInitial;
   }
 
-
-
+  get formattedContent(): string|undefined {
+    return this.storyResponse?.content?.replace(/\n/g, '<br>');
+  }
 }

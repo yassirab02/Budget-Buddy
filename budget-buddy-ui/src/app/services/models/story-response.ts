@@ -5,7 +5,7 @@
 export interface StoryResponse {
   archived?: boolean;
   content?: string;
-  cover?: string;
+  coverPath?: string;
   createdDate?: string;
   description?: string;
   id?: number;

@@ -64,8 +64,8 @@ public class StoryServiceImpl implements StoryService {
         } catch (IOException e) {
             e.printStackTrace();
             // Handle the exception according to your application's needs
+            return null;
         }
-        return null;
     }
 
 

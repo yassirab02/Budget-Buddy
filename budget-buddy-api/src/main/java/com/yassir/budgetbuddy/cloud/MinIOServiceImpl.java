@@ -15,6 +15,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URLConnection;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -88,7 +89,7 @@ public class MinIOServiceImpl implements MinIOService {
                     StatObjectArgs.builder().bucket(bucket).object(objectName).build()
             ).etag();
             int resultStatus = (etag != null) ? 1 : 0;
-            MinIOInfos minIOInfos = new MinIOInfos(bucket, originalFilename, size, bytes, etag, resultStatus);
+            MinIOInfos minIOInfos = new MinIOInfos(bucket, originalFilename, size, bytes, etag, resultStatus,generateUrl(objectName, bucket));
             return minIOInfos;
         } catch (Exception e) {
             e.printStackTrace();
@@ -102,12 +103,22 @@ public class MinIOServiceImpl implements MinIOService {
 
         try {
             ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(fileBytes);
+
+            // Detect the file type based on the file content
+            String contentType = URLConnection.guessContentTypeFromStream(byteArrayInputStream);
+            if (contentType == null) {
+                contentType = "application/octet-stream";
+            }
+
+            // Rewind the input stream to the beginning before uploading
+            byteArrayInputStream.reset();
+
             minioClient.putObject(
                     PutObjectArgs.builder()
                             .bucket(bucket)
                             .object(fileName)
                             .stream(byteArrayInputStream, fileBytes.length, -1)
-                            .contentType("application/pdf")
+                            .contentType(contentType)
                             .build()
             );
             byteArrayInputStream.close();
@@ -116,8 +127,19 @@ public class MinIOServiceImpl implements MinIOService {
                     StatObjectArgs.builder().bucket(bucket).object(fileName).build()
             ).etag();
 
+            // Generate the object URL
+            String objectUrl = minioClient.getPresignedObjectUrl(
+                    GetPresignedObjectUrlArgs.builder()
+                            .bucket(bucket)
+                            .object(fileName)
+                            .method(Method.GET)
+                            .expiry(7, TimeUnit.DAYS)  // URL valid for 7 days
+                            .build()
+            );
+
             int resultStatus = (etag != null) ? 1 : 0;
-            return new MinIOInfos(bucket, fileName, fileBytes.length, fileBytes, etag, resultStatus);
+            // Modify the MinIOInfos class to include the URL
+            return new MinIOInfos(bucket, fileName, fileBytes.length, fileBytes, etag, resultStatus, objectUrl);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -152,7 +174,7 @@ public class MinIOServiceImpl implements MinIOService {
                 ).etag();
 
                 int resultStatus = (etag != null) ? 1 : 0;
-                MinIOInfos minIOInfos = new MinIOInfos(bucket, originalFilename, size, bytes, etag, resultStatus);
+                MinIOInfos minIOInfos = new MinIOInfos(bucket, originalFilename, size, bytes, etag, resultStatus,generateUrl(objectName, bucket));
                 minIOInfos.setLink(generateUrl(objectName, bucket));
                 minIOInfosList.add(minIOInfos);
 
@@ -171,7 +193,7 @@ public class MinIOServiceImpl implements MinIOService {
                         .method(Method.GET)
                         .bucket(bucketName)
                         .object(fileName)
-                        .expiry(7, TimeUnit.DAYS) // Link valid for 7 days
+                        .expiry(365, TimeUnit.DAYS) // Link valid for 7 days
                         .build()
         );
     }

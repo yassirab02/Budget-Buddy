@@ -14,13 +14,14 @@ public class MinIOInfos {
     private String etag;
     private int resultStatus;
 
-    public MinIOInfos(String bucketName, String originalFileName, long fileSize, byte[] bytes, String etag, int resultStatus) {
+    public MinIOInfos(String bucketName, String originalFileName, long fileSize, byte[] bytes, String etag, int resultStatus, String link) {
         this.bucketName = bucketName;
         this.originalFileName = originalFileName;
         this.fileSize = fileSize;
         this.bytes = bytes;
         this.etag = etag;
         this.resultStatus = resultStatus;
+        this.link = link;
     }
     public MinIOInfos() {
     }
