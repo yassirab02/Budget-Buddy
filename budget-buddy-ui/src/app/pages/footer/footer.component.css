@@ -1,0 +1,9 @@
+footer .gradient-bg {
+  z-index: 0;
+  pointer-events: none; /* Make the gradient non-interactive */
+}
+
+footer .container {
+  position: relative;
+  z-index: 1;
+}
