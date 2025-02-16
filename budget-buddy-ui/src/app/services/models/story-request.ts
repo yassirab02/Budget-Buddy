@@ -8,7 +8,6 @@ export interface StoryRequest {
   cover?: string;
   description?: string;
   id?: number;
-  ownerId: number;
   status?: 'ARCHIVED' | 'PUBLISHED';
   title: string;
 }

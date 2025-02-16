@@ -52,7 +52,8 @@
 
       <div *ngIf="activeTab === 'all' && storyPageResponse.content.length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         <!-- Story Card -->
-        <div *ngFor="let story of storyPageResponse.content" class="bg-white rounded-lg shadow-md overflow-hidden border border-green-100 hover:shadow-lg transition-shadow duration-300 hover:cursor-pointer" (click)="onStoryClick(story.id)">
+        <div *ngFor="let story of storyPageResponse.content" class="bg-white rounded-lg shadow-md overflow-hidden border border-green-100 hover:shadow-lg transition-shadow duration-300 hover:cursor-pointer"
+             (click)="viewStory(story.id)">
           <img [src]="story.cover" alt="Story cover" class="w-full h-48 object-cover">
           <div class="p-6">
             <h3 class="text-xl font-semibold mb-2 text-green-700">{{ story.title }}</h3>
@@ -60,13 +61,15 @@
           </div>
           <div class="flex items-center justify-between p-6 pt-0 bg-green-50">
             <div class="flex items-center">
-              <div class="w-8 h-8 rounded-full bg-green-200 text-green-700 flex items-center justify-center font-semibold mr-2"> {{ getInitials(story.owner) }}</div>
+              <div class="w-8 h-8 rounded-full bg-green-200 text-green-700 flex items-center justify-center font-semibold mr-2">
+                {{ getInitials(story.owner) }}
+              </div>
               <div class="mt-3">
                 <span class="text-sm font-medium text-green-700">{{ story.owner }}</span>
                 <p class="text-xs text-gray-500">{{ story.createdDate | date:'MMM d, y' }}</p>
               </div>
             </div>
-            <button (click)="toggleReaction(story.id, 'LIKE')" class="text-gray-500 hover:text-red-500 transition-colors duration-300"
+            <button (click)="toggleReaction($event,story.id, 'LIKE')" class="text-gray-500 hover:text-red-500 transition-colors duration-300"
                     [class.text-teal-500]="story.liked">
               <i [class]="story.liked ? 'fas fa-heart' : 'far fa-heart'"></i>
               <span>{{ story.numberOfLikes }}</span>
@@ -91,7 +94,7 @@
               <div class="flex items-center space-x-4">
                 <img [src]="story.cover" alt="Story cover" class="w-16 h-16 object-cover rounded-md">
                 <div>
-                  <h3 class="text-lg font-semibold text-gray-800">{{ story.title }}</h3>
+                  <h3 class="text-lg font-semibold text-gray-800 cursor-pointer" (click)="viewStory(story.id)">{{ story.title }}</h3>
                   <p class="text-sm text-gray-600">{{ story.createdDate | date:'MMM d, y' }}</p>
                 </div>
               </div>
@@ -117,7 +120,8 @@
 <div *ngIf="createStory" class="fixed inset-0 flex items-center justify-center bg-opacity-75 bg-gray-600 z-50">
   <div class="rounded-lg md:w-1/2">
     <app-story-create
-      (closeModal)="createStory = false">
+      (closeModal)="createStory = false"
+      (showSuccess)="handleSuccess()">
     </app-story-create>
   </div>
 </div>
@@ -156,6 +160,16 @@
           </div>
         </div>
       </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="showSuccess" class="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50 backdrop-blur-sm" [@fadeIn]>
+  <div class="bg-white rounded-lg p-8 flex flex-col items-center max-w-sm w-full mx-4">
+    <i class="fas fa-check-circle text-green-500 text-5xl mb-4"></i>
+    <h2 class="text-2xl font-bold text-gray-800 mb-2 text-center">Story posted Successfully!</h2>
+    <div class="w-full h-2 bg-green-200 mt-4 rounded-full overflow-hidden">
+      <div class="h-full bg-green-500 animate-progress"></div>
     </div>
   </div>
 </div>

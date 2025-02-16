@@ -17,6 +17,7 @@ export { GoalResponse } from './models/goal-response';
 export { IncomeRequest } from './models/income-request';
 export { IncomeResponse } from './models/income-response';
 export { IncomeSourceResponse } from './models/income-source-response';
+export { MinIoInfos } from './models/min-io-infos';
 export { PageResponseBudgetResponse } from './models/page-response-budget-response';
 export { PageResponseDebtResponse } from './models/page-response-debt-response';
 export { PageResponseExpensesResponse } from './models/page-response-expenses-response';

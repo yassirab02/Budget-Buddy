@@ -540,6 +540,202 @@
         }
       }
     },
+    "/api/cloud/upload/file/{bucket}": {
+      "post": {
+        "tags": [
+          "minio-ws"
+        ],
+        "summary": "Upload a file to the bucket",
+        "operationId": "uploadToMinio",
+        "parameters": [
+          {
+            "name": "bucket",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "required": [
+                  "file"
+                ],
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MinIOInfos"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/cloud/upload/bucket/{bucket}": {
+      "post": {
+        "tags": [
+          "minio-ws"
+        ],
+        "summary": "Upload multiple files to the bucket",
+        "operationId": "uploadMultipleToMinio",
+        "parameters": [
+          {
+            "name": "files",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "format": "binary"
+              }
+            }
+          },
+          {
+            "name": "bucket",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/MinIOInfos"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/cloud/tags/bucket/{bucket}/document/{document}": {
+      "post": {
+        "tags": [
+          "minio-ws"
+        ],
+        "operationId": "setObjectTags",
+        "parameters": [
+          {
+            "name": "bucket",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "document",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "tags",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/cloud/bucket/{bucket}": {
+      "get": {
+        "tags": [
+          "minio-ws"
+        ],
+        "operationId": "bucketExists",
+        "parameters": [
+          {
+            "name": "bucket",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "minio-ws"
+        ],
+        "operationId": "saveBucket",
+        "parameters": [
+          {
+            "name": "bucket",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/admin/photo/{quote-id}": {
       "post": {
         "tags": [
@@ -2119,6 +2315,148 @@
         }
       }
     },
+    "/api/cloud/download/bucket/{bucket}/document/{document}": {
+      "get": {
+        "tags": [
+          "minio-ws"
+        ],
+        "operationId": "downloadFile",
+        "parameters": [
+          {
+            "name": "bucket",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "document",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/cloud/download-v2/bucket/{bucket}/document/{document}": {
+      "get": {
+        "tags": [
+          "minio-ws"
+        ],
+        "operationId": "downloadFile2",
+        "parameters": [
+          {
+            "name": "bucket",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "document",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "format": "byte"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/cloud/bucket/{bucket}/documents": {
+      "get": {
+        "tags": [
+          "minio-ws"
+        ],
+        "operationId": "findAllDocuments",
+        "parameters": [
+          {
+            "name": "bucket",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/cloud/bucket/{bucket}/document/{document}": {
+      "get": {
+        "tags": [
+          "minio-ws"
+        ],
+        "operationId": "loadDocument",
+        "parameters": [
+          {
+            "name": "bucket",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "document",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "format": "byte"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/admin": {
       "get": {
         "tags": [
@@ -2326,7 +2664,6 @@
         "required": [
           "archived",
           "content",
-          "ownerId",
           "title"
         ],
         "type": "object",
@@ -2356,10 +2693,6 @@
               "ARCHIVED",
               "PUBLISHED"
             ]
-          },
-          "ownerId": {
-            "type": "integer",
-            "format": "int32"
           }
         }
       },
@@ -2654,6 +2987,39 @@
           },
           "new": {
             "type": "boolean"
+          }
+        }
+      },
+      "MinIOInfos": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "bucketName": {
+            "type": "string"
+          },
+          "link": {
+            "type": "string"
+          },
+          "originalFileName": {
+            "type": "string"
+          },
+          "fileSize": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "bytes": {
+            "type": "string",
+            "format": "byte"
+          },
+          "etag": {
+            "type": "string"
+          },
+          "resultStatus": {
+            "type": "integer",
+            "format": "int32"
           }
         }
       },

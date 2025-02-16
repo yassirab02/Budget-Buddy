@@ -3,14 +3,25 @@ import {StoryService} from '../../../../services/services/story.service';
 import {PageResponseStoryResponse} from '../../../../services/models/page-response-story-response';
 import {StoryResponse} from '../../../../services/models/story-response';
 import {Toggle$Params} from '../../../../services/fn/story/toggle';
-import {DeleteBudget1$Params} from '../../../../services/fn/budget/delete-budget-1';
 import {DeleteStory$Params} from '../../../../services/fn/story/delete-story';
 import {Router} from '@angular/router';
+import {animate, style, transition, trigger} from '@angular/animations';
 
 @Component({
   selector: 'app-story',
   templateUrl: './story.component.html',
-  styleUrl: './story.component.css'
+  styleUrl: './story.component.css',
+  animations: [
+    trigger('fadeIn', [
+      transition(':enter', [
+        style({ opacity: 0 }),
+        animate('300ms', style({ opacity: 1 }))
+      ]),
+      transition(':leave', [
+        animate('300ms', style({ opacity: 0 }))
+      ])
+    ])
+  ]
 })
 export class StoryComponent implements OnInit {
   isLoading = true;
@@ -27,6 +38,7 @@ export class StoryComponent implements OnInit {
   activeTab = "all";
   isDelete=false;
   storyToDelete: any;
+  showSuccess=false;
 
 
 
@@ -112,7 +124,8 @@ export class StoryComponent implements OnInit {
     return firstNameInitial + lastNameInitial;
   }
 
-  toggleReaction(storyId: number | undefined, reactionType: "LIKE"): void {
+  toggleReaction(event: Event,storyId: number | undefined, reactionType: "LIKE"): void {
+    event.stopPropagation();
     const id = storyId ?? 0;
     const params: Toggle$Params = { 'story-id': id, 'reactionType': reactionType };
 
@@ -153,7 +166,15 @@ export class StoryComponent implements OnInit {
     this.isDelete = true;
   }
 
-  onStoryClick(storyId: number | undefined) {
+  viewStory(storyId: number | undefined) {
     this.router.navigate(['/story', storyId]);
+  }
+
+  handleSuccess(): void {
+    this.showSuccess = true;
+    setTimeout(() => {
+      this.findAllStoriesByOwner();
+      this.showSuccess = false;
+    }, 3000);
   }
 }

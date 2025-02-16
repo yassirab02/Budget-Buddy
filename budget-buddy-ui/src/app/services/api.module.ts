@@ -17,6 +17,7 @@ import { DebtService } from './services/debt.service';
 import { BudgetService } from './services/budget.service';
 import { AuthenticationService } from './services/authentication.service';
 import { UserControllerService } from './services/user-controller.service';
+import { MinioWsService } from './services/minio-ws.service';
 import { AdminService } from './services/admin.service';
 import { ReportService } from './services/report.service';
 import { QuoteService } from './services/quote.service';
@@ -41,6 +42,7 @@ import { CategoryService } from './services/category.service';
     BudgetService,
     AuthenticationService,
     UserControllerService,
+    MinioWsService,
     AdminService,
     ReportService,
     QuoteService,

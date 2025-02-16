@@ -13,6 +13,7 @@ export { DebtService } from './services/debt.service';
 export { BudgetService } from './services/budget.service';
 export { AuthenticationService } from './services/authentication.service';
 export { UserControllerService } from './services/user-controller.service';
+export { MinioWsService } from './services/minio-ws.service';
 export { AdminService } from './services/admin.service';
 export { ReportService } from './services/report.service';
 export { QuoteService } from './services/quote.service';
