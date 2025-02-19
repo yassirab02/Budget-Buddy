@@ -2,6 +2,7 @@ package com.yassir.budgetbuddy.wallet.controller;
 
 import com.yassir.budgetbuddy.expenses.controller.ExpensesResponse;
 import com.yassir.budgetbuddy.income.controller.IncomeResponse;
+import com.yassir.budgetbuddy.note.Note;
 import com.yassir.budgetbuddy.wallet.Wallet;
 import org.springframework.stereotype.Service;
 
@@ -42,11 +43,8 @@ public class WalletMapper {
                         expense.getAmount(),
                         expense.getDescription(),
                         expense.getDate(),  // LocalDate is already correct, so pass it as is
-                        expense.isArchived(),
-                        expense.getType().name(), // getType() returns an enum
                         expense.getCategory().getName(),  // Assuming getCategory() returns an object with a getName() method
-                        expense.getBudget() != null ? expense.getBudget().getName() : null,  // Handle null values if necessary
-                        expense.getWallet().getName()  // Assuming getWallet() returns an object with a getName() method
+                        expense.getType().name() // getType() returns an enum
                 ))
                 .collect(Collectors.toList());
 

@@ -6,6 +6,7 @@ import {ExpensesService} from '../../../../services/services/expenses.service';
 import {DeleteBudget1$Params} from '../../../../services/fn/budget/delete-budget-1';
 import {DeleteExpense$Params} from '../../../../services/fn/expenses/delete-expense';
 import {ExpensesCategoryResponse} from '../../../../services/models/expenses-category-response';
+import {Router} from '@angular/router';
 
 
 @Component({
@@ -22,18 +23,19 @@ export class ExpenseComponent implements OnInit {
   level: 'success' | 'error' = 'success';
   errorMsg: Array<string> = [];
   expensesResponse: PageResponseExpensesResponse = {};  // Store the actual wallet
-  categoriesResponse:Array<ExpensesCategoryResponse>= [];
-  createExpense=false;
-  showSuccess=false
-  isArchive=false;
-  isMonthlyArchive=false;
+  categoriesResponse: Array<ExpensesCategoryResponse> = [];
+  createExpense = false;
+  showSuccess = false
+  isArchive = false;
+  isMonthlyArchive = false;
   isSubmenuOpen = false;
-  isDelete=false;
+  isDelete = false;
   expenseToDelete: any;
 
 
   constructor(
     private expensesService: ExpensesService,
+    private router: Router,
   ) {
   }
 
@@ -80,13 +82,13 @@ export class ExpenseComponent implements OnInit {
   }
 
   get nonArchivedExpenses() {
-   return  this.expensesResponse.content = (this.expensesResponse.content ?? []).filter(expense => !expense.archived);
+    return this.expensesResponse.content = (this.expensesResponse.content ?? []).filter(expense => !expense.archived);
   }
 
   resetMonthlyExpenses() {
     this.expensesService.resetMonthlyExpenses().subscribe({
       next: (res) => {
-        this.isMonthlyArchive=false;
+        this.isMonthlyArchive = false;
         this.findAllExpenses();
       },
       error: (err) => {
@@ -109,7 +111,7 @@ export class ExpenseComponent implements OnInit {
     });
   }
 
-  getMostSpendingCategories(){
+  getMostSpendingCategories() {
     this.expensesService.getTopSpendingCategories().subscribe({
       next: (data) => {
         this.categoriesResponse = data;
@@ -123,38 +125,39 @@ export class ExpenseComponent implements OnInit {
   get totalExpenses(): number | undefined {
     return this.expensesResponse.content?.reduce((sum, expense) => sum + (expense.amount ?? 0), 0);
   }
+
   gotToPage(page: number) {
-      this.page = page;
-      this.findAllExpenses();
-    }
+    this.page = page;
+    this.findAllExpenses();
+  }
 
-    goToFirstPage() {
-      this.page = 0;
-      this.findAllExpenses();
-    }
+  goToFirstPage() {
+    this.page = 0;
+    this.findAllExpenses();
+  }
 
-    goToPreviousPage() {
-      this.page --;
-      this.findAllExpenses();
-    }
+  goToPreviousPage() {
+    this.page--;
+    this.findAllExpenses();
+  }
 
-    goToLastPage() {
-      this.page = this.expensesResponse.totalPages as number - 1;
-      this.findAllExpenses();
-    }
+  goToLastPage() {
+    this.page = this.expensesResponse.totalPages as number - 1;
+    this.findAllExpenses();
+  }
 
-    goToNextPage() {
-      this.page++;
-      this.findAllExpenses();
-    }
+  goToNextPage() {
+    this.page++;
+    this.findAllExpenses();
+  }
 
-    get isLastPage() {
-      return this.page === this.expensesResponse.totalPages as number - 1;
-    }
+  get isLastPage() {
+    return this.page === this.expensesResponse.totalPages as number - 1;
+  }
 
 
   deleteExpense(id: any) {
-    const params: DeleteExpense$Params = { 'expense-id': id };
+    const params: DeleteExpense$Params = {'expense-id': id};
     this.expensesService.deleteExpense(params).subscribe({
       next: (res) => {
         this.isDelete = false;
@@ -167,8 +170,13 @@ export class ExpenseComponent implements OnInit {
     });
   }
 
-  openDelete(id:any) {
+  openDelete(id: any) {
     this.expenseToDelete = id;
     this.isDelete = true;
   }
+
+  seeDetail(id: number | undefined) {
+    this.router.navigate(['/expense/detail', id]);
+  }
+
 }

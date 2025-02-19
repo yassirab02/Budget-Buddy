@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.yassir.budgetbuddy.budget.Budget;
 import com.yassir.budgetbuddy.category.bean.ExpensesCategory;
 import com.yassir.budgetbuddy.common.BaseEntity;
+import com.yassir.budgetbuddy.note.Note;
 import com.yassir.budgetbuddy.user.User;
 import com.yassir.budgetbuddy.wallet.Wallet;
 import jakarta.persistence.*;
@@ -13,6 +14,7 @@ import lombok.experimental.SuperBuilder;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Getter
@@ -35,6 +37,9 @@ public class Expenses extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "category_id", nullable = false)
     private ExpensesCategory category;
+
+    @OneToMany(mappedBy = "expense", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Note> notes;
 
     @ManyToOne
     @JoinColumn(name = "budget_id", nullable = false)

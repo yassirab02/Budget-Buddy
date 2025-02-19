@@ -20,6 +20,7 @@ import {ReportDetailComponent} from './pages/report/report-detail/report-month/r
 import {ReportYearComponent} from './pages/report/report-detail/report-year/report-year.component';
 import {StoryDetailComponent} from './components/story/story-detail/story-detail.component';
 import {TipsComponent} from './pages/tips/tips.component';
+import {ExpenseDetailComponent} from './components/expenses/expense-detail/expense-detail.component';
 
 const routes: Routes = [
   {
@@ -49,6 +50,11 @@ const routes: Routes = [
       {
         path: 'expense',
         component: ExpenseComponent,
+        canActivate: [AuthGuard]
+      },
+      {
+        path: 'expense/detail/:id',
+        component: ExpenseDetailComponent,
         canActivate: [AuthGuard]
       },
       {

@@ -21,6 +21,8 @@ export { IncomeRequest } from './models/income-request';
 export { IncomeResponse } from './models/income-response';
 export { IncomeSourceResponse } from './models/income-source-response';
 export { MinIoInfos } from './models/min-io-infos';
+export { NoteRequest } from './models/note-request';
+export { NoteResponse } from './models/note-response';
 export { PageResponseBudgetResponse } from './models/page-response-budget-response';
 export { PageResponseContactResponse } from './models/page-response-contact-response';
 export { PageResponseDebtResponse } from './models/page-response-debt-response';

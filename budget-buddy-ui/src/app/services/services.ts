@@ -6,6 +6,7 @@ export { WalletService } from './services/wallet.service';
 export { TransactionsService } from './services/transactions.service';
 export { StoryService } from './services/story.service';
 export { SavingService } from './services/saving.service';
+export { NoteService } from './services/note.service';
 export { IncomeService } from './services/income.service';
 export { GoalService } from './services/goal.service';
 export { ExpensesService } from './services/expenses.service';

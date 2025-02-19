@@ -41,6 +41,7 @@ import {ReportDetailComponent} from './pages/report/report-detail/report-month/r
 import { ReportYearComponent } from './pages/report/report-detail/report-year/report-year.component';
 import {MonthPipe} from '../../pipes/month.pipe';
 import { TipsComponent } from './pages/tips/tips.component';
+import { ExpenseDetailComponent } from './components/expenses/expense-detail/expense-detail.component';
 
 
 @NgModule({
@@ -79,6 +80,7 @@ import { TipsComponent } from './pages/tips/tips.component';
     ReportYearComponent,
     MonthPipe,
     TipsComponent,
+    ExpenseDetailComponent,
   ],
   exports: [
     SpinnerComponent

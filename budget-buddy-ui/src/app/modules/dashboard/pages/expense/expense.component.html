@@ -123,6 +123,9 @@
                   <div class="text-sm text-gray-900">{{ expense.wallet }}</div>
                 </td>
                 <td class="py-4 px-6 whitespace-nowrap text-right text-sm font-medium">
+                  <button (click)="seeDetail(expense.id)" class="text-green-600 hover:text-green-900">
+                    <i class="fa-solid fa-circle-info h-8 w-8"></i>
+                  </button>
                   <button class="text-green-600 hover:text-green-900 mr-2">
                     <i class="fa-solid fa-pencil h-5 w-5"></i>
                   </button>

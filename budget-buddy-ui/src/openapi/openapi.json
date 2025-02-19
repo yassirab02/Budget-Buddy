@@ -267,6 +267,37 @@
         }
       }
     },
+    "/note/add-note": {
+      "post": {
+        "tags": [
+          "Note"
+        ],
+        "operationId": "createNote",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NoteRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/income/add-income": {
       "post": {
         "tags": [
@@ -2675,6 +2706,37 @@
         }
       }
     },
+    "/note/{note-id}": {
+      "delete": {
+        "tags": [
+          "Note"
+        ],
+        "operationId": "deleteNote",
+        "parameters": [
+          {
+            "name": "note-id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/admin/{quote-id}": {
       "delete": {
         "tags": [
@@ -2889,6 +2951,29 @@
           },
           "fullName": {
             "type": "string"
+          }
+        }
+      },
+      "NoteRequest": {
+        "required": [
+          "content",
+          "title"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "title": {
+            "type": "string"
+          },
+          "content": {
+            "type": "string"
+          },
+          "expenseId": {
+            "type": "integer",
+            "format": "int32"
           }
         }
       },
@@ -3341,6 +3426,12 @@
           },
           "wallet": {
             "type": "string"
+          },
+          "notes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/NoteResponse"
+            }
           }
         }
       },
@@ -3368,6 +3459,25 @@
           },
           "wallet": {
             "type": "string"
+          }
+        }
+      },
+      "NoteResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "title": {
+            "type": "string"
+          },
+          "content": {
+            "type": "string"
+          },
+          "createdDate": {
+            "type": "string",
+            "format": "date-time"
           }
         }
       },

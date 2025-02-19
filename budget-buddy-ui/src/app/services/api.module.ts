@@ -10,6 +10,7 @@ import { WalletService } from './services/wallet.service';
 import { TransactionsService } from './services/transactions.service';
 import { StoryService } from './services/story.service';
 import { SavingService } from './services/saving.service';
+import { NoteService } from './services/note.service';
 import { IncomeService } from './services/income.service';
 import { GoalService } from './services/goal.service';
 import { ExpensesService } from './services/expenses.service';
@@ -37,6 +38,7 @@ import { CategoryService } from './services/category.service';
     TransactionsService,
     StoryService,
     SavingService,
+    NoteService,
     IncomeService,
     GoalService,
     ExpensesService,

@@ -4,9 +4,15 @@ import com.yassir.budgetbuddy.budget.Budget;
 import com.yassir.budgetbuddy.category.bean.ExpensesCategory;
 import com.yassir.budgetbuddy.expenses.Expenses;
 import com.yassir.budgetbuddy.expenses.ExpensesType;
+import com.yassir.budgetbuddy.income.controller.IncomeResponse;
+import com.yassir.budgetbuddy.note.controller.NoteResponse;
+import com.yassir.budgetbuddy.note.repository.NoteRepository;
 import com.yassir.budgetbuddy.wallet.Wallet;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ExpensesMapper {
@@ -32,6 +38,14 @@ public class ExpensesMapper {
     }
 
     public ExpensesResponse toExpensesResponse(Expenses expenses) {
+        List<NoteResponse> noteResponses = expenses.getNotes().stream()
+                .map(note -> new NoteResponse(
+                        note.getId(),
+                        note.getTitle(),
+                        note.getContent(),
+                        note.getCreatedDate()
+                ))
+                .collect(Collectors.toList());
         return ExpensesResponse.builder()
                 .id(expenses.getId())
                 .name(expenses.getName())
@@ -43,6 +57,8 @@ public class ExpensesMapper {
                 .category(expenses.getCategory() != null ? expenses.getCategory().getName() : "Unknown")
                 .budget(expenses.getBudget() != null ? expenses.getBudget().getName() : "Unknown")
                 .wallet(expenses.getWallet() != null ? expenses.getWallet().getName() : "Unknown")
+                .notes(noteResponses)
                 .build();
     }
+
 }
