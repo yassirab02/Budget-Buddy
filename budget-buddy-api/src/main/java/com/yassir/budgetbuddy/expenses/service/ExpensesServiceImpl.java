@@ -47,19 +47,12 @@ public class ExpensesServiceImpl implements ExpensesService {
         Expenses expense;
         BigDecimal previousAmount = BigDecimal.ZERO;
 
-        if (request.id() == null) {
-            // Handle creating a new expense
-            Optional<Expenses> existingExpense = repository.findByNameAndWalletId(request.name(), request.walletId());
-            if (existingExpense.isPresent()) {
-                throw new EntityNotFoundException("Expense with the name already exists");
-            }
-        } else {
+        if (request.id() != null) {
             // Handle updating an existing expense
             expense = repository.findById(request.id())
                     .orElseThrow(() -> new EntityNotFoundException("Expense not found with id: " + request.id()));
             previousAmount = expense.getAmount(); // Store the previous amount for balance adjustments
         }
-
         Optional<Wallet> wallet = walletRepository.findById(request.walletId());
         expense = expensesMapper.toExpenses(request);
         expense.setArchived(false);
@@ -179,7 +172,6 @@ public class ExpensesServiceImpl implements ExpensesService {
         // Archive the non-archived expenses in bulk for the current month and specific user
         repository.archiveExpensesByMonthAndUserId(now.getMonthValue(), user.getId());
     }
-
 
 
     @Override
