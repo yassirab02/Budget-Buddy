@@ -20,6 +20,7 @@ public class Contact extends BaseEntity {
 
     private String email; // Optional: Allows non-registered users to send messages
     private String subject;
+    @Lob
     private String message;
     private String sender;
 

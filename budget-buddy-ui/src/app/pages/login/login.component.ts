@@ -42,7 +42,8 @@ export class LoginComponent {
           this.router.navigate(['questions']);  // Redirect to a different page for new users
         } else {
           this.router.navigate(['dashboard']);
-        }      },
+        }
+      },
       error: (err) => {
         console.log(err);
         if (err.error && err.error.validationErrors) {
@@ -52,7 +53,7 @@ export class LoginComponent {
         } else {
           this.errorMsg.push('An unknown error occurred. Please try again later.');
         }
-        this.isLoading=false;
+        this.isLoading = false;
       }
     });
   }

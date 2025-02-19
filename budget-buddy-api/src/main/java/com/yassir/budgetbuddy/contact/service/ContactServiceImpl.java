@@ -44,11 +44,7 @@ public class ContactServiceImpl implements ContactService{
         User user = (User) connectedUser.getPrincipal();
         Contact contact = contactMapper.toContact(request);
         contact.setState(contactStateService.findByCode("New"));
-        if (user!= null) {
         contact.setUser(user);
-        }else {
-            contact.setSender("From open");
-        }
         return repository.save(contact).getId();
     }
 

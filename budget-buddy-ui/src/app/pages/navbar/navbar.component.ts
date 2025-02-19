@@ -18,7 +18,7 @@ export class NavbarComponent {
     { title: 'Home', path: '/home' },
     { title: 'Features', path: '/features' },
     { title: 'How it works', path: '/works' },
-    { title: 'Contact', path: '/contact' },
+    // { title: 'Contact', path: '/contact' },
   ];
 
   toggleMenu() {

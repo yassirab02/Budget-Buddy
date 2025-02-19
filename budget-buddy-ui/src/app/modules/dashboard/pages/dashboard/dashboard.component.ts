@@ -246,8 +246,9 @@ export class DashboardComponent implements OnInit {
   goToProfile() {
     this.router.navigate(['/profile'], { state: { user: this.user } });
   }
+
   goToContact() {
-    this.router.navigate(['/help'], { state: { user: this.user } });
+    this.router.navigate(['/help'], { state: { email: this.user?.email } });
   }
 
   goToSettings() {
