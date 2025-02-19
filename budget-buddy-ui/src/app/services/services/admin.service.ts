@@ -13,11 +13,19 @@ import { StrictHttpResponse } from '../strict-http-response';
 
 import { addOrUpdateQuote } from '../fn/admin/add-or-update-quote';
 import { AddOrUpdateQuote$Params } from '../fn/admin/add-or-update-quote';
+import { ContactResponse } from '../models/contact-response';
+import { deleteContactMessage } from '../fn/admin/delete-contact-message';
+import { DeleteContactMessage$Params } from '../fn/admin/delete-contact-message';
 import { deleteQuote } from '../fn/admin/delete-quote';
 import { DeleteQuote$Params } from '../fn/admin/delete-quote';
+import { findAllContactsMessages } from '../fn/admin/find-all-contacts-messages';
+import { FindAllContactsMessages$Params } from '../fn/admin/find-all-contacts-messages';
 import { findAllStories } from '../fn/admin/find-all-stories';
 import { FindAllStories$Params } from '../fn/admin/find-all-stories';
+import { PageResponseContactResponse } from '../models/page-response-contact-response';
 import { PageResponseStoryResponse } from '../models/page-response-story-response';
+import { updateContactMessage } from '../fn/admin/update-contact-message';
+import { UpdateContactMessage$Params } from '../fn/admin/update-contact-message';
 import { uploadQuotePhoto } from '../fn/admin/upload-quote-photo';
 import { UploadQuotePhoto$Params } from '../fn/admin/upload-quote-photo';
 
@@ -53,6 +61,56 @@ export class AdminService extends BaseService {
       map((r: StrictHttpResponse<{
 }>): {
 } => r.body)
+    );
+  }
+
+  /** Path part for operation `updateContactMessage()` */
+  static readonly UpdateContactMessagePath = '/admin/contact/{contact-id}';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `updateContactMessage()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  updateContactMessage$Response(params: UpdateContactMessage$Params, context?: HttpContext): Observable<StrictHttpResponse<ContactResponse>> {
+    return updateContactMessage(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `updateContactMessage$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  updateContactMessage(params: UpdateContactMessage$Params, context?: HttpContext): Observable<ContactResponse> {
+    return this.updateContactMessage$Response(params, context).pipe(
+      map((r: StrictHttpResponse<ContactResponse>): ContactResponse => r.body)
+    );
+  }
+
+  /** Path part for operation `deleteContactMessage()` */
+  static readonly DeleteContactMessagePath = '/admin/contact/{contact-id}';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `deleteContactMessage()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  deleteContactMessage$Response(params: DeleteContactMessage$Params, context?: HttpContext): Observable<StrictHttpResponse<number>> {
+    return deleteContactMessage(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `deleteContactMessage$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  deleteContactMessage(params: DeleteContactMessage$Params, context?: HttpContext): Observable<number> {
+    return this.deleteContactMessage$Response(params, context).pipe(
+      map((r: StrictHttpResponse<number>): number => r.body)
     );
   }
 
@@ -103,6 +161,31 @@ export class AdminService extends BaseService {
   findAllStories(params?: FindAllStories$Params, context?: HttpContext): Observable<PageResponseStoryResponse> {
     return this.findAllStories$Response(params, context).pipe(
       map((r: StrictHttpResponse<PageResponseStoryResponse>): PageResponseStoryResponse => r.body)
+    );
+  }
+
+  /** Path part for operation `findAllContactsMessages()` */
+  static readonly FindAllContactsMessagesPath = '/admin/all-contact';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `findAllContactsMessages()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  findAllContactsMessages$Response(params?: FindAllContactsMessages$Params, context?: HttpContext): Observable<StrictHttpResponse<PageResponseContactResponse>> {
+    return findAllContactsMessages(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `findAllContactsMessages$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  findAllContactsMessages(params?: FindAllContactsMessages$Params, context?: HttpContext): Observable<PageResponseContactResponse> {
+    return this.findAllContactsMessages$Response(params, context).pipe(
+      map((r: StrictHttpResponse<PageResponseContactResponse>): PageResponseContactResponse => r.body)
     );
   }
 

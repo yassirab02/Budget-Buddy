@@ -5,7 +5,6 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 
 public record BudgetRequest(
         Integer id, // Optional, null when creating a new budget

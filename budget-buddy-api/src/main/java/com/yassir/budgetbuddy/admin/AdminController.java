@@ -1,6 +1,9 @@
 package com.yassir.budgetbuddy.admin;
 
 import com.yassir.budgetbuddy.common.PageResponse;
+import com.yassir.budgetbuddy.contact.controller.ContactRequest;
+import com.yassir.budgetbuddy.contact.controller.ContactResponse;
+import com.yassir.budgetbuddy.contact.service.ContactService;
 import com.yassir.budgetbuddy.quotes.controller.QuotesRequest;
 import com.yassir.budgetbuddy.quotes.service.QuotesService;
 import com.yassir.budgetbuddy.story.controller.StoryResponse;
@@ -23,6 +26,7 @@ public class AdminController {
 
     private final StoryService storyService;
     private final QuotesService quotesService;
+    private final ContactService contactService;
 
     @GetMapping
     public ResponseEntity<PageResponse<StoryResponse>> findAllStories(
@@ -61,5 +65,28 @@ public class AdminController {
         return ResponseEntity.noContent().build();
     }
 
+    @GetMapping("all-contact")
+    public ResponseEntity<PageResponse<ContactResponse>> findAllContactsMessages(
+            @RequestParam(name = "page", defaultValue = "0", required = false) int page,
+            @RequestParam(name = "size", defaultValue = "10", required = false) int size,
+            Authentication connectedUser
+    ) {
+        return ResponseEntity.ok(contactService.findAllContactsMessages(page, size, connectedUser));
+    }
 
+    @DeleteMapping("/contact/{contact-id}")
+    public int deleteContactMessage(
+            @PathVariable("contact-id") Integer contactId,
+            Authentication connectedUser
+    ) {
+         return contactService.deleteContactMessage(contactId, connectedUser);
+    }
+
+    @PostMapping("/contact/{contact-id}")
+    public ResponseEntity<ContactResponse> updateContactMessage(
+            @PathVariable("contact-id") ContactRequest request,
+            Authentication connectedUser
+    ) {
+        return ResponseEntity.ok(contactService.updateContactMessage(request,connectedUser));
+    }
 }

@@ -10,6 +10,8 @@ export { IncomeService } from './services/income.service';
 export { GoalService } from './services/goal.service';
 export { ExpensesService } from './services/expenses.service';
 export { DebtService } from './services/debt.service';
+export { ContactStateService } from './services/contact-state.service';
+export { ContactService } from './services/contact.service';
 export { BudgetService } from './services/budget.service';
 export { AuthenticationService } from './services/authentication.service';
 export { UserControllerService } from './services/user-controller.service';
