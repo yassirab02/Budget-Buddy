@@ -10,6 +10,7 @@ import org.springframework.security.authentication.LockedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -58,6 +59,19 @@ public class GlobalExceptionHandler {
                                 .businessErrorCode(BAD_CREDENTIALS.getCode())
                                 .businessErrorDescription(BAD_CREDENTIALS.getDescription())
                                 .error(BAD_CREDENTIALS.getDescription())
+                                .build()
+                );
+    }
+
+    @ExceptionHandler(ResponseStatusException.class)
+    public ResponseEntity<ExceptionResponse> handleException(ResponseStatusException exp) {
+        return ResponseEntity
+                .status(exp.getStatusCode())
+                .body(
+                        ExceptionResponse.builder()
+                                .businessErrorCode(EMAIL_ALREADY_EXISTS.getCode()) // Consider dynamic code resolution
+                                .businessErrorDescription(exp.getReason()) // Use the exception's message
+                                .error(exp.getReason())
                                 .build()
                 );
     }

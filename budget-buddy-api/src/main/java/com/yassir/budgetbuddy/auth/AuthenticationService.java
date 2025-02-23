@@ -11,11 +11,13 @@ import com.yassir.budgetbuddy.user.UserRepository;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
@@ -39,12 +41,16 @@ public class AuthenticationService {
 
     @Value("${application.security.mailing.frontend.redirect-url}")
     private String url;
-
     public void register(RegistrationRequest request) throws MessagingException {
+
         var userRole = roleRepository.findByName("USER")
-                // todo  better exception handling
-                .orElseThrow(()->new IllegalStateException("ROLE USER was not intialized"));
-        var user  = User.builder()
+                .orElseThrow(() -> new IllegalStateException("ROLE USER was not initialized"));
+
+        if (userRepository.findByEmail(request.getEmail()).isPresent()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email is already in use.");
+        }
+
+        var user = User.builder()
                 .firstName(request.getFirstname())
                 .lastName(request.getLastname())
                 .email(request.getEmail())
@@ -53,6 +59,7 @@ public class AuthenticationService {
                 .enabled(false)
                 .roles(List.of(userRole))
                 .build();
+
         userRepository.save(user);
         sendValidationEmail(user);
     }

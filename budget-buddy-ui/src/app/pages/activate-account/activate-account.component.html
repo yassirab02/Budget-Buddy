@@ -1,68 +1,130 @@
-<div class="flex items-center justify-center min-h-screen">
-  <div *ngIf="submitted else codeForm" class="w-full max-w-lg">
+<div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-50 via-white to-green-50">
+  <div *ngIf="submitted else codeForm" class="w-full max-w-md">
     <!-- Success Message -->
-    <div *ngIf="isOkay else activationError" class="text-center">
-      <!-- Animated Container -->
-      <div class="p-8 bg-white rounded-xl shadow-lg max-w-md mx-auto
-              animate-[slideIn_0.5s_ease-out]">
+    <div *ngIf="isOkay else activationError">
+      <!-- Animated Success Card -->
+      <div class="relative p-8 space-y-8">
+        <!-- Decorative background layers -->
+        <div class="absolute inset-0 bg-white rounded-2xl shadow-xl"></div>
+        <div class="absolute inset-0 bg-gradient-to-br from-green-500/10 via-transparent to-green-500/10 rounded-2xl"></div>
 
-        <!-- Checkmark Animation -->
-        <div class="mx-auto mb-6 w-16 h-16 bg-green-100 rounded-full
-                flex items-center justify-center
-                animate-[checkmarkScale_0.5s_ease-out]">
-          <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor"
-               viewBox="0 0 24 24" stroke-width="2">
-            <path stroke-linecap="round" stroke-linejoin="round"
-                  d="M5 13l4 4L19 7" />
-          </svg>
+        <div class="relative text-center space-y-6">
+          <!-- Checkmark Animation -->
+          <div class="bg-green-100 w-16 h-16 mx-auto rounded-full flex items-center justify-center
+                      animate-[checkmarkScale_0.5s_ease-out]">
+            <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+            </svg>
+          </div>
+
+          <!-- Text Animations -->
+          <div class="space-y-2">
+            <h2 class="text-2xl font-bold tracking-tight text-gray-900 animate-[fadeInUp_0.5s_ease-out]">
+              Activation Successful!
+            </h2>
+            <p class="text-sm text-gray-500 max-w-sm mx-auto animate-[fadeInUp_0.5s_ease-out_0.2s]">
+              Your account is now ready to use. Welcome to our platform!
+            </p>
+          </div>
+
+          <!-- Animated Button -->
+          <button (click)="redirectToLogin()"
+                  class="w-full h-12 text-base font-medium
+                         bg-green-600 hover:bg-green-700 text-white
+                         rounded-xl transform transition-all duration-200
+                         hover:scale-[1.02] active:scale-[0.98]
+                         shadow-lg shadow-green-600/25
+                         animate-[fadeInUp_0.5s_ease-out_0.4s]">
+            Go to Login
+          </button>
         </div>
-
-        <!-- Text Animations -->
-        <h2 class="text-3xl font-bold text-gray-800 mb-3
-               animate-[fadeInUp_0.5s_ease-out]">
-          Activation Successful!
-        </h2>
-
-        <p class="text-lg text-gray-600 mb-8 px-4
-              animate-[fadeInUp_0.5s_ease-out_0.2s]">
-          Your account is now ready to use. Welcome to our platform!
-        </p>
-
-        <!-- Animated Button -->
-        <button
-          class="px-8 py-4 bg-green-600 text-white font-semibold rounded-lg
-             hover:bg-green-700 transition-all duration-300
-             hover:scale-105 hover:shadow-lg
-             animate-[fadeInUp_0.5s_ease-out_0.4s]"
-          (click)="redirectToLogin()">
-          Go to Login
-        </button>
       </div>
     </div>
 
     <!-- Error Message -->
     <ng-template #activationError>
-      <div class="text-center text-red-600">
-        <h2 class="text-2xl font-semibold">Activation failed</h2>
-        <p class="text-lg text-gray-700 mb-4">{{ message }}</p>
-        <button
-          class="px-6 py-3 bg-red-600 text-white rounded-full hover:bg-red-700 transition-all"
-          (click)="submitted = false">Try again</button>
+      <div class="relative p-8 space-y-8">
+        <!-- Decorative background layers -->
+        <div class="absolute inset-0 bg-white rounded-2xl shadow-xl"></div>
+        <div class="absolute inset-0 bg-gradient-to-br from-red-500/10 via-transparent to-red-500/10 rounded-2xl"></div>
+
+        <div class="relative text-center space-y-6">
+          <!-- Error Icon -->
+          <div class="bg-red-100 w-16 h-16 mx-auto rounded-full flex items-center justify-center">
+            <svg class="w-8 h-8 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </div>
+
+          <div class="space-y-2">
+            <h2 class="text-2xl font-bold tracking-tight text-gray-900">
+              Activation Failed
+            </h2>
+            <p class="text-sm text-gray-500 max-w-sm mx-auto">
+              {{ message }}
+            </p>
+          </div>
+
+          <button (click)="submitted = false"
+                  class="w-full h-12 text-base font-medium
+                         bg-red-600 hover:bg-red-700 text-white
+                         rounded-xl transform transition-all duration-200
+                         hover:scale-[1.02] active:scale-[0.98]
+                         shadow-lg shadow-red-600/25">
+            Try Again
+          </button>
+        </div>
       </div>
     </ng-template>
   </div>
 
   <!-- Activation Code Form -->
   <ng-template #codeForm>
-    <div class="w-full max-w-lg">
-      <div class="text-center">
-        <h2 class="text-2xl font-semibold text-gray-700 mb-6">Type your activation code</h2>
-        <code-input
-          [isCodeHidden]="false"
-          [codeLength]="6"
-          [code]="'number'"
-          (codeCompleted)="onCodeCompleted($event)">
-        </code-input>
+    <div class="relative w-full max-w-md p-8 space-y-8">
+      <!-- Decorative background layers -->
+      <div class="absolute inset-0 bg-white rounded-2xl shadow-xl"></div>
+      <div class="absolute inset-0 bg-gradient-to-br from-green-500/10 via-transparent to-green-500/10 rounded-2xl"></div>
+
+      <div class="relative space-y-8">
+        <!-- Header section -->
+        <div class="text-center space-y-2">
+          <!-- Email icon circle -->
+          <div class="bg-green-100 w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-4">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-green-600" fill="none" viewBox="0 0 24 24"
+                 stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+            </svg>
+          </div>
+          <h2 class="text-2xl font-bold tracking-tight text-gray-900">
+            Enter Activation Code
+          </h2>
+          <p class="text-sm text-gray-500 max-w-sm mx-auto">
+            Please enter the activation code sent to your email address
+          </p>
+        </div>
+
+        <!-- Code Input -->
+        <div class="space-y-8">
+          <code-input
+            [isCodeHidden]="false"
+            [codeLength]="6"
+            [code]="'number'"
+            (codeCompleted)="onCodeCompleted($event)"
+            class="flex justify-center gap-3">
+          </code-input>
+
+          <div class="text-center space-y-2">
+            <p class="text-sm text-gray-500">
+              Didn't receive the code?
+            </p>
+            <button class="text-sm text-green-600 hover:text-green-700 font-medium
+                          transition-colors duration-200">
+              Click to resend
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   </ng-template>

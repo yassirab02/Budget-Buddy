@@ -16,6 +16,7 @@ public enum BusinessErrorCodes {
     ACCOUNT_LOCKED(302,FORBIDDEN,"User account is locked"),
     ACCOUNT_DISABLED(303,FORBIDDEN,"User account is disabled"),
     BAD_CREDENTIALS(304,FORBIDDEN,"login and / or password is incorrect "),
+    EMAIL_ALREADY_EXISTS(305,BAD_REQUEST,"Email already exists"),
     ;
 
     private final int code;

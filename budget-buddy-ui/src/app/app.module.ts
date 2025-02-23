@@ -17,7 +17,7 @@ import { ErrorPageComponent } from './pages/error-page/error-page.component';
 import { HeroComponent } from './pages/hero/hero.component';
 import { FeaturesComponent } from './pages/features/features.component';
 import { StaticsComponent } from './pages/statics/statics.component';
-import {DashboardModule} from './modules/dashboard/dashboard.module';
+import {DashboardModule} from './modules/user/dashboard/dashboard.module';
 import {HttpTokenInterceptor} from './services/interceptor/http-token.interceptor';
 import { WorkExplainComponent } from './pages/work-explain/work-explain.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
