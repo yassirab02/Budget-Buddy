@@ -1,7 +1,51 @@
 <div class="chart-container">
   <canvas #chartCanvas *ngIf="!showMessage"></canvas>
-  <div class="no-data-message" *ngIf="showMessage">
-    No financial data available to display.
-    Try adding incomes , expenses , debts or goals to see the chart.
+
+  <div *ngIf="showMessage" class="border-2 border-dashed border-gray-200 rounded-lg flex flex-col items-center justify-center p-8 text-center min-h-[300px]">
+    <!-- Icon Container -->
+    <div class="rounded-full bg-gray-100 p-3 mb-4">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-gray-500">
+        <line x1="18" y1="20" x2="18" y2="10"></line>
+        <line x1="12" y1="20" x2="12" y2="4"></line>
+        <line x1="6" y1="20" x2="6" y2="14"></line>
+      </svg>
+    </div>
+
+    <!-- Text Content -->
+    <h3 class="font-semibold text-lg mb-2">No Financial Data Available</h3>
+    <p class="text-sm text-gray-500 mb-6 max-w-sm">
+      Start tracking your finances by adding your income, expenses, debts, or financial goals.
+    </p>
+
+    <!-- Action Buttons -->
+    <div class="flex flex-wrap gap-3 justify-center">
+      <!-- Income Button -->
+      <button class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-md border border-gray-200 bg-white text-gray-900 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+              (click)="redirectToIncome()">
+        <i class="fa-solid fa-dollar-sign"></i>
+        Add Income
+      </button>
+
+      <!-- Expense Button -->
+      <button class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-md border border-gray-200 bg-white text-gray-900 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+              (click)="redirectToExpense()">
+        <i class="fa-solid fa-coins"></i>
+        Add Expense
+      </button>
+
+      <!-- Debt Button -->
+      <button class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-md border border-gray-200 bg-white text-gray-900 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+              (click)="redirectToDebt()">
+        <i class="fa-solid fa-landmark"></i>
+        Add Debt
+      </button>
+
+      <!-- Goal Button -->
+      <button class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-md border border-gray-200 bg-white text-gray-900 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+      (click)="redirectToGoal()">
+        <i class="fa-solid fa-bullseye"></i>
+        Set Goal
+      </button>
+    </div>
   </div>
 </div>

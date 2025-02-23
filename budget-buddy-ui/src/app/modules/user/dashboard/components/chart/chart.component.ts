@@ -1,5 +1,6 @@
 import { Component, Input, OnChanges, SimpleChanges, ViewChild, ElementRef } from '@angular/core';
 import { Chart, registerables } from 'chart.js';
+import {Router} from '@angular/router';
 
 Chart.register(...registerables);
 
@@ -16,6 +17,9 @@ export class ChartComponent implements OnChanges {
 
   chart: any;
   showMessage: boolean = false;
+
+  constructor(private router:Router) {
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['totalIncome'] || changes['totalExpense'] || changes['totalDebt']) {
@@ -115,5 +119,21 @@ export class ChartComponent implements OnChanges {
     gradients[2].addColorStop(1, '#ea580c');
 
     return gradients;
+  }
+
+  redirectToIncome() {
+    this.router.navigate(['/income']);
+  }
+
+  redirectToDebt() {
+    this.router.navigate(['/debt']);
+  }
+
+  redirectToExpense() {
+    this.router.navigate(['/expense']);
+  }
+
+  redirectToGoal() {
+    this.router.navigate(['/goal']);
   }
 }
