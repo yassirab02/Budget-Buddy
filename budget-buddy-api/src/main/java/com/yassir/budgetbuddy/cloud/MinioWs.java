@@ -32,6 +32,7 @@ public class MinioWs {
     public Boolean bucketExists(@PathVariable String bucket) {
         return minIOService.bucketExists(bucket);
     }
+
     @Operation(summary = "Upload a file to the bucket")
     @PostMapping("/upload/file/{bucket}")
     public MinIOInfos uploadToMinio(@RequestParam("file") MultipartFile file, @PathVariable String bucket) {
