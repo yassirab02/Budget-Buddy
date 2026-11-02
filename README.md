@@ -6,7 +6,7 @@
 
 Your Personal Finance Companion
 
-[![Version](https://img.shields.io/badge/version-1.0.0-brightgreen.svg)](https://github.com/yourusername/budgetbuddy)
+[![Version](https://img.shields.io/badge/version-1.0.0-brightgreen.svg)](https://github.com/yassirab02/budgetbuddy)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](https://opensource.org/licenses/MIT)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com)
 
